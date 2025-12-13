@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(display-line-numbers-mode 1)
+(global-display-line-numbers-mode)
 (setq-default cursor-type 'bar)
 (setq display-line-numbers 'relative)
 (show-paren-mode t)

@@ -83,6 +83,8 @@
    (add-to-list 'default-frame-alist '(width . 100))))
 
 
+(use-package diff-hl
+  :init (global-diff-hl-mode))
 
 ;; Easily adjust the font size in all frames
 (use-package default-text-scale
