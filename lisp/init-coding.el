@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+(use-package transient)
+
 (use-package magit
   :defer
   :bind ("C-c g" . magit-status)

@@ -78,7 +78,7 @@
    (add-to-list 'default-frame-alist '(width . 120)))
   
   ('gnu/linux  ; Linux (including Debian)
-   (set-face-attribute 'default nil :font "Maple Mono NF CN-18")  ; 20 * 1.5
+   (set-face-attribute 'default nil :font "Maple Mono-12")  ; 20 * 1.5
    (add-to-list 'default-frame-alist '(height . 40))
    (add-to-list 'default-frame-alist '(width . 100))))
 
