@@ -5,8 +5,9 @@
 
 (define-key orgmode-map (kbd "a") #'org-agenda)
 (define-key orgmode-map (kbd "n") #'org-capture)
+(define-key orgmode-map (kbd "t") #'org-todo-list)
 
-(global-set-key (kbd "C-c g") #'magit-status)
+(global-set-key (kbd "C-\\") #'vterm)
 
 
 (provide 'init-bindings)
