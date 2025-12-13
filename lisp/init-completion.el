@@ -70,7 +70,11 @@
   :autoload (consult--read consult--customize-put)
   :commands (consult-narrow-help)
   :functions (list-colors-duplicates consult-colors--web-list)
-  :bind (("C-s"   . consult-line)))
+  :bind (("s-f" . consult-line)
+	 ("C-c s s" . consult-line)
+	 ("C-c p f" . consult-project-buffer)
+	 ("C-c f r" . consult-recent-file)
+	 ("C-c s p" . consult-ripgrep)))
  
 
 (use-package consult-dir

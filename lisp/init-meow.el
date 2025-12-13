@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(defun meow-setup ()
+(defun meow-setup()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (meow-motion-define-key
    '("j" . meow-next)
@@ -84,6 +84,7 @@
    '("<escape>" . ignore)))
 
 (use-package meow
+  :demand t
   :init
   (meow-global-mode 1)
   :config

@@ -56,8 +56,10 @@
 ;;For example:
 ;;(use-package general :ensure (:wait t) :demand t)
 
-(setq use-package-always-ensure t)
-(setq use-package-expand-minimally t)
+(setq use-package-always-ensure t
+      use-package-expand-minimally t
+      use-package-always-defer t
+      use-package-enable-imenu-support t)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -78,7 +80,11 @@
 (require 'init-ui)
 (require 'init-bindings)
 
+(require 'init-dired)
+(require 'init-dashboard)
+
 (require 'init-llm)
+
 
 (require 'init-coding)
 (require 'init-org)

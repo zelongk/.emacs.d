@@ -1,7 +1,8 @@
 ;; -*- lexical-binding: t -*-
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(global-display-line-numbers-mode)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(add-hook 'org-mode-hook #'display-line-numbers-mode)
 (setq-default cursor-type 'bar)
 (setq display-line-numbers 'relative)
 (show-paren-mode t)
@@ -23,5 +24,12 @@
   (exec-path-from-shell-initialize))
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+
+(use-package ultra-scroll
+  :init
+  (setq scroll-conservatively 3
+	scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1))
 
 (provide 'init-better-default)

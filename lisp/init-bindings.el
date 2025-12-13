@@ -7,7 +7,11 @@
 (define-key orgmode-map (kbd "n") #'org-capture)
 (define-key orgmode-map (kbd "t") #'org-todo-list)
 
-(global-set-key (kbd "C-\\") #'vterm)
+
+(setq duplicate-line-final-position 1)
+(global-set-key (kbd "M-p") #'duplicate-dwim)
+(global-set-key (kbd "C-c y") #'copy-from-above-command)
+(global-set-key (kbd "s-k") #'kill-current-buffer)
 
 
 (provide 'init-bindings)
