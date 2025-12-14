@@ -118,7 +118,7 @@
   :autoload (consult--read consult--customize-put)
   :commands (consult-narrow-help)
   :functions (list-colors-duplicates consult-colors--web-list)
-  :bind (("C-c ." . consult-imenu)
+  :bind (("C-." . consult-imenu)
 	 ("C-c T" . consult-theme)
 	 
 	 ("s-f" . consult-line)
