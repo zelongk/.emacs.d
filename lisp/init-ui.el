@@ -120,4 +120,8 @@
   ;; but you can use any other Nerd Font if you want
   (nerd-icons-font-family "Symbols Nerd Font Mono"))
 
+(use-package nerd-icons-ibuffer
+  :ensure t
+  :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
+
 (provide 'init-ui)

@@ -7,7 +7,7 @@
 (when (treesit-available-p)
   (use-package c-ts-mode
     :ensure nil
-    :functions centaur-treesit-available-p
+    :functions treesit-available-p
     :init
     (setq c-ts-mode-indent-offset 2)
 

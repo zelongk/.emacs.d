@@ -226,11 +226,10 @@
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 
-(use-package yasnippet-capf
-  :after cape
-  :config
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
-
+;; (use-package yasnippet-capf
+;;   :after cape
+;;   :config
+;;   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (provide 'init-completion)
 

@@ -10,12 +10,20 @@
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (load custom-file 'no-error 'no-message)
 (setq use-short-answers t)
+(setq frame-title-format "Emacs: %b")
 
+(define-key global-map (kbd "C-<wheel-up>")  nil)
+(define-key global-map (kbd "C-<wheel-down>")  nil)
+(global-set-key (kbd "s-a") 'mark-whole-buffer) ;;对应Windows上面的Ctrl-a 全选
+(global-set-key (kbd "s-c") 'kill-ring-save) ;;对应Windows上面的Ctrl-c 复制
+(global-set-key (kbd "s-s") 'save-buffer) ;; 对应Windows上面的Ctrl-s 保存
+(global-set-key (kbd "s-v") 'yank) ;对应Windows上面的Ctrl-v 粘贴
+(global-set-key (kbd "s-z") 'undo) ;对应Windows上面的Ctrol-z 撤销
 
 (setq kill-ring-max 200)
-
 ;; Save clipboard contents into kill-ring before replace them
 (setq save-interprogram-paste-before-kill t)
+
 ;; Kill & Mark things easily
 (use-package easy-kill
   :bind (([remap kill-ring-save] . easy-kill)
@@ -26,12 +34,6 @@
   :hook (after-init . browse-kill-ring-default-keybindings)
   :init (setq browse-kill-ring-separator "────────────────"
               browse-kill-ring-separator-face 'shadow))
-
-(global-set-key (kbd "s-a") 'mark-whole-buffer) ;;对应Windows上面的Ctrl-a 全选
-(global-set-key (kbd "s-c") 'kill-ring-save) ;;对应Windows上面的Ctrl-c 复制
-(global-set-key (kbd "s-s") 'save-buffer) ;; 对应Windows上面的Ctrl-s 保存
-(global-set-key (kbd "s-v") 'yank) ;对应Windows上面的Ctrl-v 粘贴
-(global-set-key (kbd "s-z") 'undo) ;对应Windows上面的Ctrol-z 撤销
 
 (use-package exec-path-from-shell
   :init
