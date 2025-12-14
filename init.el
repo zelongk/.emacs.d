@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 ;; Optimize Garbage Collection for Startup
-(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-threshol 33554432)
 
 ;; Optimize `auto-mode-alist`
 (setq auto-mode-case-fold nil)

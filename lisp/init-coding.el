@@ -4,7 +4,6 @@
 
 (use-package magit
   :defer
-  :bind ("C-c g" . magit-status)
   :config
   (setq magit-show-long-lines-warning nil))
 
