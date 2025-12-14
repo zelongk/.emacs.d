@@ -62,7 +62,6 @@
           ("XXX" font-lock-constant-face bold))))
 
 (use-package org-latex-preview
-  :defer
   :ensure nil
   :config
   ;; Increase preview width
@@ -83,7 +82,7 @@
   ;;         scroll-up-command scroll-down-command))
 
   ;; ;; Enable consistent equation numbering
-  ;; (setq org-latex-preview-numbered t)
+  (setq org-latex-preview-numbered t)
 
   ;; Bonus: Turn on live previews.  This shows you a live preview of a LaTeX
   ;; fragment and updates the preview in real-time as you edit it.

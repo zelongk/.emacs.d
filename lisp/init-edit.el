@@ -1,9 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package smartparens
+  :demand t
+  :hook (prog-mode text-mode markdown-mode)
   :config
-  (require 'smartparens-config)
-  (smartparens-global-mode))
+  (require 'smartparens-config))
 
 (use-package winum
   :init
