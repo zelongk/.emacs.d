@@ -3,7 +3,6 @@
 
 
 (use-package latex
-  :demand t
   :ensure (auctex :pre-build (("./autogen.sh")
 			      ("./configure" "--without-texmf-dir" "--with-lispdir=.")
                               ("make")))
