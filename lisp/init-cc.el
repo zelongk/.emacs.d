@@ -2,13 +2,14 @@
 
 (use-package cc-mode
   :ensure nil
-  :init (setq-default c-basic-offset 4))
+  :init (setq-default c-basic-offset 2))
 
 (when (treesit-available-p)
   (use-package c-ts-mode
+    :ensure nil
     :functions centaur-treesit-available-p
     :init
-    (setq c-ts-mode-indent-offset 4)
+    (setq c-ts-mode-indent-offset 2)
 
     (when (boundp 'major-mode-remap-alist)
       (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
@@ -16,10 +17,10 @@
       (add-to-list 'major-mode-remap-alist
                    '(c-or-c++-mode . c-or-c++-ts-mode)))))
 
-(use-package eglot
-  :hook (c-mode . eglot-ensure)
-  :hook (c++-mode . eglot-ensure)
-  :config
+(with-eval-after-load 'eglot
+  (add-hook 'c-ts-mode-hook #'eglot-ensure)
+  (add-hook 'c++-ts-mode-hook #'eglot-ensure)
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd")))
+  
 
 (provide 'init-cc)

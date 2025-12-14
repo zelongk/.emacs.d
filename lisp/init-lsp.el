@@ -12,12 +12,18 @@
                  eglot-send-changes-idle-time 0.5))
 
 (use-package eglot-booster
-	:after eglot
-	:config	(eglot-booster-mode))
+  :ensure (eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")
+  :after eglot
+  :config (eglot-booster-mode))
 
 (use-package consult-eglot
   :after consult eglot
   :bind (:map eglot-mode-map
-	      ("C-M-." . consult-eglot-symbols)))
+	      ("C-M-." . consult-eglot-symbols))
+  :config
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+
+(with-eval-after-load 'eglot
+  (setq completion-category-defaults nil))
 
 (provide 'init-lsp)
