@@ -1,6 +1,5 @@
 ;; -*- lexical-binding: t -*-
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'org-mode-hook #'display-line-numbers-mode)
 (setq-default cursor-type 'bar)
@@ -31,5 +30,12 @@
 	scroll-margin 0)
   :config
   (ultra-scroll-mode 1))
+
+(use-package benchmark-init
+  :ensure t
+  :demand t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
 (provide 'init-better-default)
