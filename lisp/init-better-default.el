@@ -3,10 +3,9 @@
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'org-mode-hook #'display-line-numbers-mode)
 (setq-default cursor-type 'bar)
-(setq display-line-numbers 'relative)
+(setq display-line-numbers-type 'relative)
 (show-paren-mode t)
 (recentf-mode 1)
-(setq recentf-max-menu-item 10)
 (setq make-backup-files nil)
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (load custom-file 'no-error 'no-message)
@@ -39,7 +38,7 @@
   :init
   (exec-path-from-shell-initialize))
 
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x b") 'ibuffer)
 
 (use-package ultra-scroll
   :init

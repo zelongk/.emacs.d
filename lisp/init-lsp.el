@@ -1,4 +1,7 @@
 ;; -*- lexical-binding: t; -*-
+
+(use-package flymake)
+
 (use-package eglot
      :hook ((prog-mode . (lambda ()
                            (unless (derived-mode-p

@@ -32,9 +32,9 @@
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
   :custom
-  (completion-styles '(orderless partial-completion basic))
+  (completion-styles '(orderless basic))
   (completion-category-defaults nil)
-  (completion-category-overrides nil)
+  (completion-category-overrides '((file (styles orderless partial-completion))))
   (orderless-component-separator #'orderless-escapable-split-on-space))
 
 ;; Support Pinyin
@@ -58,10 +58,56 @@
   :init
   (vertico-mode t))
 
+(use-package vertico-posframe
+  :hook (vertico-mode . vertico-posframe-mode)
+  :config
+  (add-hook 'doom-after-reload-hook #'posframe-delete-all))
+
+(use-package vertico-multiform
+  :ensure nil
+  :hook (vertico-mode . vertico-multiform-mode)
+  :config
+  (defvar +vertico-transform-functions nil)
+
+  (cl-defmethod vertico--format-candidate :around
+    (cand prefix suffix index start &context ((not +vertico-transform-functions) null))
+    (dolist (fun (ensure-list +vertico-transform-functions))
+      (setq cand (funcall fun cand)))
+    (cl-call-next-method cand prefix suffix index start))
+
+  (defun +vertico-highlight-directory (file)
+    "If FILE ends with a slash, highlight it as a directory."
+    (when (string-suffix-p "/" file)
+      (add-face-text-property 0 (length file) 'marginalia-file-priv-dir 'append file))
+    file)
+
+  (defun +vertico-highlight-enabled-mode (cmd)
+    "If MODE is enabled, highlight it as font-lock-constant-face."
+    (let ((sym (intern cmd)))
+      (with-current-buffer (nth 1 (buffer-list))
+        (if (or (eq sym major-mode)
+                (and
+                 (memq sym minor-mode-list)
+                 (boundp sym)
+                 (symbol-value sym)))
+            (add-face-text-property 0 (length cmd) 'font-lock-constant-face 'append cmd)))
+      cmd))
+
+  (add-to-list 'vertico-multiform-categories
+               '(file
+                 (+vertico-transform-functions . +vertico-highlight-directory)))
+  (add-to-list 'vertico-multiform-commands
+               '(execute-extended-command
+                 (+vertico-transform-functions . +vertico-highlight-enabled-mode))))
+
 ;; Enrich existing commands with completion annotations
 (use-package marginalia
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
   :init
   (marginalia-mode))
+
+;; Add icons to completion candidates
+(use-package nerd-icons-completion)
 
 ;; Consulting completing-read
 (use-package consult
@@ -71,10 +117,14 @@
   :autoload (consult--read consult--customize-put)
   :commands (consult-narrow-help)
   :functions (list-colors-duplicates consult-colors--web-list)
-  :bind (("s-f" . consult-line)
+  :bind (("C-c ." . consult-imenu)
+	 ("C-c T" . consult-theme)
+	 
+	 ("s-f" . consult-line)
 	 ("C-c s s" . consult-line)
 	 ("C-c p f" . consult-project-buffer)
 	 ("C-c f r" . consult-recent-file)
+	 ("C-x C-b" . consult-buffer)
 	 ("C-c s p" . consult-ripgrep)))
  
 
@@ -84,6 +134,9 @@
          :map minibuffer-local-completion-map
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
+
+(use-package consult-yasnippet
+  :bind ("M-g y" . consult-yasnippet))
 
 (use-package embark
   :commands embark-prefix-help-command
@@ -128,6 +181,14 @@
   (add-hook 'before-save-hook #'corfu-quit)
   (advice-add #'persistent-scratch-save :before #'corfu-quit))
 
+(use-package nerd-icons-corfu
+  :init
+  (with-eval-after-load 'corfu
+    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)))
+
+(use-package wgrep
+  :commands wgrep-change-to-wgrep-mode
+  :config (setq wgrep-auto-save-buffer t))
 
 ;; A few more useful configurations...
 (use-package emacs
@@ -152,19 +213,23 @@
 (use-package cape
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  ;;(add-to-list 'completion-at-point-functions #'cape-history)
-  ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
-  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
-  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
-  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
-  ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
-  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
-  ;;(add-to-list 'completion-at-point-functions #'cape-line)
-  )
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  ;; Make these capfs composable.
+  (advice-add 'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
+  (advice-add 'lsp-completion-at-point :around #'cape-wrap-nonexclusive)
+  (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
+
+(use-package yasnippet-capf
+  :after cape
+  :config
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
 
 (provide 'init-completion)
 
