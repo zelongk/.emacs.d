@@ -39,4 +39,6 @@
     (add-to-list 'eglot-server-programs
                  '(fish-mode . ("fish-lsp" "start")))))
 
+(use-package leetcode)
+
 (provide 'init-coding)
