@@ -39,3 +39,4 @@
 (require 'init-typst)
 (require 'init-cc)
 (require 'init-python)
+(require 'init-rust)
