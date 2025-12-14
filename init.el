@@ -89,3 +89,4 @@
 (require 'init-coding)
 (require 'init-org)
 (require 'init-tex)
+(require 'init-typst)

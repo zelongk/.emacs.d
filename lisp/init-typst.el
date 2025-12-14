@@ -27,4 +27,4 @@
   (define-key typst-ts-mode-map (kbd "C-c C-l") #'typst-preview-mode)
   )
 
-(provode 'init-typst)
+(provide 'init-typst)
