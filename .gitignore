@@ -4,6 +4,7 @@
 /.local*/
 
 recentf
+org-roam.db
 
 *~
 *.*~
@@ -13,6 +14,7 @@ recentf
 *.log
 *.elc
 *.eln
+*.eld
 *.lib
 *.fas
 *.dat
@@ -48,3 +50,4 @@ flycheck_*.el
 /tramp
 /transient/
 /var/
+/tree-sitter/
