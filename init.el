@@ -88,3 +88,4 @@
 
 (require 'init-coding)
 (require 'init-org)
+(require 'init-tex)

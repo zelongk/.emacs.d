@@ -18,6 +18,7 @@
   :hook ((LaTeX-mode . yas-minor-mode)
          (post-self-insert . my/yas-try-expanding-auto-snippets))
   :config
+  (yas-global-mode)
   (use-package warnings
     :config
     (cl-pushnew '(yasnippet backquote-change)

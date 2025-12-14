@@ -60,7 +60,8 @@
 
 ;; Enrich existing commands with completion annotations
 (use-package marginalia
-  :hook (after-init . marginalia-mode))
+  :init
+  (marginalia-mode))
 
 ;; Consulting completing-read
 (use-package consult
