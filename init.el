@@ -37,4 +37,4 @@
 (require 'init-org)
 (require 'init-tex)
 (require 'init-typst)
-
+(require 'init-cc)
