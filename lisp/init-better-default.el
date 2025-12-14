@@ -36,7 +36,8 @@
 
 (use-package exec-path-from-shell
   :init
-  (exec-path-from-shell-initialize))
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 
 (global-set-key (kbd "C-x b") 'ibuffer)
 
