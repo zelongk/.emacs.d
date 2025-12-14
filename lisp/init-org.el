@@ -15,6 +15,10 @@
   (setq org-modules '(org-habit))
   (setq org-directory "~/org/")
   (add-to-list 'org-agenda-files "~/org")
+
+  (setq org-highlight-latex-and-related '(native latex entities))
+  (setq org-pretty-entities t)
+  (setq org-pretty-entities-include-sub-superscripts nil)
   )
 
 (use-package org-contrib)
