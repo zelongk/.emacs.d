@@ -15,5 +15,10 @@
       (add-to-list 'major-mode-remap-alist
                    '(c-or-c++-mode . c-or-c++-ts-mode)))))
 
+(use-package eglot
+  :hook (c-mode . eglot-ensure)
+  :hook (c++-mode . eglot-ensure)
+  :config
+  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd")))
 
 (provide 'init-cc)
