@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package flymake)
+(use-package jsonrpc)
 
 (use-package eglot
      :hook ((prog-mode . (lambda ()
