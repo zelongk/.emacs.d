@@ -13,5 +13,7 @@
 (global-set-key (kbd "C-c y") #'copy-from-above-command)
 (global-set-key (kbd "s-k") #'kill-current-buffer)
 
+(when (eq system-type 'darwin)
+  (global-set-key (kbd "s-x") #'execute-extended-command))
 
 (provide 'init-bindings)
