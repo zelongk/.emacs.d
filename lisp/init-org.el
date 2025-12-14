@@ -63,6 +63,7 @@
 
 (use-package org-latex-preview
   :ensure nil
+  :hook (org-mode . org-latex-preview-mode)
   :config
   ;; Increase preview width
   (plist-put org-latex-preview-appearance-options
@@ -74,7 +75,6 @@
   
   ;; Turn on `org-latex-preview-mode', it's built into Org and much faster/more
   ;; featured than org-fragtog. (Remember to turn off/uninstall org-fragtog.)
-  (add-hook 'org-mode-hook 'org-latex-preview-mode)
 
   ;; ;; Block C-n, C-p etc from opening up previews when using `org-latex-preview-mode'
   ;; (setq org-latex-preview-mode-ignored-commands
@@ -111,7 +111,6 @@
   ;; If using org-roam-protocol
   (require 'org-roam-protocol))
 
-(use-package org-roam-ui
-  :defer t)
+(use-package org-roam-ui)
 
 (provide 'init-org)
