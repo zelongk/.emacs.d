@@ -58,10 +58,9 @@
   :init
   (vertico-mode t))
 
-(use-package vertico-posframe
-  :hook (vertico-mode . vertico-posframe-mode)
-  :config
-  (add-hook 'doom-after-reload-hook #'posframe-delete-all))
+;; (use-package vertico-posframe
+;;   :after vertico
+;;   :hook (vertico-mode . vertico-posframe-mode))
 
 (use-package vertico-multiform
   :ensure nil
@@ -102,12 +101,15 @@
 
 ;; Enrich existing commands with completion annotations
 (use-package marginalia
-  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
   :init
   (marginalia-mode))
 
 ;; Add icons to completion candidates
-(use-package nerd-icons-completion)
+(use-package nerd-icons-completion
+  :after marginalia
+  :config
+  (nerd-icons-completion-mode)
+  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
 ;; Consulting completing-read
 (use-package consult
