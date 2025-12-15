@@ -38,5 +38,8 @@
       (let ((yas-buffer-local-condition ''(require-snippet-condition . auto)))
         (yas-expand)))))
 
+(setq-default abbrev-mode t)
+(setq abbrev-file-name (expand-file-name "abbrev.el" user-emacs-directory))
+
 
 (provide 'init-edit)

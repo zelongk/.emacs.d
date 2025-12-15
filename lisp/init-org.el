@@ -11,14 +11,12 @@
                 :branch "dev")
   :hook (org-mode . org-indent-mode)
   :hook (org-mode . org-cdlatex-mode)
-  :hook (org-mode . visual-line-mode)
   :config
   ;; (org-capture-init)
   (add-to-list 'org-modules 'org-habit)
   (setq org-directory "~/org/")
   (add-to-list 'org-agenda-files "~/org")
   (setq org-highlight-latex-and-related '(native latex entities))
-  (setq org-hide-emphasis-markers t)
   (setq org-pretty-entities t)
   (setq org-pretty-entities-include-sub-superscripts nil)
   
@@ -40,7 +38,22 @@
     (setq org-hide-emphasis-markers t
 	  org-pretty-entities t))
   :config
-  (setq org-modern-table nil))
+  (setq org-modern-table-vertical 1
+	org-modern-table-horizontal 0.2
+	org-modern-todo-faces
+        '(("TODO" :inverse-video t :inherit org-todo)
+          ("PROJ" :inverse-video t :inherit +org-todo-project)
+          ("STRT" :inverse-video t :inherit +org-todo-active)
+          ("[-]"  :inverse-video t :inherit +org-todo-active)
+          ("HOLD" :inverse-video t :inherit +org-todo-onhold)
+          ("WAIT" :inverse-video t :inherit +org-todo-onhold)
+          ("[?]"  :inverse-video t :inherit +org-todo-onhold)
+          ("KILL" :inverse-video t :inherit +org-todo-cancel)
+          ("NO"   :inverse-video t :inherit +org-todo-cancel))
+	org-modern-list '((43 . "➤")
+                          (45 . "–")
+                          (42 . "•"))
+	))
 
 (use-package org-modern-indent
   :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
@@ -48,7 +61,13 @@
   (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
 
 (use-package org-appear
-  :defer)
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-appear-autoemphasis t
+	org-appear-autosubmarkers t
+	org-appear-autolinks nil)
+  (run-at-time nil nil #'org-appear--set-elements)
+  )
 
 (use-package hl-todo
   :hook (prog-mode . hl-todo-mode)

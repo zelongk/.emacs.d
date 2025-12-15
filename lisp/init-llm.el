@@ -7,6 +7,7 @@
   :config
   (setq gptel-model 'claude-sonnet-4.5)
   (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
+  (setq gptel-default-mode #'org-mode)
   (setq gptel-display-buffer-action nil)  ; if user changes this, popup manager will bow out
   )
 

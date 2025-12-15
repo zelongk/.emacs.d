@@ -47,4 +47,6 @@
   :config
   (treesit-auto-add-to-auto-mode-alist 'all))
 
+(use-package systemd)
+
 (provide 'init-coding)

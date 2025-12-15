@@ -6,6 +6,7 @@
   :bind ("C-h M-m" . which-key-show-major-mode)
   :hook (elpaca-after-init . which-key-mode)
   :init (setq which-key-max-description-length 30
+	      which-key-idle-delay 0.5
               which-key-lighter nil
               which-key-show-remaining-keys t)
   :config

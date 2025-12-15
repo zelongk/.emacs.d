@@ -25,7 +25,18 @@
 (setq make-backup-files nil)
 (setq use-short-answers t)
 (setq frame-title-format "Emacs: %b")
+
 (setq visible-bell 1)
+
+(setq-default delete-by-moving-to-trash t
+	      x-stretch-cursor t
+	      window-combination-resize t)
+
+(global-subword-mode 1)
+
+(setq undo-limit 80000000
+      auto-save-default t
+      password-cache-expiry nil)
 
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
