@@ -8,7 +8,15 @@
   (add-hook 'elpaca-after-init-hook 'benchmark-init/deactivate))
 
 (server-mode 1)
+
 (global-display-line-numbers-mode)
+(dolist (mode '(erc-mode-hook
+                circe-mode-hook
+                help-mode-hook
+                gud-mode-hook
+                vterm-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode -1))))
+
 (setq-default cursor-type 'bar)
 (setq display-line-numbers-type 'relative)
 (show-paren-mode t)

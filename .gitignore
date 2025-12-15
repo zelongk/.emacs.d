@@ -3,8 +3,8 @@
 
 /.local*/
 
-recentf
-org-roam.db
+/recentf
+/org-roam.db
 
 *~
 *.*~
