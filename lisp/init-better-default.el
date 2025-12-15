@@ -26,8 +26,6 @@
 (setq use-short-answers t)
 (setq frame-title-format "Emacs: %b")
 
-(setq visible-bell 1)
-
 (setq-default delete-by-moving-to-trash t
 	      x-stretch-cursor t
 	      window-combination-resize t)
