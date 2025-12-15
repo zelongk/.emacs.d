@@ -25,6 +25,7 @@
 (setq make-backup-files nil)
 (setq use-short-answers t)
 (setq frame-title-format "Emacs: %b")
+(setq visible-bell 1)
 
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
