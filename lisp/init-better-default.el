@@ -23,10 +23,13 @@
 (recentf-mode 1)
 (setq recentf-max-saved-items 500)
 (setq make-backup-files nil)
-(setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
-(load custom-file 'no-error 'no-message)
 (setq use-short-answers t)
 (setq frame-title-format "Emacs: %b")
+
+(setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
+(add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
+
+(setq custom-safe-themes t)
 
 (define-key global-map (kbd "C-<wheel-up>")  nil)
 (define-key global-map (kbd "C-<wheel-down>")  nil)
