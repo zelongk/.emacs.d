@@ -1,12 +1,13 @@
 ;; -*- lexical-binding: t -*-
 
 (setq gc-cons-threshold most-positive-fixnum)
+(setq package-enable-at-startup nil)
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+
 (require 'init-elpaca)
 (require 'init-gc)
 
-(setq package-enable-at-startup nil)
 (setq use-package-enable-imenu-support t)
 (setq load-prefer-newer noninteractive)
 
