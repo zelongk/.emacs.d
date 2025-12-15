@@ -3,7 +3,6 @@
 (use-package transient)
 
 (use-package magit
-  :defer
   :config
   (setq magit-show-long-lines-warning nil))
 
@@ -18,17 +17,15 @@
 ;;   )
 
 (use-package vterm
-  :defer
   :bind ("C-\\" . vterm))
 (use-package editorconfig
   :diminish
-  :hook after-init)
+  :hook elpaca-after-init)
 
 
 (use-package yaml-mode)
 ;; Fish shell mode and auto-formatting
 (use-package fish-mode
-  :defer t
   :commands fish_indent-before-save
   :defines eglot-server-programs
   :hook (fish-mode . (lambda ()
@@ -42,5 +39,12 @@
 (use-package docker-compose-mode)
 
 (use-package leetcode)
+
+(use-package treesit-auto
+  :hook (elpaca-after-init . treesit-auto-mode)
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all))
 
 (provide 'init-coding)

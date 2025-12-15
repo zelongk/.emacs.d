@@ -11,19 +11,19 @@
 (add-hook 'text-mode-hook #'electric-pair-mode) 
 
 (use-package winum
-  :init
-  (winum-mode)
+  :hook (elpaca-after-init . winum-mode)
   :config
   (winum-set-keymap-prefix (kbd "C-c w")))
 
 ;; Yasnippet settings
 (use-package yasnippet
   :ensure t
+  :hook (elpaca-after-init . yas-global-mode)
   :hook ((LaTeX-mode . yas-minor-mode)
          (post-self-insert . my/yas-try-expanding-auto-snippets))
   :config
-  (yas-global-mode)
   (use-package warnings
+    :ensure nil
     :config
     (cl-pushnew '(yasnippet backquote-change)
                 warning-suppress-types

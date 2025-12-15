@@ -8,8 +8,6 @@
   :config
   (setq haskell-process-suggest-remove-import-lines t
         haskell-process-auto-import-loaded-modules t)
-  (add-hook 'haskell-mode-local-vars-hook #'lsp! 'append)
-  (add-hook 'haskell-literate-mode-local-vars-hook #'lsp! 'append)
   (add-to-list 'completion-ignored-extensions ".hi")
   )
 

@@ -85,11 +85,9 @@
 
 (use-package meow
   :demand t
-  :init
-  (meow-global-mode 1)
+  :hook (elpaca-after-init . meow-global-mode)
   :config
   (meow-setup)
-  (setq meow-cursor-type-normal 'bar)
-  )
+  (setq meow-cursor-type-normal 'bar))
 
 (provide 'init-meow)

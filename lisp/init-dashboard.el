@@ -9,6 +9,9 @@
   (dashboard-items-face ((t (:weight normal))))
   (dashboard-no-items-face ((t (:weight normal))))
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format nil)))
+  :config
+  (add-hook 'elpaca-after-init-hook #'dashboard-insert-startupify-lists)
+  (add-hook 'elpaca-after-init-hook #'dashboard-initialize)
   :init
   (setq dashboard-banner-logo-title "ZEMACS - Enjoy Programming & Writing"
         ;; dashboard-page-separator "\n\f\n"
@@ -31,7 +34,6 @@
                                     dashboard-insert-init-info
                                     dashboard-insert-items
                                     dashboard-insert-newline
-                                    dashboard-insert-footer))
-  
-  (dashboard-setup-startup-hook))
+                                    dashboard-insert-footer)))
+
 (provide 'init-dashboard)

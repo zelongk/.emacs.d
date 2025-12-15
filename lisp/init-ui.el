@@ -12,7 +12,7 @@
       frame-resize-pixelwise t)
 
 (use-package solaire-mode
-  :hook (after-init . solaire-global-mode))
+  :hook (elpaca-after-init . solaire-global-mode))
 (use-package ef-themes
   :ensure t
   :init
@@ -45,7 +45,9 @@
            (foo-mode . rainbow-delimiters-mode)))
 
 (use-package doom-modeline
-  :init (doom-modeline-mode 1))
+  :hook (elpaca-after-init . doom-modeline-mode))
+(use-package minions
+  :hook elpaca-after-init)
 
 (use-package hide-mode-line
   :autoload turn-off-hide-mode-line-mode
@@ -88,7 +90,7 @@
 
 ;; Easily adjust the font size in all frames
 (use-package default-text-scale
-  :hook (after-init . default-text-scale-mode)
+  :hook (elpaca-after-init . default-text-scale-mode)
   :bind (:map default-text-scale-mode-map
          ("s-="   . default-text-scale-increase)
          ("s--"   . default-text-scale-decrease)

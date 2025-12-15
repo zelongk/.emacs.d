@@ -1,11 +1,19 @@
 ;; -*- lexical-binding: t -*-
 
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'org-mode-hook #'display-line-numbers-mode)
+(use-package benchmark-init
+  :ensure t
+  :demand t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'elpaca-after-init-hook 'benchmark-init/deactivate))
+
+(server-mode 1)
+(global-display-line-numbers-mode)
 (setq-default cursor-type 'bar)
 (setq display-line-numbers-type 'relative)
 (show-paren-mode t)
 (recentf-mode 1)
+(setq recentf-max-saved-items 500)
 (setq make-backup-files nil)
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (load custom-file 'no-error 'no-message)
@@ -31,7 +39,7 @@
 
 ;; Interactively insert and edit items from kill-ring
 (use-package browse-kill-ring
-  :hook (after-init . browse-kill-ring-default-keybindings)
+  :hook (elpaca-after-init . browse-kill-ring-default-keybindings)
   :init (setq browse-kill-ring-separator "────────────────"
               browse-kill-ring-separator-face 'shadow))
 
@@ -46,14 +54,7 @@
   :init
   (setq scroll-conservatively 3
 	scroll-margin 0)
-  :config
-  (ultra-scroll-mode 1))
-
-(use-package benchmark-init
-  :ensure t
-  :demand t
-  :config
-  ;; To disable collection of benchmark data after init is done.
-  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+  :hook (elpaca-after-init . ultra-scroll-mode))
+  
 
 (provide 'init-better-default)

@@ -55,8 +55,9 @@
          ("RET" . vertico-directory-enter)
          ("DEL" . vertico-directory-delete-char)
          ("M-DEL" . vertico-directory-delete-word))
-  :init
-  (vertico-mode t))
+  :hook (elpaca-after-init . vertico-mode)
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
 
 ;; (use-package vertico-posframe
 ;;   :after vertico
@@ -101,14 +102,12 @@
 
 ;; Enrich existing commands with completion annotations
 (use-package marginalia
-  :init
-  (marginalia-mode))
+  :hook (elpaca-after-init . marginalia-mode))
+
 
 ;; Add icons to completion candidates
 (use-package nerd-icons-completion
-  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
-  :init
-  (nerd-icons-completion-mode))
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
 
 ;; Consulting completing-read
 (use-package consult
@@ -120,13 +119,22 @@
   :functions (list-colors-duplicates consult-colors--web-list)
   :bind (("C-." . consult-imenu)
 	 ("C-c T" . consult-theme)
-	 
+
+	 ([remap Info-search]        . consult-info)
+         ;; ([remap isearch-forward]    . consult-line)
+         ([remap recentf-open-files] . consult-recent-file)
+
+
 	 ("s-f" . consult-line)
 	 ("C-c s s" . consult-line)
 	 ("C-c p f" . consult-project-buffer)
 	 ("C-c f r" . consult-recent-file)
 	 ("C-x C-b" . consult-buffer)
-	 ("C-c s p" . consult-ripgrep)))
+	 ("C-c s p" . consult-ripgrep))
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :init
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format))
  
 
 (use-package consult-dir
@@ -180,7 +188,16 @@
   :config
   ;;Quit completion before saving
   (add-hook 'before-save-hook #'corfu-quit)
-  (advice-add #'persistent-scratch-save :before #'corfu-quit))
+  (advice-add #'persistent-scratch-save :before #'corfu-quit)
+  (defun corfu-move-to-minibuffer ()
+    (interactive)
+    (pcase completion-in-region--data
+      (`(,beg ,end ,table ,pred ,extras)
+       (let ((completion-extra-properties extras)
+             completion-cycle-threshold completion-cycling)
+         (consult-completion-in-region beg end table pred)))))
+  (keymap-set corfu-map "M-m" #'corfu-move-to-minibuffer)
+  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
 (use-package nerd-icons-corfu
   :init
@@ -212,6 +229,9 @@
   (read-extended-command-predicate #'command-completion-default-include-p))
 
 (use-package cape
+  :commands (cape-file cape-elisp-block cape-keyword)
+  :autoload (cape-wrap-noninterruptible cape-wrap-nonexclusive cape-wrap-buster)
+  :autoload (cape-wrap-silent)
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)

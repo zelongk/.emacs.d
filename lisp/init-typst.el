@@ -3,16 +3,24 @@
 
 (use-package typst-ts-mode
   :ensure (:type git :host codeberg :repo "meow_king/typst-ts-mode")
+  :hook (typst-ts-mode . eglot-ensure)
   :custom
   ;; (typst-ts-watch-options "--open")
   (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory))
   (typst-ts-mode-enable-raw-blocks-highlight t)
   :config
-  (keymap-set typst-ts-mode-map "C-c C-c" #'typst-ts-tmenu))
+  (keymap-set typst-ts-mode-map "C-c C-c" #'typst-ts-tmenu)
+  (with-eval-after-load 'eglot
+    (with-eval-after-load 'typst-ts-mode
+      (add-to-list 'eglot-server-programs
+                   `((typst-ts-mode) .
+                     ,(eglot-alternatives `(,typst-ts-lsp-download-path
+                                            "tinymist"
+                                            "typst-lsp")))))))
 
 (use-package typst-preview
   :ensure (:type git :host github :repo "havarddj/typst-preview.el")
-    :init
+  :init
   (setq typst-preview-autostart t) ; start preview automatically when typst-preview-mode is activated
   (setq typst-preview-open-browser-automatically t) ; open browser automatically when typst-preview-start is run
 
@@ -24,7 +32,8 @@
 
   :config
   (define-key typst-ts-mode-map (kbd "C-c C-j") 'typst-preview-send-position)
-  (define-key typst-ts-mode-map (kbd "C-c C-l") #'typst-preview-mode)
-  )
+  (define-key typst-ts-mode-map (kbd "C-c C-l") #'typst-preview-mode))
+
+
 
 (provide 'init-typst)
