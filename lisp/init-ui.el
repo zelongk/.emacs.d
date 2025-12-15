@@ -24,8 +24,8 @@
            (typst-ts-mode . rainbow-delimiters-mode)
            (foo-mode . rainbow-delimiters-mode)))
 
-;; (use-package doom-modeline
-;;   :hook (elpaca-after-init . doom-modeline-mode))
+(use-package doom-modeline
+  :hook (elpaca-after-init . doom-modeline-mode))
 (use-package minions
   :hook elpaca-after-init)
 
