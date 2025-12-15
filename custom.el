@@ -5,7 +5,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("b3db0d7354ef14156b4d16d406b85ef4441e45a54841e11a49d6bc4933eebf58"
+   '("2e8a28e18718c026ffc4a31acd65cf844d42c01f42b0d22b4eee8aa242a1b5d1"
+     "b3db0d7354ef14156b4d16d406b85ef4441e45a54841e11a49d6bc4933eebf58"
      default))
  '(org-agenda-files '("~/org/workout.org"))
  '(package-selected-packages nil))
