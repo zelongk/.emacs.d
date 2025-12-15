@@ -31,4 +31,6 @@
     (grep-apply-setting
      'grep-find-template "rg --color=auto --null -nH --no-heading -e <R> <D>")))
 
+(use-package pdf-tools)
+
 (provide 'init-utils)

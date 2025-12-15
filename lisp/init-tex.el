@@ -34,6 +34,10 @@
   :hook (LaTeX-mode . turn-on-cdlatex)
   :bind (:map cdlatex-mode-map 
               ("<tab>" . cdlatex-tab)))
- 
+
+(use-package texpresso
+  :defer nil
+  :load-path "~/.emacs.d/lisp/packages/")
+
 
 (provide 'init-tex)
