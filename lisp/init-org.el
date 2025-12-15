@@ -9,17 +9,18 @@
   :defer
   :ensure `(org :repo "https://code.tecosaur.net/tec/org-mode.git/"
                 :branch "dev")
-  ;; :hook (org-mode . org-indent-mode)
+  :hook (org-mode . org-indent-mode)
   :config
   ;; (org-capture-init)
-  (setq org-modules '(org-habit))
+  (add-to-list 'org-modules 'org-habit)
   (setq org-directory "~/org/")
   (add-to-list 'org-agenda-files "~/org")
 
   (setq org-highlight-latex-and-related '(native latex entities))
   (setq org-pretty-entities t)
   (setq org-pretty-entities-include-sub-superscripts nil)
-  )
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "DONE(d)" "NO(n)"))))
 
 (use-package org-contrib)
 
@@ -35,6 +36,12 @@
 	  org-pretty-entities t))
   :config
   (setq org-modern-table nil))
+
+(use-package org-modern-indent
+  :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
+  :config ; add late to hook
+  (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
+
 (use-package org-appear
   :defer)
 

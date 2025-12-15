@@ -38,10 +38,10 @@
          ([remap mark-sexp] . easy-mark)))
 
 ;; Interactively insert and edit items from kill-ring
-(use-package browse-kill-ring
-  :hook (elpaca-after-init . browse-kill-ring-default-keybindings)
-  :init (setq browse-kill-ring-separator "────────────────"
-              browse-kill-ring-separator-face 'shadow))
+;; (use-package browse-kill-ring
+;;   :hook (elpaca-after-init . browse-kill-ring-default-keybindings)
+;;   :init (setq browse-kill-ring-separator "────────────────"
+;;               browse-kill-ring-separator-face 'shadow))
 
 (use-package exec-path-from-shell
   :init
