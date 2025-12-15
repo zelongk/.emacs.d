@@ -10,15 +10,20 @@
   :ensure `(org :repo "https://code.tecosaur.net/tec/org-mode.git/"
                 :branch "dev")
   :hook (org-mode . org-indent-mode)
+  :hook (org-mode . org-cdlatex-mode)
+  :hook (org-mode . visual-line-mode)
   :config
   ;; (org-capture-init)
   (add-to-list 'org-modules 'org-habit)
   (setq org-directory "~/org/")
   (add-to-list 'org-agenda-files "~/org")
-
   (setq org-highlight-latex-and-related '(native latex entities))
+  (setq org-hide-emphasis-markers t)
   (setq org-pretty-entities t)
   (setq org-pretty-entities-include-sub-superscripts nil)
+  
+  (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
+  
   (setq org-todo-keywords
         '((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "DONE(d)" "NO(n)"))))
 
@@ -78,7 +83,7 @@
   :config
   ;; Increase preview width
   (plist-put org-latex-preview-appearance-options
-             :page-width 0.8)
+             :page-width 1.0)
   
   ;; ;; Block C-n, C-p etc from opening up previews when using `org-latex-preview-mode'
   ;; (setq org-latex-preview-mode-ignored-commands
@@ -147,5 +152,8 @@
   (require 'org-roam-protocol))
 
 (use-package org-roam-ui)
+
+(use-package org-download
+  :after org)
 
 (provide 'init-org)
