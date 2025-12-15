@@ -14,7 +14,4 @@
 (global-set-key (kbd "s-k") #'kill-current-buffer)
 (global-set-key (kbd "C-c q r") #'restart-emacs)
 
-(when (eq system-type 'darwin)
-  (global-set-key (kbd "s-x") #'execute-extended-command))
-
 (provide 'init-bindings)
