@@ -4,16 +4,18 @@
 (use-package jsonrpc)
 
 (use-package eglot
-     :hook ((prog-mode . (lambda ()
-                           (unless (derived-mode-p
-                                    'emacs-lisp-mode 'lisp-mode
-                                    'makefile-mode 'snippet-mode
-                                    'ron-mode)
-                             (eglot-ensure))))
+  :hook ((prog-mode . (lambda ()
+                        (unless (derived-mode-p
+                                 'emacs-lisp-mode 'lisp-mode
+                                 'makefile-mode 'snippet-mode
+                                 'ron-mode)
+                          (eglot-ensure))))
             ((markdown-mode yaml-mode yaml-ts-mode) . eglot-ensure))
-     :init (setq eglot-autoshutdown t
-                 eglot-events-buffer-size 0
-                 eglot-send-changes-idle-time 0.5))
+  :init (setq eglot-autoshutdown t
+              eglot-events-buffer-size 0
+              eglot-send-changes-idle-time 0.5)
+  :bind (:map eglot-mode-map
+	      ("C-c c a" . eglot-code-actions)))
 
 (use-package eglot-booster
   :ensure (eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")

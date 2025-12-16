@@ -8,7 +8,6 @@
 (require 'init-ui)
 (require 'init-bindings)
 
-
 (require 'init-dired)
 ;; (require 'init-dashboard)
 

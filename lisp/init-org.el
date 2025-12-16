@@ -102,7 +102,7 @@
   :config
   ;; Increase preview width
   (plist-put org-latex-preview-appearance-options
-             :page-width 1.0)
+             :page-width 0.8)
   
   ;; ;; Block C-n, C-p etc from opening up previews when using `org-latex-preview-mode'
   ;; (setq org-latex-preview-mode-ignored-commands
