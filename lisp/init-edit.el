@@ -7,8 +7,7 @@
 ;;   (require 'smartparens-config))
 
 
-(add-hook 'prog-mode-hook #'electric-pair-mode) 
-(add-hook 'text-mode-hook #'electric-pair-mode) 
+(electric-pair-mode t)
 
 (use-package winum
   :hook (elpaca-after-init . winum-mode)

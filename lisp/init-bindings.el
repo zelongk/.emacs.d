@@ -16,4 +16,6 @@
 
 (global-set-key (kbd "C-c C-c") #'compile)
 
+(global-set-key (kbd "C-x b") 'ibuffer)
+
 (provide 'init-bindings)

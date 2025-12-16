@@ -7,6 +7,14 @@
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'elpaca-after-init-hook 'benchmark-init/deactivate))
 
+(use-package exec-path-from-shell
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
+(setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
+(add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
+
 (server-mode 1)
 
 (global-display-line-numbers-mode)
@@ -16,30 +24,28 @@
                 gud-mode-hook
                 vterm-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode -1))))
-
-(setq-default cursor-type 'bar)
 (setq display-line-numbers-type 'relative)
+
+(global-subword-mode 1)
 (show-paren-mode t)
+
 (recentf-mode 1)
 (setq recentf-max-saved-items 500)
+
+(setq-default cursor-type 'bar)
 (setq make-backup-files nil)
 (setq use-short-answers t)
 (setq frame-title-format "Emacs: %b")
+(setq custom-safe-themes t)
 
-(setq-default delete-by-moving-to-trash t
-	      x-stretch-cursor t
-	      window-combination-resize t)
-
-(global-subword-mode 1)
-
+(setq ring-bell-function 'ignore)
 (setq undo-limit 80000000
       auto-save-default t
       password-cache-expiry nil)
 
-(setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
-(add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
-
-(setq custom-safe-themes t)
+(setq-default delete-by-moving-to-trash t
+	      x-stretch-cursor t
+	      window-combination-resize t)
 
 (define-key global-map (kbd "C-<wheel-up>")  nil)
 (define-key global-map (kbd "C-<wheel-down>")  nil)
@@ -58,24 +64,10 @@
   :bind (([remap kill-ring-save] . easy-kill)
          ([remap mark-sexp] . easy-mark)))
 
-;; Interactively insert and edit items from kill-ring
-;; (use-package browse-kill-ring
-;;   :hook (elpaca-after-init . browse-kill-ring-default-keybindings)
-;;   :init (setq browse-kill-ring-separator "────────────────"
-;;               browse-kill-ring-separator-face 'shadow))
-
-(use-package exec-path-from-shell
-  :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
-
-(global-set-key (kbd "C-x b") 'ibuffer)
-
 (use-package ultra-scroll
   :init
   (setq scroll-conservatively 3
 	scroll-margin 0)
   :hook (elpaca-after-init . ultra-scroll-mode))
   
-
 (provide 'init-better-default)
