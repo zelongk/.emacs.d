@@ -14,4 +14,6 @@
 (global-set-key (kbd "s-k") #'kill-current-buffer)
 (global-set-key (kbd "C-c q r") #'restart-emacs)
 
+(global-set-key (kbd "C-c C-c") #'compile)
+
 (provide 'init-bindings)

@@ -22,3 +22,4 @@
 (require 'init-python)
 (require 'init-haskell)
 (require 'init-rust)
+(require 'init-ocaml)
