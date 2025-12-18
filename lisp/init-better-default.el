@@ -25,6 +25,7 @@
                 vterm-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode -1))))
 (setq display-line-numbers-type 'relative)
+(column-number-mode 1)
 
 (global-subword-mode 1)
 (show-paren-mode t)
