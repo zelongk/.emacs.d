@@ -55,7 +55,7 @@
 
 (pcase system-type
   ('darwin  ; macOS
-   (set-face-attribute 'default nil :font "Maple Mono NF CN-18")
+   (set-face-attribute 'default nil :font "Sarasa Mono SC-24")
    (add-to-list 'default-frame-alist '(height . 53))
    (add-to-list 'default-frame-alist '(width . 120)))
   
