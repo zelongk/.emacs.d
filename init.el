@@ -11,7 +11,7 @@
 (require 'init-workspace)
 
 (require 'init-dired)
-(require 'init-treemacs)
+;; (require 'init-treemacs)
 ;; (require 'init-dashboard)
 
 (require 'init-llm)

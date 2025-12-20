@@ -3,7 +3,8 @@
 (use-package dired
   :ensure nil
   :bind (:map dired-mode-map
-              ("C-c C-p" . wdired-change-to-wdired-mode))
+              ("C-c C-p" . wdired-change-to-wdired-mode)
+	      ("C-b" . dired-up-directory))
   :config
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always
@@ -15,7 +16,8 @@
   ;; Colorful dired
   (use-package diredfl
     :diminish
-    :hook dired-mode)
+    :hook dired-mode
+    :hook dirvish-directory-view-mode)
   
   (use-package nerd-icons-dired
     :diminish
@@ -31,5 +33,12 @@
     (setq nerd-icons-dired-dir-icon-function #'my-nerd-icons-icon-for-dir))
     ;; Extra Dired functionality
   (use-package dired-aux :ensure nil))
+
+;; (use-package dirvish
+;;   :bind ("C-c o p" . dirvish-side)
+;;   :init (dirvish-override-dired-mode)
+;;   :config
+;;   (setq dirvish-use-header-line nil
+;; 	dirvish-use-mode-line nil))
 
 (provide 'init-dired)
