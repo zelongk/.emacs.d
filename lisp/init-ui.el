@@ -44,6 +44,7 @@
       inhibit-startup-echo-area-message user-login-name
       inhibit-default-init t
       initial-scratch-message nil)
+
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 
