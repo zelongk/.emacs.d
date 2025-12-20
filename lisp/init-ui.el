@@ -17,7 +17,7 @@
   :ensure t
   :defer nil
   :config
-  (load-theme 'ef-day))
+  (load-theme 'ef-autumn))
 
 (use-package rainbow-delimiters
     :hook ((prog-mode . rainbow-delimiters-mode)
