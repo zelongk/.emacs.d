@@ -15,23 +15,39 @@
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
 
-(server-mode 1)
+(use-package server
+  :ensure nil
+  :hook (elpaca-after-init . server-mode))
 
-(global-display-line-numbers-mode)
-(dolist (mode '(erc-mode-hook
-                circe-mode-hook
-                help-mode-hook
-                gud-mode-hook
-                vterm-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode -1))))
-(setq display-line-numbers-type 'relative)
+(use-package display-line-numbers
+  :ensure nil
+  :hook (elpaca-after-init . global-display-line-numbers-mode)
+  :config
+  (dolist (mode '(erc-mode-hook
+                  circe-mode-hook
+                  help-mode-hook
+                  gud-mode-hook
+		  treemacs-mode-hook
+                  vterm-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode -1))))
+  (setq display-line-numbers-type 'relative)
+  )
 (column-number-mode 1)
 
-(global-subword-mode 1)
-(show-paren-mode t)
+(use-package subword
+  :ensure nil
+  :hook (elpaca-after-init . global-subword-mode))
+
+(use-package paren
+  :ensure nil
+  :hook (elpaca-after-init . show-paren-mode))
 
 (recentf-mode 1)
-(setq recentf-max-saved-items 500)
+(use-package recentf
+  :ensure nil
+  :hook (elpaca-after-init . recentf-mode)
+  :custom
+  (recentf-max-saved-items 500))
 
 (setq-default cursor-type 'bar)
 (setq make-backup-files nil)
