@@ -10,10 +10,7 @@
 (electric-pair-mode t)
 
 (use-package winum
-  :hook (elpaca-after-init . winum-mode)
-  :config
-  ;; (winum-set-keymap-prefix (kbd "C- w"))
-  )
+  :hook (elpaca-after-init . winum-mode))
 
 ;; Yasnippet settings
 (use-package yasnippet
