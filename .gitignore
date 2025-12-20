@@ -53,5 +53,6 @@ tabsession.el
 /tramp
 /transient/
 /var/
+/persp-confs/
 /tree-sitter/
 /url/

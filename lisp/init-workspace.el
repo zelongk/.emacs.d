@@ -1,5 +1,5 @@
 ;; -*- lexical-binding: t; -*-
-
+  
 (use-package tabspaces
   :functions tabspaces-mode
   :hook (elpaca-after-init . tabspaces-mode)
@@ -13,7 +13,8 @@
   (tabspaces-exclude-buffers '("*eat*" "*vterm*" "*shell*" "*eshell*"))
   ;; sessions
   (tabspaces-session t)
-  (tabspaces-session-auto-restore)
+  (tabspaces-session-auto-restore t)
+  (tabspaces-keymap-prefix "C-c w")
   :config
   (with-no-warnings
     ;; Filter Buffers for Consult-Buffer

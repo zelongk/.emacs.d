@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 (use-package treemacs
-  :ensure t
-  :defer t
   :commands (treemacs-follow-mode
              treemacs-filewatch-mode
              treemacs-git-mode
@@ -33,6 +31,7 @@
   (treemacs-follow-mode t)
   (treemacs-project-follow-mode t)
   (treemacs-filewatch-mode t)
+  (treemacs-hide-gitignored-files-mode t)
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
@@ -58,5 +57,11 @@
 (use-package treemacs-nerd-icons
   :demand t
   :config (treemacs-nerd-icons-config))
+
+(use-package treemacs-persp
+  :after persp-mode
+  :demand t
+  :functions treemacs-set-scope-type
+  :config (treemacs-set-scope-type 'Perspectives))
 
 (provide 'init-treemacs)

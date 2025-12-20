@@ -12,7 +12,8 @@
 (use-package winum
   :hook (elpaca-after-init . winum-mode)
   :config
-  (winum-set-keymap-prefix (kbd "C-c w")))
+  ;; (winum-set-keymap-prefix (kbd "C- w"))
+  )
 
 ;; Yasnippet settings
 (use-package yasnippet
