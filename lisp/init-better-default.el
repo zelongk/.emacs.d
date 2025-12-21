@@ -55,6 +55,8 @@
 (setq frame-title-format "Emacs: %b")
 (setq custom-safe-themes t)
 
+(setq insert-directory-program "gls")
+
 (setq-default tab-width 4
 	          compilation-scroll-output t
 	          indent-tabs-mode nil)

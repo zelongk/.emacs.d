@@ -4,14 +4,15 @@
   :ensure nil
   :bind (:map dired-mode-map
               ("C-c C-p" . wdired-change-to-wdired-mode)
-	      ("C-b" . dired-up-directory))
+	          ("C-b" . dired-up-directory))
   :config
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always
         dired-recursive-copies 'always)
 
   ;; Show directory first
-  ;; (setq dired-listing-switches "-alh --group-directories-first")
+  (setq dired-listing-switches "-alh --group-directories-first"
+        dired-use-ls-dired t)
   
   ;; Colorful dired
   (use-package diredfl
@@ -19,20 +20,22 @@
     :hook dired-mode
     :hook dirvish-directory-view-mode)
   
-  (use-package nerd-icons-dired
-    :diminish
-    :functions (nerd-icons-icon-for-dir my-nerd-icons-icon-for-dir)
-    :hook dired-mode
-    :init
-    (defface nerd-icons-dired-dir-face
-      '((t (:inherit 'font-lock-doc-face)))
-      "Face for the directory icon."
-      :group 'nerd-icons-faces)
-    (defun my-nerd-icons-icon-for-dir (dir)
-      (nerd-icons-icon-for-dir dir :face 'nerd-icons-dired-dir-face))
-    (setq nerd-icons-dired-dir-icon-function #'my-nerd-icons-icon-for-dir))
-    ;; Extra Dired functionality
+
+  ;; Extra Dired functionality
   (use-package dired-aux :ensure nil))
+
+(use-package nerd-icons-dired
+  :diminish
+  :functions (nerd-icons-icon-for-dir my-nerd-icons-icon-for-dir)
+  :hook dired-mode
+  :init
+  (defface nerd-icons-dired-dir-face
+    '((t (:inherit 'font-lock-doc-face)))
+    "Face for the directory icon."
+    :group 'nerd-icons-faces)
+  (defun my-nerd-icons-icon-for-dir (dir)
+    (nerd-icons-icon-for-dir dir :face 'nerd-icons-dired-dir-face))
+  (setq nerd-icons-dired-dir-icon-function #'my-nerd-icons-icon-for-dir))
 
 ;; (use-package dirvish
 ;;   :bind ("C-c o p" . dirvish-side)
