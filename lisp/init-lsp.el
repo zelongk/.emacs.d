@@ -1,5 +1,3 @@
-;;; init-lsp --- 
-;;; Commentary:
 ;; -*- lexical-binding: t; -*-
 
 (use-package flymake
