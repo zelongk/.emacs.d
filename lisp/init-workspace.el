@@ -9,10 +9,11 @@
   (setq persp-autokill-buffer-on-remove 'kill-weak))
 
 (use-package persp-projectile
-  :after persp-mode)
+  :after (persp-mode projectile))
 
 (use-package projectile
   :hook (elpaca-after-init . projectile-mode)
+  :bind ([remap projectile-switch-project] . projectile-persp-switch-project)
   :custom
   (projectile-enable-caching t)
   :config
