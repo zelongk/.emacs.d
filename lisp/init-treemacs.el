@@ -1,10 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 (use-package treemacs
-  :commands (treemacs-follow-mode
-             treemacs-filewatch-mode
-             treemacs-git-mode
-	     treemacs-project-follow-mode
-	     treemacs-hide-gitignored-files-mode)
   :custom-face
   (cfrs-border-color ((t (:inherit posframe-border))))
   :init
@@ -24,14 +19,9 @@
         treemacs-sorting                 'alphabetic-asc
         treemacs-follow-after-init       t
         treemacs-width                   30
-	treemacs-show-hidden-files       nil
-	treemacs-silent-refresh          t
-        treemacs-no-png-images           1)
-  
-  (treemacs-follow-mode t)
-  (treemacs-project-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-hide-gitignored-files-mode t)
+	    treemacs-show-hidden-files       nil
+	    treemacs-silent-refresh          t
+        treemacs-no-png-images           1)  
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
@@ -59,9 +49,12 @@
   :config (treemacs-nerd-icons-config))
 
 (use-package treemacs-persp
-  :after persp-mode
+  :after (treemacs persp-mode)
   :demand t
   :functions treemacs-set-scope-type
   :config (treemacs-set-scope-type 'Perspectives))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile-mode))
 
 (provide 'init-treemacs)

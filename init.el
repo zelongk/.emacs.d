@@ -8,7 +8,7 @@
 (require 'init-ui)
 (require 'init-bindings)
 
-(require 'init-workspace)
+;; (require 'init-workspace)
 
 (require 'init-dired)
 ;; (require 'init-treemacs)
