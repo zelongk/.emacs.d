@@ -3,7 +3,7 @@
 (require 'init-better-default)
 (require 'init-utils)
 (require 'init-completion)
-(require 'init-meow)
+;; (require 'init-meow)
 (require 'init-edit)
 (require 'init-ui)
 (require 'init-bindings)

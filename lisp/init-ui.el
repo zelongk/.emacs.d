@@ -61,7 +61,7 @@
    (add-to-list 'default-frame-alist '(width . 120)))
   
   ('gnu/linux  ; Linux (including Debian)
-   (set-face-attribute 'default nil :font "Sarasa Term SC-16")  ; 20 * 1.5
+   (set-face-attribute 'default nil :font "Sarasa Term SC-14")  ; 20 * 1.5
    (add-to-list 'default-frame-alist '(height . 40))
    (add-to-list 'default-frame-alist '(width . 90))))
 

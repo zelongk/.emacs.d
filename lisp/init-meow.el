@@ -84,7 +84,6 @@
    '("<escape>" . ignore)))
 
 (use-package meow
-  :disabled t
   :demand t
   :hook (elpaca-after-init . meow-global-mode)
   :config
