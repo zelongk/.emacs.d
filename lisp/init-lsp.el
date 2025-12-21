@@ -1,6 +1,9 @@
+;;; init-lsp --- 
+;;; Commentary:
 ;; -*- lexical-binding: t; -*-
 
-(use-package flymake)
+(use-package flymake
+  :hook (prog-mode . flymake-mode))
 (use-package jsonrpc)
 
 (use-package eglot

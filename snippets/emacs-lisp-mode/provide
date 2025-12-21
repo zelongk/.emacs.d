@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: provide
+# key: provide
+# --
+
+(provide '${1:`(file-name-base (or (buffer-file-name) ""))`})$0

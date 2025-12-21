@@ -1,12 +1,19 @@
 ;; -*- lexical-binding: t -*-
 
 (require 'init-better-default)
+
+(require 'init-hydra)
+
 (require 'init-utils)
 (require 'init-completion)
-;; (require 'init-meow)
+
 (require 'init-edit)
+(require 'init-window)
 (require 'init-ui)
+
+;; (require 'init-meow)
 (require 'init-bindings)
+
 
 (require 'init-workspace)
 (require 'init-dired)

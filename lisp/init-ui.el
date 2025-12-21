@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(setq idle-update-delay 1.0)
+;; (setq idle-update-delay 1.0)
 
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
@@ -73,9 +73,6 @@
 (use-package default-text-scale
   :hook (elpaca-after-init . default-text-scale-mode)
   :bind (:map default-text-scale-mode-map
-         ("s-="   . default-text-scale-increase)
-         ("s--"   . default-text-scale-decrease)
-         ("s-0"   . default-text-scale-reset)
          ("C-s-=" . default-text-scale-increase)
          ("C-s--" . default-text-scale-decrease)
          ("C-s-0" . default-text-scale-reset)))
