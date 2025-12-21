@@ -9,8 +9,9 @@
 
 (electric-pair-mode t)
 
-(use-package winum
-  :hook (elpaca-after-init . winum-mode))
+(use-package ace-window
+  :hook (ace-window-mode . ace-window-posframe-mode)
+  :bind ("M-o" . ace-window))
 
 ;; Yasnippet settings
 (use-package yasnippet
