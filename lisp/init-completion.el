@@ -121,13 +121,13 @@
 	 ("C-c T" . consult-theme)
 
 	 ([remap Info-search]        . consult-info)
-         ;; ([remap isearch-forward]    . consult-line)
-         ([remap recentf-open-files] . consult-recent-file)
+     ;; ([remap isearch-forward]    . consult-line)
+     ([remap recentf-open-files] . consult-recent-file)
 
 
 	 ("s-f" . consult-line)
 	 ("C-c s s" . consult-line)
-	 ("C-c p f" . consult-project-buffer)
+	 ("C-c p f" . consult-projectile)
 	 ("C-c f r" . consult-recent-file)
 	 ("C-x C-b" . consult-buffer)
 	 ("C-c s p" . consult-ripgrep))
@@ -135,7 +135,8 @@
   :init
   (setq register-preview-delay 0.5
         register-preview-function #'consult-register-format))
- 
+
+(use-package consult-projectile)
 
 (use-package consult-dir
   :ensure t

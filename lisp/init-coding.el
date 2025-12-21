@@ -3,8 +3,10 @@
 (use-package transient)
 
 (use-package magit
+  :bind (("C-c g" . magit-dispatch))
   :config
-  (setq magit-show-long-lines-warning nil))
+  (setq magit-show-long-lines-warning nil)
+  )
 
 ;; (use-package eat
 ;;   :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
