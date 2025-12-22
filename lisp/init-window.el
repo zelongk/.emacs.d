@@ -60,7 +60,7 @@
   :custom
   (popper-group-function #'popper-group-by-directory)
   (popper-echo-dispatch-actions t)
-h  :bind (:map popper-mode-map
+  :bind (:map popper-mode-map
          ("C-h z"       . popper-toggle)
          ("C-<tab>"     . popper-cycle)
          ("C-M-<tab>"   . popper-toggle-type))
@@ -148,7 +148,6 @@ h  :bind (:map popper-mode-map
                                             'vterm-mode))))
             (delete-window window)))))
     (advice-add #'keyboard-quit :before #'popper-close-window-hack)))
-
 
 (provide 'init-window)
 ;;; init-window.el ends here
