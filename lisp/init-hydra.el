@@ -38,7 +38,7 @@
         ("h d" rainbow-delimiters-mode "delimiter" :toggle t)
         ("h t" global-hl-todo-mode "todo" :toggle t))
        "Program"
-       (("f" flymake-mode "flymake" :toggle t)
+       (("f" global-flycheck-mode "flycheck" :toggle t)
         ("O" hs-minor-mode "hideshow" :toggle t)
         ("u" subword-mode "subword" :toggle t)
         ("W" which-function-mode "which function" :toggle t)
