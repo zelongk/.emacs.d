@@ -21,10 +21,7 @@
   :bind (([remap other-window] . ace-window)
          ("C-c C-w" . ace-window-hydra/body))
   :pretty-hydra
-  (
-   ;; (:title (pretty-hydra-title "Window Management" 'faicon "nf-fa-th")
-   ;;         :foreign-keys warn :quit-key ("q" "C-g"))
-   ("Actions"
+  (("Actions"
     (("TAB" other-window "switch")
      ("x" ace-delete-window "delete")
      ("X" ace-delete-other-windows "delete other" :exit t)
@@ -40,9 +37,7 @@
      ("n" balance-windows "balance"))
     "Split"
     (("r" split-window-right "horizontally")
-     ("R" split-window-horizontally-instead "horizontally instead")
      ("v" split-window-below "vertically")
-     ("V" split-window-vertically-instead "vertically instead")
      ("t" toggle-window-split "toggle"))
     "Zoom"
     (("+" text-scale-increase "in")
