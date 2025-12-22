@@ -118,25 +118,64 @@
   :commands (consult-narrow-help)
   :functions (list-colors-duplicates consult-colors--web-list)
   :bind (("C-." . consult-imenu)
-	 ("C-c T" . consult-theme)
+	     ("C-c T" . consult-theme)
 
-	 ([remap Info-search]        . consult-info)
-     ;; ([remap isearch-forward]    . consult-line)
-     ([remap recentf-open-files] . consult-recent-file)
+	     ([remap Info-search]        . consult-info)
+         ;; ([remap isearch-forward]    . consult-line)
+         ([remap recentf-open-files] . consult-recent-file)
 
+         
+         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+         
+         ;; Custom M-# bindings for fast register access
+         ("M-#" . consult-register-load)
+         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("C-M-#" . consult-register)
+         ;; Other custom bindings
+         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+         ;; M-g bindings in `goto-map'
+         ("M-g e" . consult-compile-error)
+         ("M-g r" . consult-grep-match)
+         ("M-s f" . consult-flycheck)               ;; Alternative: consult-flycheck
+         ("M-g g" . consult-goto-line)             ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+         
+         ;; M-s bindings in `search-map'
+	     ("s-f" . consult-line)
+         ("M-s d" . consult-find)                  ;; Alternative: consult-fd
+         ("M-s c" . consult-locate)
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines)
+	     ("C-c p f" . consult-projectile)
+	     ("C-x C-r" . consult-recent-file)
+	     ("C-x C-b" . consult-buffer)
 
-	 ("s-f" . consult-line)
-	 ("C-c s s" . consult-line)
-	 ("C-c p f" . consult-projectile)
-	 ("C-x C-r" . consult-recent-file)
-	 ("C-x C-b" . consult-buffer)
-	 ("C-c s p" . consult-ripgrep))
+         ("M-s e" . consult-isearch-history)
+         :map isearch-mode-map
+         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+         ("M-s L" . consult-line-multi))
   :hook (completion-list-mode . consult-preview-at-point-mode)
   :init
   (setq register-preview-delay 0.5
-        register-preview-function #'consult-register-format))
+        register-preview-function #'consult-register-format)
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref))
 
 (use-package consult-projectile)
+
+(use-package consult-flycheck)
 
 (use-package consult-dir
   :ensure t
