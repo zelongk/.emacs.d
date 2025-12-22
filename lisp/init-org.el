@@ -56,7 +56,8 @@
                        (interactive)
                        (if (or (region-active-p) (looking-back "^\s*" 1))
                            (org-hydra/body)
-                         (self-insert-command 1)))))
+                         (self-insert-command 1))))
+              ("M-<return>" . org-insert-subheading))
   :config
   ;; For hydra
   (defun hot-expand (str &optional mod)
@@ -90,10 +91,26 @@ the element after the #+HEADER: tag."
   (setq org-pretty-entities t
         org-pretty-entities-include-sub-superscripts nil)
   
-  (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
+  (setq org-default-note-file (expand-file-name "notes.org" org-directory)
+        org-capture-templates
+        '(("t" "Personal todo" entry
+           (file+headline "todo.org" "Inbox")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("n" "Personal notes" entry
+           (file+headline "notes.org" "Inbox")
+           "* %u %?\n%i\n%a" :prepend t)
+          ("j" "Journal" entry
+           (file+olp+datetree "diary.org")
+           "* %U %?\n%i\n%a" :prepend t))
+          
+        org-todo-keyword
+        '((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "DONE(d)" "NO(n)")))
   
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "DONE(d)" "NO(n)"))))
+  (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
+  (add-hook 'org-after-refile-insert-hook
+            (defun save-buffer-after-capture ()
+              (when (bound-and-true-p org-capture-is-refiling)
+                (save-buffer)))))
 
 (use-package org-contrib)
 
@@ -169,6 +186,7 @@ the element after the #+HEADER: tag."
 (use-package org-latex-preview
   :ensure nil
   :hook (org-mode . org-latex-preview-mode)
+  :hook (org-latex-preview-mode . org-latex-preview-center-mode)
   :config
   ;; Increase preview width
   (plist-put org-latex-preview-appearance-options
@@ -182,13 +200,7 @@ the element after the #+HEADER: tag."
   (setq org-latex-preview-numbered t)
   (setq org-latex-preview-mode-display-live t)
   (setq org-latex-preview-mode-update-delay 0.25))
-
-;; code for centering LaTeX previews -- a terrible idea
-(use-package org-latex-preview
-  :ensure nil
-  :hook (org-latex-preview-mode . org-latex-preview-center-mode)
-  :config
-  (defun my/org-latex-preview-uncenter (ov)
+    (defun my/org-latex-preview-uncenter (ov)
     (overlay-put ov 'before-string nil))
   (defun my/org-latex-preview-recenter (ov)
     (overlay-put ov 'before-string (overlay-get ov 'justify)))
@@ -219,7 +231,7 @@ the element after the #+HEADER: tag."
       (remove-hook 'org-latex-preview-overlay-update-functions
                     #'my/org-latex-preview-center)
       (remove-hook 'org-latex-preview-overlay-open-functions
-                    #'my/org-latex-preview-uncenter))))
+                    #'my/org-latex-preview-uncenter)))
 
 (use-package org-roam
   :ensure t
