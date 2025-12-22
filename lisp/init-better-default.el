@@ -63,7 +63,7 @@ unreadable.  Returns the names of envvars that were changed."
 (when (and (or (display-graphic-p)
                (daemonp))
            (file-exists-p my-env-file))
-  (my-load-envvars-file my-env-file))
+  (my/load-envvars-file my-env-file))
   
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
