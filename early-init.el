@@ -8,6 +8,15 @@
 (require 'init-elpaca)
 (require 'init-gc)
 
+(pcase system-type
+  ('gnu/linux
+   (dolist (path '("/home/zelongk/.opam/default/bin"
+                   "/home/zelongk/miniforge3/bin"
+                   "/home/zelongk/miniforge3/condabin"
+                   "/home/zelongk/.cargo/bin"
+                   "/home/zelongk/.local/bin"))
+     (add-to-list 'exec-path path))))
+
 (setq use-package-enable-imenu-support t)
 (setq load-prefer-newer noninteractive)
 
