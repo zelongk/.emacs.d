@@ -128,7 +128,7 @@
 	 ("s-f" . consult-line)
 	 ("C-c s s" . consult-line)
 	 ("C-c p f" . consult-projectile)
-	 ("C-c f r" . consult-recent-file)
+	 ("C-x C-r" . consult-recent-file)
 	 ("C-x C-b" . consult-buffer)
 	 ("C-c s p" . consult-ripgrep))
   :hook (completion-list-mode . consult-preview-at-point-mode)
