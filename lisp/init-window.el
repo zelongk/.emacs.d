@@ -19,7 +19,7 @@
 (use-package ace-window
   :hook (emacs-startup . ace-window-display-mode)
   :bind (([remap other-window] . ace-window)
-         ("C-c C-w" . ace-window-hydra/body))
+         ("C-c w" . ace-window-hydra/body))
   :pretty-hydra
   (("Actions"
     (("TAB" other-window "switch")

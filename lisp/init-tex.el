@@ -33,7 +33,13 @@
   :ensure t
   :hook (LaTeX-mode . turn-on-cdlatex)
   :bind (:map cdlatex-mode-map 
-              ("<tab>" . cdlatex-tab)))
+              ("<tab>" . cdlatex-tab))
+  :config
+  (setq cdlatex-math-symbol-alist '((?f ("\\varphi" "\\phi"))
+                                    (?i ("\\iota"))
+                                    ))
+  (setq cdlatex-math-modify-alist '((?f "\\mathbb" nil t nil nil)))
+  (cdlatex-reset-mode))
 
 (use-package texpresso
   :defer nil

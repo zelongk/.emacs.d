@@ -3,7 +3,7 @@
 (use-package persp-mode
   :hook (elpaca-after-init . persp-mode)
   :custom
-  (persp-mode-prefix-key "w")
+  (persp-mode-prefix-key "o")
   :config
   (setq wg-morph-on nil)
   (setq persp-autokill-buffer-on-remove 'kill-weak))
