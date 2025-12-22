@@ -11,7 +11,21 @@
 
 (defconst my-env-file (concat my-local-dir "env"))
 
-(defun my-load-envvars-file (file &optional noerror)
+(defun my/generate-envvars-file ()
+  "Generate environment variables file at ~/.emacs.d/.local/env."
+  (interactive)
+  ;; Ensure the directory exists
+  (unless (file-exists-p my-local-dir)
+    (make-directory my-local-dir t))
+  
+  ;; Run printenv and redirect output to the env file
+  (with-temp-buffer
+    (call-process "printenv" nil t nil)
+    (write-region (point-min) (point-max) my-env-file nil 'silent))
+  
+  (message "Environment variables saved to %s" my-env-file))
+
+(defun my/load-envvars-file (file &optional noerror)
   "Read and set envvars from FILE.
 If NOERROR is non-nil, don't throw an error if the file doesn't exist or is
 unreadable.  Returns the names of envvars that were changed."
@@ -49,7 +63,7 @@ unreadable.  Returns the names of envvars that were changed."
 (when (and (or (display-graphic-p)
                (daemonp))
            (file-exists-p my-env-file))
-  (my-load-envvars-file my-env-file))
+  (my/load-envvars-file my-env-file))
   
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
