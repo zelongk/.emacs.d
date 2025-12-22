@@ -62,11 +62,4 @@
         (quit-windows-on messages-buffer-name)))
     (advice-add #'tabspaces-restore-session :after #'my-tabspaces-burry-window)))
 
-(use-package centaur-tabs
-  :demand t
-  :hook (elpaca-after-init . centaur-tabs-mode)
-  :bind
-  ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward))
-
 (provide 'init-workspace)
