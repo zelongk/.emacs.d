@@ -1,4 +1,6 @@
-;; -*- lexical-binding: t -*-
+;;; init.el --- This is the  -*- lexical-binding: t -*-
+;;; Commentary:
+;;; blablabla
 
 (require 'init-better-default)
 
@@ -32,3 +34,8 @@
 (require 'init-haskell)
 (require 'init-rust)
 (require 'init-ocaml)
+
+(provide 'init)
+;;; Code:
+;;; alskdjasd
+;;; init.el ends here
