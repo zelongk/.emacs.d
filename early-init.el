@@ -4,12 +4,11 @@
 (setq package-enable-at-startup nil)
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+(setq use-package-enable-imenu-support t)
+(setq load-prefer-newer noninteractive)
 
 (require 'init-elpaca)
 (require 'init-gc)
-
-(setq use-package-enable-imenu-support t)
-(setq load-prefer-newer noninteractive)
 
 (prefer-coding-system 'utf-8)
 ;; Inhibit resizing frame
