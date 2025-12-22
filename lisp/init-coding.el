@@ -43,7 +43,7 @@
 (use-package leetcode)
 
 (use-package treesit-auto
-  :hook (elpaca-after-init . treesit-auto-mode)
+  :hook (elpaca-after-init . global-treesit-auto-mode)
   :custom
   (treesit-auto-install 'prompt)
   :config
