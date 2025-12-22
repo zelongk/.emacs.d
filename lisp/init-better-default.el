@@ -36,7 +36,8 @@
 
 (use-package subword
   :ensure nil
-  :hook (elpaca-after-init . global-subword-mode))
+  :diminish
+  :hook (prog-mode minibuffer-setup))
 
 (use-package paren
   :ensure nil
@@ -92,5 +93,33 @@
   (setq scroll-conservatively 3
 	scroll-margin 0)
   :hook (elpaca-after-init . ultra-scroll-mode))
-  
+
+(use-package helpful
+  :bind (([remap describe-function] . helpful-callable)
+         ([remap describe-command]  . helpful-command)
+         ([remap describe-variable] . helpful-variable)
+         ([remap describe-key]      . helpful-key)
+         ([remap describe-symbol]   . helpful-symbol)
+         :map emacs-lisp-mode-map
+         ("C-c C-d"                 . helpful-at-point)
+         :map lisp-interaction-mode-map
+         ("C-c C-d"                 . helpful-at-point)
+         :map helpful-mode-map
+         ("r"                       . remove-hook-at-point))
+  :hook (helpful-mode . cursor-sensor-mode) ; for remove-advice button
+  :init
+  (with-no-warnings
+    (with-eval-after-load 'apropos
+      ;; patch apropos buttons to call helpful instead of help
+      (dolist (fun-bt '(apropos-function apropos-macro apropos-command))
+        (button-type-put
+         fun-bt 'action
+         (lambda (button)
+           (helpful-callable (button-get button 'apropos-symbol)))))
+      (dolist (var-bt '(apropos-variable apropos-user-option))
+        (button-type-put
+         var-bt 'action
+         (lambda (button)
+           (helpful-variable (button-get button 'apropos-symbol))))))))
+
 (provide 'init-better-default)

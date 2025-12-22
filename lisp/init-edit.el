@@ -54,7 +54,7 @@
          :map mc/keymap
          ("C-|" . mc/vertical-align-with-space))
   :pretty-hydra
-  ((:color amaranth :quit-key ("q" "C-g"))
+  ((:color amaranth :quit-key ("q" "C-g") :hint nil)
    ("Up"
 	(("p" mc/mark-previous-like-this "prev")
 	 ("P" mc/skip-to-previous-like-this "skip")
@@ -75,5 +75,9 @@
 
 (use-package smart-region
   :hook (after-init . smart-region-on))
+
+(use-package mwim
+  :bind (([remap move-beginning-of-line] . mwim-beginning)
+         ([remap move-end-of-line] . mwim-end)))
 
 (provide 'init-edit)

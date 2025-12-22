@@ -9,9 +9,9 @@
   :defer
   :ensure `(org :repo "https://code.tecosaur.net/tec/org-mode.git/"
                 :branch "dev")
-  :hook (org-mode . org-indent-mode)
   :hook (org-mode . org-cdlatex-mode)
-
+  :hook (org-mode . org-indent-mode)
+  
   :pretty-hydra
   ;; See `org-structure-template-alist'
   ((:color blue :quit-key ("q" "C-g"))
@@ -21,10 +21,9 @@
      ("C" (hot-expand "<C") "comment")
      ("x" (hot-expand "<e") "example")
      ("E" (hot-expand "<E") "export")
-     ("h" (hot-expand "<h") "html")
      ("l" (hot-expand "<l") "latex")
      ("n" (hot-expand "<n") "note")
-     ("o" (hot-expand "<q") "quote")
+     ("O" (hot-expand "<q") "quote")
      ("v" (hot-expand "<v") "verse"))
     "Head"
     (("i" (hot-expand "<i") "index")
@@ -40,6 +39,8 @@
      ("w" (hot-expand "<s" "powershell") "powershell")
      ("r" (hot-expand "<s" "ruby") "ruby")
      ("S" (hot-expand "<s" "sh") "sh")
+     ("h" (hot-expand "<s" "haskell") "haskell")
+     ("o" (hot-expand "<s" "ocaml") "ocaml")
      ("g" (hot-expand "<s" "go :imports '\(\"fmt\"\)") "golang"))
     "Misc"
     (("m" (hot-expand "<s" "mermaid :file chart.png") "mermaid")
@@ -62,9 +63,9 @@
     "Expand org template.
 
 STR is a structure template string recognised by org like <s. MOD is a
-string with additional parameters to add the begin line of the
-structure element. HEADER string includes more parameters that are
-prepended to the element after the #+HEADER: tag."
+string with additional parameters to add the begin line of the structure
+element. HEADER string includes more parameters that are prepended to
+the element after the #+HEADER: tag."
     (let (text)
       (when (region-active-p)
         (setq text (buffer-substring (region-beginning) (region-end)))
@@ -85,8 +86,9 @@ prepended to the element after the #+HEADER: tag."
   (setq org-directory "~/org/")
   (add-to-list 'org-agenda-files "~/org")
   (setq org-highlight-latex-and-related '(native latex entities))
-  (setq org-pretty-entities t)
-  (setq org-pretty-entities-include-sub-superscripts nil)
+  (setq org-startup-indented t)
+  (setq org-pretty-entities t
+        org-pretty-entities-include-sub-superscripts nil)
   
   (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
   
