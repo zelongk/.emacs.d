@@ -136,11 +136,6 @@ unreadable.  Returns the names of envvars that were changed."
 ;; Save clipboard contents into kill-ring before replace them
 (setq save-interprogram-paste-before-kill t)
 
-(setq desktop-load-locked-desktop t ; don't popup dialog ask user, load anyway
-      desktop-restore-frames t
-      desktop-save t)
-(desktop-save-mode 1)
-
 ;; Kill & Mark things easily
 (use-package easy-kill
   :bind (([remap kill-ring-save] . easy-kill)
