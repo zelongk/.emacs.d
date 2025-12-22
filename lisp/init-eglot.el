@@ -17,7 +17,7 @@
            (append elisp-flymake-byte-compile-load-path load-path)))
       (apply fn args)))
   (advice-add 'elisp-flymake-byte-compile :around #'my-elisp-flymake-byte-compile))
-
+  
 (use-package flyover
   :diminish
   :hook flymake-mode
@@ -34,7 +34,7 @@
                           (eglot-ensure))))
             ((markdown-mode yaml-mode yaml-ts-mode) . eglot-ensure))
   :init (setq eglot-autoshutdown t
-              eglot-events-buffer-size 0
+              eglot-events-buffer-config 0
               eglot-send-changes-idle-time 0.5)
   :bind (:map eglot-mode-map
 	      ("C-c c a" . eglot-code-actions)))
