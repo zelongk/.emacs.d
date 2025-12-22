@@ -13,11 +13,14 @@
 
 (use-package solaire-mode
   :hook (elpaca-after-init . solaire-global-mode))
-(use-package ef-themes
-  :ensure t
-  :defer nil
-  :config
-  (load-theme 'ef-autumn))
+;; (use-package ef-themes
+;;   :demand t)
+(use-package doom-themes
+  :demand t
+  :init
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-italic t)
+  (load-theme 'doom-one t))
 
 (use-package rainbow-delimiters
     :hook ((prog-mode . rainbow-delimiters-mode)
