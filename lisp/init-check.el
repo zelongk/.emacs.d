@@ -7,16 +7,18 @@
 
   ;; Rerunning checks on every newline is a mote excessive.
   (delq 'new-line flycheck-check-syntax-automatically)
+
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   ;; And don't recheck on idle as often
-  (setq flycheck-idle-change-delay 1.0)
+  (setq flycheck-idle-change-delay 1.0
 
-  ;; For the above functionality, check syntax in a buffer that you switched to
-  ;; only briefly. This allows "refreshing" the syntax check state for several
-  ;; buffers quickly after e.g. changing a config file.
-  (setq flycheck-buffer-switch-check-intermediate-buffers t)
+        ;; For the above functionality, check syntax in a buffer that you switched to
+        ;; only briefly. This allows "refreshing" the syntax check state for several
+        ;; buffers quickly after e.g. changing a config file.
+        flycheck-buffer-switch-check-intermediate-buffers t
 
-  ;; Display errors a little quicker (default is 0.9s)
-  (setq flycheck-display-errors-delay 0.25))
+        ;; Display errors a little quicker (default is 0.9s)
+        flycheck-display-errors-delay 0.25))
 
 (use-package flyover
   :diminish
