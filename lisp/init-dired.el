@@ -4,7 +4,7 @@
   :ensure nil
   :bind (:map dired-mode-map
               ("C-c C-p" . wdired-change-to-wdired-mode)
-	          ("C-b" . dired-up-directory))
+	          ("b" . dired-up-directory))
   :config
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always
