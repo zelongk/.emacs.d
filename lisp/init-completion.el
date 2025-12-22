@@ -136,7 +136,7 @@
          ;; M-g bindings in `goto-map'
          ("M-g e" . consult-compile-error)
          ("M-g r" . consult-grep-match)
-         ("M-s f" . consult-flycheck)               ;; Alternative: consult-flycheck
+         ("M-s f" . consult-flymake)               ;; Alternative: consult-flycheck
          ("M-g g" . consult-goto-line)             ;; orig. goto-line
          ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
          ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
@@ -174,8 +174,6 @@
         xref-show-definitions-function #'consult-xref))
 
 (use-package consult-projectile)
-
-(use-package consult-flycheck)
 
 (use-package consult-dir
   :ensure t
