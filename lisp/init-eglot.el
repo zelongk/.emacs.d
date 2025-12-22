@@ -1,28 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package flymake
-  :hook (prog-mode)
-  :diminish
-  :functions my-elisp-flymake-byte-compile
-  :bind ("C-c d" . flymake-show-buffer-diagnostics)
-  :custom
-  (flymake-no-changes-timeout nil)
-  (flymake-fringe-indicator-position 'right-fringe)
-  (flymake-margin-indicator-position 'right-margin)
-  :config
-  ;; Check elisp with `load-path'
-  (defun my-elisp-flymake-byte-compile (fn &rest args)
-    "Wrapper for `elisp-flymake-byte-compile'."
-    (let ((elisp-flymake-byte-compile-load-path
-           (append elisp-flymake-byte-compile-load-path load-path)))
-      (apply fn args)))
-  (advice-add 'elisp-flymake-byte-compile :around #'my-elisp-flymake-byte-compile))
-  
-(use-package flyover
-  :diminish
-  :hook flymake-mode
-  :custom (flyover-checkers '(flymake)))
-
 (use-package jsonrpc)
 
 (use-package eglot
@@ -44,6 +21,8 @@
   :after eglot
   :config (eglot-booster-mode))
 
+(use-package flycheck-eglot)
+
 (use-package consult-eglot
   :after consult eglot
   :bind (:map eglot-mode-map
@@ -54,4 +33,4 @@
 (with-eval-after-load 'eglot
   (setq completion-category-defaults nil))
 
-(provide 'init-lsp)
+(provide 'init-eglot)

@@ -24,8 +24,11 @@
 
 (require 'init-llm)
 
-(require 'init-lsp)
+;; (require 'init-lsp)
 (require 'init-coding)
+(require 'init-check)
+(require 'init-eglot)
+
 (require 'init-org)
 (require 'init-tex)
 (require 'init-typst)
