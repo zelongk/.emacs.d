@@ -106,7 +106,7 @@ unreadable.  Returns the names of envvars that were changed."
 (setq-default cursor-type 'bar)
 (setq make-backup-files nil)
 (setq use-short-answers t)
-(setq frame-title-format "Emacs: %b")
+(setq frame-title-format "")
 (setq custom-safe-themes t)
 
 (pcase system-type ('darwin (setq insert-directory-program "gls")))

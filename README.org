@@ -1,0 +1,2 @@
+* Basically there is nothing extra you need to do
+run M-x my/generate-envvar-file

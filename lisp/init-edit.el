@@ -80,4 +80,13 @@
   :bind (([remap move-beginning-of-line] . mwim-beginning)
          ([remap move-end-of-line] . mwim-end)))
 
+(use-package avy
+  :bind
+  (("C-'" . avy-goto-char-timer)))
+
+;; Treat undo history as a tree
+(use-package vundo
+  :bind ("C-x u" . vundo)
+  :config (setq vundo-glyph-alist vundo-unicode-symbols))
+
 (provide 'init-edit)
