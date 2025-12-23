@@ -51,4 +51,6 @@
 
 (use-package systemd)
 
+(add-hook 'prog-mode-hook #'toggle-truncate-lines)
+
 (provide 'init-coding)
