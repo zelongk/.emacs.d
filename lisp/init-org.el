@@ -103,7 +103,7 @@ the element after the #+HEADER: tag."
            (file+olp+datetree "diary.org")
            "* %U %?\n%i\n%a" :prepend t))
           
-        org-todo-keyword
+        org-todo-keywords
         '((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "DONE(d)" "NO(n)")))
   
   (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
@@ -255,5 +255,8 @@ the element after the #+HEADER: tag."
 
 (use-package org-download
   :after org)
+
+(use-package valign
+  :hook (org-mode . valign-mode))
 
 (provide 'init-org)

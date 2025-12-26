@@ -18,8 +18,14 @@
 ;;   :config  
 ;;   )
 
-(use-package vterm
-  :bind ("C-\\" . vterm))
+(use-package vterm)
+
+
+(use-package vterm-toggle
+  :bind ("C-\\" . vterm-toggle)
+  :config
+  (define-key vterm-mode-map (kbd "C-\\") #'vterm-toggle))
+
 (use-package editorconfig
   :diminish
   :hook elpaca-after-init)

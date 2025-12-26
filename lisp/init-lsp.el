@@ -122,7 +122,7 @@
                                              (add-hook 'after-save-hook #'lsp-pyright-format-buffer t t))))
     :init
     ;; (when (executable-find "python3")
-      ;; (setq lsp-pyright-python-executable-cmd "python3"))
+    ;; (setq lsp-pyright-python-executable-cmd "python3"))
     
     (defun lsp-pyright-format-buffer ()
       "Use `yapf' to format the buffer."
@@ -141,9 +141,7 @@
         (when-let* ((xrefs (lsp--locations-to-xref-items
                             (lsp--send-execute-command (symbol-name command) arguments))))
           (xref--show-xrefs xrefs nil)))
-      (advice-add #'lsp-execute-command :override #'my-lsp-execute-command)))
-
-  )
+      (advice-add #'lsp-execute-command :override #'my-lsp-execute-command))))
           
 
 (provide 'init-lsp)

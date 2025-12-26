@@ -31,6 +31,7 @@
 
 (require 'init-org)
 (require 'init-tex)
+(require 'init-markdown)
 (require 'init-typst)
 (require 'init-cc)
 (require 'init-python)
