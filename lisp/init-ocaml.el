@@ -3,7 +3,10 @@
 
 (use-package tuareg
   :ensure t
-  :mode (("\\.ocamlinit\\'" . tuareg-mode)))
+  :mode (("\\.ocamlinit\\'" . tuareg-mode))
+  :config
+  (setq tuareg-prettify-symbols-full t)
+  (add-hook 'tuareg-mode-hook (lambda () )))
 
 
 (use-package ocaml-eglot
@@ -11,6 +14,36 @@
   :after tuareg
   :hook
   (tuareg-mode . ocaml-eglot)
-  (ocaml-eglot . eglot-ensure))
+  (ocaml-eglot . eglot-ensure)
+  :config
+  (setq ocaml-eglot-syntax-checker 'flycheck))
+
+(use-package dune)
+
+(use-package opam-switch-mode
+  :hook (tuareg-mode . opam-switch-mode)
+  :config
+  (setq tuareg-opam-insinuate t))
+
+(use-package ocp-indent
+  :hook (ocaml-eglot . ocp-setup-indent))
+
+(use-package utop)
+
+;; (use-package merlin
+;;   :hook (tuareg-mode . +ocaml-init-merlin)
+;;   :init
+;;   (defun +ocaml-init-merlin ()
+;;     (when (executable-find "ocamlmerlin")
+;;       (merlin-mode)))
+;;   :config
+;;   (setq merlin-completion-with-doc t))
+
+;; (use-package merlin-eldoc
+;;   :hook (merlin-mode . merlin-eldoc-setup))
+
+;; (use-package flycheck-ocaml)
+
+
 
 (provide 'init-ocaml)
