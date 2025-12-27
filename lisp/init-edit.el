@@ -9,6 +9,14 @@
 (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 (electric-pair-mode t)
 
+;; Hungry deletion
+(use-package hungry-delete
+  :diminish
+  :hook (elpaca-after-init . global-hungry-delete-mode)
+  :init (setq hungry-delete-chars-to-skip " \t\f\v"
+              hungry-delete-except-modes
+              '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
+    
 ;; Yasnippet settings
 (use-package yasnippet
   :ensure t
