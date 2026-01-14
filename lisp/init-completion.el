@@ -136,7 +136,7 @@
          ;; M-g bindings in `goto-map'
          ("M-g e" . consult-compile-error)
          ("M-g r" . consult-grep-match)
-         ("M-s f" . consult-flycheck)               ;; Alternative: consult-flycheck
+         ("M-g f" . consult-flycheck)               ;; Alternative: consult-flycheck
          ("M-g g" . consult-goto-line)             ;; orig. goto-line
          ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
          ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
@@ -145,26 +145,25 @@
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
          
-         ;; M-s bindings in `search-map'
+         ;; M-g bindings in `search-map'
 	     ("s-f" . consult-line)
-         ("M-s d" . consult-find)                  ;; Alternative: consult-fd
-         ("M-s c" . consult-locate)
-         ("M-s g" . consult-grep)
-         ("M-s G" . consult-git-grep)
-         ("M-s r" . consult-ripgrep)
-         ("M-s l" . consult-line)
-         ("M-s L" . consult-line-multi)
-         ("M-s k" . consult-keep-lines)
-         ("M-s u" . consult-focus-lines)
+         ("M-g d" . consult-find)                  ;; Alternative: consult-fd
+         ("M-g c" . consult-locate)
+         ("M-g G" . consult-git-grep)
+         ("M-g r" . consult-ripgrep)
+         ("M-g l" . consult-line)
+         ("M-g L" . consult-line-multi)
+         ("M-g k" . consult-keep-lines)
+         ("M-g u" . consult-focus-lines)
 	     ("C-x C-r" . consult-recent-file)
 	     ("C-x C-b" . consult-buffer)
 
-         ("M-s e" . consult-isearch-history)
+         ("M-g e" . consult-isearch-history)
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi))
+         ("M-g e" . consult-isearch-history)       ;; orig. isearch-edit-string
+         ("M-g l" . consult-line)                  ;; needed by consult-line to detect isearch
+         ("M-g L" . consult-line-multi))
   :hook (completion-list-mode . consult-preview-at-point-mode)
   :init
   (setq register-preview-delay 0.5

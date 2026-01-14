@@ -6,8 +6,10 @@
 ;;   :config
 ;;   (require 'smartparens-config))
 
-(setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-(electric-pair-mode t)
+(use-package smartparens
+  :hook (elpaca-after-init . smartparens-global-mode)
+  ;; :hook (elpaca-after-init . smartparens-global-strict-mode)
+  :init (sp-use-paredit-bindings))
 
 ;; Hungry deletion
 (use-package hungry-delete
