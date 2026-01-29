@@ -20,6 +20,8 @@
 ;;   ;; Recommended keymap prefix on Windows/Linux
 ;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
+(use-package project)
+
 (use-package tabspaces
   :functions tabspaces-mode
   :hook (elpaca-after-init . tabspaces-mode)
