@@ -11,6 +11,7 @@
                 :branch "dev")
   :hook (org-mode . org-cdlatex-mode)
   :hook (org-mode . org-indent-mode)
+  :hook (org-mode . visual-line-mode)
   
   :pretty-hydra
   ;; See `org-structure-template-alist'
@@ -187,10 +188,6 @@ the element after the #+HEADER: tag."
   :hook (org-mode . org-latex-preview-mode)
   :hook (org-latex-preview-mode . org-latex-preview-center-mode)
   :config
-  ;; Increase preview width
-  (plist-put org-latex-preview-appearance-options
-             :page-width 0.8)
-  
   ;; ;; Block C-n, C-p etc from opening up previews when using `org-latex-preview-mode'
   ;; (setq org-latex-preview-mode-ignored-commands
   ;;       '(next-line previous-line mwheel-scroll
@@ -198,7 +195,7 @@ the element after the #+HEADER: tag."
 
   (setq org-latex-preview-numbered t)
   (setq org-latex-preview-mode-display-live t)
-  (setq org-latex-preview-mode-update-delay 0.25))
+  (setq org-latex-preview-mode-update-delay 0.25)
     (defun my/org-latex-preview-uncenter (ov)
     (overlay-put ov 'before-string nil))
   (defun my/org-latex-preview-recenter (ov)
@@ -230,7 +227,7 @@ the element after the #+HEADER: tag."
       (remove-hook 'org-latex-preview-overlay-update-functions
                     #'my/org-latex-preview-center)
       (remove-hook 'org-latex-preview-overlay-open-functions
-                    #'my/org-latex-preview-uncenter)))
+                    #'my/org-latex-preview-uncenter))))
 
 (use-package org-roam
   :ensure t

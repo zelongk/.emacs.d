@@ -13,18 +13,13 @@
 (require 'init-window)
 (require 'init-ui)
 
-;; (require 'init-meow)
 (require 'init-bindings)
-
 
 (require 'init-workspace)
 (require 'init-dired)
-;; (require 'init-treemacs)
-;; (require 'init-dashboard)
 
 (require 'init-llm)
 
-;; (require 'init-lsp)
 (require 'init-coding)
 (require 'init-check)
 (require 'init-eglot)

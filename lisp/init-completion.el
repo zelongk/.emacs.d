@@ -111,12 +111,6 @@
 
 ;; Consulting completing-read
 (use-package consult
-  :defines (xref-show-xrefs-function xref-show-definitions-function)
-  :defines shr-color-html-colors-alist
-  :autoload (consult-register-format consult-register-window consult-xref)
-  :autoload (consult--read consult--customize-put)
-  :commands (consult-narrow-help)
-  :functions (list-colors-duplicates consult-colors--web-list)
   :bind (("C-." . consult-imenu)
 	     ("C-c T" . consult-theme)
 
