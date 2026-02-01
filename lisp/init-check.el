@@ -22,7 +22,10 @@
 
 (use-package flyover
   :diminish
-  :hook flycheck-mode
+  :hook prog-mode
+  :config
+  ;; Disable flyover-mode in emacs-lisp-mode
+  (add-hook 'emacs-lisp-mode-hook (lambda () (flyover-mode -1)))
   :custom (flyover-checkers '(flycheck)))
 
 

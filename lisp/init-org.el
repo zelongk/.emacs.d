@@ -188,6 +188,8 @@ the element after the #+HEADER: tag."
   :hook (org-mode . org-latex-preview-mode)
   :hook (org-latex-preview-mode . org-latex-preview-center-mode)
   :config
+  (plist-put org-latex-preview-appearance-options
+             :page-width 0.8)
   ;; ;; Block C-n, C-p etc from opening up previews when using `org-latex-preview-mode'
   ;; (setq org-latex-preview-mode-ignored-commands
   ;;       '(next-line previous-line mwheel-scroll

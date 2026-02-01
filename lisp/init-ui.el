@@ -20,7 +20,7 @@
   :init
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t)
-  (load-theme 'doom-one t))
+  (load-theme 'modus-operandi t))
 
 (use-package rainbow-delimiters
     :hook ((prog-mode . rainbow-delimiters-mode)
@@ -106,5 +106,8 @@
 (use-package nerd-icons-ibuffer
   :ensure t
   :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
+
+(use-package beacon
+  :hook elpaca-after-init)
 
 (provide 'init-ui)
