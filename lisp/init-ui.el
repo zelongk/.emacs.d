@@ -2,6 +2,7 @@
 
 ;; (setq idle-update-delay 1.0)
 
+;; (setq-default line-spacing 0.16)
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
 
@@ -20,7 +21,7 @@
   :init
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t)
-  (load-theme 'modus-operandi t))
+  (load-theme 'modus-operandi-tinted t))
 
 (use-package rainbow-delimiters
     :hook ((prog-mode . rainbow-delimiters-mode)
@@ -59,15 +60,20 @@
 
 (pcase system-type
   ('darwin  ; macOS
-   (set-face-attribute 'default nil :font "Sarasa Term SC-20")
+   (set-face-attribute 'default nil :font "Sarasa Term SC-20")  ; 20 * 1.5
+   ;; (set-face-attribute 'variable-pitch nil :font "Bookerly-18" :weight 'light) 
+   
    (add-to-list 'default-frame-alist '(height . 53))
    (add-to-list 'default-frame-alist '(width . 120)))
   
   ('gnu/linux  ; Linux (including Debian)
-   (set-face-attribute 'default nil :font "Sarasa Term SC-14")  ; 20 * 1.5
+   (set-face-attribute 'variable-pitch nil :font "Sarasa Term SC-14")  ; 20 * 1.5
    (add-to-list 'default-frame-alist '(height . 40))
    (add-to-list 'default-frame-alist '(width . 90))))
 
+;; (use-package mixed-pitch
+  ;; :hook text-mode
+  ;; :hook org-mode)
 
 (use-package diff-hl
   :init (global-diff-hl-mode))

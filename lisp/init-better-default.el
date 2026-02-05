@@ -21,7 +21,8 @@
 
 (use-package display-line-numbers
   :ensure nil
-  :hook (elpaca-after-init . global-display-line-numbers-mode)
+  :hook (text-mode . display-line-numbers-mode)
+  :hook (prog-mode . display-line-numbers-mode)
   :config
   (dolist (mode '(erc-mode-hook
                   circe-mode-hook

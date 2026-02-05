@@ -45,5 +45,4 @@
   :defer nil
   :load-path "~/.emacs.d/lisp/packages/")
 
-
 (provide 'init-tex)

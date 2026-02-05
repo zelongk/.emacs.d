@@ -22,8 +22,8 @@
         dashboard-vertically-center-content t
         dashboard-show-shortcuts nil
         dashboard-items '((recents  . 10)
-                          (bookmarks . 5)
-                          (projects . 5))
+                          (projects . 5)
+                          (bookmarks . 5))
 	
         dashboard-startupify-list '(dashboard-insert-banner
                                     dashboard-insert-newline
