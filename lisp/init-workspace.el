@@ -10,6 +10,7 @@
   :hook (elpaca-after-init . tabspaces-mode)
   :bind (:map tabspaces-mode-map
               ([remap project-switch-project] . tabspaces-open-or-create-project-and-workspace))
+  
   :custom
   (tab-bar-show nil)
 
@@ -20,7 +21,7 @@
   (tabspaces-exclude-buffers '("*eat*" "*vterm*" "*shell*" "*eshell*"))
   ;; sessions
   (tabspaces-session t)
-  (tabspaces-session-auto-restore t)
+  ;; (tabspaces-session-auto-restore t)
   (tabspaces-keymap-prefix "C-c o")
   (tab-bar-new-tab-choice "default"))
 

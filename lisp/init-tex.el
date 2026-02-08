@@ -15,6 +15,7 @@
   (TeX-PDF-mode t)
   (TeX-DVI-via-PDFTeX t)
   :config
+  (setq-default TeX-command-default "LaTeXMk")
   ;; Format math as a Latex string with Calc
   (add-hook 'LaTeX-mode-hook #'eglot-ensure)
   (defun latex-math-from-calc ()
