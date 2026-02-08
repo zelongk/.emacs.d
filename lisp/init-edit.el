@@ -9,7 +9,31 @@
 (use-package smartparens
   :hook (elpaca-after-init . smartparens-global-mode)
   ;; :hook (elpaca-after-init . smartparens-global-strict-mode)
-  :init (sp-use-paredit-bindings))
+  :init (sp-use-paredit-bindings)
+  :config
+    ;; Autopair quotes more conservatively; if I'm next to a word/before another
+    ;; quote, I don't want to open a new pair or it would unbalance them.
+    (let ((unless-list '(sp-point-before-word-p
+                         sp-point-after-word-p
+                         sp-point-before-same-p)))
+      (sp-pair "'"  nil :unless unless-list)
+      (sp-pair "\"" nil :unless unless-list))
+    (dolist (brace '("(" "{" "["))
+      (sp-pair brace nil
+               :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
+               ;; Don't autopair opening braces if before a word character or
+               ;; other opening brace. The rationale: it interferes with manual
+               ;; balancing of braces, and is odd form to have s-exps with no
+               ;; whitespace in between, e.g. ()()(). Insert whitespace if
+               ;; genuinely want to start a new form in the middle of a word.
+               :unless '(sp-point-before-word-p sp-point-before-same-p)))
+    
+    (sp-local-pair sp-lisp-modes "(" ")" :unless '(:rem sp-point-before-same-p))
+    
+    ;; Don't do square-bracket space-expansion where it doesn't make sense to
+    (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode markdown-ts-mode gfm-mode)
+                   "[" nil :post-handlers '(:rem ("| " "SPC")))
+    )
 
 ;; Hungry deletion
 (use-package hungry-delete

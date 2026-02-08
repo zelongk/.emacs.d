@@ -16,7 +16,8 @@
                    `((typst-ts-mode) .
                      ,(eglot-alternatives `(,typst-ts-lsp-download-path
                                             "tinymist"
-                                            "typst-lsp")))))))
+                                            "typst-lsp"))))))
+  (setq typst-ts-preview-function 'find-file-other-window))
 
 (use-package typst-preview
   :ensure (:type git :host github :repo "havarddj/typst-preview.el")

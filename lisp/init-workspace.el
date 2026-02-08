@@ -5,7 +5,11 @@
 
 (use-package tabspaces
   :functions tabspaces-mode
+  :commands (tabspaces-switch-or-create-workspace
+             tabspaces-open-or-create-project-and-workspace)
   :hook (elpaca-after-init . tabspaces-mode)
+  :bind (:map tabspaces-mode-map
+              ([remap project-switch-project] . tabspaces-open-or-create-project-and-workspace))
   :custom
   (tab-bar-show nil)
 
@@ -17,6 +21,7 @@
   ;; sessions
   (tabspaces-session t)
   (tabspaces-session-auto-restore t)
-  (tabspaces-keymap-prefix "C-c o"))
-  
+  (tabspaces-keymap-prefix "C-c o")
+  (tab-bar-new-tab-choice "default"))
+
 (provide 'init-workspace)

@@ -21,7 +21,7 @@
   :init
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t)
-  (load-theme 'modus-operandi-tinted t))
+  (load-theme 'doom-moonlight t))
 
 (use-package rainbow-delimiters
     :hook ((prog-mode . rainbow-delimiters-mode)

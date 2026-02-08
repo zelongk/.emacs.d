@@ -120,6 +120,16 @@
           "\\*rustfmt\\*$" rustic-compilation-mode rustic-cargo-clippy-mode
           rustic-cargo-outdated-mode rustic-cargo-run-mode rustic-cargo-test-mode
           "\\*haskell\\*"))
+  (add-to-list 'display-buffer-alist
+             '("\\.pdf\\'"
+               (display-buffer-reuse-window display-buffer-in-direction)
+               (direction . right)
+               (window-width . 0.5)))
+  (add-to-list 'display-buffer-alist
+             '("\\*OCaml\\*"
+               (display-buffer-reuse-window display-buffer-in-direction)
+               (direction . right)
+               (window-width . 0.5)))
   
   :config
   (with-no-warnings

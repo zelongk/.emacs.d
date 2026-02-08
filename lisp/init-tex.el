@@ -1,17 +1,22 @@
 ;; -*- lexical-binding: t; -*-
 
-
-
 (use-package latex
   :ensure (auctex :pre-build (("./autogen.sh")
 			      ("./configure" "--without-texmf-dir" "--with-lispdir=.")
                               ("make")))
   :mode (("\\.tex\\'" . LaTeX-mode))
-  :hook ((LaTeX-mode . prettify-symbols-mode))
+  :hook prettify-symbols-mode
+  :hook visual-line-mode
+  :hook turn-on-reftex
   :bind (:map LaTeX-mode-map
-         ("C-S-e" . latex-math-from-calc))
+              ("C-S-e" . latex-math-from-calc))
+  :custom
+  (TeX-parse-self t)
+  (TeX-PDF-mode t)
+  (TeX-DVI-via-PDFTeX t)
   :config
   ;; Format math as a Latex string with Calc
+  (add-hook 'LaTeX-mode-hook #'eglot-ensure)
   (defun latex-math-from-calc ()
     "Evaluate `calc' on the contents of line at point."
     (interactive)
@@ -28,7 +33,14 @@
                (insert (calc-eval `(,l
                                     calc-language latex
                                     calc-prefer-frac t
-                                    calc-angle-mode rad))))))))
+                                    calc-angle-mode rad)))))))
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs '((LaTeX-mode latex-mode) "texlab")))
+)
+
+
 (use-package cdlatex
   :ensure t
   :hook (LaTeX-mode . turn-on-cdlatex)

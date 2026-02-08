@@ -15,7 +15,7 @@
 
 (require 'init-bindings)
 
-(require 'init-dashboard)
+;; (require 'init-dashboard)
 
 (require 'init-workspace)
 (require 'init-dired)
