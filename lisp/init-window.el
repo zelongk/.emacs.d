@@ -16,6 +16,26 @@
                                       "*Ibuffer*"
                                       "*esh command on file*")))
 
+(defun split-window-horizontally-instead ()
+  "Kill other windows and split the current window is on the top half of the frame."
+  (interactive)
+  (let* ((next-window (next-window))
+         (other-buffer (and next-window (window-buffer next-window))))
+    (delete-other-windows)
+    (split-window-horizontally)
+    (when other-buffer
+      (set-window-buffer next-window other-buffer))))
+
+(defun split-window-vertically-instead ()
+  "Kill other windows and split the current window is on left half of the frame."
+  (interactive)
+  (let* ((next-window (next-window))
+         (other-buffer (and next-window (window-buffer next-window))))
+    (delete-other-windows)
+    (split-window-vertically)
+    (when other-buffer
+      (set-window-buffer next-window other-buffer))))
+
 (use-package ace-window
   :hook (emacs-startup . ace-window-display-mode)
   :bind (([remap other-window] . ace-window)
@@ -37,8 +57,9 @@
      ("n" balance-windows "balance"))
     "Split"
     (("r" split-window-right "horizontally")
+     ("R" split-window-horizontally-instead "horizontally")
      ("v" split-window-below "vertically")
-     ("t" toggle-window-split "toggle"))
+     ("V" split-window-vertically-instead "vertically"))
     "Zoom"
     (("+" text-scale-increase "in")
      ("=" text-scale-increase "in")
