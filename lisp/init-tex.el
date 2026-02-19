@@ -5,9 +5,9 @@
 			      ("./configure" "--without-texmf-dir" "--with-lispdir=.")
                               ("make")))
   :mode (("\\.tex\\'" . LaTeX-mode))
-  :hook prettify-symbols-mode
-  :hook visual-line-mode
-  :hook turn-on-reftex
+  :hook (LaTeX-mode . prettify-symbols-mode)
+  :hook (LaTeX-mode . visual-line-mode)
+  :hook (LaTeX-mode . turn-on-reftex)
   :bind (:map LaTeX-mode-map
               ("C-S-e" . latex-math-from-calc))
   :custom

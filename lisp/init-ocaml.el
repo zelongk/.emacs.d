@@ -12,9 +12,8 @@
 (use-package ocaml-eglot
   :ensure t
   :after tuareg
-  :hook
-  (tuareg-mode . ocaml-eglot)
-  (ocaml-eglot . eglot-ensure)
+  :hook (tuareg-mode . ocaml-eglot)
+  :hook (ocaml-eglot . eglot-ensure)
   :config
   (setq ocaml-eglot-syntax-checker 'flycheck))
 
