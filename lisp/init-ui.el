@@ -62,7 +62,8 @@
 (pcase system-type
   ('darwin  ; macOS
    (set-face-attribute 'default nil :font "Sarasa Term SC-20")  ; 20 * 1.5
-   ;; (set-face-attribute 'variable-pitch nil :font "Bookerly-18" :weight 'light) 
+   (set-face-attribute 'variable-pitch nil :font "Bookerly-18" :weight 'light)
+   (set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC-20")
    
    (add-to-list 'default-frame-alist '(height . 53))
    (add-to-list 'default-frame-alist '(width . 120)))
@@ -72,9 +73,8 @@
    (add-to-list 'default-frame-alist '(height . 40))
    (add-to-list 'default-frame-alist '(width . 90))))
 
-;; (use-package mixed-pitch
-  ;; :hook text-mode
-  ;; :hook org-mode)
+(use-package mixed-pitch
+  :hook org-mode)
 
 (use-package diff-hl
   :init (global-diff-hl-mode))

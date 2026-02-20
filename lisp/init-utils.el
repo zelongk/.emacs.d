@@ -33,9 +33,10 @@
      'grep-find-template "rg --color=auto --null -nH --no-heading -e <R> <D>")))
 
 (use-package pdf-tools
-  :init
+  :config
   (pdf-tools-install))
 
-  
+(use-package keycast
+  :hook (elpaca-after-init . keycast-mode-line-mode))
 
 (provide 'init-utils)
