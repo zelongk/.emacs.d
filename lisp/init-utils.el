@@ -37,6 +37,6 @@
   (pdf-tools-install))
 
 (use-package keycast
-  :hook (elpaca-after-init . keycast-mode-line-mode))
+  :hook (elpaca-after-init . keycast-header-line-mode))
 
 (provide 'init-utils)

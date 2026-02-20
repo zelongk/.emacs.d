@@ -15,22 +15,35 @@
 (use-package solaire-mode
   :hook (elpaca-after-init . solaire-global-mode))
 
-(use-package standard-themes :demand t)
+;; (use-package standard-themes :demand t)
 (use-package ef-themes :demand t)
-(use-package doom-themes
-  :demand t
+;; (use-package doom-themes
+;;   :demand t
+;;   :init
+;;   (setq doom-themes-enable-bold t)
+;;   (setq doom-themes-enable-italic t))
+
+(use-package modus-themes
   :init
-  (setq doom-themes-enable-bold t)
-  (setq doom-themes-enable-italic t)
-  (load-theme 'standard-wombat t))
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs t)
+  (require 'modus-summer-time)
+  (load-theme 'modus-operandi-tinted t))
 
 (use-package rainbow-delimiters
     :hook ((prog-mode . rainbow-delimiters-mode)
            (typst-ts-mode . rainbow-delimiters-mode)
            (foo-mode . rainbow-delimiters-mode)))
 
+(use-package rainbow-mode
+  :hook elpaca-after-init)
+
 ;; (use-package doom-modeline
-;;   :hook (elpaca-after-init . doom-modeline-mode))
+;;   :hook (elpaca-after-ninit . doom-modeline-mode)
+;;   :config
+;;   (setq doom-modeline-support-imenu t
+;;         doom-modeline-height 30
+;;         doom-modeline-bar-width 8))
 (use-package minions
   :hook elpaca-after-init)
 
@@ -62,7 +75,7 @@
 (pcase system-type
   ('darwin  ; macOS
    (set-face-attribute 'default nil :font "Sarasa Term SC-20")  ; 20 * 1.5
-   (set-face-attribute 'variable-pitch nil :font "Bookerly-18" :weight 'light)
+   (set-face-attribute 'variable-pitch nil :font "Bookerly-20" :weight 'light)
    (set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC-20")
    
    (add-to-list 'default-frame-alist '(height . 53))
@@ -73,8 +86,8 @@
    (add-to-list 'default-frame-alist '(height . 40))
    (add-to-list 'default-frame-alist '(width . 90))))
 
-(use-package mixed-pitch
-  :hook org-mode)
+;; (use-package mixed-pitch
+;;   :hook org-mode)
 
 (use-package diff-hl
   :init (global-diff-hl-mode))

@@ -28,7 +28,8 @@
                   circe-mode-hook
                   help-mode-hook
                   gud-mode-hook
-		  treemacs-mode-hook
+		          treemacs-mode-hook
+                  org-mode-hook
                   vterm-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode -1))))
   (setq display-line-numbers-type 'relative)

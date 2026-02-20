@@ -123,4 +123,10 @@
   :bind ("C-x u" . vundo)
   :config (setq vundo-glyph-alist vundo-unicode-symbols))
 
+(use-package olivetti
+  :hook org-mode
+  :custom
+  (olivetti-style 'fancy)
+  (olivetti-margin-width 5))
+
 (provide 'init-edit)

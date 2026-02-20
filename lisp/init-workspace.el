@@ -9,7 +9,8 @@
              tabspaces-open-or-create-project-and-workspace)
   :hook (elpaca-after-init . tabspaces-mode)
   :bind (:map tabspaces-mode-map
-              ([remap project-switch-project] . tabspaces-open-or-create-project-and-workspace))
+              ([remap project-switch-project] . tabspaces-open-or-create-project-and-workspace)
+              ("C-c o l" . tabspaces-restore-session))
   
   :custom
   (tab-bar-show nil)
