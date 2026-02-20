@@ -57,9 +57,9 @@
      ("n" balance-windows "balance"))
     "Split"
     (("r" split-window-right "horizontally")
-     ("R" split-window-horizontally-instead "horizontally")
+     ("R" split-window-horizontally-instead "split-window-horizontally-instead")
      ("v" split-window-below "vertically")
-     ("V" split-window-vertically-instead "vertically"))
+     ("V" split-window-vertically-instead "split-window-vertically-instead"))
     "Zoom"
     (("+" text-scale-increase "in")
      ("=" text-scale-increase "in")
