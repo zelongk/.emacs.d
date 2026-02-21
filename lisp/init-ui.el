@@ -2,7 +2,8 @@
 
 ;; (setq idle-update-delay 1.0)
 
-;; (setq-default line-spacing 0.16)
+;; (setq-default line-height 0.16)
+;; (setq-local default-text-properties '(line-spacing 0.1 line-height 1.1))
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
 
@@ -17,9 +18,23 @@
 
 ;; (use-package standard-themes :demand t)
 (use-package ef-themes :demand t)
-(use-package doric-themes :demand t
-  :config
-  (doric-themes-load-random))
+(use-package doric-themes
+  :demand t
+  :init
+  (mapc #'disable-theme custom-enabled-themes)
+  (let* ((themes '(doric-plum
+                 doric-fire
+                 doric-oak
+                 doric-jade
+                 doric-wind
+                 doric-beach
+                 doric-earth
+                 doric-cherry
+                 doric-marble
+                 doric-valley))
+       (loaded (seq-random-elt themes)))
+  (load-theme loaded :no-confirm)))
+
 ;; (use-package doom-themes
 ;;   :demand t
 ;;   :init
@@ -32,9 +47,17 @@
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
-        modus-themes-mixed-fonts t))
-;;   :config
-;;   (modus-themes-load-theme 'modus-operandi-tinted))
+        modus-themes-mixed-fonts t)
+  (setq modus-themes-headings ; read the manual's entry or the doc string
+        '((0 . (regular 1))
+          (1 . (regular 1))
+          (2 . (regular 1))
+          (3 . (regular 1))
+          (4 . (regular 1))
+          (5 . (regular 1)) ; absence of weight means `bold'
+          (6 . (regular 1))
+          (7 . (regular 1))
+          (t . (regular 1)))))
 
 (use-package rainbow-delimiters
     :hook ((prog-mode . rainbow-delimiters-mode)
@@ -50,8 +73,8 @@
 ;;   (setq doom-modeline-support-imenu t
 ;;         doom-modeline-height 30
 ;;         doom-modeline-bar-width 8))
-;; (use-package minions
-;;   :hook elpaca-after-init)
+(use-package minions
+  :hook elpaca-after-init)
 
 (use-package hide-mode-line
   :autoload turn-off-hide-mode-line-mode
