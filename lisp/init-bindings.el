@@ -15,7 +15,6 @@
 (global-set-key (kbd "C-c q r") #'restart-emacs)
 
 (global-set-key (kbd "C-c C-c") #'compile)
-
-(global-set-key (kbd "C-x b") 'ibuffer)
+(global-set-key (kbd "C-x C-b") #'ibuffer)
 
 (provide 'init-bindings)

@@ -150,7 +150,7 @@
          ("M-g k" . consult-keep-lines)
          ("M-g u" . consult-focus-lines)
 	     ("C-x C-r" . consult-recent-file)
-	     ("C-x C-b" . consult-buffer)
+	     ("C-x b" . consult-buffer)
 
          ("M-g e" . consult-isearch-history)
          :map isearch-mode-map
