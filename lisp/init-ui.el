@@ -26,9 +26,11 @@
 (use-package modus-themes
   :init
   (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t)
+        modus-themes-bold-constructs t
+        modus-themes-mixed-fonts t)
   (require 'modus-summer-time)
-  (load-theme 'modus-operandi-tinted t))
+  :config
+  (modus-themes-load-theme 'modus-operandi-tinted))
 
 (use-package rainbow-delimiters
     :hook ((prog-mode . rainbow-delimiters-mode)
