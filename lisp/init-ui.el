@@ -17,20 +17,24 @@
 
 ;; (use-package standard-themes :demand t)
 (use-package ef-themes :demand t)
+(use-package doric-themes :demand t
+  :config
+  (doric-themes-load-random))
 ;; (use-package doom-themes
 ;;   :demand t
 ;;   :init
 ;;   (setq doom-themes-enable-bold t)
 ;;   (setq doom-themes-enable-italic t))
 
+
+;; (require 'modus-summer-time)
 (use-package modus-themes
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
-        modus-themes-mixed-fonts t)
-  (require 'modus-summer-time)
-  :config
-  (modus-themes-load-theme 'modus-operandi-tinted))
+        modus-themes-mixed-fonts t))
+;;   :config
+;;   (modus-themes-load-theme 'modus-operandi-tinted))
 
 (use-package rainbow-delimiters
     :hook ((prog-mode . rainbow-delimiters-mode)
@@ -46,8 +50,8 @@
 ;;   (setq doom-modeline-support-imenu t
 ;;         doom-modeline-height 30
 ;;         doom-modeline-bar-width 8))
-(use-package minions
-  :hook elpaca-after-init)
+;; (use-package minions
+;;   :hook elpaca-after-init)
 
 (use-package hide-mode-line
   :autoload turn-off-hide-mode-line-mode
@@ -131,5 +135,7 @@
 
 (use-package beacon
   :hook elpaca-after-init)
+
+(use-package spacious-padding)
 
 (provide 'init-ui)

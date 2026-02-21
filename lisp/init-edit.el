@@ -127,6 +127,7 @@
   :hook org-mode
   :custom
   (olivetti-style 'fancy)
-  (olivetti-margin-width 5))
+  (olivetti-margin-width 5)
+  (olivetti-body-width 90))
 
 (provide 'init-edit)
