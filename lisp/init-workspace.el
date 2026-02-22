@@ -37,7 +37,7 @@
   ;; sessions
   (tabspaces-session t)
   ;; (tabspaces-session-auto-restore t)
-  (tabspaces-keymap-prefix "C-c TAB")
+  (tabspaces-keymap-prefix "C-c o")
   (tab-bar-new-tab-choice "default")
   
   (with-eval-after-load 'consult

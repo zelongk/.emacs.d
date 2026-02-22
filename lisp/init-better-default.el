@@ -71,7 +71,6 @@
 
 (setq ring-bell-function 'ignore)
 (setq undo-limit 80000000
-      auto-save-default t
       password-cache-expiry nil)
 
 (setq-default delete-by-moving-to-trash t
@@ -129,7 +128,7 @@
          (lambda (button)
            (helpful-variable (button-get button 'apropos-symbol))))))))
 
-(setq auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory "auto-save/") t)))
+;; (setq auto-save-file-name-transforms
+;;       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
 
 (provide 'init-better-default)

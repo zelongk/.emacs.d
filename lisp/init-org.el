@@ -183,6 +183,10 @@ the element after the #+HEADER: tag."
           ("BUG" error bold)
           ("XXX" font-lock-constant-face bold))))
 
+(add-hook 'org-mode-hook
+          (lambda ()
+            (yas-activate-extra-mode 'LaTeX-mode)))
+
 (use-package org-latex-preview
   :ensure nil
   :hook (org-mode . org-latex-preview-mode)
@@ -283,17 +287,7 @@ the element after the #+HEADER: tag."
               ("C-M-y" . org-download-clipboard))
   :config
   (setq-default org-download-heading-lvl 1)
-  (defconst org-download-root-directory "./attachments/")
-  (defun set-org-download-directory ()
-    (create-directory-if-not-exists org-download-root-directory)
-    (make-local-variable 'org-download--dir)
-    (setq org-download-image-dir (concat  org-download-root-directory (buffer-name)))
-    (setq org-download-heading-lvl nil)
-    (setq org-attach-directory  org-download-image-dir)
-    (message "set-org-download-directory")
-    )
-
-    (add-hook 'org-mode-hook #'set-org-download-directory)
+  (defconst org-download-image-dir "./attachments/")
   (setq-default org-download-method 'directory))
 
 (use-package valign
