@@ -264,6 +264,7 @@ the element after the #+HEADER: tag."
          ("C-c n g" . org-roam-graph)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
+         ("C-c n w" . org-roam-refile)
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today))
   :config
@@ -276,9 +277,30 @@ the element after the #+HEADER: tag."
 (use-package org-roam-ui)
 
 (use-package org-download
-  :after org)
+  :autoload org-download-clipboard
+  :hook ((org-mode dired-mode) . org-download-enable)
+  :bind (:map org-mode-map
+              ("C-M-y" . org-download-clipboard))
+  :config
+  (setq-default org-download-heading-lvl 1)
+  (defconst org-download-root-directory "./attachments/")
+  (defun set-org-download-directory ()
+    (create-directory-if-not-exists org-download-root-directory)
+    (make-local-variable 'org-download--dir)
+    (setq org-download-image-dir (concat  org-download-root-directory (buffer-name)))
+    (setq org-download-heading-lvl nil)
+    (setq org-attach-directory  org-download-image-dir)
+    (message "set-org-download-directory")
+    )
+
+    (add-hook 'org-mode-hook #'set-org-download-directory)
+  (setq-default org-download-method 'directory))
 
 (use-package valign
   :hook (org-mode . valign-mode))
+
+(use-package org-noter
+  :config
+  (use-package djvu))
 
 (provide 'init-org)

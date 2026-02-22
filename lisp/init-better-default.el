@@ -129,4 +129,7 @@
          (lambda (button)
            (helpful-variable (button-get button 'apropos-symbol))))))))
 
+(setq auto-save-file-name-transforms
+      `((".*" ,(concat user-emacs-directory "auto-save/") t)))
+
 (provide 'init-better-default)

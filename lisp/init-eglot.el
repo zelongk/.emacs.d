@@ -34,7 +34,10 @@
   :config
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
 
-(use-package eldoc-box
-  :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
+;; (use-package eldoc-box
+;;   :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
+
+(use-package eldoc-mouse
+  :hook eldoc-mode)
 
 (provide 'init-eglot)

@@ -20,20 +20,23 @@
 (use-package ef-themes :demand t)
 (use-package doric-themes
   :demand t
+  :bind ("<f5>" . doric-load-random)
   :init
   (mapc #'disable-theme custom-enabled-themes)
-  (let* ((themes '(doric-plum
-                 doric-fire
-                 doric-oak
-                 doric-jade
-                 doric-wind
-                 doric-beach
-                 doric-earth
-                 doric-cherry
-                 doric-marble
-                 doric-valley))
-       (loaded (seq-random-elt themes)))
-  (load-theme loaded :no-confirm)))
+  (defun doric-load-random ()
+    (interactive)
+    (let* ((themes '(doric-plum
+                     doric-fire
+                     doric-oak
+                     doric-jade
+                     doric-wind
+                     doric-beach
+                     doric-earth
+                     doric-valley))
+           (loaded (seq-random-elt themes)))
+      (load-theme loaded :no-confirm)))
+  (doric-load-random)
+  )
 
 ;; (use-package doom-themes
 ;;   :demand t
