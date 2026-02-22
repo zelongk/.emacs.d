@@ -32,6 +32,7 @@
                      doric-wind
                      doric-beach
                      doric-earth
+                     doric-water
                      doric-valley))
            (loaded (seq-random-elt themes)))
       (load-theme loaded :no-confirm)))

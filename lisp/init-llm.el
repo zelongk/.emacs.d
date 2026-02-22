@@ -14,4 +14,7 @@
 (use-package gptel-magit
   :hook (magit-mode . gptel-magit-install))
 
+(use-package gptel-agent
+  :config (gptel-agent-update))  
+
 (provide 'init-llm)
