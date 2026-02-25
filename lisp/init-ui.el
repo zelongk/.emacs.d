@@ -77,8 +77,8 @@
 ;;   (setq doom-modeline-support-imenu t
 ;;         doom-modeline-height 30
 ;;         doom-modeline-bar-width 8))
-(use-package minions
-  :hook elpaca-after-init)
+;; (use-package minions
+;;   :hook elpaca-after-init)
 
 (use-package hide-mode-line
   :autoload turn-off-hide-mode-line-mode
@@ -161,6 +161,7 @@
   :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
 
 (use-package beacon
+  :diminish
   :hook elpaca-after-init)
 
 (use-package spacious-padding)

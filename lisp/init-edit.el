@@ -1,37 +1,40 @@
 ;; -*- lexical-binding: t -*-
 
-;; (use-package smartparens
-;;   :hook (elpaca-after-init . smartparens-global-mode)
-;;   ;; :hook (elpaca-after-init . smartparens-global-strict-mode)
-;;   :init (sp-use-paredit-bindings)
-;;   :config
-;;     ;; Autopair quotes more conservatively; if I'm next to a word/before another
-;;     ;; quote, I don't want to open a new pair or it would unbalance them.
-;;     (let ((unless-list '(sp-point-before-word-p
-;;                          sp-point-after-word-p
-;;                          sp-point-before-same-p)))
-;;       (sp-pair "'"  nil :unless unless-list)
-;;       (sp-pair "\"" nil :unless unless-list))
-;;     (dolist (brace '("(" "{" "["))
-;;       (sp-pair brace nil
-;;                :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
-;;                ;; Don't autopair opening braces if before a word character or
-;;                ;; other opening brace. The rationale: it interferes with manual
-;;                ;; balancing of braces, and is odd form to have s-exps with no
-;;                ;; whitespace in between, e.g. ()()(). Insert whitespace if
-;;                ;; genuinely want to start a new form in the middle of a word.
-;;                :unless '(sp-point-before-word-p sp-point-before-same-p)))
+(use-package smartparens
+  :diminish
+  :hook (elpaca-after-init . smartparens-global-mode)
+  ;; :hook (elpaca-after-init . smartparens-global-strict-mode)
+  :init (sp-use-paredit-bindings)
+  :config
+    ;; Autopair quotes more conservatively; if I'm next to a word/before another
+    ;; quote, I don't want to open a new pair or it would unbalance them.
+    (let ((unless-list '(sp-point-before-word-p
+                         sp-point-after-word-p
+                         sp-point-before-same-p)))
+      (sp-pair "'"  nil :unless unless-list)
+      (sp-pair "\"" nil :unless unless-list))
+    (dolist (brace '("(" "{" "["))
+      (sp-pair brace nil
+               :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
+               ;; Don't autopair opening braces if before a word character or
+               ;; other opening brace. The rationale: it interferes with manual
+               ;; balancing of braces, and is odd form to have s-exps with no
+               ;; whitespace in between, e.g. ()()(). Insert whitespace if
+               ;; genuinely want to start a new form in the middle of a word.
+               :unless '(sp-point-before-word-p sp-point-before-same-p)))
     
-;;     (sp-local-pair sp-lisp-modes "(" ")" :unless '(:rem sp-point-before-same-p))
+    (sp-local-pair sp-lisp-modes "(" ")" :unless '(:rem sp-point-before-same-p))
     
-;;     ;; Don't do square-bracket space-expansion where it doesn't make sense to
-;;     (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode markdown-ts-mode gfm-mode)
-;;                    "[" nil :post-handlers '(:rem ("| " "SPC")))
-;;     )
+    ;; Don't do square-bracket space-expansion where it doesn't make sense to
+    (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode markdown-ts-mode gfm-mode)
+                   "[" nil :post-handlers '(:rem ("| " "SPC")))
+    
+    ;; resolve conflict with hungry-delete
+    (defadvice hungry-delete-backward (before sp-delete-pair-advice activate) (save-match-data (sp-delete-pair (ad-get-arg 0)))))
 
-(use-package electric-pair
-  :ensure nil
-  :hook elpaca-after-init)
+;; (use-package electric-pair
+;;   :ensure nil
+;;   :hook elpaca-after-init)
 
 ;; Hungry deletion
 (use-package hungry-delete
@@ -43,6 +46,7 @@
     
 ;; Yasnippet settings
 (use-package yasnippet
+  :diminish
   :ensure t
   :hook (elpaca-after-init . yas-global-mode)
   :hook ((LaTeX-mode . yas-minor-mode)
@@ -65,13 +69,17 @@
       (let ((yas-buffer-local-condition ''(require-snippet-condition . auto)))
         (yas-expand)))))
 
-(setq-default abbrev-mode t)
-(setq abbrev-file-name (expand-file-name "abbrev.el" user-emacs-directory))
+(use-package abbrev
+  :diminish
+  :ensure nil
+  :config
+  (setq-default abbrev-mode t)
+  (setq abbrev-file-name (expand-file-name "abbrev.el" user-emacs-directory)))
 
 (use-package autorevert
   :ensure nil
   :diminish
-  :hook (after-init . global-auto-revert-mode))
+  :hook (elpaca-after-init . global-auto-revert-mode))
 
 (use-package multiple-cursors
   :hook elpaca-after-init

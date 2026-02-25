@@ -37,7 +37,12 @@
 ;; (use-package eldoc-box
 ;;   :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
 
+(use-package eldoc
+  :ensure nil
+  :diminish)
+
 (use-package eldoc-mouse
+  :diminish
   :hook eldoc-mode)
 
 (provide 'init-eglot)

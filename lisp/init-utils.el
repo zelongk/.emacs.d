@@ -36,9 +36,9 @@
   :config
   (pdf-tools-install))
 
-(use-package keycast
-  :hook (elpaca-after-init . keycast-tab-bar-mode)
-  :config
-  (setq keycast-mode-line-remove-tail-elements nil))
+;; (use-package keycast
+;;   :hook (elpaca-after-init . keycast-mode-line-mode)
+;;   :config
+;;   (setq keycast-mode-line-remove-tail-elements nil))
 
 (provide 'init-utils)

@@ -56,11 +56,13 @@
 ;;For example:
 ;;(use-package general :ensure (:wait t) :demand t)
 
+(setq elpaca-lock-file (expand-file-name "lock-file.eld" user-emacs-directory))
+
 (setq use-package-always-ensure t
       use-package-expand-minimally t
       use-package-always-defer t)
 
-
+(use-package diminish)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

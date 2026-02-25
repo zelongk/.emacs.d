@@ -2,6 +2,7 @@
 
 
 (use-package gcmh
+  :diminish
   :init
   (gcmh-mode 1)
   :config

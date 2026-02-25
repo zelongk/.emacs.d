@@ -65,9 +65,10 @@
 
 (pcase system-type ('darwin (setq insert-directory-program "gls")))
     
-(setq-default tab-width 4
-	          compilation-scroll-output t
-	          indent-tabs-mode nil)
+(setq-default tab-width 2
+              standard-indent 2
+	            compilation-scroll-output t
+	            indent-tabs-mode nil)
 
 (setq ring-bell-function 'ignore)
 (setq undo-limit 80000000
@@ -128,7 +129,10 @@
          (lambda (button)
            (helpful-variable (button-get button 'apropos-symbol))))))))
 
+(setq auto-save-default nil)
 ;; (setq auto-save-file-name-transforms
 ;;       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
+
+
 
 (provide 'init-better-default)
