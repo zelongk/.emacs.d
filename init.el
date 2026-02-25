@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; blablabla
 
+(require 'init-elpaca)
+(require 'init-gc)
 (require 'init-better-default)
 
 (require 'init-hydra)

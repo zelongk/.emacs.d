@@ -3,6 +3,7 @@
 
 (use-package gcmh
   :diminish
+  :ensure (:wait t) ;; what does this do in elpaca 
   :init
   (gcmh-mode 1)
   :config

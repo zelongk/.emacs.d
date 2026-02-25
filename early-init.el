@@ -1,14 +1,19 @@
 ;; -*- lexical-binding: t -*-
 
-(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
+
+;; After init, use gcmh
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold #x6400000
+                  gc-cons-percentage 0.1)))
+
 (setq package-enable-at-startup nil)
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 (setq use-package-enable-imenu-support t)
 (setq load-prefer-newer noninteractive)
-
-(require 'init-elpaca)
-(require 'init-gc)
 
 (prefer-coding-system 'utf-8)
 ;; Inhibit resizing frame

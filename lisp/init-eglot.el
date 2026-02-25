@@ -7,17 +7,18 @@
                         (unless (derived-mode-p
                                  'emacs-lisp-mode 'lisp-mode
                                  'makefile-mode 'snippet-mode
+                                 'lisp-interaction-mode
                                  'ron-mode)
                           (eglot-ensure))))
          ((markdown-mode yaml-mode yaml-ts-mode) . eglot-ensure))
-  :init
+  :bind (:map eglot-mode-map
+	          ("C-c c a" . eglot-code-actions))
+  :config
+  (setq completion-category-defaults nil)
   (setq eglot-autoshutdown t
         eglot-events-buffer-config 0
         eglot-send-changes-idle-time 0.5
-        eglot-code-action-indications '(eldoc-hint))
-  :bind (:map eglot-mode-map
-	          ("C-c c a" . eglot-code-actions))
-  :config (setq completion-category-defaults nil))
+        eglot-code-action-indications '(eldoc-hint)))
 
 (use-package eglot-booster
   :ensure (eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")
