@@ -55,11 +55,9 @@
 (setq-default cursor-type 'bar)
 (setq make-backup-files nil)
 (setq use-short-answers t)
-(setq frame-title-format "\n")
+;; (setq frame-title-format "\n")
 (setq custom-safe-themes t)
 
-;; 隐藏 title bar
-(setq default-frame-alist '((undecorated-round . t)))
 (add-to-list 'default-frame-alist '(drag-internal-border . 1))
 (add-to-list 'default-frame-alist '(internal-border-width . 5))
 

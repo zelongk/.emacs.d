@@ -13,6 +13,9 @@
 (setq frame-inhibit-implied-resize t
       frame-resize-pixelwise t)
 
+;; 隐藏 title bar
+(setq default-frame-alist '((undecorated-round . t)))
+
 (use-package solaire-mode
   :hook (elpaca-after-init . solaire-global-mode))
 

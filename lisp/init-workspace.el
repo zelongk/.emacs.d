@@ -63,8 +63,8 @@
   :hook elpaca-after-init
   :bind (("C-x b" . beframe-switch-buffer)
          ("C-x C-b" . beframe-buffer-menu)
-         ("C-x f" . other-frame-prefix)))
-  ;; :config
-  ;; (setq beframe-functions-in-frames '(project-prompt-project-dir)))
+         ("C-x f" . other-frame-prefix))
+  :config
+  (define-key global-map (kbd "C-c b") #'beframe-prefix-map))
 
 (provide 'init-workspace)
