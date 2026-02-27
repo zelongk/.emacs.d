@@ -45,6 +45,8 @@
   :ensure nil
   :hook (elpaca-after-init . show-paren-mode))
 
+(setq-default show-trailing-whitespace t)
+
 (recentf-mode 1)
 (use-package recentf
   :ensure nil
@@ -62,7 +64,7 @@
 (add-to-list 'default-frame-alist '(internal-border-width . 5))
 
 (pcase system-type ('darwin (setq insert-directory-program "gls")))
-    
+
 (setq-default tab-width 2
               standard-indent 2
 	            compilation-scroll-output t
