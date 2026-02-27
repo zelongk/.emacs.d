@@ -16,6 +16,8 @@
                 :test 'equal))
 
   (setq yas-triggers-in-field t)
+
+  ;; Snippets trigger inside a word
   (setq yas-key-syntaxes (list #'yas-longest-key-from-whitespace "w_.()" "w_." "w_" "w"))
   
   ;; Function that tries to autoexpand YaSnippets
