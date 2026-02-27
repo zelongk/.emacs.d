@@ -24,6 +24,7 @@
 
 (require 'init-llm)
 
+(require 'init-snippet)
 (require 'init-coding)
 (require 'init-check)
 (require 'init-eglot)

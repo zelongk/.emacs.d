@@ -12,7 +12,6 @@
 (global-set-key (kbd "M-p") #'duplicate-dwim)
 (global-set-key (kbd "C-c y") #'copy-from-above-command)
 (global-set-key (kbd "s-k") #'kill-current-buffer)
-(global-set-key (kbd "C-c q r") #'restart-emacs)
 
 (global-set-key (kbd "C-c C-c") #'compile)
 
