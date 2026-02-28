@@ -28,14 +28,12 @@
   (mapc #'disable-theme custom-enabled-themes)
   (defun doric-load-random ()
     (interactive)
-    (let* ((themes '(doric-plum
-                     doric-fire
+    (let* ((themes '(doric-fire
                      doric-oak
                      doric-jade
                      doric-wind
                      doric-beach
                      doric-earth
-                     doric-water
                      doric-valley))
            (loaded (seq-random-elt themes)))
       (load-theme loaded :no-confirm)))

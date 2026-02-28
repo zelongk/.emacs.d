@@ -45,9 +45,10 @@
   :ensure nil
   :hook (elpaca-after-init . show-paren-mode))
 
-(setq-default show-trailing-whitespace t)
+;; Show trailing whitespace only in prog-mode and text-mode
+(add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+(add-hook 'text-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
-(recentf-mode 1)
 (use-package recentf
   :ensure nil
   :hook (elpaca-after-init . recentf-mode)
@@ -129,7 +130,7 @@
          (lambda (button)
            (helpful-variable (button-get button 'apropos-symbol))))))))
 
-(setq auto-save-default nil)
+(setq-default auto-save-default nil)
 ;; (setq auto-save-file-name-transforms
 ;;       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
 

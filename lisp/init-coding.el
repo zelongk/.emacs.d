@@ -15,16 +15,16 @@
 ;; 			("terminfo/65" "terminfo/65/*")
 ;; 			("integration" "integration/*")
 ;; 			(:exclude ".dir-locals.el" "*-tests.el")))
-;;   :config  
+;;   :config
 ;;   )
 
 (use-package vterm)
 
 
 (use-package vterm-toggle
-  :bind ("C-\\" . vterm-toggle)
+  :bind ("C-`" . vterm-toggle)
   :config
-  (define-key vterm-mode-map (kbd "C-\\") #'vterm-toggle))
+  (define-key vterm-mode-map (kbd "C-`") #'vterm-toggle))
 
 (use-package editorconfig
   :diminish

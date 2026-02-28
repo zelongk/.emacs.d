@@ -22,13 +22,13 @@
                ;; whitespace in between, e.g. ()()(). Insert whitespace if
                ;; genuinely want to start a new form in the middle of a word.
                :unless '(sp-point-before-word-p sp-point-before-same-p)))
-    
+
     (sp-local-pair sp-lisp-modes "(" ")" :unless '(:rem sp-point-before-same-p))
-    
+
     ;; Don't do square-bracket space-expansion where it doesn't make sense to
     (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode markdown-ts-mode gfm-mode)
                    "[" nil :post-handlers '(:rem ("| " "SPC")))
-    
+
     ;; resolve conflict with hungry-delete
     (defadvice hungry-delete-backward (before sp-delete-pair-advice activate) (save-match-data (sp-delete-pair (ad-get-arg 0)))))
 
@@ -43,7 +43,7 @@
   :init (setq hungry-delete-chars-to-skip " \t\f\v"
               hungry-delete-except-modes
               '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
-    
+
 (use-package abbrev
   :diminish
   :ensure nil
@@ -104,6 +104,10 @@
 (use-package vundo
   :bind ("C-x u" . vundo)
   :config (setq vundo-glyph-alist vundo-unicode-symbols))
+
+;; Remember undo history
+(use-package undo-fu-session
+  :hook (elpaca-after-init . undo-fu-session-global-mode))
 
 (use-package olivetti
   :hook org-mode

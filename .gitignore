@@ -8,6 +8,7 @@
 /projects
 /bookmarks
 
+rime
 *~
 *.*~
 \#*
@@ -57,4 +58,5 @@ tabsession.el
 /persp-confs/
 /tree-sitter/
 /url/
+/undo-fu-session/
 /..emacs.d-tabspaces-session.el

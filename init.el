@@ -10,6 +10,7 @@
 
 (require 'init-utils)
 (require 'init-completion)
+(require 'init-input)
 
 (require 'init-edit)
 (require 'init-window)
