@@ -7,12 +7,12 @@
 
 (use-package org
   :defer
-  :ensure `(org :repo "https://code.tecosaur.net/tec/org-mode.git/"
+  :ensure (org :repo "https://code.tecosaur.net/tec/org-mode.git/"
                 :branch "dev")
   :hook (org-mode . org-cdlatex-mode)
   :hook (org-mode . org-indent-mode)
   :hook (org-mode . visual-line-mode)
-  
+
   :pretty-hydra
   ;; See `org-structure-template-alist'
   ((:color blue :quit-key ("q" "C-g"))
@@ -91,7 +91,7 @@ the element after the #+HEADER: tag."
   (setq org-startup-indented t)
   (setq org-pretty-entities t
         org-pretty-entities-include-sub-superscripts nil)
-  
+
   (setq org-default-note-file (expand-file-name "notes.org" org-directory)
         org-capture-templates
         '(("t" "Personal todo" entry
@@ -103,10 +103,10 @@ the element after the #+HEADER: tag."
           ("j" "Journal" entry
            (file+olp+datetree "diary.org")
            "* %U %?\n%i\n%a" :prepend t))
-          
+
         org-todo-keywords
         '((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "DONE(d)" "NO(n)")))
-  
+
   (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
   (add-hook 'org-after-refile-insert-hook
             (defun save-buffer-after-capture ()
@@ -194,6 +194,7 @@ the element after the #+HEADER: tag."
   :config
   (plist-put org-latex-preview-appearance-options
              :page-width 0.8)
+
   ;; ;; Block C-n, C-p etc from opening up previews when using `org-latex-preview-mode'
   ;; (setq org-latex-preview-mode-ignored-commands
   ;;       '(next-line previous-line mwheel-scroll

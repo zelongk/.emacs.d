@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: template
+# key: template
+# --
+\documentclass[12pt]{/Users/zelongk/Documents/latex/elegantbook}
+
+\title{$1}
+
+\author{`user-full-name`}
+\institute{Whichever-you-like university}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+% logo
+% \centerline{\includegraphics[width=0.2\textwidth]{logo-blue}}
+
+\newpage
+\tableofcontents
+
+$0
+
+\end{document}

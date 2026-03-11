@@ -3,6 +3,8 @@
 
 (use-package project)
 
+(global-set-key (kbd "C-x C-b") #'ibuffer)
+
 ;; (use-package tab-bar
 ;;   :ensure nil
 ;;   :init
@@ -13,8 +15,6 @@
 ;;   (setq tab-bar-format '(tab-bar-format-tabs tab-bar-separator))
 
 ;;   (setq tab-bar-tab-hints t))
-
-(global-set-key (kbd "C-x C-b") #'ibuffer)
 
 ;; (use-package tabspaces
 ;;   :functions tabspaces-mode
@@ -39,7 +39,7 @@
 ;;   (tabspaces-session-auto-restore t)
 ;;   (tabspaces-keymap-prefix "C-c o")
 ;;   (tab-bar-new-tab-choice "default")
-  
+
 ;;   (with-eval-after-load 'consult
 ;;     ;; hide full buffer list (still available with "b" prefix)
 ;;     (consult-customize consult--source-buffer :hidden nil :default nil)
@@ -58,7 +58,7 @@
 
 ;;       "Set workspace buffer list for consult-buffer.")
 ;;     (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
- 
+
 (use-package beframe
   :hook elpaca-after-init
   :bind (("C-x b" . beframe-switch-buffer)

@@ -88,6 +88,12 @@
   :hook (elpaca-after-init . meow-global-mode)
   :config
   (meow-setup)
+  (setq meow-replace-state-name-list
+       '((normal . "<N>")
+         (motion . "<M>")
+         (keypad . "<K>")
+         (insert . "<I>")
+         (beacon . "<B>")))
   (setq meow-cursor-type-normal 'bar))
 
 (provide 'init-meow)

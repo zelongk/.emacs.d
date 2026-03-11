@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: set
-# key: set
+# key: sett
 # condition: (and (texmathp) 'auto)
 # group: math
 # --

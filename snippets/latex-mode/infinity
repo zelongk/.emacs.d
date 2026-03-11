@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
-# name: ker
-# key: ker
+# name: infinity
+# key: oo
 # group: math
 # condition: (and (texmathp) 'auto)
 # --
-\\ker
+\infty

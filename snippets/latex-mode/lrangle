@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: \left\langle ... \right\rangle
+# key: lra
+# condition: (and (texmathp) 'auto)
+# group: math
+# --
+\\left\\langle $1 \\right\\rangle$0

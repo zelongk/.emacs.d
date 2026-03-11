@@ -35,6 +35,7 @@
   (setq display-line-numbers-type 'relative)
   )
 (column-number-mode 1)
+(scroll-bar-mode -1)
 
 (use-package subword
   :ensure nil

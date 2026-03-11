@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
-# name: ker
-# key: ker
+# name: cdot
+# key: c.
 # group: math
 # condition: (and (texmathp) 'auto)
 # --
-\\ker
+\\cdot

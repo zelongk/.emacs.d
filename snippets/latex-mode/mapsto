@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
-# name: ker
-# key: ker
+# name: mapsto
+# key: mto
 # group: math
 # condition: (and (texmathp) 'auto)
 # --
-\\ker
+\\mapsto

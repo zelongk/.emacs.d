@@ -19,15 +19,15 @@
 (use-package solaire-mode
   :hook (elpaca-after-init . solaire-global-mode))
 
-;; (use-package standard-themes :demand t)
+(use-package standard-themes :demand t)
 (use-package ef-themes :demand t)
 (use-package doric-themes
   :demand t
   :bind ("<f5>" . doric-load-random)
   :init
-  (mapc #'disable-theme custom-enabled-themes)
   (defun doric-load-random ()
     (interactive)
+    (mapc #'disable-theme custom-enabled-themes)
     (let* ((themes '(doric-fire
                      doric-oak
                      doric-jade
@@ -72,14 +72,13 @@
 (use-package rainbow-mode
   :hook elpaca-after-init)
 
-;; (use-package doom-modeline
-;;   :hook (elpaca-after-ninit . doom-modeline-mode)
-;;   :config
-;;   (setq doom-modeline-support-imenu t
-;;         doom-modeline-height 30
-;;         doom-modeline-bar-width 8))
-;; (use-package minions
-;;   :hook elpaca-after-init)
+(use-package doom-modeline
+  :hook (elpaca-after-init . doom-modeline-mode)
+  :config
+  (setq doom-modeline-support-imenu t
+        doom-modeline-height 30
+        doom-modeline-buffer-file-name-style 'buffer-name
+        doom-modeline-enable-word-count t))
 
 (use-package hide-mode-line
   :autoload turn-off-hide-mode-line-mode
@@ -108,20 +107,21 @@
 
 (pcase system-type
   ('darwin  ; macOS
-   (set-face-attribute 'default nil :font "Sarasa Term SC-20")  ; 20 * 1.5
-   (set-face-attribute 'variable-pitch nil :font "Bookerly-20" :weight 'light)
-   (set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC-20")
-   
+   (set-face-attribute 'default nil :font "Sarasa Term SC-22")  ; 20 * 1.5
+   (set-face-attribute 'variable-pitch nil :font "Bookerly-22" :weight 'light)
+   (set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC-22")
+
    (add-to-list 'default-frame-alist '(height . 53))
    (add-to-list 'default-frame-alist '(width . 120)))
-  
+
   ('gnu/linux  ; Linux (including Debian)
    (set-face-attribute 'variable-pitch nil :font "Sarasa Term SC-14")  ; 20 * 1.5
    (add-to-list 'default-frame-alist '(height . 40))
    (add-to-list 'default-frame-alist '(width . 90))))
 
-;; (use-package mixed-pitch
-;;   :hook org-mode)
+(use-package mixed-pitch
+  :hook org-mode
+  :hook LaTeX-mode)
 
 (use-package diff-hl
   :init (global-diff-hl-mode))

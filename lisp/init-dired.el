@@ -8,18 +8,19 @@
   :config
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always
-        dired-recursive-copies 'always)
+        dired-recursive-copies 'always
+        dired-kill-when-opening-new-dired-buffer t)
 
   ;; Show directory first
   (setq dired-listing-switches "-alh --group-directories-first"
         dired-use-ls-dired t)
-  
+
   ;; Colorful dired
   (use-package diredfl
     :diminish
     :hook dired-mode
     :hook dirvish-directory-view-mode)
-  
+
 
   ;; Extra Dired functionality
   (use-package dired-aux :ensure nil))

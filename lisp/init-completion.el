@@ -255,10 +255,10 @@
   (advice-add #'persistent-scratch-save :before #'corfu-quit)
   (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
-(use-package nerd-icons-corfu
-  :init
-  (with-eval-after-load 'corfu
-    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)))
+;; (use-package nerd-icons-corfu
+;;   :init
+;;   (with-eval-after-load 'corfu
+;;     (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)))
 
 (use-package wgrep
   :commands wgrep-change-to-wgrep-mode

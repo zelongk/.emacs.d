@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
-# name: ker
-# key: ker
+# name: defined as
+# key: :=
 # group: math
 # condition: (and (texmathp) 'auto)
 # --
-\\ker
+\coloneqq

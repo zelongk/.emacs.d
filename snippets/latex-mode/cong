@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
-# name: not equal
-# key: !=
+# name: cong
+# key: ~=
 # condition: (and (texmathp) 'auto)
 # group: math
 # --
-\\ne
+\\cong

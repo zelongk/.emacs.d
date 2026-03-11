@@ -17,24 +17,24 @@
                                       "*esh command on file*")))
 
 (defun split-window-horizontally-instead ()
-  "Kill other windows and split the current window is on the top half of the frame."
+  "Kill other windows and split the current window horizontally."
   (interactive)
   (let* ((next-window (next-window))
          (other-buffer (and next-window (window-buffer next-window))))
     (delete-other-windows)
     (split-window-horizontally)
     (when other-buffer
-      (set-window-buffer next-window other-buffer))))
+      (set-window-buffer (next-window) other-buffer))))
 
 (defun split-window-vertically-instead ()
-  "Kill other windows and split the current window is on left half of the frame."
+  "Kill other windows and split the current window vertically."
   (interactive)
   (let* ((next-window (next-window))
          (other-buffer (and next-window (window-buffer next-window))))
     (delete-other-windows)
     (split-window-vertically)
     (when other-buffer
-      (set-window-buffer next-window other-buffer))))
+      (set-window-buffer (next-window) other-buffer))))
 
 (use-package ace-window
   :hook (emacs-startup . ace-window-display-mode)
@@ -133,7 +133,7 @@
           "\\*vc-.*\\**"
           "\\*diff-hl\\**"
           "^\\*macro expansion\\**"
-         
+
           "\\*Agenda Commands\\*" "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*"
           "\\*Gofmt Errors\\*$" "\\*Go Test\\*$" godoc-mode
           "\\*docker-.+\\*"
@@ -146,7 +146,7 @@
                (display-buffer-reuse-window display-buffer-in-direction)
                (direction . right)
                (window-width . 0.5)))
-  
+
   :config
   (with-no-warnings
     (defun my-popper-fit-window-height (win)
