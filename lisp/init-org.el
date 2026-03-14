@@ -6,7 +6,6 @@
 ;; 	   "* TODO %?\n%i\n%a" :prepend t))))
 
 (use-package org
-  :defer
   :ensure (org :repo "https://code.tecosaur.net/tec/org-mode.git/"
                 :branch "dev")
   :hook (org-mode . org-cdlatex-mode)
@@ -82,7 +81,7 @@ the element after the #+HEADER: tag."
       (when mod (insert mod) (forward-line))
       (when text (insert text))))
 
-  
+
   ;; (org-capture-init)
   (add-to-list 'org-modules 'org-habit)
   (setq org-directory "~/org/")
@@ -119,6 +118,7 @@ the element after the #+HEADER: tag."
 	(setq org-highlight-latex-and-related '(native script entities)))
 
 (use-package org-modern
+  :after org
   :hook (org-mode . org-modern-mode)
   :hook (org-agenda-finalize . org-modern-agenda)
   :init
@@ -261,7 +261,6 @@ the element after the #+HEADER: tag."
 
 (use-package org-roam
   :ensure t
-  :defer
   :custom
   (org-roam-directory (file-truename "~/org/roam"))
   :bind (("C-c n l" . org-roam-buffer-toggle)

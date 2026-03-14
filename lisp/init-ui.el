@@ -4,6 +4,16 @@
 
 ;; (setq-default line-height 0.16)
 ;; (setq-local default-text-properties '(line-spacing 0.1 line-height 1.1))
+
+
+;; Suppress GUI features
+(setq use-file-dialog nil
+      use-dialog-box nil
+      inhibit-startup-screen t
+      inhibit-startup-echo-area-message user-login-name
+      inhibit-default-init t
+      initial-scratch-message nil)
+
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
 
@@ -21,7 +31,7 @@
 
 (use-package standard-themes :demand t
   :config
-  (modus-themes-load-theme 'standard-wombat))
+  (modus-themes-load-theme 'standard-light))
 
 ;; (use-package doric-themes
 ;;   :demand t
@@ -68,7 +78,9 @@
   (setq doom-modeline-support-imenu t
         doom-modeline-height 30
         doom-modeline-buffer-file-name-style 'buffer-name
-        doom-modeline-enable-word-count t))
+        doom-modeline-enable-word-count t
+        doom-modeline-project-detection 'projectile
+        doom-modeline-project-name t))
 
 (use-package hide-mode-line
   :autoload turn-off-hide-mode-line-mode
@@ -77,14 +89,6 @@
            term-mode vterm-mode
            embark-collect-mode lsp-ui-imenu-mode
            pdf-annot-list-mode) . turn-on-hide-mode-line-mode)))
-
-;; Suppress GUI features
-(setq use-file-dialog nil
-      use-dialog-box nil
-      inhibit-startup-screen t
-      inhibit-startup-echo-area-message user-login-name
-      inhibit-default-init t
-      initial-scratch-message nil)
 
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
@@ -102,7 +106,7 @@
    (set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC-22")
 
    (add-to-list 'default-frame-alist '(height . 53))
-   (add-to-list 'default-frame-alist '(width . 120)))
+   (add-to-list 'default-frame-alist '(width . 90)))
 
   ('gnu/linux  ; Linux (including Debian)
    (set-face-attribute 'variable-pitch nil :font "Sarasa Mono TC Nerd Font-14")  ; 20 * 1.5
@@ -110,10 +114,12 @@
    (add-to-list 'default-frame-alist '(width . 90))))
 
 (use-package mixed-pitch
+  :diminish
   :hook org-mode
   :hook LaTeX-mode)
 
 (use-package diff-hl
+  :diminish
   :hook (elpaca-after-init global-diff-hl-mode)
   :hook (elpaca-after-init diff-hl-dired-mode)
   :hook (elpaca-after-init diff-hl-flydiff-mode))
@@ -157,6 +163,8 @@
   :diminish
   :hook elpaca-after-init)
 
-(use-package spacious-padding)
+(use-package spacious-padding
+  :diminish
+  :hook elpaca-after-init)
 
 (provide 'init-ui)

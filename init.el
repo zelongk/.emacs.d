@@ -12,17 +12,11 @@
 (require 'init-utils)
 (require 'init-completion)
 (require 'init-input)
-
-;; (require 'init-meow)
-
 (require 'init-edit)
 (require 'init-window)
 
 (require 'init-bindings)
 
-;; (require 'init-dashboard)
-
-(require 'init-workspace)
 (require 'init-dired)
 
 (require 'init-llm)
@@ -41,6 +35,8 @@
 (require 'init-haskell)
 (require 'init-rust)
 (require 'init-ocaml)
+
+(require 'init-workspace)
 
 (provide 'init)
 ;;; Code:

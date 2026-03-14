@@ -9,7 +9,8 @@
   :hook (LaTeX-mode . visual-line-mode)
   :hook (LaTeX-mode . turn-on-reftex)
   :bind (:map LaTeX-mode-map
-              ("C-S-e" . latex-math-from-calc))
+              ("C-S-e" . latex-math-from-calc)
+              ("C-c x" . TeX-clean))
   :custom
   (TeX-auto-save t)
   (TeX-parse-self t)
