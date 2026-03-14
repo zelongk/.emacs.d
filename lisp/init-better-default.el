@@ -135,6 +135,14 @@
 ;; (setq auto-save-file-name-transforms
 ;;       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
 
+(use-package tramp-hlo
+  :config
+  (tramp-hlo-setup))
 
+(use-package tramp-rpc
+  :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
+  :config
+  (tramp-rpc-magit-enable)
+  (tramp-rpc-projectile-enable))
 
 (provide 'init-better-default)

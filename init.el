@@ -5,6 +5,7 @@
 (require 'init-elpaca)
 (require 'init-gc)
 (require 'init-better-default)
+(require 'init-ui)
 
 (require 'init-hydra)
 
@@ -16,7 +17,6 @@
 
 (require 'init-edit)
 (require 'init-window)
-(require 'init-ui)
 
 (require 'init-bindings)
 

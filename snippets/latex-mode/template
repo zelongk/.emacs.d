@@ -2,7 +2,7 @@
 # name: template
 # key: template
 # --
-\documentclass[12pt]{/Users/zelongk/Documents/latex/elegantbook}
+\documentclass[12pt,black,pad,en,chinese,section]{/Users/zelongk/Documents/latex/elegantbook}
 
 \title{$1}
 

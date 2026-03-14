@@ -45,6 +45,9 @@
                                     calc-angle-mode rad)))))))
   ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
   (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+
+  (setq reftex-plug-into-AUCTeX t)
+
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs '((LaTeX-mode latex-mode) "texlab"))))
 

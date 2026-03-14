@@ -1,63 +1,16 @@
 ;; -*- lexical-binding: t; -*-
 
 
-(use-package project)
+;; (use-package project)
+(use-package projectile
+  :hook elpaca-after-init
+  :config
+  ;; Recommended keymap prefix on macOS
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  ;; Recommended keymap prefix on Windows/Linux
+  (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map))
 
 (global-set-key (kbd "C-x C-b") #'ibuffer)
-
-;; (use-package tab-bar
-;;   :ensure nil
-;;   :init
-;;   (tab-bar-mode t)
-;;   (setq tab-bar-new-tab-choice "*scratch*") ;; buffer to show in new tabs
-;;   (setq tab-bar-close-button-show nil)      ;; hide tab close / X button
-;;   (setq tab-bar-show t)                     ;; hide bar if <= 1 tabs open
-;;   (setq tab-bar-format '(tab-bar-format-tabs tab-bar-separator))
-
-;;   (setq tab-bar-tab-hints t))
-
-;; (use-package tabspaces
-;;   :functions tabspaces-mode
-;;   :commands (tabspaces-switch-or-create-workspace
-;;              tabspaces-open-or-create-project-and-workspace)
-;;   :hook (elpaca-after-init . tabspaces-mode)
-;;   :bind (:map tabspaces-mode-map
-;;               ([remap project-switch-project] . tabspaces-project-switch-project-open-file))
-;;   :bind (:map tabspaces-command-map
-;;               ("l" . tabspaces-restore-session)
-;;               ("s" . tabspaces-save-session)
-;;               ("TAB" . tabspaces-switch-or-create-workspace))
-
-;;   :custom
-;;   (tabspaces-use-filtered-buffers-as-default t)
-;;   (tabspaces-default-tab "Default")
-;;   (tabspaces-remove-to-default t)
-;;   (tabspaces-include-buffers '("*scratch*" "*Messages*"))
-;;   (tabspaces-exclude-buffers '("*eat*" "*vterm*" "*shell*" "*eshell*"))
-;;   ;; sessions
-;;   (tabspaces-session t)
-;;   (tabspaces-session-auto-restore t)
-;;   (tabspaces-keymap-prefix "C-c o")
-;;   (tab-bar-new-tab-choice "default")
-
-;;   (with-eval-after-load 'consult
-;;     ;; hide full buffer list (still available with "b" prefix)
-;;     (consult-customize consult--source-buffer :hidden nil :default nil)
-;;     ;; set consult-workspace buffer list
-;;     (defvar consult--source-workspace
-;;       (list :name "Workspace Buffers"
-;;             :narrow ?w
-;;             :history 'buffer-name-history
-;;             :category 'buffer
-;;             :state #'consult--buffer-state
-;;             :default t
-;;             :items (lambda () (consult--buffer-query
-;;                                :predicate #'tabspaces--local-buffer-p
-;;                                :sort 'visibility
-;;                                :as #'buffer-name)))
-
-;;       "Set workspace buffer list for consult-buffer.")
-;;     (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
 
 (use-package beframe
   :hook elpaca-after-init
@@ -66,5 +19,23 @@
          ("C-x f" . other-frame-prefix))
   :config
   (define-key global-map (kbd "C-c b") #'beframe-prefix-map))
+
+(use-package desktop
+  :ensure nil
+  :demand t
+  :init
+  (setq desktop-dirname (expand-file-name user-emacs-directory)
+		    desktop-path (list desktop-dirname)
+		    desktop-save t
+		    desktop-files-not-to-save "^$" ;reload tramp paths
+		    desktop-load-locked-desktop nil
+        desktop-restore-eager 4)
+  :config
+  (desktop-save-mode 1))
+
+(use-package eyebrowse
+  :hook elpaca-after-init
+  :custom
+  (eyebrowse-new-workspace t))
 
 (provide 'init-workspace)

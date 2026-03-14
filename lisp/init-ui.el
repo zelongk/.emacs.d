@@ -19,50 +19,34 @@
 (use-package solaire-mode
   :hook (elpaca-after-init . solaire-global-mode))
 
-(use-package standard-themes :demand t)
-(use-package ef-themes :demand t)
-(use-package doric-themes
-  :demand t
-  :bind ("<f5>" . doric-load-random)
-  :init
-  (defun doric-load-random ()
-    (interactive)
-    (mapc #'disable-theme custom-enabled-themes)
-    (let* ((themes '(doric-fire
-                     doric-oak
-                     doric-jade
-                     doric-wind
-                     doric-beach
-                     doric-earth
-                     doric-valley))
-           (loaded (seq-random-elt themes)))
-      (load-theme loaded :no-confirm)))
-  (doric-load-random)
-  )
+(use-package standard-themes :demand t
+  :config
+  (modus-themes-load-theme 'standard-wombat))
 
-;; (use-package doom-themes
+;; (use-package doric-themes
 ;;   :demand t
+;;   :bind ("<f5>" . doric-load-random)
 ;;   :init
-;;   (setq doom-themes-enable-bold t)
-;;   (setq doom-themes-enable-italic t))
+;;   (defun doric-load-random ()
+;;     (interactive)
+;;     (mapc #'disable-theme custom-enabled-themes)
+;;     (let* ((themes '(doric-fire
+;;                      doric-oak
+;;                      doric-jade
+;;                      doric-wind
+;;                      doric-beach
+;;                      doric-earth
+;;                      doric-valley))
+;;            (loaded (seq-random-elt themes)))
+;;       (load-theme loaded :no-confirm)))
+;;   (doric-load-random)
+;;   )
 
-
-;; (require 'modus-summer-time)
 (use-package modus-themes
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
-        modus-themes-mixed-fonts t)
-  (setq modus-themes-headings ; read the manual's entry or the doc string
-        '((0 . (regular 1))
-          (1 . (regular 1))
-          (2 . (regular 1))
-          (3 . (regular 1))
-          (4 . (regular 1))
-          (5 . (regular 1)) ; absence of weight means `bold'
-          (6 . (regular 1))
-          (7 . (regular 1))
-          (t . (regular 1)))))
+        modus-themes-mixed-fonts t))
 
 (use-package rainbow-delimiters
     :hook ((prog-mode . rainbow-delimiters-mode)
@@ -71,6 +55,12 @@
 
 (use-package rainbow-mode
   :hook elpaca-after-init)
+
+;; (use-package nano-theme
+;;   :ensure (nano-theme :type git :host github
+;;                       :repo "rougier/nano-theme")
+;;   :init
+;;   (modus-themes-load-theme 'nano-dark))
 
 (use-package doom-modeline
   :hook (elpaca-after-init . doom-modeline-mode)
@@ -107,7 +97,7 @@
 
 (pcase system-type
   ('darwin  ; macOS
-   (set-face-attribute 'default nil :font "Sarasa Term SC-22")  ; 20 * 1.5
+   (set-face-attribute 'default nil :font "Sarasa Mono TC Nerd Font-22")  ; 20 * 1.5
    (set-face-attribute 'variable-pitch nil :font "Bookerly-22" :weight 'light)
    (set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC-22")
 
@@ -115,7 +105,7 @@
    (add-to-list 'default-frame-alist '(width . 120)))
 
   ('gnu/linux  ; Linux (including Debian)
-   (set-face-attribute 'variable-pitch nil :font "Sarasa Term SC-14")  ; 20 * 1.5
+   (set-face-attribute 'variable-pitch nil :font "Sarasa Mono TC Nerd Font-14")  ; 20 * 1.5
    (add-to-list 'default-frame-alist '(height . 40))
    (add-to-list 'default-frame-alist '(width . 90))))
 
@@ -124,7 +114,9 @@
   :hook LaTeX-mode)
 
 (use-package diff-hl
-  :init (global-diff-hl-mode))
+  :hook (elpaca-after-init global-diff-hl-mode)
+  :hook (elpaca-after-init diff-hl-dired-mode)
+  :hook (elpaca-after-init diff-hl-flydiff-mode))
 
 ;; Easily adjust the font size in all frames
 (use-package default-text-scale
