@@ -26,21 +26,18 @@
   :custom
   (eyebrowse-new-workspace t))
 
-;; (use-package desktop
-;;   :ensure nil
-;;   :demand t
-;;   :init
-;;   (setq desktop-dirname (expand-file-name user-emacs-directory)
-;; 		    desktop-path (list desktop-dirname)
-;; 		    desktop-save t
-;; 		    desktop-files-not-to-save "^$" ;reload tramp paths
-;; 		    desktop-load-locked-desktop nil
-;;         desktop-restore-eager 4)
-;;   :config
-;;   (desktop-save-mode 1))
-
 (use-package easysession
   :demand t
+  ;; :hook (elpaca-after-init easysession-scratch-mode)
+  ;; :hook (elpaca-after-init easysession-magit-mode)
+  :bind (("s-1" . eyebrowse-switch-to-window-config-1)
+         ("s-2" . eyebrowse-switch-to-window-config-2)
+         ("s-3" . eyebrowse-switch-to-window-config-3)
+         ("s-4" . eyebrowse-switch-to-window-config-4)
+         ("s-5" . eyebrowse-switch-to-window-config-5)
+         ("s-6" . eyebrowse-switch-to-window-config-6)
+         ("s-7" . eyebrowse-switch-to-window-config-7)
+         ("s-8" . eyebrowse-switch-to-window-config-8))
   :custom
   (easysession-switch-to-save-session t)
   (easysession-switch-to-exclude-current nil)
