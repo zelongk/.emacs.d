@@ -37,12 +37,22 @@
          ("s-5" . eyebrowse-switch-to-window-config-5)
          ("s-6" . eyebrowse-switch-to-window-config-6)
          ("s-7" . eyebrowse-switch-to-window-config-7)
-         ("s-8" . eyebrowse-switch-to-window-config-8))
+         ("s-8" . eyebrowse-switch-to-window-config-8)
+         ("C-c s l" . easysession-switch-to)
+         ("C-c s L" . easysession-switch-to-and-restore-geometry)
+         ("C-c s s" . easysession-save)
+         ("C-c s r" . easysession-rename)
+         ("C-c s R" . easysession-reset)
+         ("C-c s u" . easysession-unload)
+         ("C-c s d" . easysession-delete))
+
   :custom
   (easysession-switch-to-save-session t)
   (easysession-switch-to-exclude-current nil)
   :config
   (setq easysession-setup-load-session t)
-  (easysession-setup))
+  (easysession-setup)
+  (easysession-magit-mode)
+  (easysession-scratch-mode))
 
 (provide 'init-workspace)

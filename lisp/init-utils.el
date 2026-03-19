@@ -12,10 +12,13 @@
   :config
   (which-key-add-key-based-replacements "C-c n" "org-mode")
   (which-key-add-key-based-replacements "C-c l" "llm")
-  (which-key-add-key-based-replacements "C-c s" "search")
+  (which-key-add-key-based-replacements "C-c s" "session")
   (which-key-add-key-based-replacements "C-c f" "find")
   (which-key-add-key-based-replacements "C-c p" "project")
+  (which-key-add-key-based-replacements "C-c !" "flycheck")
+  (which-key-add-key-based-replacements "C-c &" "yasnippet")
   (which-key-add-key-based-replacements "C-c q" "quit")
+  (which-key-add-key-based-replacements "C-c C-w" "workspace")
   (which-key-add-key-based-replacements "C-c w" "windows"))
 
 (use-package grep

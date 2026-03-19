@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: supseteq
+# key: \supset=
+# group: math
+# condition: (and (texmathp) 'auto)
+# --
+\supseteq

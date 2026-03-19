@@ -22,9 +22,12 @@
   (TeX-source-correlate-method 'synctex)
   (TeX-display-help t)
   (TeX-show-compilation nil)
+  (TeX-command-extra-options "-shell-escape")
   :config
   (add-hook 'LaTeX-mode-hook (lambda ()
                                (setq TeX-command-default "LaTeXMk")))
+
+
   ;; Format math as a Latex string with Calc
   (add-hook 'LaTeX-mode-hook #'eglot-ensure)
   (defun latex-math-from-calc ()
@@ -45,7 +48,7 @@
                                     calc-prefer-frac t
                                     calc-angle-mode rad)))))))
   ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
-  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+  ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
 
   (setq reftex-plug-into-AUCTeX t)
 

@@ -29,48 +29,75 @@
 (use-package solaire-mode
   :hook (elpaca-after-init . solaire-global-mode))
 
-(use-package standard-themes :demand t
-  :config
-  (modus-themes-load-theme 'standard-light))
-
-;; (use-package doric-themes
-;;   :demand t
-;;   :bind ("<f5>" . doric-load-random)
-;;   :init
-;;   (defun doric-load-random ()
-;;     (interactive)
-;;     (mapc #'disable-theme custom-enabled-themes)
-;;     (let* ((themes '(doric-fire
-;;                      doric-oak
-;;                      doric-jade
-;;                      doric-wind
-;;                      doric-beach
-;;                      doric-earth
-;;                      doric-valley))
-;;            (loaded (seq-random-elt themes)))
-;;       (load-theme loaded :no-confirm)))
-;;   (doric-load-random)
-;;   )
-
 (use-package modus-themes
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
         modus-themes-mixed-fonts t))
 
+;; (use-package standard-themes :demand t
+;;   :config
+;;   (modus-themes-load-theme 'standard-light-tinted))
+
+(use-package doric-themes
+  :demand t
+  :bind ("<f5>" . doric-load-random)
+  :bind ("C-<f5>" . doric-load-random-light)
+  :bind ("M-<f5>" . doric-load-random-dark)
+  :init
+  (defvar my/doric-dark-themes
+    '(doric-fire
+      doric-valley
+      doric-walnut
+      doric-mermaid
+      doric-pine
+      doric-plum
+      doric-water))
+  (defvar my/doric-light-themes
+    '(doric-oak
+     doric-jade
+     doric-wind
+     doric-beach
+     doric-coral
+     doric-earth
+     doric-almond))
+  (defun doric-load-random ()
+    (interactive)
+    (mapc #'disable-theme custom-enabled-themes)
+    (let ((loaded (seq-random-elt (append my/doric-light-themes my/doric-dark-themes))))
+      (load-theme loaded :no-confirm)))
+
+  (defun doric-load-random-light ()
+    (interactive)
+    (mapc #'disable-theme custom-enabled-themes)
+    (let ((loaded (seq-random-elt my/doric-light-themes)))
+      (load-theme loaded :no-confirm)))
+
+  (defun doric-load-random-dark ()
+    (interactive)
+    (mapc #'disable-theme custom-enabled-themes)
+    (let ((loaded (seq-random-elt my/doric-dark-themes)))
+      (load-theme loaded :no-confirm)))
+  (doric-load-random))
+
 (use-package rainbow-delimiters
-    :hook ((prog-mode . rainbow-delimiters-mode)
-           (typst-ts-mode . rainbow-delimiters-mode)
-           (foo-mode . rainbow-delimiters-mode)))
+  :hook ((prog-mode . rainbow-delimiters-mode)
+         (typst-ts-mode . rainbow-delimiters-mode)
+         (python-ts-mode . rainbow-delimiters-mode)))
+
+;; (use-package prism
+;;   :hook (prog-mode . prism-mode)
+;;   :hook (text-mode . prism-mode)
+;;   :hook (typst-ts-mode . prism-mode)
+;;   :hook (python-ts-mode . prism-whitespace-mode)
+;;   :config
+;;   (setq prism-parens t))
 
 (use-package rainbow-mode
   :hook elpaca-after-init)
 
-;; (use-package nano-theme
-;;   :ensure (nano-theme :type git :host github
-;;                       :repo "rougier/nano-theme")
-;;   :init
-;;   (modus-themes-load-theme 'nano-dark))
+;; (use-package mood-line
+;;   :hook elpaca-after-init)
 
 (use-package doom-modeline
   :hook (elpaca-after-init . doom-modeline-mode)
@@ -80,7 +107,9 @@
         doom-modeline-buffer-file-name-style 'buffer-name
         doom-modeline-enable-word-count t
         doom-modeline-project-detection 'projectile
-        doom-modeline-project-name t))
+        doom-modeline-project-name t
+        doom-modeline-buffer-encoding nil
+        doom-modeline-major-mode-icon nil))
 
 (use-package hide-mode-line
   :autoload turn-off-hide-mode-line-mode
@@ -128,9 +157,9 @@
 (use-package default-text-scale
   :hook (elpaca-after-init . default-text-scale-mode)
   :bind (:map default-text-scale-mode-map
-         ("C-s-=" . default-text-scale-increase)
-         ("C-s--" . default-text-scale-decrease)
-         ("C-s-0" . default-text-scale-reset)))
+              ("C-s-=" . default-text-scale-increase)
+              ("C-s--" . default-text-scale-decrease)
+              ("C-s-0" . default-text-scale-reset)))
 
 (setq hscroll-step 1
       hscroll-margin 2

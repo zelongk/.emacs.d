@@ -58,8 +58,7 @@
 
 (use-package multiple-cursors
   :hook elpaca-after-init
-  :bind (("C-c m" . multiple-cursors-hydra/body)
-         ("C-S-c C-S-c"   . mc/edit-lines)
+  :bind (("C-S-c C-S-c"   . mc/edit-lines)
          ("C->"           . mc/mark-next-like-this)
          ("C-<"           . mc/mark-previous-like-this)
          ("C-c C-<"       . mc/mark-all-like-this)
@@ -68,26 +67,7 @@
          ("s-<mouse-1>"   . mc/add-cursor-on-click)
          ("C-S-<mouse-1>" . mc/add-cursor-on-click)
          :map mc/keymap
-         ("C-|" . mc/vertical-align-with-space))
-  :pretty-hydra
-  ((:color amaranth :quit-key ("q" "C-g") :hint nil)
-   ("Up"
-	(("p" mc/mark-previous-like-this "prev")
-	 ("P" mc/skip-to-previous-like-this "skip")
-	 ("M-p" mc/unmark-previous-like-this "unmark")
-     ("|" mc/vertical-align "align with input CHAR"))
-    "Down"
-    (("n" mc/mark-next-like-this "next")
-	 ("N" mc/skip-to-next-like-this "skip")
-	 ("M-n" mc/unmark-next-like-this "unmark"))
-    "Misc"
-    (("l" mc/edit-lines "edit lines" :exit t)
-	 ("a" mc/mark-all-like-this "mark all" :exit t)
-	 ("s" mc/mark-all-in-region-regexp "search" :exit t)
-     ("<mouse-1>" mc/add-cursor-on-click "click"))
-    "% 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")"
-	(("0" mc/insert-numbers "insert numbers" :exit t)
-	 ("A" mc/insert-letters "insert letters" :exit t)))))
+         ("C-|" . mc/vertical-align-with-space)))
 
 (use-package smart-region
   :hook (after-init . smart-region-on))

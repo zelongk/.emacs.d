@@ -104,7 +104,7 @@ the element after the #+HEADER: tag."
            "* %U %?\n%i\n%a" :prepend t))
 
         org-todo-keywords
-        '((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "DONE(d)" "NO(n)")))
+        '((sequence "TODO(t)" "IN-PROGRESS(i)" "ON-HOLD(h)" "|" "DONE(d)" "NO(n)")))
 
   (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
   (add-hook 'org-after-refile-insert-hook
@@ -192,8 +192,9 @@ the element after the #+HEADER: tag."
   :hook (org-mode . org-latex-preview-mode)
   :hook (org-latex-preview-mode . org-latex-preview-center-mode)
   :config
-  (plist-put org-latex-preview-appearance-options
-             :page-width 0.8)
+  ;; Higher resolution when using dvipng
+  (plist-put org-latex-preview-appearance-options :page-width 0.6)
+  (plist-put org-latex-preview-appearance-options :scale 1.8)
 
   ;; ;; Block C-n, C-p etc from opening up previews when using `org-latex-preview-mode'
   ;; (setq org-latex-preview-mode-ignored-commands
@@ -202,6 +203,7 @@ the element after the #+HEADER: tag."
 
   (setq org-latex-preview-numbered t)
   (setq org-latex-preview-mode-display-live t)
+  (setq org-latex-preview-process-default 'dvipng)
   (setq org-latex-preview-mode-update-delay 0.25)
     (defun my/org-latex-preview-uncenter (ov)
     (overlay-put ov 'before-string nil))
@@ -271,6 +273,8 @@ the element after the #+HEADER: tag."
          ("C-c n w" . org-roam-refile)
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today))
+  :bind (:map org-mode-map
+              ("C-c C-x i" . org-id-get-create))
   :config
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
