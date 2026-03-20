@@ -41,7 +41,7 @@
 
 (use-package doric-themes
   :demand t
-  :bind ("<f5>" . doric-load-random)
+  :bind ("<f5>" . doric-themes-load-random)
   :bind ("C-<f5>" . doric-load-random-light)
   :bind ("M-<f5>" . doric-load-random-dark)
   :init
@@ -61,11 +61,19 @@
      doric-coral
      doric-earth
      doric-almond))
-  (defun doric-load-random ()
-    (interactive)
-    (mapc #'disable-theme custom-enabled-themes)
-    (let ((loaded (seq-random-elt (append my/doric-light-themes my/doric-dark-themes))))
+
+  (defun synchronise-theme ()
+    (let* ((hour (string-to-number
+                  (substring (current-time-string) 11 13)))
+           (theme-list (if (member hour (number-sequence 6 18))
+                           my/doric-light-themes
+                         my/doric-dark-themes))
+           (loaded (seq-random-elt theme-list)))
+      (mapc #'disable-theme custom-enabled-themes)
       (load-theme loaded :no-confirm)))
+
+  (synchronise-theme)
+  (run-with-timer 3600 3600 'synchronise-theme)
 
   (defun doric-load-random-light ()
     (interactive)
@@ -77,8 +85,7 @@
     (interactive)
     (mapc #'disable-theme custom-enabled-themes)
     (let ((loaded (seq-random-elt my/doric-dark-themes)))
-      (load-theme loaded :no-confirm)))
-  (doric-load-random))
+      (load-theme loaded :no-confirm))))
 
 (use-package rainbow-delimiters
   :hook ((prog-mode . rainbow-delimiters-mode)

@@ -8,28 +8,61 @@
   (setq magit-show-long-lines-warning nil)
   )
 
-;; (use-package eat
-;;   :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
-;; 		:files ("*.el" ("term" "term/*.el") "*.texi"
-;; 			"*.ti" ("terminfo/e" "terminfo/e/*")
-;; 			("terminfo/65" "terminfo/65/*")
-;; 			("integration" "integration/*")
-;; 			(:exclude ".dir-locals.el" "*-tests.el")))
-;;   :config
-;;   )
-
-(use-package vterm)
+(setq system-uses-terminfo nil)
+(setq compilation-environment '("TERM=xterm-256color"))
+(setq eshell-banner-message "")
 
 
-(use-package vterm-toggle
-  :bind ("C-`" . vterm-toggle)
+(use-package eat
+  :bind ("C-`" . eat-toggle)
+  :hook ((eshell-load . eat-eshell-mode)
+         (eshell-load . eat-eshell-visual-command-mode))
+  :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
+		:files ("*.el" ("term" "term/*.el") "*.texi"
+			"*.ti" ("terminfo/e" "terminfo/e/*")
+			("terminfo/65" "terminfo/65/*")
+			("integration" "integration/*")
+			(:exclude ".dir-locals.el" "*-tests.el")))
+  :custom
+  (eat-term-name "xterm-256color")
+  (eat-kill-buffer-on-exit t)
+  (eat-shell )
   :config
-  (define-key vterm-mode-map (kbd "C-`") #'vterm-toggle))
+  (defun eat-toggle () (interactive)
+       (if (string= (buffer-name) "*eshell*")
+           (delete-window)
+         (eshell)))
+
+  (setq tramp-remote-process-environment '("TERM=xterm-256color" "TERMINFO=''" "ENV=''" "TMOUT=0" "LC_CTYPE=''" "CDPATH=" "HISTORY=" "MAIL=" "MAILCHECK=" "MAILPATH=" "PAGER=cat" "autocorrect=" "correct="))
+  (when (eq system-type 'darwin)
+    (define-key eat-semi-char-mode-map (kbd "C-h")  #'eat-self-input)
+    (define-key eat-semi-char-mode-map (kbd "<backspace>") (kbd "C-h"))))
+
+(use-package eshell-prompt-extras
+  :after esh-opt
+  :defines eshell-highlight-prompt
+  :autoload (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)
+  :init
+  (setq eshell-highlight-prompt nil
+        eshell-prompt-function #'epe-theme-lambda))
+
+(use-package eshell-z
+  :hook (eshell-mode . (lambda () (require 'eshell-z))))
+
+(use-package esh-help
+  :commands setup-esh-help-eldoc
+  :init (setup-esh-help-eldoc))
+
+;; (use-package vterm)
+
+;; (use-package vterm-toggle
+;;   :bind ("C-`" . vterm-toggle)
+;;   :config
+;;   (define-key vterm-mode-map (kbd "C-`") #'vterm-toggle))
 
 (use-package editorconfig
   :diminish
   :hook elpaca-after-init)
-
 
 (use-package yaml-mode)
 ;; Fish shell mode and auto-formatting
@@ -45,8 +78,6 @@
                  '(fish-mode . ("fish-lsp" "start")))))
 
 (use-package docker-compose-mode)
-
-(use-package leetcode)
 
 (use-package treesit-auto
   :hook (elpaca-after-init . global-treesit-auto-mode)

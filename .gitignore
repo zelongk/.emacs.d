@@ -62,3 +62,4 @@ emacs.desktop
 /undo-fu-session/
 /..emacs.d-tabspaces-session.el
 /easysession
+/tramp-rpc

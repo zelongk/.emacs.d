@@ -1,5 +1,9 @@
 ;; -*- lexical-binding: t -*-
 
+(use-package delsel
+  :ensure nil
+  :hook (elpaca-after-init . delete-selection-mode))
+
 (use-package smartparens
   :diminish
   :hook (elpaca-after-init . smartparens-global-mode)
@@ -56,6 +60,11 @@
   :diminish
   :hook (elpaca-after-init . global-auto-revert-mode))
 
+(use-package goto-addr
+  :ensure nil
+  :hook ((text-mode . goto-address-mode)
+         (prog-mode . goto-address-prog-mode)))
+
 (use-package multiple-cursors
   :hook elpaca-after-init
   :bind (("C-S-c C-S-c"   . mc/edit-lines)
@@ -78,7 +87,35 @@
 
 (use-package avy
   :bind
-  (("C-'" . avy-goto-char-timer)))
+  (("C-'" . avy-goto-char-timer))
+  :config
+  (setq avy-all-windows nil
+        avy-all-windows-alt t
+        avy-background t
+        avy-style 'pre))
+
+;; Kill text between cursor and char
+(use-package avy-zap
+  :bind (("M-z" . avy-zap-to-char-dwim)
+         ("M-Z" . avy-zap-up-to-char-dwim)))
+
+(use-package ace-pinyin
+  :diminish
+  :hook (elpaca-after-init . ace-pinyin-global-mode))
+
+;; show number of matches
+(use-package anzu
+  :diminish
+  :bind (([remap query-replace] . anzu-query-replace)
+         ([remap query-replace-regexp] . anzu-query-replace-regexp)
+         :map isearch-mode-map
+         ([remap isearch-query-replace] . anzu-isearch-query-replace)
+         ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
+  :hook (elpaca-after-init . global-anzu-mode))
+
+;; Goto last change
+(use-package goto-chg
+  :bind ("C-," . goto-last-change))
 
 ;; Treat undo history as a tree
 (use-package vundo

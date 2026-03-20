@@ -44,4 +44,6 @@
 ;;   :config
 ;;   (setq keycast-mode-line-remove-tail-elements nil))
 
+(use-package elcord)
+
 (provide 'init-utils)
