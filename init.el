@@ -23,6 +23,8 @@
 
 (require 'init-snippet)
 (require 'init-coding)
+(require 'init-vcs)
+(require 'init-shell)
 (require 'init-check)
 (require 'init-eglot)
 

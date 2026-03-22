@@ -1,67 +1,37 @@
 ;; -*- lexical-binding: t -*-
 
-(use-package transient)
-
-(use-package magit
-  :bind (("C-c g" . magit-dispatch))
-  :config
-  (setq magit-show-long-lines-warning nil)
-  )
-
-(setq system-uses-terminfo nil)
-(setq compilation-environment '("TERM=xterm-256color"))
-(setq eshell-banner-message "")
-
-
-(use-package eat
-  :bind ("C-`" . eat-toggle)
-  :hook ((eshell-load . eat-eshell-mode)
-         (eshell-load . eat-eshell-visual-command-mode))
-  :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
-		:files ("*.el" ("term" "term/*.el") "*.texi"
-			"*.ti" ("terminfo/e" "terminfo/e/*")
-			("terminfo/65" "terminfo/65/*")
-			("integration" "integration/*")
-			(:exclude ".dir-locals.el" "*-tests.el")))
-  :custom
-  (eat-term-name "xterm-256color")
-  (eat-kill-buffer-on-exit t)
-  (eat-shell )
-  :config
-  (defun eat-toggle () (interactive)
-       (if (string= (buffer-name) "*eshell*")
-           (delete-window)
-         (eshell)))
-
-  (setq tramp-remote-process-environment '("TERM=xterm-256color" "TERMINFO=''" "ENV=''" "TMOUT=0" "LC_CTYPE=''" "CDPATH=" "HISTORY=" "MAIL=" "MAILCHECK=" "MAILPATH=" "PAGER=cat" "autocorrect=" "correct="))
-  (when (eq system-type 'darwin)
-    (define-key eat-semi-char-mode-map (kbd "C-h")  #'eat-self-input)
-    (define-key eat-semi-char-mode-map (kbd "<backspace>") (kbd "C-h"))))
-
-(use-package eshell-prompt-extras
-  :after esh-opt
-  :defines eshell-highlight-prompt
-  :autoload (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)
+(use-package xref
+  :ensure nil
   :init
-  (setq eshell-highlight-prompt t
-        eshell-prompt-function #'epe-theme-lambda))
+  ;; Use faster search tool
+  (when (executable-find "rg")
+    (setq xref-search-program 'ripgrep))
 
-(use-package eshell-z
-  :hook (eshell-mode . (lambda () (require 'eshell-z))))
+  ;; Select from xref candidates in minibuffer
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read
+        xref-show-xrefs-function #'xref-show-definitions-completing-read))
 
-(use-package esh-help
-  :commands setup-esh-help-eldoc
-  :init (setup-esh-help-eldoc))
-
-(use-package eshell-syntax-highlighting
-  :after eshell-mode
-  :hook (elpaca-after-init . eshell-syntax-highlighting-global-mode))
+(use-package apheleia
+  :diminish
+  :hook (elpaca-after-init . apheleia-global-mode))
 
 (use-package editorconfig
   :diminish
   :hook elpaca-after-init)
 
-(use-package yaml-mode)
+(use-package cask-mode)
+(use-package csv-mode)
+(use-package cue-sheet-mode)
+(use-package dart-mode)
+(use-package lua-mode)
+(use-package v-mode)
+(use-package vimrc-mode)
+(use-package julia-ts-mode)
+(use-package scala-ts-mode)
+(use-package yaml-ts-mode
+  :ensure nil
+  :mode ("\\.yaml\\'" . yaml-ts-mode))
+
 ;; Fish shell mode and auto-formatting
 (use-package fish-mode
   :commands fish_indent-before-save

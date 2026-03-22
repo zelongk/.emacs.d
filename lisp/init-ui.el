@@ -101,20 +101,18 @@
 ;;   (setq prism-parens t))
 
 (use-package rainbow-mode
-  :hook elpaca-after-init)
-
-;; (use-package mood-line
-;;   :hook elpaca-after-init)
+  :hook text-mode
+  :hook prog-mode)
 
 (use-package doom-modeline
   :hook (elpaca-after-init . doom-modeline-mode)
   :config
   (setq doom-modeline-support-imenu t
         doom-modeline-height 30
-        doom-modeline-buffer-file-name-style 'buffer-name
+        doom-modeline-buffer-file-name-style 'relative-from-project
         doom-modeline-enable-word-count t
-        doom-modeline-project-detection 'projectile
-        doom-modeline-project-name t
+        ;; doom-modeline-project-name t
+        doom-modeline-check 'simple
         doom-modeline-buffer-encoding nil
         doom-modeline-major-mode-icon nil))
 
@@ -194,6 +192,24 @@
 (use-package nerd-icons-ibuffer
   :ensure t
   :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
+
+;; Display transient in child frame
+;; (use-package transient-posframe
+;;   :diminish
+;;   :commands transient-posframe-mode
+;;   :custom-face
+;;   (transient-posframe-border ((t (:inherit posframe-border :background unspecified))))
+;;   :hook elpaca-after-init
+;;   :init (setq transient-mode-line-format nil
+;;               transient-posframe-parameters '((left-fringe . 8)
+;;                                               (right-fringe . 8))))
+
+(with-no-warnings
+  (when (featurep 'ns)
+    ;; Render thinner fonts
+    (setq ns-use-thin-smoothing t)
+    ;; Don't open a file in a new frame
+    (setq ns-pop-up-frames nil)))
 
 (use-package beacon
   :diminish

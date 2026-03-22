@@ -49,6 +49,7 @@
   (eyebrowse-new-workspace t))
 
 (use-package easysession
+  :diminish
   :demand t
   ;; :hook (elpaca-after-init easysession-scratch-mode)
   ;; :hook (elpaca-after-init easysession-magit-mode)
@@ -59,14 +60,14 @@
          ("s-5" . eyebrowse-switch-to-window-config-5)
          ("s-6" . eyebrowse-switch-to-window-config-6)
          ("s-7" . eyebrowse-switch-to-window-config-7)
-         ("s-8" . eyebrowse-switch-to-window-config-8)
-         ("C-c s l" . easysession-switch-to)
-         ("C-c s L" . easysession-switch-to-and-restore-geometry)
-         ("C-c s s" . easysession-save)
-         ("C-c s r" . easysession-rename)
-         ("C-c s R" . easysession-reset)
-         ("C-c s u" . easysession-unload)
-         ("C-c s d" . easysession-delete))
+         ("s-8" . eyebrowse-switch-to-window-config-8))
+         ;; ("C-c C-s l" . easysession-switch-to)
+         ;; ("C-c C-s L" . easysession-switch-to-and-restore-geometry)
+         ;; ("C-c C-s s" . easysession-save)
+         ;; ("C-c C-s r" . easysession-rename)
+         ;; ("C-c C-s R" . easysession-reset)
+         ;; ("C-c C-s u" . easysession-unload)
+         ;; ("C-c C-s d" . easysession-delete))
 
   :custom
   (easysession-switch-to-save-session t)

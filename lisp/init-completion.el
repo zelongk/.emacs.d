@@ -260,10 +260,6 @@
 ;;   (with-eval-after-load 'corfu
 ;;     (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)))
 
-(use-package wgrep
-  :commands wgrep-change-to-wgrep-mode
-  :config (setq wgrep-auto-save-buffer t))
-
 ;; A few more useful configurations...
 (use-package emacs
   :ensure nil

@@ -19,12 +19,17 @@
 
   ;; Snippets trigger inside a word
   (setq yas-key-syntaxes (list #'yas-longest-key-from-whitespace "w_.()" "w_." "w_" "w"))
-  
+
   ;; Function that tries to autoexpand YaSnippets
   ;; The double quoting is NOT a typo!
   (defun my/yas-try-expanding-auto-snippets ()
     (when (and (boundp 'yas-minor-mode) yas-minor-mode)
       (let ((yas-buffer-local-condition ''(require-snippet-condition . auto)))
         (yas-expand)))))
+
+;; Collection of yasnippet snippets
+(use-package yasnippet-snippets)
+
+
 
 (provide 'init-snippet)

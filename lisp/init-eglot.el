@@ -3,6 +3,7 @@
 (use-package jsonrpc)
 
 (use-package eglot
+  :defer t
   :hook ((prog-mode . (lambda ()
                         (unless (derived-mode-p
                                  'emacs-lisp-mode 'lisp-mode

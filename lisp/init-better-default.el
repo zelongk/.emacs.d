@@ -61,7 +61,29 @@
   :ensure nil
   :hook (elpaca-after-init . recentf-mode)
   :custom
-  (recentf-max-saved-items 500))
+  (recentf-max-saved-items 500)
+  (recentf-exclude
+              '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
+                "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
+                "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
+                "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
+                (lambda (file) (file-in-directory-p file package-user-dir))))
+  :config
+  (push (expand-file-name recentf-save-file) recentf-exclude)
+  (add-to-list 'recentf-filename-handlers #'abbreviate-file-name)
+  )
+
+(use-package savehist
+  :ensure nil
+  :hook (elpaca-after-init . savehist-mode)
+  :init (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
+              history-length 1000
+              savehist-additional-variables '(mark-ring
+                                              global-mark-ring
+                                              search-ring
+                                              regexp-search-ring
+                                              extended-command-history)
+              savehist-autosave-interval 300))
 
 (setq-default cursor-type 'bar)
 (setq make-backup-files nil)
@@ -103,6 +125,12 @@
 (use-package easy-kill
   :bind (([remap kill-ring-save] . easy-kill)
          ([remap mark-sexp] . easy-mark)))
+
+(use-package browse-kill-ring
+  :bind ("C-c k" . browse-kill-ring)
+  :hook (elpaca-after-init . browse-kill-ring-default-keybindings)
+  :init (setq browse-kill-ring-separator "────────────────"
+              browse-kill-ring-separator-face 'shadow))
 
 (use-package ultra-scroll
   :init

@@ -126,8 +126,19 @@
 (use-package undo-fu-session
   :hook (elpaca-after-init . undo-fu-session-global-mode))
 
+;; Process
+(use-package proced
+  :ensure nil
+  :init
+  (setq-default proced-format 'verbose)
+  (setq proced-auto-update-flag t
+        proced-auto-update-interval 3
+        proced-enable-color-flag t))
+
 (use-package olivetti
   :hook org-mode
+  :diminish
+  :bind ("<f7>" . olivetti-mode)
   :custom
   (olivetti-style 'fancy)
   (olivetti-margin-width 5)
