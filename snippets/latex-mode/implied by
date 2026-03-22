@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: implied by
-# key: <=
+# key: =<
 # condition: (and (texmathp) 'auto)
 # group: math
 # --

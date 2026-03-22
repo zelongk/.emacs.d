@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: less or equal
-# key: leq
+# key: <=
 # condition: (and (texmathp) 'auto)
 # group: math
 # --

@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
+(use-package rg)
+
 (use-package which-key
   :diminish
   :functions childframe-completion-workable-p

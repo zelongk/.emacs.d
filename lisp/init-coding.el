@@ -43,7 +43,7 @@
   :defines eshell-highlight-prompt
   :autoload (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)
   :init
-  (setq eshell-highlight-prompt nil
+  (setq eshell-highlight-prompt t
         eshell-prompt-function #'epe-theme-lambda))
 
 (use-package eshell-z
@@ -53,12 +53,9 @@
   :commands setup-esh-help-eldoc
   :init (setup-esh-help-eldoc))
 
-;; (use-package vterm)
-
-;; (use-package vterm-toggle
-;;   :bind ("C-`" . vterm-toggle)
-;;   :config
-;;   (define-key vterm-mode-map (kbd "C-`") #'vterm-toggle))
+(use-package eshell-syntax-highlighting
+  :after eshell-mode
+  :hook (elpaca-after-init . eshell-syntax-highlighting-global-mode))
 
 (use-package editorconfig
   :diminish

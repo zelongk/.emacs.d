@@ -11,8 +11,8 @@
 
 (setq package-enable-at-startup nil)
 
-(setq native-comp-jit-compilation nil)
-(setq native-comp-async-report-pwarnings-errors nil)
+(setq native-comp-jit-compilation t)
+(setq native-comp-async-report-warnings-errors nil)
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 (setq use-package-enable-imenu-support t)

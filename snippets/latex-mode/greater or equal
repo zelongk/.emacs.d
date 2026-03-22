@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: greater or equal
-# key: geq
+# key: >=
 # condition: (and (texmathp) 'auto)
 # group: math
 # --

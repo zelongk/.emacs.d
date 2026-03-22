@@ -193,8 +193,9 @@ the element after the #+HEADER: tag."
   :hook (org-latex-preview-mode . org-latex-preview-center-mode)
   :config
   ;; Higher resolution when using dvipng
-  (plist-put org-latex-preview-appearance-options :page-width 0.6)
-  (plist-put org-latex-preview-appearance-options :scale 1.8)
+  (plist-put org-latex-preview-appearance-options :page-width 1.0)
+  ;; (plist-put org-latex-preview-appearance-options :margin 1)
+  (plist-put org-latex-preview-appearance-options :scale 2.0)
 
   ;; ;; Block C-n, C-p etc from opening up previews when using `org-latex-preview-mode'
   ;; (setq org-latex-preview-mode-ignored-commands

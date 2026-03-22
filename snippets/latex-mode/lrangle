@@ -4,4 +4,4 @@
 # condition: (and (texmathp) 'auto)
 # group: math
 # --
-\\left\\langle $1 \\right\\rangle$0
+\\left\\langle $1 \\right\\rangle

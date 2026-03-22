@@ -37,6 +37,13 @@
 (column-number-mode 1)
 (scroll-bar-mode -1)
 
+;; (use-package delete-trailing
+;;   :ensure nil
+;;   :hook (text-mode delete-trailing-whitespace-mode)
+;;   :hook (prog-mode delete-trailing-whitespace-mode))
+(add-hook 'prog-mode #'delete-trailing-whitespace-mode)
+(add-hook 'text-mode #'delete-trailing-whitespace-mode)
+
 (use-package subword
   :ensure nil
   :diminish
@@ -114,7 +121,8 @@
          :map lisp-interaction-mode-map
          ("C-c C-d"                 . helpful-at-point)
          :map helpful-mode-map
-         ("r"                       . remove-hook-at-point))
+         ("r"                       . remove-hook-at-point)
+         ("q"                       . kill-current-buffer))
   :hook (helpful-mode . cursor-sensor-mode) ; for remove-advice button
   :init
   (with-no-warnings

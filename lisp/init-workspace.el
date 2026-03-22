@@ -10,6 +10,28 @@
   ;; Recommended keymap prefix on Windows/Linux
   (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map))
 
+(use-package ibuffer-projectile
+  :config
+  (add-hook 'ibuffer-hook
+    (lambda ()
+      (ibuffer-projectile-set-filter-groups)
+      (unless (eq ibuffer-sorting-mode 'alphabetic)
+        (ibuffer-do-sort-by-alphabetic)))))
+
+(use-package consult-projectile
+  :bind (([remap projectile-find-file] . consult-projectile-find-file)
+         ([remap projectile-recentf] . consult-projectile-recentf)
+         ([remap projectile-switch-project] . consult-projectile-switch-project)
+         ([remap projectile-switch-to-buffer] . consult-projectile-switch-to-buffer)
+         ([remap projectile-find-dir] . consult-projectile-find-dir)))
+
+;; (use-package org-project-capture)
+
+;; (use-package org-projectile
+;;   :config
+;;   (setq org-project-capture-default-backend
+;;         (make-instance 'org-project-capture-projectile-backend)))
+
 (global-set-key (kbd "C-x C-b") #'ibuffer)
 
 ;; (use-package beframe

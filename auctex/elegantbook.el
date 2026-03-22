@@ -3,29 +3,13 @@
 (TeX-add-style-hook
  "elegantbook"
  (lambda ()
+   (setq TeX-command-extra-options
+         "-shell-escape")
    (TeX-add-to-alist 'LaTeX-provided-class-options
                      '(("book" "a4paper" "oneside")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
                      '(("kvoptions" "") ("etoolbox" "") ("setspace" "") ("csquotes" "") ("hyperref" "") ("geometry" "") ("indentfirst" "") ("comment" "") ("mtpro2" "lite") ("iftex" "") ("newtxtext" "") ("helvet" "scaled=.90") ("fontspec" "no-math") ("ctex" "UTF8" "scheme=plain" "fontset=none") ("anyfontsize" "") ("newtxmath" "") ("esint" "") ("xcolor" "table") ("mwe" "") ("enumerate" "") ("enumitem" "shortlabels" "inline") ("caption" "labelfont={bf,color=structurecolor}") ("footmisc" "flushmargin" "stable") ("graphicx" "") ("amsmath" "") ("mathrsfs" "") ("amsfonts" "") ("amssymb" "") ("physics" "") ("physics2" "") ("mathtools" "") ("booktabs" "") ("multirow" "") ("tikz" "") ("fancyvrb" "") ("makecell" "") ("lipsum" "") ("hologo" "") ("titlesec" "center" "pagestyles") ("appendix" "title" "titletoc" "header") ("biblatex" "backend=\\ELEGANT@bibend" "citestyle=\\ELEGANT@citestyle" "bibstyle=\\ELEGANT@bibstyle") ("inputenc" "utf8") ("fontenc" "T1" "T2A") ("babel" "italian" "french" "dutch" "magyar" "spanish" "mongolian" "portuguese") ("luatexja" "") ("apptools" "") ("pifont" "") ("manfnt" "") ("bbding" "") ("tcolorbox" "many") ("amsthm" "") ("multicol" "") ("adforn" "") ("fancyhdr" "") ("listings" "") ("bm" "") ("calc" "") ("tocloft" "titles")))
-   (add-to-list 'LaTeX-verbatim-environments-local "lstlisting")
-   (add-to-list 'LaTeX-verbatim-environments-local "SaveVerbatim")
-   (add-to-list 'LaTeX-verbatim-environments-local "VerbatimOut")
-   (add-to-list 'LaTeX-verbatim-environments-local "LVerbatim*")
-   (add-to-list 'LaTeX-verbatim-environments-local "LVerbatim")
-   (add-to-list 'LaTeX-verbatim-environments-local "BVerbatim*")
-   (add-to-list 'LaTeX-verbatim-environments-local "BVerbatim")
-   (add-to-list 'LaTeX-verbatim-environments-local "Verbatim*")
-   (add-to-list 'LaTeX-verbatim-environments-local "Verbatim")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "lstinline")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
-   (add-to-list 'LaTeX-verbatim-macros-with-delims-local "lstinline")
-   (add-to-list 'LaTeX-verbatim-macros-with-delims-local "Verb*")
-   (add-to-list 'LaTeX-verbatim-macros-with-delims-local "Verb")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (TeX-run-style-hooks
     "latex2e"
@@ -180,6 +164,12 @@
     '("problem" LaTeX-env-args ["argument"] 0)
     '("exercise" LaTeX-env-args ["argument"] 0)
     '("example" LaTeX-env-args ["argument"] 0)
+    '("theorem" LaTeX-env-args ["argument"] 0)
+    '("definition" LaTeX-env-args ["argument"] 0)
+    '("proposition" LaTeX-env-args ["argument"] 0)
+    '("lemma" LaTeX-env-args ["argument"] 0)
+    '("axiom" LaTeX-env-args ["argument"] 0)
+    '("corollary" LaTeX-env-args ["argument"] 0)
     '("custom" 1)
     "note"
     "proof"
