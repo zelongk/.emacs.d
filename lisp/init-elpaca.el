@@ -44,6 +44,11 @@
 
 ;; (elpaca example-package)
 
+;; Uncomment for systems which cannot create symlinks:
+
+(when (eq system-type 'windows-nt)
+  (elpaca-no-symlink-mode))
+
 ;; Install use-package support
 (elpaca elpaca-use-package
   ;; Enable use-package :ensure support for Elpaca.

@@ -6,6 +6,10 @@
 (require 'init-gc)
 (require 'init-better-default)
 (require 'init-ui)
+;; (require 'init-dashboard) ;; not working
+
+(require 'init-god)
+;; (require 'init-meow)
 
 (require 'init-hydra)
 
@@ -26,7 +30,10 @@
 (require 'init-vcs)
 (require 'init-shell)
 (require 'init-check)
+;; (require 'init-treemacs) ;; not working
+
 (require 'init-eglot)
+;; (require 'init-lsp) ;; not working
 
 (require 'init-org)
 (require 'init-tex)
