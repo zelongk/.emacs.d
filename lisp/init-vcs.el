@@ -3,6 +3,7 @@
 (use-package transient)
 
 (use-package magit
+  :defer t
   :bind (("C-c g" . magit-dispatch))
   :custom
   (magit-diff-refine-hunk t)

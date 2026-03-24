@@ -28,14 +28,12 @@
                   circe-mode-hook
                   help-mode-hook
                   gud-mode-hook
-		          treemacs-mode-hook
+		              treemacs-mode-hook
                   org-mode-hook
                   vterm-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode -1))))
   (setq display-line-numbers-type 'relative)
   )
-(column-number-mode 1)
-(scroll-bar-mode -1)
 
 ;; (use-package delete-trailing
 ;;   :ensure nil
@@ -63,11 +61,11 @@
   :custom
   (recentf-max-saved-items 500)
   (recentf-exclude
-              '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
-                "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
-                "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
-                "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
-                (lambda (file) (file-in-directory-p file package-user-dir))))
+   '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
+     "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
+     "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
+     "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
+     (lambda (file) (file-in-directory-p file package-user-dir))))
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude)
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name)
@@ -106,8 +104,8 @@
       password-cache-expiry nil)
 
 (setq-default delete-by-moving-to-trash t
-	      x-stretch-cursor t
-	      window-combination-resize t)
+	            x-stretch-cursor t
+	            window-combination-resize t)
 
 (define-key global-map (kbd "C-<wheel-up>")  nil)
 (define-key global-map (kbd "C-<wheel-down>")  nil)
@@ -135,7 +133,7 @@
 (use-package ultra-scroll
   :init
   (setq scroll-conservatively 3
-	scroll-margin 0)
+	      scroll-margin 0)
   :hook (elpaca-after-init . ultra-scroll-mode))
 
 (use-package helpful

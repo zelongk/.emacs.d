@@ -6,7 +6,7 @@
   :bind ("C-h M-m" . which-key-show-major-mode)
   :hook (elpaca-after-init . which-key-mode)
   :init (setq which-key-max-description-length 30
-	      which-key-idle-delay 0.5
+	            which-key-idle-delay 0.5
               which-key-lighter nil
               which-key-show-remaining-keys t)
   :config
@@ -51,15 +51,19 @@
 (use-package rg
   :hook (elpaca-after-init . rg-enable-default-bindings)
   :bind (:map rg-global-map
-         ("c" . rg-dwim-current-dir)
-         ("f" . rg-dwim-current-file)
-         ("m" . rg-menu))
+              ("c" . rg-dwim-current-dir)
+              ("f" . rg-dwim-current-file)
+              ("m" . rg-menu))
   :init (setq rg-show-columns t)
   :config (add-to-list 'rg-custom-type-aliases '("tmpl" . "*.tmpl")))
 
 (use-package pdf-tools
   :config
   (pdf-tools-install))
+
+(use-package saveplace-pdf-view
+  :after pdf-tools
+  :demand t)
 
 ;; (use-package keycast
 ;;   :hook (elpaca-after-init . keycast-mode-line-mode)
