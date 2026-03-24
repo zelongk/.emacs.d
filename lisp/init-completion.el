@@ -52,9 +52,9 @@
 (use-package vertico
   :custom (vertico-count 15)
   :bind (:map vertico-map
-         ("RET" . vertico-directory-enter)
-         ("DEL" . vertico-directory-delete-char)
-         ("M-DEL" . vertico-directory-delete-word))
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
   :hook (elpaca-after-init . vertico-mode)
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
@@ -112,9 +112,9 @@
 ;; Consulting completing-read
 (use-package consult
   :bind (("C-." . consult-imenu)
-	     ("C-c T" . consult-theme)
+	       ("C-c T" . consult-theme)
 
-	     ([remap Info-search]        . consult-info)
+	       ([remap Info-search]        . consult-info)
          ;; ([remap isearch-forward]    . consult-line)
          ([remap recentf-open-files] . consult-recent-file)
 
@@ -138,9 +138,9 @@
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
-         
+
          ;; M-g bindings in `search-map'
-	     ("s-f" . consult-line)
+	       ("s-f" . consult-line)
          ("M-g d" . consult-find)                  ;; Alternative: consult-fd
          ("M-g c" . consult-locate)
          ("M-g G" . consult-git-grep)
@@ -149,8 +149,8 @@
          ("M-g L" . consult-line-multi)
          ("M-g k" . consult-keep-lines)
          ("M-g u" . consult-focus-lines)
-	     ("C-x C-r" . consult-recent-file)
-	     ("C-x B" . consult-buffer)
+	       ("C-x C-r" . consult-recent-file)
+	       ("C-x b" . consult-buffer)
 
          ("M-g e" . consult-isearch-history)
          :map isearch-mode-map
@@ -223,7 +223,7 @@
 
 (use-package embark-consult
   :bind (:map minibuffer-mode-map
-         ("C-c C-o" . embark-export))
+              ("C-c C-o" . embark-export))
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 ;; Auto completion

@@ -28,7 +28,7 @@
         (yas-expand)))))
 
 ;; Collection of yasnippet snippets
-(use-package yasnippet-snippets)
+;; (use-package yasnippet-snippets)
 
 
 
