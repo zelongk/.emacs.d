@@ -55,24 +55,32 @@
 (setq eshell-banner-message "")
 
 (use-package eat
-  :bind ("C-`" . eat-toggle)
+  :bind ("C-`" . eshell-toggle)
+  :bind ("C-<escape>" . eat-toggle)
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode))
-  :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
-		:files ("*.el" ("term" "term/*.el") "*.texi"
-			"*.ti" ("terminfo/e" "terminfo/e/*")
-			("terminfo/65" "terminfo/65/*")
-			("integration" "integration/*")
-			(:exclude ".dir-locals.el" "*-tests.el")))
+  :straight `(eat :repo "https://codeberg.org/akib/emacs-eat"
+		              :files ("*.el" ("term" "term/*.el") "*.texi"
+			                    "*.ti" ("terminfo/e" "terminfo/e/*")
+			                    ("terminfo/65" "terminfo/65/*")
+			                    ("integration" "integration/*")
+			                    (:exclude ".dir-locals.el" "*-tests.el")))
   :custom
   (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
   ;; (eat-shell )
   :config
+  (defun eshell-toggle () (interactive)
+         (if (string= (buffer-name) "*eshell*")
+             (delete-window)
+           (eshell)))
   (defun eat-toggle () (interactive)
-       (if (string= (buffer-name) "*eshell*")
-           (delete-window)
-         (eshell)))
+         (if (string= (buffer-name) "*eat*")
+             (delete-window)
+           (eat)))
+
+  ;; Improve latency
+  (setq process-adaptive-read-buffering t)
 
   (setq tramp-remote-process-environment '("TERM=xterm-256color" "TERMINFO=''" "ENV=''" "TMOUT=0" "LC_CTYPE=''" "CDPATH=" "HISTORY=" "MAIL=" "MAILCHECK=" "MAILPATH=" "PAGER=cat" "autocorrect=" "correct="))
   (when (eq system-type 'darwin)
@@ -96,7 +104,7 @@
 
 (use-package eshell-syntax-highlighting
   :after eshell-mode
-  :hook (elpaca-after-init . eshell-syntax-highlighting-global-mode))
+  :hook (after-init . eshell-syntax-highlighting-global-mode))
 
 
 (provide 'init-shell)

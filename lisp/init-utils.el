@@ -4,14 +4,14 @@
   :diminish
   :functions childframe-completion-workable-p
   :bind ("C-h M-m" . which-key-show-major-mode)
-  :hook (elpaca-after-init . which-key-mode)
+  :hook (after-init . which-key-mode)
   :init (setq which-key-max-description-length 30
 	            which-key-idle-delay 0.5
               which-key-lighter nil
               which-key-show-remaining-keys t)
   :config
   (which-key-add-key-based-replacements "C-c a" "LSP")
-  (which-key-add-key-based-replacements "C-c c" "code")
+  (which-key-add-key-based-replacements "C-c b" "beframe")
   (which-key-add-key-based-replacements "C-c c" "code")
   (which-key-add-key-based-replacements "C-c n" "org")
   (which-key-add-key-based-replacements "C-c l" "llm")
@@ -49,7 +49,7 @@
 
 ;; Fast search tool `ripgrep'
 (use-package rg
-  :hook (elpaca-after-init . rg-enable-default-bindings)
+  :hook (after-init . rg-enable-default-bindings)
   :bind (:map rg-global-map
               ("c" . rg-dwim-current-dir)
               ("f" . rg-dwim-current-file)
@@ -57,16 +57,16 @@
   :init (setq rg-show-columns t)
   :config (add-to-list 'rg-custom-type-aliases '("tmpl" . "*.tmpl")))
 
-(use-package pdf-tools
-  :config
-  (pdf-tools-install))
+;; (use-package pdf-tools
+;;   :config
+;;   (pdf-tools-install))
 
-(use-package saveplace-pdf-view
-  :after pdf-tools
-  :demand t)
+;; (use-package saveplace-pdf-view
+;;   :after pdf-tools
+;;   :demand t)
 
 ;; (use-package keycast
-;;   :hook (elpaca-after-init . keycast-mode-line-mode)
+;;   :hook (after-init . keycast-mode-line-mode)
 ;;   :config
 ;;   (setq keycast-mode-line-remove-tail-elements nil))
 

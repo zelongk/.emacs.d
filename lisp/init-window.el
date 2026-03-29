@@ -4,7 +4,7 @@
 (use-package winner
   :ensure nil
   :commands (winner-undo winner-redo)
-  :hook elpaca-after-init
+  :hook after-init
   :init (setq winner-boring-buffers '("*Completions*"
                                       "*Compile-Log*"
                                       "*inferior-lisp*"
@@ -40,6 +40,8 @@
   :hook (emacs-startup . ace-window-display-mode)
   :bind (([remap other-window] . ace-window)
          ("C-c w" . ace-window-hydra/body))
+  :custom
+  (aw-scope 'frame)
   :pretty-hydra
   (("Actions"
     (("TAB" other-window "switch")
@@ -77,9 +79,9 @@
   (popper-group-function #'popper-group-by-directory)
   (popper-echo-dispatch-actions t)
   :bind (:map popper-mode-map
-         ("C-h z"       . popper-toggle)
-         ("C-<tab>"     . popper-cycle)
-         ("C-M-<tab>"   . popper-toggle-type))
+              ("C-h z"       . popper-toggle)
+              ("C-<tab>"     . popper-cycle)
+              ("C-M-<tab>"   . popper-toggle-type))
   :hook (emacs-startup . popper-echo-mode)
   :init
   (setq popper-mode-line ""
@@ -142,10 +144,10 @@
           rustic-cargo-outdated-mode rustic-cargo-run-mode rustic-cargo-test-mode
           "\\*haskell\\*"))
   (add-to-list 'display-buffer-alist
-             '("\\*OCaml\\*"
-               (display-buffer-reuse-window display-buffer-in-direction)
-               (direction . right)
-               (window-width . 0.5)))
+               '("\\*OCaml\\*"
+                 (display-buffer-reuse-window display-buffer-in-direction)
+                 (direction . right)
+                 (window-width . 0.5)))
 
   :config
   (with-no-warnings

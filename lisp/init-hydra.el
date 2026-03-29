@@ -4,7 +4,7 @@
   :hook ((emacs-lisp-mode . hydra-add-imenu)))
 
 (use-package pretty-hydra
-  :ensure (:wait t)
+  :straight (:wait t)
   :hook (emacs-lisp-mode . (lambda ()
                              (add-to-list
                               'imenu-generic-expression

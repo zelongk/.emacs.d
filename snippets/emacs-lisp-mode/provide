@@ -2,4 +2,8 @@
 # name: provide
 # key: provide
 # --
+;; -*- lexical-binding: t; -*-
+
+$0
+
 (provide '${1:`(file-name-sans-extension (file-name-nondirectory (buffer-file-name)))`})$0

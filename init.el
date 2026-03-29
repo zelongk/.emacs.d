@@ -2,13 +2,14 @@
 ;;; Commentary:
 ;;; blablabla
 
-(require 'init-elpaca)
+;; (require 'init-elpaca)
+(require 'init-straight)
 (require 'init-gc)
 (require 'init-better-default)
 (require 'init-ui)
 ;; (require 'init-dashboard) ;; not working
 
-(require 'init-god)
+;; (require 'init-god)
 ;; (require 'init-meow)
 
 (require 'init-hydra)

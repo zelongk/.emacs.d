@@ -3,7 +3,7 @@
 
 ;; (use-package project)
 (use-package projectile
-  :hook elpaca-after-init
+  :hook after-init
   :config
   ;; Recommended keymap prefix on macOS
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -18,45 +18,43 @@
               (unless (eq ibuffer-sorting-mode 'alphabetic)
                 (ibuffer-do-sort-by-alphabetic)))))
 
-(use-package consult-projectile
-  :bind (([remap projectile-find-file] . consult-projectile-find-file)
-         ([remap projectile-recentf] . consult-projectile-recentf)
-         ([remap projectile-switch-project] . consult-projectile-switch-project)
-         ([remap projectile-switch-to-buffer] . consult-projectile-switch-to-buffer)
-         ([remap projectile-find-dir] . consult-projectile-find-dir)))
+;; (use-package consult-projectile
+;;   :bind (([remap projectile-find-file] . consult-projectile-find-file)
+;;          ([remap projectile-recentf] . consult-projectile-recentf)
+;;          ([remap projectile-switch-project] . consult-projectile-switch-project)
+;;          ([remap projectile-switch-to-buffer] . consult-projectile-switch-to-buffer)
+;;          ([remap projectile-find-dir] . consult-projectile-find-dir)))
 
 (global-set-key (kbd "C-x C-b") #'ibuffer)
 
-(use-package eyebrowse
-  :hook elpaca-after-init
-  :custom
-  (eyebrowse-new-workspace t)
-  :bind (("s-1" . eyebrowse-switch-to-window-config-1)
-         ("s-2" . eyebrowse-switch-to-window-config-2)
-         ("s-3" . eyebrowse-switch-to-window-config-3)
-         ("s-4" . eyebrowse-switch-to-window-config-4)
-         ("s-5" . eyebrowse-switch-to-window-config-5)
-         ("s-6" . eyebrowse-switch-to-window-config-6)
-         ("s-7" . eyebrowse-switch-to-window-config-7)
-         ("s-8" . eyebrowse-switch-to-window-config-8)))
-
-(use-package easysession
-  :diminish
-  :demand t
-  :bind  (("C-c C-s l" . easysession-switch-to)
-          ("C-c C-s L" . easysession-switch-to-and-restore-geometry)
-          ("C-c C-s s" . easysession-save)
-          ("C-c C-s r" . easysession-rename)
-          ("C-c C-s R" . easysession-reset)
-          ("C-c C-s u" . easysession-unload)
-          ("C-c C-s d" . easysession-delete))
-  :custom
-  (easysession-switch-to-save-session t)
-  (easysession-switch-to-exclude-current nil)
+(use-package beframe
+  :hook after-init
+  :bind ("C-x f" . other-frame-prefix)
   :config
-  (setq easysession-setup-load-session t)
-  (easysession-setup)
-  (easysession-magit-mode)
-  (easysession-scratch-mode))
+  (define-key global-map (kbd "C-c b") #'beframe-prefix-map)
+  (setq beframe-functions-in-frames '(projectile-switch-project)
+        beframe-rename-function #'ignore
+        beframe-global-buffers '("*scratch*" "*Messages*" "*Backtrace*"))
+  (use-package embark
+    :defer
+    :config
+    (define-key embark-buffer-map (kbd "fu")
+                (defun my/beframe-unassume-buffer (buf)
+                  (interactive "bUnassume: ")
+                  (beframe--unassume
+                   (list (get-buffer buf)))))
+    (define-key embark-buffer-map (kbd "fa")
+                (defun my/beframe-assume-buffer (buf)
+                  (interactive "bAssume: ")
+                  (beframe--assume
+                   (list (get-buffer buf))))))
+
+  (with-eval-after-load 'consult
+    (defun consult-beframe-buffer-list (&optional frame)
+      "Return the list of buffers from `beframe-buffer-names' sorted by visibility.
+With optional argument FRAME, return the list of buffers of FRAME."
+      (beframe-buffer-list frame :sort #'beframe-buffer-sort-visibility))
+
+    (setq consult-buffer-list-function #'consult-beframe-buffer-list)))
 
 (provide 'init-workspace)

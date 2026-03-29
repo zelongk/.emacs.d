@@ -1,56 +1,51 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package delsel
-  :ensure nil
-  :hook (elpaca-after-init . delete-selection-mode))
+  :hook (after-init . delete-selection-mode))
 
 (use-package smartparens
   :diminish
-  :hook (elpaca-after-init . smartparens-global-mode)
-  ;; :hook (elpaca-after-init . smartparens-global-strict-mode)
+  :hook (after-init . smartparens-global-mode)
+  ;; :hook (after-init . smartparens-global-strict-mode)
   :init (sp-use-paredit-bindings)
   :config
-    ;; Autopair quotes more conservatively; if I'm next to a word/before another
-    ;; quote, I don't want to open a new pair or it would unbalance them.
-    (let ((unless-list '(sp-point-before-word-p
-                         sp-point-after-word-p
-                         sp-point-before-same-p)))
-      (sp-pair "'"  nil :unless unless-list)
-      (sp-pair "\"" nil :unless unless-list))
-    (dolist (brace '("(" "{" "["))
-      (sp-pair brace nil
-               :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
-               ;; Don't autopair opening braces if before a word character or
-               ;; other opening brace. The rationale: it interferes with manual
-               ;; balancing of braces, and is odd form to have s-exps with no
-               ;; whitespace in between, e.g. ()()(). Insert whitespace if
-               ;; genuinely want to start a new form in the middle of a word.
-               :unless '(sp-point-before-word-p sp-point-before-same-p)))
+  ;; Autopair quotes more conservatively; if I'm next to a word/before another
+  ;; quote, I don't want to open a new pair or it would unbalance them.
+  (let ((unless-list '(sp-point-before-word-p
+                       sp-point-after-word-p
+                       sp-point-before-same-p)))
+    (sp-pair "'"  nil :unless unless-list)
+    (sp-pair "\"" nil :unless unless-list))
+  (dolist (brace '("(" "{" "["))
+    (sp-pair brace nil
+             :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
+             ;; Don't autopair opening braces if before a word character or
+             ;; other opening brace. The rationale: it interferes with manual
+             ;; balancing of braces, and is odd form to have s-exps with no
+             ;; whitespace in between, e.g. ()()(). Insert whitespace if
+             ;; genuinely want to start a new form in the middle of a word.
+             :unless '(sp-point-before-word-p sp-point-before-same-p)))
 
-    (sp-local-pair sp-lisp-modes "(" ")" :unless '(:rem sp-point-before-same-p))
+  (sp-local-pair sp-lisp-modes "(" ")" :unless '(:rem sp-point-before-same-p))
 
-    ;; Don't do square-bracket space-expansion where it doesn't make sense to
-    (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode markdown-ts-mode gfm-mode)
-                   "[" nil :post-handlers '(:rem ("| " "SPC")))
+  ;; Don't do square-bracket space-expansion where it doesn't make sense to
+  (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode markdown-ts-mode gfm-mode)
+                 "[" nil :post-handlers '(:rem ("| " "SPC")))
 
-    ;; resolve conflict with hungry-delete
-    (defadvice hungry-delete-backward (before sp-delete-pair-advice activate) (save-match-data (sp-delete-pair (ad-get-arg 0)))))
-
-;; (use-package electric-pair
-;;   :ensure nil
-;;   :hook elpaca-after-init)
+  ;; resolve conflict with hungry-delete
+  (defadvice hungry-delete-backward (before sp-delete-pair-advice activate) (save-match-data (sp-delete-pair (ad-get-arg 0)))))
 
 ;; Hungry deletion
 (use-package hungry-delete
   :diminish
-  :hook (elpaca-after-init . global-hungry-delete-mode)
+  :hook (after-init . global-hungry-delete-mode)
   :init (setq hungry-delete-chars-to-skip " \t\f\v"
               hungry-delete-except-modes
               '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
 
 (use-package abbrev
-  :diminish
   :ensure nil
+  :diminish
   :config
   (setq-default abbrev-mode t)
   (setq abbrev-file-name (expand-file-name "abbrev.el" user-emacs-directory)))
@@ -58,7 +53,7 @@
 (use-package autorevert
   :ensure nil
   :diminish
-  :hook (elpaca-after-init . global-auto-revert-mode))
+  :hook (after-init . global-auto-revert-mode))
 
 (use-package goto-addr
   :ensure nil
@@ -66,7 +61,7 @@
          (prog-mode . goto-address-prog-mode)))
 
 (use-package multiple-cursors
-  :hook elpaca-after-init
+  :hook after-init
   :bind (("C-S-c C-S-c"   . mc/edit-lines)
          ("C->"           . mc/mark-next-like-this)
          ("C-<"           . mc/mark-previous-like-this)
@@ -78,8 +73,8 @@
          :map mc/keymap
          ("C-|" . mc/vertical-align-with-space)))
 
-(use-package smart-region
-  :hook (after-init . smart-region-on))
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
 
 (use-package mwim
   :bind (([remap move-beginning-of-line] . mwim-beginning)
@@ -101,7 +96,7 @@
 
 (use-package ace-pinyin
   :diminish
-  :hook (elpaca-after-init . ace-pinyin-global-mode))
+  :hook (after-init . ace-pinyin-global-mode))
 
 ;; show number of matches
 (use-package anzu
@@ -111,7 +106,7 @@
          :map isearch-mode-map
          ([remap isearch-query-replace] . anzu-isearch-query-replace)
          ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
-  :hook (elpaca-after-init . global-anzu-mode))
+  :hook (after-init . global-anzu-mode))
 
 ;; Goto last change
 (use-package goto-chg
@@ -124,7 +119,7 @@
 
 ;; Remember undo history
 (use-package undo-fu-session
-  :hook (elpaca-after-init . undo-fu-session-global-mode))
+  :hook (after-init . undo-fu-session-global-mode))
 
 ;; Process
 (use-package proced
@@ -143,5 +138,13 @@
   (olivetti-style 'fancy)
   (olivetti-margin-width 5)
   (olivetti-body-width 90))
+
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right
+              bidi-display-reordering nil)
+(setq bidi-inhibit-bpa t
+      long-line-threshold 1000
+      large-hscroll-threshold 1000
+      syntax-wholeline-max 1000)
 
 (provide 'init-edit)

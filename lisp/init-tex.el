@@ -1,16 +1,18 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package latex
-  :ensure (auctex :pre-build (("./autogen.sh")
-			                        ("./configure" "--without-texmf-dir" "--with-lispdir=.")
-                              ("make")))
+  ;; :straight (auctex :pre-build (("./autogen.sh")
+	;; 		                        ("./configure" "--without-texmf-dir" "--with-lispdir=.")
+  ;;                             ("make")))
+  :straight (auctex :type git :host nil :repo "https://git.savannah.gnu.org/git/auctex.git")
   :mode (("\\.tex\\'" . LaTeX-mode))
   :hook (LaTeX-mode . prettify-symbols-mode)
   :hook (LaTeX-mode . visual-line-mode)
   :hook (LaTeX-mode . turn-on-reftex)
   :bind (:map LaTeX-mode-map
               ("C-S-e" . latex-math-from-calc)
-              ("C-c x" . TeX-clean))
+              ("C-c x" . TeX-clean)
+              ("S-s-<mouse-1>" . TeX-view))
   :custom
   (TeX-auto-save t)
   (TeX-parse-self t)
@@ -23,13 +25,17 @@
   (TeX-display-help t)
   (TeX-show-compilation nil)
   (TeX-command-extra-options "-shell-escape")
+  (TeX-view-program-selection '((output-pdf "displayline")))
   :config
-  (add-hook 'LaTeX-mode-hook (lambda ()
-                               (setq TeX-command-default "LaTeXMk")))
+  (add-hook 'LaTeX-mode-hook '(lambda ()
+                                (setq TeX-command-default "LaTeXMk")))
 
 
   ;; Format math as a Latex string with Calc
   (add-hook 'LaTeX-mode-hook #'eglot-ensure)
+
+  (setq-default LaTeX-indent-environment-list nil)
+
   (defun latex-math-from-calc ()
     "Evaluate `calc' on the contents of line at point."
     (interactive)
@@ -58,13 +64,13 @@
 
 (use-package cdlatex
   :diminish
-  :ensure t
   :hook (LaTeX-mode . turn-on-cdlatex)
   ;; :bind (:map cdlatex-mode-map
   ;;             ("<tab>" . cdlatex-tab))
   :config
   (setq cdlatex-math-symbol-alist '((?f ("\\varphi" "\\phi"))
                                     (?i ("\\iota"))
+                                    (?c ("\\circ"))
                                     ))
   (setq cdlatex-math-modify-alist '((?f "\\mathbb" nil t nil nil)))
   (defun tjh/cdlatex-yas-expand ()
@@ -81,8 +87,8 @@ expansion, then cdlatex expansion."
       nil))
   (add-hook 'cdlatex-tab-hook 'tjh/cdlatex-yas-expand))
 
-(use-package texpresso
-  :defer nil
-  :load-path "~/.emacs.d/lisp/packages/")
+;; (use-package texpresso
+;;   :defer nil
+;;   :load-path "~/.emacs.d/lisp/packages/")
 
 (provide 'init-tex)

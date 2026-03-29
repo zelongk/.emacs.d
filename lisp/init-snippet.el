@@ -3,11 +3,11 @@
 ;; Yasnippet settings
 (use-package yasnippet
   :diminish
-  :ensure t
-  :hook (elpaca-after-init . yas-global-mode)
+  :hook (after-init . yas-global-mode)
   :hook ((LaTeX-mode . yas-minor-mode)
          (post-self-insert . my/yas-try-expanding-auto-snippets))
   :config
+  (elemacs-load-packages-incrementally '(eldoc easymenu help-mode))
   (use-package warnings
     :ensure nil
     :config

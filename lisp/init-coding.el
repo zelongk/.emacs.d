@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package xref
-  :ensure nil
   :init
   ;; Use faster search tool
   (when (executable-find "rg")
@@ -13,11 +12,11 @@
 
 (use-package apheleia
   :diminish
-  :hook (elpaca-after-init . apheleia-global-mode))
+  :hook (after-init . apheleia-global-mode))
 
 (use-package editorconfig
   :diminish
-  :hook elpaca-after-init)
+  :hook after-init)
 
 (use-package cask-mode)
 (use-package csv-mode)
@@ -29,7 +28,7 @@
 (use-package julia-ts-mode)
 (use-package scala-ts-mode)
 (use-package yaml-ts-mode
-  :ensure nil
+
   :mode ("\\.yaml\\'" . yaml-ts-mode))
 
 ;; Fish shell mode and auto-formatting
@@ -47,7 +46,7 @@
 (use-package docker-compose-mode)
 
 (use-package treesit-auto
-  :hook (elpaca-after-init . global-treesit-auto-mode)
+  :hook (after-init . global-treesit-auto-mode)
   :custom
   (treesit-auto-install 'prompt)
   :config

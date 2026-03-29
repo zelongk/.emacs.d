@@ -5,6 +5,7 @@
 ;; (setq-default line-height 0.16)
 ;; (setq-local default-text-properties '(line-spacing 0.1 line-height 1.1))
 
+(use-package diminish)
 
 ;; Suppress GUI features
 (setq use-file-dialog nil
@@ -24,10 +25,11 @@
       frame-resize-pixelwise t)
 
 ;; 隐藏 title bar
-(setq default-frame-alist '((undecorated-round . t)))
+(add-to-list 'default-frame-alist '(undecorated-round . t))
 
 (use-package solaire-mode
-  :hook (elpaca-after-init . solaire-global-mode))
+  :ensure nil
+  :hook (after-init . solaire-global-mode))
 
 (use-package modus-themes
   :init
@@ -40,7 +42,6 @@
 ;;   (modus-themes-load-theme 'standard-light-tinted))
 
 (use-package doric-themes
-  :demand t
   :bind ("<f5>" . doric-themes-load-random)
   :bind ("C-<f5>" . doric-load-random-light)
   :bind ("M-<f5>" . doric-load-random-dark)
@@ -55,12 +56,12 @@
       doric-water))
   (defvar my/doric-light-themes
     '(doric-oak
-     doric-jade
-     doric-wind
-     doric-beach
-     doric-coral
-     doric-earth
-     doric-almond))
+      doric-jade
+      doric-wind
+      doric-beach
+      doric-coral
+      doric-earth
+      doric-almond))
 
   (defun synchronise-theme ()
     (let* ((hour (string-to-number
@@ -105,7 +106,7 @@
   :hook prog-mode)
 
 (use-package doom-modeline
-  :hook (elpaca-after-init . doom-modeline-mode)
+  :hook (after-init . doom-modeline-mode)
   :config
   (setq doom-modeline-support-imenu t
         doom-modeline-height 30
@@ -154,13 +155,13 @@
 
 (use-package diff-hl
   :diminish
-  :hook (elpaca-after-init global-diff-hl-mode)
-  :hook (elpaca-after-init diff-hl-dired-mode)
-  :hook (elpaca-after-init diff-hl-flydiff-mode))
+  :hook (after-init global-diff-hl-mode)
+  :hook (after-init diff-hl-dired-mode)
+  :hook (after-init diff-hl-flydiff-mode))
 
 ;; Easily adjust the font size in all frames
 (use-package default-text-scale
-  :hook (elpaca-after-init . default-text-scale-mode)
+  :hook (after-init . default-text-scale-mode)
   :bind (:map default-text-scale-mode-map
               ("C-s-=" . default-text-scale-increase)
               ("C-s--" . default-text-scale-decrease)
@@ -178,11 +179,11 @@
       mouse-wheel-progressive-speed nil)
 
 (use-package nerd-icons
-  :ensure (nerd-icons
-           :type git
-           :host github
-           :repo "rainstormstudio/nerd-icons.el"
-           :files (:defaults "data"))
+  :straight (nerd-icons
+             :type git
+             :host github
+             :repo "rainstormstudio/nerd-icons.el")
+  ;; :files (:defaults "data"))
   :custom
   ;; The Nerd Font you want to use in GUI
   ;; "Symbols Nerd Font Mono" is the default and is recommended
@@ -190,7 +191,7 @@
   (nerd-icons-font-family "Symbols Nerd Font Mono"))
 
 (use-package nerd-icons-ibuffer
-  :ensure t
+  :straight t
   :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
 
 ;; Display transient in child frame
@@ -199,7 +200,7 @@
 ;;   :commands transient-posframe-mode
 ;;   :custom-face
 ;;   (transient-posframe-border ((t (:inherit posframe-border :background unspecified))))
-;;   :hook elpaca-after-init
+;;   :hook after-init
 ;;   :init (setq transient-mode-line-format nil
 ;;               transient-posframe-parameters '((left-fringe . 8)
 ;;                                               (right-fringe . 8))))
@@ -213,10 +214,16 @@
 
 (use-package beacon
   :diminish
-  :hook elpaca-after-init)
+  :hook after-init)
 
 (use-package spacious-padding
   :diminish
-  :hook elpaca-after-init)
+  :hook after-init)
+
+;; Eval result overlay
+(use-package eros
+  :hook after-init
+  :bind (([remap eval-defun] . eros-eval-defun)
+         ([remap eval-last-sexp] . eros-eval-last-sexp)))
 
 (provide 'init-ui)

@@ -41,7 +41,7 @@
 
 (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
   :after (treemacs)
-  :ensure t
+  :straight t
   :config (treemacs-set-scope-type 'Tabs))
 
 (use-package treemacs-nerd-icons

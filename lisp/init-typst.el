@@ -2,7 +2,7 @@
 
 
 (use-package typst-ts-mode
-  :ensure (:type git :host codeberg :repo "meow_king/typst-ts-mode")
+  :straight (:type git :host codeberg :repo "meow_king/typst-ts-mode")
   :hook (typst-ts-mode . eglot-ensure)
   :custom
   ;; (typst-ts-watch-options "--open")
@@ -20,7 +20,7 @@
   (setq typst-ts-preview-function 'find-file-other-window))
 
 (use-package typst-preview
-  :ensure (:type git :host github :repo "havarddj/typst-preview.el")
+  :straight (:type git :host github :repo "havarddj/typst-preview.el")
   :init
   (setq typst-preview-autostart t) ; start preview automatically when typst-preview-mode is activated
   (setq typst-preview-open-browser-automatically t) ; open browser automatically when typst-preview-start is run

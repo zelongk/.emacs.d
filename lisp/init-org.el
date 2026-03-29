@@ -6,8 +6,30 @@
 ;; 	   "* TODO %?\n%i\n%a" :prepend t))))
 
 (use-package org
-  :ensure (org :repo "https://code.tecosaur.net/tec/org-mode.git/"
-                :branch "dev")
+  :straight (org :fork (:host nil
+                              :repo "https://code.tecosaur.net/tec/org-mode.git"
+                              :branch "dev"
+                              :remote "tecosaur")
+                 :branch "dev"
+                 :files (:defaults "etc")
+                 :build t
+                 :pre-build
+                 (with-temp-file "org-version.el"
+                   (require 'lisp-mnt)
+                   (let ((version
+                          (with-temp-buffer
+                            (insert-file-contents "lisp/org.el")
+                            (lm-header "version")))
+                         (git-version
+                          (string-trim
+                           (with-temp-buffer
+                             (call-process "git" nil t nil "rev-parse" "--short" "HEAD")
+                             (buffer-string)))))
+                     (insert
+                      (format "(defun org-release () \"The release version of Org.\" %S)\n" version)
+                      (format "(defun org-git-version () \"The truncate git commit hash of Org mode.\" %S)\n" git-version)
+                      "(provide 'org-version)\n")))
+                 :pin nil)
   :hook (org-mode . org-cdlatex-mode)
   :hook (org-mode . org-indent-mode)
   :hook (org-mode . visual-line-mode)
@@ -59,6 +81,11 @@
                          (self-insert-command 1))))
               ("M-<return>" . org-insert-subheading))
   :config
+  (elemacs-load-packages-incrementally
+   '(calendar find-func format-spec org-macs org-compat
+              org-faces org-entities org-list org-pcomplete org-src
+              org-footnote org-macro ob org org-clock org-agenda
+              org-capture))
   ;; For hydra
   (defun hot-expand (str &optional mod)
     "Expand org template.
@@ -124,11 +151,11 @@ the element after the #+HEADER: tag."
   :init
   (with-eval-after-load 'org
     (setq org-hide-emphasis-markers t
-	      org-pretty-entities t))
+	        org-pretty-entities t))
   :config
   (setq org-modern-table-vertical 1
-	    org-modern-table-horizontal 0.2
-	    org-modern-todo-faces
+	      org-modern-table-horizontal 0.2
+	      org-modern-todo-faces
         '(("TODO" :inverse-video t :inherit org-todo)
           ("PROJ" :inverse-video t :inherit +org-todo-project)
           ("STRT" :inverse-video t :inherit +org-todo-active)
@@ -138,13 +165,13 @@ the element after the #+HEADER: tag."
           ("[?]"  :inverse-video t :inherit +org-todo-onhold)
           ("KILL" :inverse-video t :inherit +org-todo-cancel)
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
-	    org-modern-list '((43 . "➤")
+	      org-modern-list '((43 . "➤")
                           (45 . "–")
                           (42 . "•"))
-	    ))
+	      ))
 
 (use-package org-modern-indent
-  :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
+  :straight (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
   :config ; add late to hook
   (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
 
@@ -152,13 +179,12 @@ the element after the #+HEADER: tag."
   :hook (org-mode . org-appear-mode)
   :config
   (setq org-appear-autoemphasis t
-	org-appear-autosubmarkers t
-	org-appear-autolinks nil)
+	      org-appear-autosubmarkers t
+	      org-appear-autolinks nil)
   (run-at-time nil nil #'org-appear--set-elements))
 
 (use-package hl-todo
-  :hook (prog-mode . hl-todo-mode)
-  :hook (yaml-mode . hl-todo-mode)
+  :hook (after-init . global-hl-todo-mode)
   :config
   (setq hl-todo-highlight-punctuation ":"
         hl-todo-keyword-faces
@@ -206,7 +232,7 @@ the element after the #+HEADER: tag."
   (setq org-latex-preview-mode-display-live t)
   (setq org-latex-preview-process-default 'dvipng)
   (setq org-latex-preview-mode-update-delay 0.25)
-    (defun my/org-latex-preview-uncenter (ov)
+  (defun my/org-latex-preview-uncenter (ov)
     (overlay-put ov 'before-string nil))
   (defun my/org-latex-preview-recenter (ov)
     (overlay-put ov 'before-string (overlay-get ov 'justify)))
@@ -233,9 +259,9 @@ the element after the #+HEADER: tag."
           (add-hook 'org-latex-preview-overlay-update-functions
                     #'my/org-latex-preview-center nil :local))
       (remove-hook 'org-latex-preview-overlay-close-functions
-                    #'my/org-latex-preview-recenter)
+                   #'my/org-latex-preview-recenter)
       (remove-hook 'org-latex-preview-overlay-update-functions
-                    #'my/org-latex-preview-center)
+                   #'my/org-latex-preview-center)
       (remove-hook 'org-latex-preview-overlay-open-functions
                    #'my/org-latex-preview-uncenter)))
   (defun my/text-scale-adjust-latex-previews ()
@@ -263,7 +289,6 @@ the element after the #+HEADER: tag."
   (add-hook 'text-scale-mode-hook #'my/text-scale-adjust-latex-previews))
 
 (use-package org-roam
-  :ensure t
   :custom
   (org-roam-directory (file-truename "~/org/roam"))
   :bind (("C-c n l" . org-roam-buffer-toggle)

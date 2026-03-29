@@ -55,7 +55,7 @@
               ("RET" . vertico-directory-enter)
               ("DEL" . vertico-directory-delete-char)
               ("M-DEL" . vertico-directory-delete-word))
-  :hook (elpaca-after-init . vertico-mode)
+  :hook (after-init . vertico-mode)
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 
@@ -102,7 +102,7 @@
 
 ;; Enrich existing commands with completion annotations
 (use-package marginalia
-  :hook (elpaca-after-init . marginalia-mode))
+  :hook (after-init . marginalia-mode))
 
 
 ;; Add icons to completion candidates
@@ -111,16 +111,13 @@
 
 ;; Consulting completing-read
 (use-package consult
+  :commands consult-customize
   :bind (("C-." . consult-imenu)
 	       ("C-c T" . consult-theme)
-
 	       ([remap Info-search]        . consult-info)
          ;; ([remap isearch-forward]    . consult-line)
          ([remap recentf-open-files] . consult-recent-file)
-
-         
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-         
          ;; Custom M-# bindings for fast register access
          ("M-#" . consult-register-load)
          ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
@@ -169,7 +166,6 @@
 (use-package consult-flycheck)
 
 (use-package consult-dir
-  :ensure t
   :bind (("C-x C-d" . consult-dir)
          :map minibuffer-local-completion-map
          ("C-x C-d" . consult-dir)

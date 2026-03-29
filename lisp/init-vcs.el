@@ -9,20 +9,22 @@
   (magit-diff-refine-hunk t)
   (git-commit-major-mode 'git-commit-elisp-text-mode)
   :config
+  (elemacs-load-packages-incrementally '(dash f s with-editor eieio transient git-commit))
   (setq magit-show-long-lines-warning nil))
 
 ;; Prime cache before Magit refresh
 (use-package magit-prime
   :diminish
-  :hook elpaca-after-init)
+  :config
+  (magit-prime-mode))
 
 ;; Show TODOs in Magit
 (use-package magit-todos
   :after magit-status
+  :hook magit
   :commands magit-todos-mode
   :init
-  (setq magit-todos-nice (if (executable-find "nice") t nil))
-  (magit-todos-mode 1))
+  (setq magit-todos-nice (if (executable-find "nice") t nil)))
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine

@@ -1,9 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package jsonrpc)
-
 (use-package eglot
-  :defer t
+  :commands (eglot eglot-ensure)
   :hook ((prog-mode . (lambda ()
                         (unless (derived-mode-p
                                  'emacs-lisp-mode 'lisp-mode
@@ -13,7 +11,7 @@
                           (eglot-ensure))))
          ((markdown-mode yaml-mode yaml-ts-mode) . eglot-ensure))
   :bind (:map eglot-mode-map
-	          ("C-c c a" . eglot-code-actions))
+	            ("C-c c a" . eglot-code-actions))
   :config
   (setq completion-category-defaults nil)
   (setq eglot-autoshutdown t
@@ -22,7 +20,7 @@
         eglot-code-action-indications '(eldoc-hint)))
 
 (use-package eglot-booster
-  :ensure (eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")
+  :straight (eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")
   :after eglot
   :config (eglot-booster-mode))
 
@@ -32,7 +30,7 @@
 (use-package consult-eglot
   :after consult eglot
   :bind (:map eglot-mode-map
-	      ([remap xref-find-apropos] . consult-eglot-symbols))
+	            ([remap xref-find-apropos] . consult-eglot-symbols))
   :config
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
 
