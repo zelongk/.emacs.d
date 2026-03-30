@@ -8,15 +8,6 @@
   (setq tuareg-prettify-symbols-full t)
   (add-hook 'tuareg-mode-hook (lambda () )))
 
-
-(use-package ocaml-eglot
-  :straight t
-  :after tuareg
-  :hook (tuareg-mode . ocaml-eglot)
-  :hook (ocaml-eglot . eglot-ensure)
-  :config
-  (setq ocaml-eglot-syntax-checker 'flycheck))
-
 (use-package dune)
 
 (use-package opam-switch-mode
@@ -25,9 +16,18 @@
   (setq tuareg-opam-insinuate t))
 
 (use-package ocp-indent
-  :hook (ocaml-eglot . ocp-setup-indent))
+  :hook (tuareg-mode . ocp-setup-indent))
 
 (use-package utop)
+
+;; (use-package ocaml-eglot
+;;   :straight t
+;;   :after tuareg
+;;   :hook (tuareg-mode . ocaml-eglot)
+;;   :hook (ocaml-eglot . eglot-ensure)
+;;   :config
+;;   (setq ocaml-eglot-syntax-checker 'flycheck))
+
 
 ;; (use-package merlin
 ;;   :hook (tuareg-mode . +ocaml-init-merlin)
@@ -41,7 +41,7 @@
 ;; (use-package merlin-eldoc
 ;;   :hook (merlin-mode . merlin-eldoc-setup))
 
-;; (use-package flycheck-ocaml)
+(use-package flycheck-ocaml)
 
 
 

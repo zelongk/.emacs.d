@@ -25,10 +25,12 @@
   :config (eglot-booster-mode))
 
 (use-package flycheck-eglot
+  :after eglot
   :hook (eglot-managed-mode . flycheck-eglot-mode))
 
 (use-package consult-eglot
-  :after consult eglot
+  :after consult
+  :after eglot
   :bind (:map eglot-mode-map
 	            ([remap xref-find-apropos] . consult-eglot-symbols))
   :config
@@ -38,10 +40,12 @@
 ;;   :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
 
 (use-package eldoc
-  :ensure nil
+  :after eglot
+  :straight nil
   :diminish)
 
 (use-package eldoc-mouse
+  :after eldoc
   :diminish
   :hook eldoc-mode)
 

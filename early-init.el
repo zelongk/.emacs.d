@@ -1,13 +1,12 @@
 ;; -*- lexical-binding: t -*-
 
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
+(if noninteractive  ; in CLI sessions
+    (setq gc-cons-threshold #x8000000   ; 128MB
+          ;; Backport from 29 (see emacs-mirror/emacs@73a384a98698)
+          gc-cons-percentage 1.0)
+  (setq gc-cons-threshold most-positive-fixnum))
 
-;; After init, use gcmh
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold #x6400000
-                  gc-cons-percentage 0.1)))
+(setq read-process-output-max (* 1024 1024))
 
 (setq package-enable-at-startup nil)
 
@@ -18,22 +17,22 @@
 (setq use-package-enable-imenu-support t)
 (setq load-prefer-newer noninteractive)
 
+(setenv "LSP_USE_PLISTS" "true")
+
+;; PERF: Many elisp file API calls consult `file-name-handler-alist'.
+;; Setting it to nil speeds up startup significantly.
+;; We restore it in init.el after startup.
+(setq file-name-handler-alist nil)
+
+;; PERF: Reduce file-name operations on `load-path'.
+;; No dynamic modules are loaded this early, so we skip .so/.dll search.
+;; Also skip .gz to avoid decompression checks.
+(setq load-suffixes '(".elc" ".el")
+      load-file-rep-suffixes '(""))
+
 (prefer-coding-system 'utf-8)
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize t)
-
-;; Optimize `auto-mode-alist`
-(setq auto-mode-case-fold nil)
-(unless (or (daemonp) noninteractive init-file-debug)
-  ;; Temporarily suppress file-handler processing to speed up startup
-  (let ((default-handlers file-name-handler-alist))
-    (setq file-name-handler-alist nil)
-    ;; Recover handlers after startup
-    (add-hook 'emacs-startup-hook
-              (lambda ()
-                (setq file-name-handler-alist
-                      (delete-dups (append file-name-handler-alist default-handlers))))
-              101)))
 
 ;; Faster to disable these here (before they've been initialized)
 (push '(menu-bar-lines . 0) default-frame-alist)

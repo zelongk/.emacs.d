@@ -2,7 +2,7 @@
 ;; Restore old window configurations
 
 (use-package winner
-  :ensure nil
+  :straight nil
   :commands (winner-undo winner-redo)
   :hook after-init
   :init (setq winner-boring-buffers '("*Completions*"

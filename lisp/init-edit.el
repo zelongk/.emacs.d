@@ -30,33 +30,31 @@
 
   ;; Don't do square-bracket space-expansion where it doesn't make sense to
   (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode markdown-ts-mode gfm-mode)
-                 "[" nil :post-handlers '(:rem ("| " "SPC")))
+                 "[" nil :post-handlers '(:rem ("| " "SPC"))))
 
-  ;; resolve conflict with hungry-delete
-  (defadvice hungry-delete-backward (before sp-delete-pair-advice activate) (save-match-data (sp-delete-pair (ad-get-arg 0)))))
 
-;; Hungry deletion
-(use-package hungry-delete
-  :diminish
-  :hook (after-init . global-hungry-delete-mode)
-  :init (setq hungry-delete-chars-to-skip " \t\f\v"
-              hungry-delete-except-modes
-              '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
+;; ;; Hungry deletion
+;; (use-package hungry-delete
+;;   :diminish
+;;   :hook (after-init . global-hungry-delete-mode)
+;;   :init (setq hungry-delete-chars-to-skip " \t\f\v"
+;;               hungry-delete-except-modes
+;;               '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
 
 (use-package abbrev
-  :ensure nil
+  :straight nil
   :diminish
   :config
   (setq-default abbrev-mode t)
   (setq abbrev-file-name (expand-file-name "abbrev.el" user-emacs-directory)))
 
 (use-package autorevert
-  :ensure nil
+  :straight nil
   :diminish
   :hook (after-init . global-auto-revert-mode))
 
 (use-package goto-addr
-  :ensure nil
+  :straight nil
   :hook ((text-mode . goto-address-mode)
          (prog-mode . goto-address-prog-mode)))
 
@@ -123,7 +121,7 @@
 
 ;; Process
 (use-package proced
-  :ensure nil
+  :straight nil
   :init
   (setq-default proced-format 'verbose)
   (setq proced-auto-update-flag t

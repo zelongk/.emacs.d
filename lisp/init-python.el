@@ -3,7 +3,7 @@
 ;; Python Mode
 ;; Install: pip install pyflakes autopep8
 (use-package python
-  :ensure nil
+  :straight nil
   :functions exec-path-from-shell-copy-env
   :hook (inferior-python-mode . (lambda ()
                                   (process-query-on-exit-flag
@@ -23,9 +23,9 @@
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-env "PYTHONPATH")))
 
-(with-eval-after-load 'eglot
-  (add-hook 'python-ts-mode-hook #'eglot-ensure)
-  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio"))))
+;; (with-eval-after-load 'eglot
+;;   (add-hook 'python-ts-mode-hook #'eglot-ensure)
+;;   (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio"))))
 
 
 (provide 'init-python)

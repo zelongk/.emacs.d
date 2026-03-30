@@ -1,13 +1,13 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package cc-mode
-  :ensure nil
+  :straight nil
   :init (setq-default c-basic-offset 2))
 
 
 (when (treesit-available-p)
   (use-package c-ts-mode
-    :ensure nil
+    :straight nil
     :functions treesit-available-p
     :init
     (setq c-ts-mode-indent-offset 2)
@@ -19,10 +19,10 @@
       (add-to-list 'major-mode-remap-alist
                    '(c-or-c++-mode . c-or-c++-ts-mode)))))
 
-(with-eval-after-load 'eglot
-  (add-hook 'c-ts-mode-hook #'eglot-ensure)
-  (add-hook 'c++-ts-mode-hook #'eglot-ensure)
-  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd")))
-  
+;; (with-eval-after-load 'eglot
+;;   (add-hook 'c-ts-mode-hook #'eglot-ensure)
+;;   (add-hook 'c++-ts-mode-hook #'eglot-ensure)
+;;   (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd")))
+
 
 (provide 'init-cc)

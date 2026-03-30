@@ -3,10 +3,10 @@
 
 (use-package gcmh
   :diminish
-  :straight (:wait t) ;; what does this do in elpaca 
-  :init
-  (gcmh-mode 1)
+  :hook (emacs-startup . gcmh-mode)
   :config
-  (setq gcmh-high-cons-threshold #x6400000))
+  (setq gcmh-high-cons-threshold #x4000000
+        gcmh-idle-delay 'auto
+        gcmh-auto-idle-delay-factor 10))
 
 (provide 'init-gc)

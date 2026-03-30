@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package shell
-  :ensure nil
+  :straight nil
   :hook ((shell-mode . my/shell-mode-hook)
          (comint-output-filter-functions . comint-strip-ctrl-m))
   :init

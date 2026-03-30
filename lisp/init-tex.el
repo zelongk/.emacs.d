@@ -9,6 +9,7 @@
   :hook (LaTeX-mode . prettify-symbols-mode)
   :hook (LaTeX-mode . visual-line-mode)
   :hook (LaTeX-mode . turn-on-reftex)
+  :hook (LaTeX-mode . lsp-deferred)
   :bind (:map LaTeX-mode-map
               ("C-S-e" . latex-math-from-calc)
               ("C-c x" . TeX-clean)
@@ -26,13 +27,16 @@
   (TeX-show-compilation nil)
   (TeX-command-extra-options "-shell-escape")
   (TeX-view-program-selection '((output-pdf "displayline")))
+  (LaTeX-indent-level 0)
+  (LaTeX-item-indent 0)
+  (TeX-newline-function 'newline)
   :config
   (add-hook 'LaTeX-mode-hook '(lambda ()
                                 (setq TeX-command-default "LaTeXMk")))
 
 
   ;; Format math as a Latex string with Calc
-  (add-hook 'LaTeX-mode-hook #'eglot-ensure)
+  ;; (add-hook 'LaTeX-mode-hook #'eglot-ensure)
 
   (setq-default LaTeX-indent-environment-list nil)
 
@@ -56,11 +60,10 @@
   ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
   ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
 
-  (setq reftex-plug-into-AUCTeX t)
+  ;; (with-eval-after-load 'eglot
+  ;;   (add-to-list 'eglot-server-programs '((LaTeX-mode latex-mode) "texlab")))
 
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs '((LaTeX-mode latex-mode) "texlab"))))
-
+  (setq reftex-plug-into-AUCTeX t))
 
 (use-package cdlatex
   :diminish

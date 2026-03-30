@@ -1,5 +1,12 @@
 ;; -*- lexical-binding: t -*-
 
+(use-package benchmark-init
+  :demand t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  ;; (add-hook 'emacs-startup-hook 'benchmark-init/deactivate)
+  )
+
 ;; Load some component of large package (org, magit etc.) before complete mount
 (defvar elemacs-incremental-packages '(t)
   "A list of packages to load incrementally after startup. Any large packages
@@ -77,27 +84,28 @@ If this is a daemon session, load them all immediately instead."
 
 (add-hook 'emacs-startup-hook #'elemacs-load-packages-incrementally-h)
 
-
-(use-package benchmark-init
-  :demand t
-  :config
-  ;; To disable collection of benchmark data after init is done.
-  (add-hook 'after-init-hook 'benchmark-init/deactivate))
-
 (when (memq window-system '(mac ns x))
   (use-package exec-path-from-shell
+    :commands exec-path-from-shell-initialize
     :init
+    (setq exec-path-from-shell-arguments '("-l"))
     (exec-path-from-shell-initialize)))
 
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (add-hook 'after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
 
+;; Start server
 (use-package server
-  :ensure nil
-  :hook (after-init . server-mode))
+  :hook (emacs-startup . (lambda ()
+			                     (unless server-mode
+                             (server-mode 1)))))
+
+;; Save place
+(use-package saveplace
+  :hook (after-init . save-place-mode))
 
 (use-package display-line-numbers
-  :ensure nil
+  :straight nil
   :hook (text-mode . display-line-numbers-mode)
   :hook (prog-mode . display-line-numbers-mode)
   :config
@@ -111,42 +119,48 @@ If this is a daemon session, load them all immediately instead."
     (add-hook mode (lambda () (display-line-numbers-mode -1))))
   (setq display-line-numbers-type 'relative)
   )
-
-(add-hook 'prog-mode #'delete-trailing-whitespace-mode)
-(add-hook 'text-mode #'delete-trailing-whitespace-mode)
+(use-package del-trailing-white
+  :straight nil
+  :hook ((prog-mode markdown-mode conf-mode) . enable-trailing-whitespace)
+  :init
+  (setq-default show-trailing-whitespace nil)
+  (defun enable-trailing-whitespace ()
+    "Show trailing spaces and delete on saving."
+    (setq show-trailing-whitespace t)
+    (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
+  )
 
 (use-package subword
-  :ensure nil
+  :straight nil
   :diminish
   :hook (prog-mode minibuffer-setup))
 
 (use-package paren
-  :ensure nil
+  :straight nil
   :hook (after-init . show-paren-mode))
 
-;; Show trailing whitespace only in prog-mode and text-mode
-(add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
-(add-hook 'text-mode-hook (lambda () (setq show-trailing-whitespace t)))
+;; ;; Show trailing whitespace only in prog-mode and text-mode
+;; (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+;; (add-hook 'text-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 (use-package recentf
-  :ensure nil
+  :straight nil
   :hook (after-init . recentf-mode)
-  :custom
-  (recentf-max-saved-items 500)
-  (recentf-exclude
-   '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
-     "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
-     "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
-     "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
-     (lambda (file) (file-in-directory-p file package-user-dir))))
+  :init
+  (setq recentf-max-saved-items 500
+        recentf-exclude
+        '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
+          "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
+          "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
+          "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
+          (lambda (file) (file-in-directory-p file package-user-dir))))
   :config
-  (elemacs-load-packages-incrementally '(easymenu tree-widget timer))
   (push (expand-file-name recentf-save-file) recentf-exclude)
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name)
   )
 
 (use-package savehist
-  :ensure nil
+  :straight nil
   :hook (after-init . savehist-mode)
   :init (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
               history-length 1000
@@ -158,6 +172,7 @@ If this is a daemon session, load them all immediately instead."
               savehist-autosave-interval 300))
 
 (setq-default cursor-type 'bar)
+(setq kill-whole-line t)
 (setq make-backup-files nil)
 (setq use-short-answers t)
 ;; (setq frame-title-format "\n")
@@ -238,6 +253,10 @@ If this is a daemon session, load them all immediately instead."
          var-bt 'action
          (lambda (button)
            (helpful-variable (button-get button 'apropos-symbol))))))))
+
+(setq delete-by-moving-to-trash t
+      inhibit-compacting-font-caches t
+      make-backup-files nil)
 
 (setq-default auto-save-default nil)
 (setq create-lockfiles nil)

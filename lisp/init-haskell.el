@@ -12,8 +12,7 @@
   :config
   (setq haskell-process-suggest-remove-import-lines t
         haskell-process-auto-import-loaded-modules t)
-  (add-to-list 'completion-ignored-extensions ".hi")
-  (add-hook 'haskell-mode-hook #'eglot-ensure))
+  (add-to-list 'completion-ignored-extensions ".hi"))
 
 
 (provide 'init-haskell)

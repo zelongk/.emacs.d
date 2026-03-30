@@ -9,7 +9,7 @@
   :config
   (elemacs-load-packages-incrementally '(eldoc easymenu help-mode))
   (use-package warnings
-    :ensure nil
+    :straight nil
     :config
     (cl-pushnew '(yasnippet backquote-change)
                 warning-suppress-types

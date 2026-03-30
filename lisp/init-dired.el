@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package dired
-  :ensure nil
+  :straight nil
   :bind (:map dired-mode-map
               ("C-c C-p" . wdired-change-to-wdired-mode)
 	            ("b" . dired-up-directory))

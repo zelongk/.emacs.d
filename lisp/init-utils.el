@@ -29,7 +29,7 @@
   (which-key-add-key-based-replacements "C-x v" "version control"))
 
 (use-package grep
-  :ensure nil
+  :straight nil
   :autoload grep-apply-setting
   :init
   (when (executable-find "rg")

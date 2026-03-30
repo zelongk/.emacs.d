@@ -28,7 +28,6 @@
 (add-to-list 'default-frame-alist '(undecorated-round . t))
 
 (use-package solaire-mode
-  :ensure nil
   :hook (after-init . solaire-global-mode))
 
 (use-package modus-themes
@@ -105,17 +104,20 @@
   :hook text-mode
   :hook prog-mode)
 
-(use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
-  :config
-  (setq doom-modeline-support-imenu t
-        doom-modeline-height 30
-        doom-modeline-buffer-file-name-style 'relative-from-project
-        doom-modeline-enable-word-count t
-        ;; doom-modeline-project-name t
-        doom-modeline-check 'simple
-        doom-modeline-buffer-encoding nil
-        doom-modeline-major-mode-icon nil))
+(use-package mood-line
+  :hook emacs-startup)
+
+;; (use-package doom-modeline
+;;   :hook (after-init . doom-modeline-mode)
+;;   :config
+;;   (setq doom-modeline-support-imenu t
+;;         doom-modeline-height 30
+;;         doom-modeline-buffer-file-name-style 'relative-from-project
+;;         doom-modeline-enable-word-count t
+;;         ;; doom-modeline-project-name t
+;;         doom-modeline-check 'simple
+;;         doom-modeline-buffer-encoding nil
+;;         doom-modeline-major-mode-icon nil))
 
 (use-package hide-mode-line
   :autoload turn-off-hide-mode-line-mode

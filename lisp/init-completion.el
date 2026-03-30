@@ -64,7 +64,7 @@
 ;;   :hook (vertico-mode . vertico-posframe-mode))
 
 (use-package vertico-multiform
-  :ensure nil
+  :straight nil
   :hook (vertico-mode . vertico-multiform-mode)
   :config
   (defvar +vertico-transform-functions nil)
@@ -258,7 +258,7 @@
 
 ;; A few more useful configurations...
 (use-package emacs
-  :ensure nil
+  :straight nil
   :custom
   ;; TAB cycle if there are only few candidates
   ;; (completion-cycle-threshold 3)
@@ -290,8 +290,8 @@
   (advice-add 'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
   (advice-add 'lsp-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
+  ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 
 ;; (use-package yasnippet-capf

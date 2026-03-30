@@ -49,7 +49,7 @@
                               (user-error "Cannot revert the timemachine buffer"))))))
 
 (use-package smerge-mode
-  :ensure nil
+  :straight nil
   :diminish
   :pretty-hydra
   ((:title (pretty-hydra-title "Smerge" 'octicon "nf-oct-diff")
