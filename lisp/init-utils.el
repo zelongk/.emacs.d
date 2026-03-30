@@ -49,13 +49,16 @@
 
 ;; Fast search tool `ripgrep'
 (use-package rg
-  :hook (after-init . rg-enable-default-bindings)
+  ;; :hook (after-init . rg-enable-default-bindings)
   :bind (:map rg-global-map
               ("c" . rg-dwim-current-dir)
               ("f" . rg-dwim-current-file)
               ("m" . rg-menu))
   :init (setq rg-show-columns t)
-  :config (add-to-list 'rg-custom-type-aliases '("tmpl" . "*.tmpl")))
+  :config
+  (add-to-list 'rg-custom-type-aliases '("tmpl" . "*.tmpl"))
+  (rg-enable-default-bindings)
+  )
 
 ;; (use-package pdf-tools
 ;;   :config

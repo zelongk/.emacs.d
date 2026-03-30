@@ -1,10 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
 (if noninteractive  ; in CLI sessions
-    (setq gc-cons-threshold #x8000000   ; 128MB
-          ;; Backport from 29 (see emacs-mirror/emacs@73a384a98698)
-          gc-cons-percentage 1.0)
-  (setq gc-cons-threshold most-positive-fixnum))
+    (setq-default gc-cons-threshold 100000000   ; 128MB
+                  ;; Backport from 29 (see emacs-mirror/emacs@73a384a98698)
+                  gc-cons-percentage 1.0)
+  (setq-default gc-cons-threshold most-positive-fixnum))
 
 (setq read-process-output-max (* 1024 1024))
 

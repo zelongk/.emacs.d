@@ -40,52 +40,23 @@
 ;;   :config
 ;;   (modus-themes-load-theme 'standard-light-tinted))
 
+;; fix this
 (use-package doric-themes
   :bind ("<f5>" . doric-themes-load-random)
-  :bind ("C-<f5>" . doric-load-random-light)
-  :bind ("M-<f5>" . doric-load-random-dark)
+  :bind ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
+  :bind ("M-<f5>" . (lambda () (interactive) (doric-themes-load-random 'dark)))
+  :commands doric-themes-load-random
   :init
-  (defvar my/doric-dark-themes
-    '(doric-fire
-      doric-valley
-      doric-walnut
-      doric-mermaid
-      doric-pine
-      doric-plum
-      doric-water))
-  (defvar my/doric-light-themes
-    '(doric-oak
-      doric-jade
-      doric-wind
-      doric-beach
-      doric-coral
-      doric-earth
-      doric-almond))
-
   (defun synchronise-theme ()
     (let* ((hour (string-to-number
-                  (substring (current-time-string) 11 13)))
-           (theme-list (if (member hour (number-sequence 6 18))
-                           my/doric-light-themes
-                         my/doric-dark-themes))
-           (loaded (seq-random-elt theme-list)))
-      (mapc #'disable-theme custom-enabled-themes)
-      (load-theme loaded :no-confirm)))
-
+                  (substring (current-time-string) 11 13))))
+      (if (member hour (number-sequence 6 18))
+          (doric-themes-load-random 'light)
+        (doric-themes-load-random 'dark))))
+  :init
   (synchronise-theme)
   (run-with-timer 3600 3600 'synchronise-theme)
-
-  (defun doric-load-random-light ()
-    (interactive)
-    (mapc #'disable-theme custom-enabled-themes)
-    (let ((loaded (seq-random-elt my/doric-light-themes)))
-      (load-theme loaded :no-confirm)))
-
-  (defun doric-load-random-dark ()
-    (interactive)
-    (mapc #'disable-theme custom-enabled-themes)
-    (let ((loaded (seq-random-elt my/doric-dark-themes)))
-      (load-theme loaded :no-confirm))))
+  )
 
 (use-package rainbow-delimiters
   :hook ((prog-mode . rainbow-delimiters-mode)
@@ -138,7 +109,7 @@
 
 (pcase system-type
   ('darwin  ; macOS
-   (set-face-attribute 'default nil :font "Sarasa Mono TC Nerd Font-22")  ; 20 * 1.5
+   (set-face-attribute 'default nil :font "Sarasa Term SC-22")  ; 20 * 1.5
    (set-face-attribute 'variable-pitch nil :font "Bookerly-22" :weight 'light)
    (set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC-22")
 

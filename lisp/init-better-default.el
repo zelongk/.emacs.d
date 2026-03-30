@@ -4,7 +4,7 @@
   :demand t
   :config
   ;; To disable collection of benchmark data after init is done.
-  ;; (add-hook 'emacs-startup-hook 'benchmark-init/deactivate)
+  (add-hook 'emacs-startup-hook 'benchmark-init/deactivate)
   )
 
 ;; Load some component of large package (org, magit etc.) before complete mount

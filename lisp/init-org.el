@@ -219,7 +219,7 @@ the element after the #+HEADER: tag."
   :hook (org-latex-preview-mode . org-latex-preview-center-mode)
   :config
   ;; Higher resolution when using dvipng
-  (plist-put org-latex-preview-appearance-options :page-width 1.0)
+  (plist-put org-latex-preview-appearance-options :page-width 0.6)
   ;; (plist-put org-latex-preview-appearance-options :margin 1)
   (plist-put org-latex-preview-appearance-options :scale 2.0)
 
