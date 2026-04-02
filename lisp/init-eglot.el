@@ -20,7 +20,7 @@
         eglot-code-action-indications '(eldoc-hint)))
 
 (use-package eglot-booster
-  :straight (eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")
+  :ensure (eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")
   :after eglot
   :config (eglot-booster-mode))
 
@@ -41,7 +41,7 @@
 
 (use-package eldoc
   :after eglot
-  :straight nil
+  :ensure nil
   :diminish)
 
 (use-package eldoc-mouse

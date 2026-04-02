@@ -85,7 +85,7 @@
 
 (use-package meow
   :demand t
-  :hook (after-init . meow-global-mode)
+  :hook (elpaca-after-init . meow-global-mode)
   :config
   (meow-setup)
   (setq meow-replace-state-name-list

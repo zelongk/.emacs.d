@@ -1,10 +1,23 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package latex
-  ;; :straight (auctex :pre-build (("./autogen.sh")
-	;; 		                        ("./configure" "--without-texmf-dir" "--with-lispdir=.")
-  ;;                             ("make")))
-  :straight (auctex :type git :host nil :repo "https://git.savannah.gnu.org/git/auctex.git")
+  :after tex
+  :ensure (auctex :pre-build (("./autogen.sh")
+                              ("./configure" "--without-texmf-dir" "--with-lispdir=.")
+                              ("make")))
+  ;; :ensure (auctex :type git :host nil :repo "https://git.savannah.gnu.org/git/auctex.git")
+  :defines (TeX-auto-save
+            TeX-parse-self
+            TeX-electric-escape
+            TeX-PDF-mode
+            TeX-DVI-via-PDFTeX
+            TeX-clean-confirm
+            TeX-source-correlate-mode
+            TeX-source-correlate-method
+            TeX-display-help
+            TeX-show-compilation
+            TeX-command-extra-options
+            TeX-view-program-selection)
   :mode (("\\.tex\\'" . LaTeX-mode))
   :hook ((LaTeX-mode . prettify-symbols-mode)
          (LaTeX-mode . visual-line-mode)

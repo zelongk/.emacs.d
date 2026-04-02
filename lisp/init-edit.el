@@ -1,11 +1,12 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package delsel
-  :hook (after-init . delete-selection-mode))
+  :ensure nil
+  :hook (elpaca-after-init . delete-selection-mode))
 
 (use-package smartparens
   :diminish
-  :hook (after-init . smartparens-global-mode)
+  :hook (elpaca-after-init . smartparens-global-mode)
   :init (sp-use-paredit-bindings)
   :config
   ;; Autopair quotes more conservatively; if I'm next to a word/before another
@@ -35,25 +36,25 @@
 ;; ;; Hungry deletion
 ;; (use-package hungry-delete
 ;;   :diminish
-;;   :hook (after-init . global-hungry-delete-mode)
+;;   :hook (elpaca-after-init . global-hungry-delete-mode)
 ;;   :init (setq hungry-delete-chars-to-skip " \t\f\v"
 ;;               hungry-delete-except-modes
 ;;               '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
 
 (use-package abbrev
-  :straight nil
+  :ensure nil
   :diminish
   :config
   (setq-default abbrev-mode t)
   (setq abbrev-file-name (expand-file-name "abbrev.el" user-emacs-directory)))
 
 (use-package autorevert
-  :straight nil
+  :ensure nil
   :diminish
-  :hook (after-init . global-auto-revert-mode))
+  :hook (elpaca-after-init . global-auto-revert-mode))
 
 (use-package goto-addr
-  :straight nil
+  :ensure nil
   :hook ((text-mode . goto-address-mode)
          (prog-mode . goto-address-prog-mode)))
 
@@ -93,7 +94,7 @@
 
 (use-package ace-pinyin
   :diminish
-  :hook (after-init . ace-pinyin-global-mode))
+  :hook (elpaca-after-init . ace-pinyin-global-mode))
 
 ;; show number of matches
 (use-package anzu
@@ -103,7 +104,7 @@
          :map isearch-mode-map
          ([remap isearch-query-replace] . anzu-isearch-query-replace)
          ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
-  :hook (after-init . global-anzu-mode))
+  :hook (elpaca-after-init . global-anzu-mode))
 
 ;; Goto last change
 (use-package goto-chg
@@ -116,11 +117,11 @@
 
 ;; Remember undo history
 (use-package undo-fu-session
-  :hook (after-init . undo-fu-session-global-mode))
+  :hook (elpaca-after-init . undo-fu-session-global-mode))
 
 ;; Process
 (use-package proced
-  :straight nil
+  :ensure nil
   :init
   (setq-default proced-format 'verbose)
   (setq proced-auto-update-flag t

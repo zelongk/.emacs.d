@@ -17,7 +17,7 @@
         treemacs-missing-project-action  'remove
         treemacs-user-mode-line-format   'none
         treemacs-sorting                 'alphabetic-asc
-        treemacs-follow-after-init       t
+        treemacs-follow-elpaca-after-init       t
         treemacs-width                   30
 	    treemacs-show-hidden-files       nil
 	    treemacs-silent-refresh          t
@@ -41,7 +41,7 @@
 
 (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
   :after (treemacs)
-  :straight t
+  :ensure t
   :config (treemacs-set-scope-type 'Tabs))
 
 (use-package treemacs-nerd-icons

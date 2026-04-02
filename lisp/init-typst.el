@@ -2,7 +2,7 @@
 
 
 (use-package typst-ts-mode
-  :straight (:type git :host codeberg :repo "meow_king/typst-ts-mode")
+  :ensure (:type git :host codeberg :repo "meow_king/typst-ts-mode")
   :custom
   ;; (typst-ts-watch-options "--open")
   (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory))
@@ -19,7 +19,7 @@
   (setq typst-ts-preview-function 'find-file-other-window))
 
 (use-package typst-preview
-  :straight (:type git :host github :repo "havarddj/typst-preview.el")
+  :ensure (:type git :host github :repo "havarddj/typst-preview.el")
   :init
   (setq typst-preview-autostart t) ; start preview automatically when typst-preview-mode is activated
   (setq typst-preview-open-browser-automatically t) ; open browser automatically when typst-preview-start is run

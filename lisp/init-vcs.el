@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package transient)
-
 (use-package magit
   :defer t
   :bind (("C-c g" . magit-dispatch))
@@ -49,7 +47,7 @@
                               (user-error "Cannot revert the timemachine buffer"))))))
 
 (use-package smerge-mode
-  :straight nil
+  :ensure nil
   :diminish
   :pretty-hydra
   ((:title (pretty-hydra-title "Smerge" 'octicon "nf-oct-diff")

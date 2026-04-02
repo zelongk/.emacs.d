@@ -51,14 +51,14 @@
 
 ;; Install use-package support
 (elpaca elpaca-use-package
-  ;; Enable use-package :straight support for Elpaca.
+  ;; Enable use-package :ensure support for Elpaca.
   (elpaca-use-package-mode))
 
 ;;When installing a package used in the init file itself,
 ;;e.g. a package which adds a use-package key word,
 ;;use the :wait recipe keyword to block until that package is installed/configured.
 ;;For example:
-;;(use-package general :straight (:wait t) :demand t)
+;;(use-package general :ensure (:wait t) :demand t)
 
 (setq elpaca-lock-file (expand-file-name "lock-file.eld" user-emacs-directory))
 
@@ -66,7 +66,30 @@
       use-package-expand-minimally t
       use-package-always-defer t)
 
-(use-package diminish)
+(use-package elpaca-ui
+  :ensure nil
+  :bind (:map elpaca-ui-mode-map
+              ("p" . previous-line)
+              ("F" . elpaca-ui-mark-pull))
+  :hook (elpaca-log-mode . elpaca-log-update-mode)
+  :after popper
+  :init
+  (add-to-list 'popper-reference-buffers
+               'elpaca-log-mode)
+  (setf (alist-get '(major-mode . elpaca-log-mode)
+                   display-buffer-alist
+                   nil nil #'equal)
+        '((display-buffer-at-bottom
+           display-buffer-in-side-window)
+          (side . below)
+          (slot . 49)
+          (window-height . 0.4)
+          (body-function . select-window))
+        (alist-get "\\*elpaca-diff\\*" display-buffer-alist
+                   nil nil #'equal)
+        '((display-buffer-reuse-window
+           display-buffer-in-atom-window)
+          (side . right))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

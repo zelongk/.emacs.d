@@ -19,7 +19,7 @@
          (lsp-mode . (lambda ()
                        ;; Integrate `which-key'
                        (lsp-enable-which-key-integration)
-                       (add-hook 'before-save-hook #'lsp-format-buffer t t)
+                       ;; (add-hook 'before-save-hook #'lsp-format-buffer t t)
                        (add-hook 'before-save-hook #'lsp-organize-imports t t))))
   :bind (:map lsp-mode-map
               ("C-c c d" . lsp-describe-thing-at-point)
@@ -58,12 +58,7 @@
 
               ;; For diagnostics
               lsp-diagnostics-disabled-modes '(markdown-mode gfm-mode))
-
   :config
-  (use-package consult-lsp
-    :bind (:map lsp-mode-map
-                ("C-M-." . consult-lsp-symbols)))
-
   (with-no-warnings
     ;; Disable `lsp-mode' in `git-timemachine-mode'
     (defun my/lsp--init-if-visible (fn &rest args)
@@ -77,79 +72,6 @@
          (memq sh-shell '(sh bash zsh))))
   (advice-add #'lsp-bash-check-sh-shell :override #'my/lsp-bash-check-sh-shell)
   (add-to-list 'lsp-language-id-configuration '(bash-ts-mode . "shellscript"))
-
-  (use-package lsp-ui
-    :custom-face
-    (lsp-ui-sideline-code-action ((t (:inherit warning))))
-    :pretty-hydra
-    ((:color amaranth :quit-key ("q" "C-g"))
-     ("Doc"
-      (("d e" (progn
-                (lsp-ui-doc-enable (not lsp-ui-doc-mode))
-                (setq lsp-ui-doc-enable (not lsp-ui-doc-enable)))
-        "enable" :toggle lsp-ui-doc-mode)
-       ("d s" (setq lsp-ui-doc-include-signature (not lsp-ui-doc-include-signature))
-        "signature" :toggle lsp-ui-doc-include-signature)
-       ("d t" (setq lsp-ui-doc-position 'top)
-        "top" :toggle (eq lsp-ui-doc-position 'top))
-       ("d b" (setq lsp-ui-doc-position 'bottom)
-        "bottom" :toggle (eq lsp-ui-doc-position 'bottom))
-       ("d p" (setq lsp-ui-doc-position 'at-point)
-        "at point" :toggle (eq lsp-ui-doc-position 'at-point))
-       ("d h" (setq lsp-ui-doc-header (not lsp-ui-doc-header))
-        "header" :toggle lsp-ui-doc-header)
-       ("d f" (setq lsp-ui-doc-alignment 'frame)
-        "align frame" :toggle (eq lsp-ui-doc-alignment 'frame))
-       ("d w" (setq lsp-ui-doc-alignment 'window)
-        "align window" :toggle (eq lsp-ui-doc-alignment 'window)))
-      "Sideline"
-      (("s e" (progn
-                (lsp-ui-sideline-enable (not lsp-ui-sideline-mode))
-                (setq lsp-ui-sideline-enable (not lsp-ui-sideline-enable)))
-        "enable" :toggle lsp-ui-sideline-mode)
-       ("s h" (setq lsp-ui-sideline-show-hover (not lsp-ui-sideline-show-hover))
-        "hover" :toggle lsp-ui-sideline-show-hover)
-       ("s d" (setq lsp-ui-sideline-show-diagnostics (not lsp-ui-sideline-show-diagnostics))
-        "diagnostics" :toggle lsp-ui-sideline-show-diagnostics)
-       ("s s" (setq lsp-ui-sideline-show-symbol (not lsp-ui-sideline-show-symbol))
-        "symbol" :toggle lsp-ui-sideline-show-symbol)
-       ("s c" (setq lsp-ui-sideline-show-code-actions (not lsp-ui-sideline-show-code-actions))
-        "code actions" :toggle lsp-ui-sideline-show-code-actions)
-       ("s i" (setq lsp-ui-sideline-ignore-duplicate (not lsp-ui-sideline-ignore-duplicate))
-        "ignore duplicate" :toggle lsp-ui-sideline-ignore-duplicate))
-      "Action"
-      (("h" backward-char "←")
-       ("j" next-line "↓")
-       ("k" previous-line "↑")
-       ("l" forward-char "→")
-       ("C-a" mwim-beginning-of-code-or-line nil)
-       ("C-e" mwim-end-of-code-or-line nil)
-       ("C-b" backward-char nil)
-       ("C-n" next-line nil)
-       ("C-p" previous-line nil)
-       ("C-f" forward-char nil)
-       ("M-b" backward-word nil)
-       ("M-f" forward-word nil)
-       ("c" lsp-ui-sideline-apply-code-actions "apply code actions"))))
-    :bind (("C-c u" . lsp-ui-imenu)
-           :map lsp-ui-mode-map
-           ("M-<f6>" . lsp-ui-hydra/body)
-           ("s-<return>" . lsp-ui-sideline-apply-code-actions)
-           ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-           ([remap xref-find-references] . lsp-ui-peek-find-references))
-    :hook ((lsp-mode . lsp-ui-mode)
-           (after-load-theme . lsp-ui-set-doc-border))
-    :init
-    (setq lsp-ui-sideline-show-diagnostics nil
-          lsp-ui-sideline-ignore-duplicate t
-          lsp-ui-doc-delay 0.1
-          lsp-ui-doc-show-with-cursor (not (display-graphic-p))
-          lsp-ui-imenu-auto-refresh 'after-save
-          lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
-                                ,(face-foreground 'font-lock-string-face)
-                                ,(face-foreground 'font-lock-constant-face)
-                                ,(face-foreground 'font-lock-variable-name-face))))
-
   :preface
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
     "Try to parse bytecode instead of json."
@@ -181,7 +103,82 @@
             (append (list "emacs-lsp-booster" "--") orig-result))
         orig-result)))
   (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+
   )
+(use-package consult-lsp
+  :bind (:map lsp-mode-map
+              ("C-M-." . consult-lsp-symbols)))
+(use-package lsp-ui
+  :custom-face
+  (lsp-ui-sideline-code-action ((t (:inherit warning))))
+  :pretty-hydra
+  ((:color amaranth :quit-key ("q" "C-g"))
+   ("Doc"
+    (("d e" (progn
+              (lsp-ui-doc-enable (not lsp-ui-doc-mode))
+              (setq lsp-ui-doc-enable (not lsp-ui-doc-enable)))
+      "enable" :toggle lsp-ui-doc-mode)
+     ("d s" (setq lsp-ui-doc-include-signature (not lsp-ui-doc-include-signature))
+      "signature" :toggle lsp-ui-doc-include-signature)
+     ("d t" (setq lsp-ui-doc-position 'top)
+      "top" :toggle (eq lsp-ui-doc-position 'top))
+     ("d b" (setq lsp-ui-doc-position 'bottom)
+      "bottom" :toggle (eq lsp-ui-doc-position 'bottom))
+     ("d p" (setq lsp-ui-doc-position 'at-point)
+      "at point" :toggle (eq lsp-ui-doc-position 'at-point))
+     ("d h" (setq lsp-ui-doc-header (not lsp-ui-doc-header))
+      "header" :toggle lsp-ui-doc-header)
+     ("d f" (setq lsp-ui-doc-alignment 'frame)
+      "align frame" :toggle (eq lsp-ui-doc-alignment 'frame))
+     ("d w" (setq lsp-ui-doc-alignment 'window)
+      "align window" :toggle (eq lsp-ui-doc-alignment 'window)))
+    "Sideline"
+    (("s e" (progn
+              (lsp-ui-sideline-enable (not lsp-ui-sideline-mode))
+              (setq lsp-ui-sideline-enable (not lsp-ui-sideline-enable)))
+      "enable" :toggle lsp-ui-sideline-mode)
+     ("s h" (setq lsp-ui-sideline-show-hover (not lsp-ui-sideline-show-hover))
+      "hover" :toggle lsp-ui-sideline-show-hover)
+     ("s d" (setq lsp-ui-sideline-show-diagnostics (not lsp-ui-sideline-show-diagnostics))
+      "diagnostics" :toggle lsp-ui-sideline-show-diagnostics)
+     ("s s" (setq lsp-ui-sideline-show-symbol (not lsp-ui-sideline-show-symbol))
+      "symbol" :toggle lsp-ui-sideline-show-symbol)
+     ("s c" (setq lsp-ui-sideline-show-code-actions (not lsp-ui-sideline-show-code-actions))
+      "code actions" :toggle lsp-ui-sideline-show-code-actions)
+     ("s i" (setq lsp-ui-sideline-ignore-duplicate (not lsp-ui-sideline-ignore-duplicate))
+      "ignore duplicate" :toggle lsp-ui-sideline-ignore-duplicate))
+    "Action"
+    (("h" backward-char "←")
+     ("j" next-line "↓")
+     ("k" previous-line "↑")
+     ("l" forward-char "→")
+     ("C-a" mwim-beginning-of-code-or-line nil)
+     ("C-e" mwim-end-of-code-or-line nil)
+     ("C-b" backward-char nil)
+     ("C-n" next-line nil)
+     ("C-p" previous-line nil)
+     ("C-f" forward-char nil)
+     ("M-b" backward-word nil)
+     ("M-f" forward-word nil)
+     ("c" lsp-ui-sideline-apply-code-actions "apply code actions"))))
+  :bind (("C-c u" . lsp-ui-imenu)
+         :map lsp-ui-mode-map
+         ("M-<f6>" . lsp-ui-hydra/body)
+         ("s-<return>" . lsp-ui-sideline-apply-code-actions)
+         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+         ([remap xref-find-references] . lsp-ui-peek-find-references))
+  :hook ((lsp-mode . lsp-ui-mode)
+         (after-load-theme . lsp-ui-set-doc-border))
+  :init
+  (setq lsp-ui-sideline-show-diagnostics nil
+        lsp-ui-sideline-ignore-duplicate t
+        lsp-ui-doc-delay 0.1
+        lsp-ui-doc-show-with-cursor (not (display-graphic-p))
+        lsp-ui-imenu-auto-refresh 'after-save
+        lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
+                              ,(face-foreground 'font-lock-string-face)
+                              ,(face-foreground 'font-lock-constant-face)
+                              ,(face-foreground 'font-lock-variable-name-face))))
 
 
 (provide 'init-lsp)

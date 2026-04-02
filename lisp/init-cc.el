@@ -1,13 +1,13 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package cc-mode
-  :straight nil
+  :ensure nil
   :init (setq-default c-basic-offset 2))
 
 
 (when (treesit-available-p)
   (use-package c-ts-mode
-    :straight nil
+    :ensure nil
     :functions treesit-available-p
     :init
     (setq c-ts-mode-indent-offset 2)

@@ -2,7 +2,7 @@
 
 
 (use-package tuareg
-  :straight t
+  :ensure t
   :mode (("\\.ocamlinit\\'" . tuareg-mode))
   :config
   (setq tuareg-prettify-symbols-full t))
@@ -20,7 +20,7 @@
 (use-package utop)
 
 ;; (use-package ocaml-eglot
-;;   :straight t
+;;   :ensure t
 ;;   :after tuareg
 ;;   :hook (tuareg-mode . ocaml-eglot)
 ;;   :hook (ocaml-eglot . eglot-ensure)

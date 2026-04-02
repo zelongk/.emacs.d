@@ -1,10 +1,12 @@
 ;; -*- lexical-binding: t; -*-
 
+(use-package transient)
+
 (use-package which-key
   :diminish
   :functions childframe-completion-workable-p
   :bind ("C-h M-m" . which-key-show-major-mode)
-  :hook (after-init . which-key-mode)
+  :hook (elpaca-after-init . which-key-mode)
   :init (setq which-key-max-description-length 30
 	            which-key-idle-delay 0.5
               which-key-lighter nil
@@ -29,7 +31,7 @@
   (which-key-add-key-based-replacements "C-x v" "version control"))
 
 (use-package grep
-  :straight nil
+  :ensure nil
   :autoload grep-apply-setting
   :init
   (when (executable-find "rg")
@@ -49,7 +51,7 @@
 
 ;; Fast search tool `ripgrep'
 (use-package rg
-  ;; :hook (after-init . rg-enable-default-bindings)
+  ;; :hook (elpaca-after-init . rg-enable-default-bindings)
   :bind (:map rg-global-map
               ("c" . rg-dwim-current-dir)
               ("f" . rg-dwim-current-file)
@@ -69,7 +71,7 @@
 ;;   :demand t)
 
 ;; (use-package keycast
-;;   :hook (after-init . keycast-mode-line-mode)
+;;   :hook (elpaca-after-init . keycast-mode-line-mode)
 ;;   :config
 ;;   (setq keycast-mode-line-remove-tail-elements nil))
 

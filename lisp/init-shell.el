@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package shell
-  :straight nil
+  :ensure nil
   :hook ((shell-mode . my/shell-mode-hook)
          (comint-output-filter-functions . comint-strip-ctrl-m))
   :init
@@ -149,7 +149,7 @@
   :bind ("C-`" . eshell-toggle)
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode))
-  :straight `(eat :repo "https://codeberg.org/akib/emacs-eat"
+  :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
 		              :files ("*.el" ("term" "term/*.el") "*.texi"
 			                    "*.ti" ("terminfo/e" "terminfo/e/*")
 			                    ("terminfo/65" "terminfo/65/*")
@@ -195,7 +195,7 @@
 
 (use-package eshell-syntax-highlighting
   :after eshell-mode
-  :hook (after-init . eshell-syntax-highlighting-global-mode))
+  :hook (elpaca-after-init . eshell-syntax-highlighting-global-mode))
 
 
 (provide 'init-shell)

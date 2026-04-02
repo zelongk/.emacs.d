@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package dired
-  :straight nil
+  :ensure nil
   :bind (:map dired-mode-map
               ("C-c C-p" . wdired-change-to-wdired-mode)
 	            ("b" . dired-up-directory))
@@ -13,30 +13,22 @@
 
   ;; Show directory first
   (setq dired-listing-switches "-alh --group-directories-first"
-        dired-use-ls-dired t)
-
-  ;; Colorful dired
-  (use-package diredfl
-    :diminish
-    :hook dired-mode
-    :hook dirvish-directory-view-mode)
+        dired-use-ls-dired t))
 
 
-  ;; Extra Dired functionality
-  (use-package dired-aux :straight nil))
+;; Colorful dired
+(use-package diredfl
+  :diminish
+  :hook dired-mode
+  :hook dirvish-directory-view-mode)
+
+;; Extra Dired functionality
+(use-package dired-aux :ensure nil)
 
 (use-package nerd-icons-dired
   :diminish
-  :functions (nerd-icons-icon-for-dir my-nerd-icons-icon-for-dir)
-  :hook dired-mode
-  :init
-  (defface nerd-icons-dired-dir-face
-    '((t (:inherit 'font-lock-doc-face)))
-    "Face for the directory icon."
-    :group 'nerd-icons-faces)
-  (defun my-nerd-icons-icon-for-dir (dir)
-    (nerd-icons-icon-for-dir dir :face 'nerd-icons-dired-dir-face))
-  (setq nerd-icons-dired-dir-icon-function #'my-nerd-icons-icon-for-dir))
+  :hook
+  (dired-mode . nerd-icons-dired-mode))
 
 ;; (use-package dirvish
 ;;   :bind ("C-c o p" . dirvish-side)

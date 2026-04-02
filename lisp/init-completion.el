@@ -55,7 +55,7 @@
               ("RET" . vertico-directory-enter)
               ("DEL" . vertico-directory-delete-char)
               ("M-DEL" . vertico-directory-delete-word))
-  :hook (after-init . vertico-mode)
+  :hook (elpaca-after-init . vertico-mode)
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 
@@ -64,7 +64,7 @@
 ;;   :hook (vertico-mode . vertico-posframe-mode))
 
 (use-package vertico-multiform
-  :straight nil
+  :ensure nil
   :hook (vertico-mode . vertico-multiform-mode)
   :config
   (defvar +vertico-transform-functions nil)
@@ -102,7 +102,7 @@
 
 ;; Enrich existing commands with completion annotations
 (use-package marginalia
-  :hook (after-init . marginalia-mode))
+  :hook (elpaca-after-init . marginalia-mode))
 
 
 ;; Add icons to completion candidates
@@ -259,7 +259,7 @@
 
 ;; A few more useful configurations...
 (use-package emacs
-  :straight nil
+  :ensure nil
   :custom
   ;; TAB cycle if there are only few candidates
   ;; (completion-cycle-threshold 3)

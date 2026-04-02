@@ -19,7 +19,7 @@
 (add-to-list 'default-frame-alist '(undecorated-round . t))
 
 (use-package solaire-mode
-  :hook (after-init . solaire-global-mode))
+  :hook (elpaca-after-init . solaire-global-mode))
 
 (use-package modus-themes
   :init
@@ -65,7 +65,7 @@
        ;; something to execute when light mode is detected
        (doric-themes-load-random 'light)
        ))
-  :hook after-init)
+  :hook elpaca-after-init)
 
 (use-package rainbow-delimiters
   :hook ((prog-mode . rainbow-delimiters-mode)
@@ -80,7 +80,7 @@
   :hook emacs-startup)
 
 ;; (use-package doom-modeline
-;;   :hook (after-init . doom-modeline-mode)
+;;   :hook (elpaca-after-init . doom-modeline-mode)
 ;;   :config
 ;;   (setq doom-modeline-support-imenu t
 ;;         doom-modeline-height 30
@@ -129,13 +129,13 @@
 
 (use-package diff-hl
   :diminish
-  :hook (after-init global-diff-hl-mode)
-  :hook (after-init diff-hl-dired-mode)
-  :hook (after-init diff-hl-flydiff-mode))
+  :hook (elpaca-after-init global-diff-hl-mode)
+  :hook (elpaca-after-init diff-hl-dired-mode)
+  :hook (elpaca-after-init diff-hl-flydiff-mode))
 
 ;; Easily adjust the font size in all frames
 (use-package default-text-scale
-  :hook (after-init . default-text-scale-mode)
+  :hook (elpaca-after-init . default-text-scale-mode)
   :bind (:map default-text-scale-mode-map
               ("C-s-=" . default-text-scale-increase)
               ("C-s--" . default-text-scale-decrease)
@@ -153,7 +153,7 @@
       mouse-wheel-progressive-speed nil)
 
 (use-package nerd-icons
-  :straight (nerd-icons
+  :ensure (nerd-icons
              :type git
              :host github
              :repo "rainstormstudio/nerd-icons.el")
@@ -170,7 +170,7 @@
 ;;   :commands transient-posframe-mode
 ;;   :custom-face
 ;;   (transient-posframe-border ((t (:inherit posframe-border :background unspecified))))
-;;   :hook after-init
+;;   :hook elpaca-after-init
 ;;   :init (setq transient-mode-line-format nil
 ;;               transient-posframe-parameters '((left-fringe . 8)
 ;;                                               (right-fringe . 8))))
@@ -184,15 +184,15 @@
 
 (use-package beacon
   :diminish
-  :hook after-init)
+  :hook elpaca-after-init)
 
 (use-package spacious-padding
   :diminish
-  :hook after-init)
+  :hook elpaca-after-init)
 
 ;; Eval result overlay
 (use-package eros
-  :hook after-init
+  :hook elpaca-after-init
   :bind (([remap eval-defun] . eros-eval-defun)
          ([remap eval-last-sexp] . eros-eval-last-sexp)))
 

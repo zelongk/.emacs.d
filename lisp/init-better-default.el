@@ -1,17 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package benchmark-init :demand t
-  :hook (after-init . benchmark-init/deactivate))
-
-(let (
-      ;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
-      (gc-cons-threshold most-positive-fixnum)
-      ;; 清空避免加载远程文件的时候分析文件。
-      (file-name-handler-alist nil))
-  (require 'benchmark-init-modes)
-  (require 'benchmark-init)
-  (benchmark-init/activate)
-  )
+  :hook (elpaca-elpaca-after-init . benchmark-init/deactivate))
 
 ;; Load some component of large package (org, magit etc.) before complete mount
 (defvar elemacs-incremental-packages '(t)
@@ -98,20 +88,22 @@ If this is a daemon session, load them all immediately instead."
     (exec-path-from-shell-initialize)))
 
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
-(add-hook 'after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
+(add-hook 'elpaca-elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
 
 ;; Start server
 (use-package server
+  :ensure nil
   :hook (emacs-startup . (lambda ()
 			                     (unless server-mode
                              (server-mode 1)))))
 
 ;; Save place
 (use-package saveplace
-  :hook (after-init . save-place-mode))
+  :ensure nil
+  :hook (elpaca-elpaca-after-init . save-place-mode))
 
 (use-package display-line-numbers
-  :straight nil
+  :ensure nil
   :hook (text-mode . display-line-numbers-mode)
   :hook (prog-mode . display-line-numbers-mode)
   :config
@@ -125,8 +117,9 @@ If this is a daemon session, load them all immediately instead."
     (add-hook mode (lambda () (display-line-numbers-mode -1))))
   (setq display-line-numbers-type 'relative)
   )
+
 (use-package del-trailing-white
-  :straight nil
+  :ensure nil
   :hook ((prog-mode markdown-mode conf-mode) . enable-trailing-whitespace)
   :init
   (setq-default show-trailing-whitespace nil)
@@ -137,21 +130,21 @@ If this is a daemon session, load them all immediately instead."
   )
 
 (use-package subword
-  :straight nil
+  :ensure nil
   :diminish
   :hook (prog-mode minibuffer-setup))
 
 (use-package paren
-  :straight nil
-  :hook (after-init . show-paren-mode))
+  :ensure nil
+  :hook (elpaca-elpaca-after-init . show-paren-mode))
 
 ;; ;; Show trailing whitespace only in prog-mode and text-mode
 ;; (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
 ;; (add-hook 'text-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 (use-package recentf
-  :straight nil
-  :hook (after-init . recentf-mode)
+  :ensure nil
+  :hook (elpaca-after-init . recentf-mode)
   :init
   (setq recentf-max-saved-items 500
         recentf-exclude
@@ -166,8 +159,8 @@ If this is a daemon session, load them all immediately instead."
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
 
 (use-package savehist
-  :straight nil
-  :hook (after-init . savehist-mode)
+  :ensure nil
+  :hook (elpaca-elpaca-after-init . savehist-mode)
   :init (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
               history-length 1000
               savehist-additional-variables '(mark-ring
@@ -226,7 +219,7 @@ If this is a daemon session, load them all immediately instead."
 
 (use-package browse-kill-ring
   :bind ("C-c k" . browse-kill-ring)
-  :hook (after-init . browse-kill-ring-default-keybindings)
+  :hook (elpaca-elpaca-after-init . browse-kill-ring-default-keybindings)
   :init (setq browse-kill-ring-separator "────────────────"
               browse-kill-ring-separator-face 'shadow))
 
@@ -234,7 +227,7 @@ If this is a daemon session, load them all immediately instead."
   :init
   (setq scroll-conservatively 3
 	      scroll-margin 0)
-  :hook (after-init . ultra-scroll-mode))
+  :hook (elpaca-elpaca-after-init . ultra-scroll-mode))
 
 (use-package helpful
   :bind (([remap describe-function] . helpful-callable)
@@ -276,15 +269,14 @@ If this is a daemon session, load them all immediately instead."
 
 (setq tramp-default-method "rpc")
 
-(use-package tramp
-  :straight (:type built-in))
+(use-package tramp)
 
 (use-package tramp-hlo
   :config
   (tramp-hlo-setup))
 
 (use-package tramp-rpc
-  :straight (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
+  :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
   :config
   (tramp-rpc-magit-enable)
   (tramp-rpc-projectile-enable))

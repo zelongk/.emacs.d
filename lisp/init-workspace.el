@@ -3,7 +3,7 @@
 
 ;; (use-package project)
 (use-package projectile
-  :hook after-init
+  :hook elpaca-after-init
   :config
   ;; Recommended keymap prefix on macOS
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -15,7 +15,7 @@
   :bind ("C-x C-b" . ibuffer)
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 (use-package nerd-icons-ibuffer
-  :straight t
+  :ensure t
   :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
 (use-package ibuffer-projectile
   :init
@@ -26,7 +26,7 @@
                 (ibuffer-do-sort-by-alphabetic)))))
 
 (use-package beframe
-  :hook after-init
+  :hook elpaca-after-init
   :bind ("C-x f" . other-frame-prefix)
   :config
   (define-key global-map (kbd "C-c b") #'beframe-prefix-map)

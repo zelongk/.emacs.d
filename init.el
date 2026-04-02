@@ -17,8 +17,8 @@
                       (delete-dups (append file-name-handler-alist default-handlers))))
               101)))
 
-;; (require 'init-elpaca)
-(require 'init-straight)
+(require 'init-elpaca)
+;; (require 'init-straight)
 (require 'init-gc)
 (require 'init-better-default)
 (require 'init-hydra)

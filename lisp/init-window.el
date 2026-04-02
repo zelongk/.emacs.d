@@ -2,9 +2,9 @@
 ;; Restore old window configurations
 
 (use-package winner
-  :straight nil
+  :ensure nil
   :commands (winner-undo winner-redo)
-  :hook after-init
+  :hook elpaca-after-init
   :init (setq winner-boring-buffers '("*Completions*"
                                       "*Compile-Log*"
                                       "*inferior-lisp*"

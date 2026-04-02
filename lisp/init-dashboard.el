@@ -3,7 +3,7 @@
 (use-package dashboard
   :init
   (use-package doom-dashboard
-    :straight (doom-dashboard :host github
+    :ensure (doom-dashboard :host github
                             :repo "emacs-dashboard/doom-dashboard")
     :demand t
     ;; Movement keys like doom.

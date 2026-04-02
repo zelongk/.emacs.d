@@ -6,30 +6,32 @@
 ;; 	   "* TODO %?\n%i\n%a" :prepend t))))
 
 (use-package org
-  :straight (org :fork (:host nil
-                              :repo "https://code.tecosaur.net/tec/org-mode.git"
-                              :branch "dev"
-                              :remote "tecosaur")
-                 :branch "dev"
-                 :files (:defaults "etc")
-                 :build t
-                 :pre-build
-                 (with-temp-file "org-version.el"
-                   (require 'lisp-mnt)
-                   (let ((version
-                          (with-temp-buffer
-                            (insert-file-contents "lisp/org.el")
-                            (lm-header "version")))
-                         (git-version
-                          (string-trim
-                           (with-temp-buffer
-                             (call-process "git" nil t nil "rev-parse" "--short" "HEAD")
-                             (buffer-string)))))
-                     (insert
-                      (format "(defun org-release () \"The release version of Org.\" %S)\n" version)
-                      (format "(defun org-git-version () \"The truncate git commit hash of Org mode.\" %S)\n" git-version)
-                      "(provide 'org-version)\n")))
-                 :pin nil)
+  :ensure (org (:repo "https://code.tecosaur.net/tec/org-mode.git"
+		                  :branch "dev"))
+  ;; :ensure (org :fork (:host nil
+  ;; 			    :repo "https://code.tecosaur.net/tec/org-mode.git" 
+  ;;                           :branch "dev")
+  ;;                           :remote "tecosaur")
+  ;;                :branch "dev"
+  ;;                :files (:defaults "etc")
+  ;;                :build t
+  ;;                :pre-build
+  ;;                (with-temp-file "org-version.el"
+  ;;                  (require 'lisp-mnt)
+  ;;                  (let ((version
+  ;;                         (with-temp-buffer
+  ;;                           (insert-file-contents "lisp/org.el")
+  ;;                           (lm-header "version")))
+  ;;                        (git-version
+  ;;                         (string-trim
+  ;;                          (with-temp-buffer
+  ;;                            (call-process "git" nil t nil "rev-parse" "--short" "HEAD")
+  ;;                            (buffer-string)))))
+  ;;                    (insert
+  ;;                     (format "(defun org-release () \"The release version of Org.\" %S)\n" version)
+  ;;                     (format "(defun org-git-version () \"The truncate git commit hash of Org mode.\" %S)\n" git-version)
+  ;;                     "(provide 'org-version)\n")))
+  ;; 		 :pin nil)
   :hook (org-mode . org-cdlatex-mode)
   :hook (org-mode . org-indent-mode)
   :hook (org-mode . visual-line-mode)
@@ -175,7 +177,7 @@ the element after the #+HEADER: tag."
 	      ))
 
 (use-package org-modern-indent
-  :straight (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
+  :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
   :config ; add late to hook
   (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
 
@@ -188,7 +190,7 @@ the element after the #+HEADER: tag."
   (run-at-time nil nil #'org-appear--set-elements))
 
 (use-package hl-todo
-  :hook (after-init . global-hl-todo-mode)
+  :hook (elpaca-after-init . global-hl-todo-mode)
   :config
   (setq hl-todo-highlight-punctuation ":"
         hl-todo-keyword-faces
@@ -214,7 +216,7 @@ the element after the #+HEADER: tag."
           ("XXX" font-lock-constant-face bold))))
 
 (use-package org-latex-preview
-  :straight nil
+  :ensure nil
   :hook (org-mode . org-latex-preview-mode)
   :hook (org-latex-preview-mode . org-latex-preview-center-mode)
   :config
@@ -323,10 +325,8 @@ the element after the #+HEADER: tag."
 (use-package valign
   :hook (org-mode . valign-mode))
 
-(use-package org-noter
-  :config
-  (use-package djvu))
-
+(use-package djvu)
+(use-package org-noter)
 
 ;; Enable lsp in org-babel
 (cl-defmacro lsp-org-babel-enable (lang)
