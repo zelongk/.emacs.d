@@ -49,7 +49,7 @@
      ("X" ace-delete-other-windows "delete other" :exit t)
      ("s" ace-swap-window "swap")
      ("a" ace-select-window "select" :exit t)
-     ("m" toggle-frame-maximized "maximize" :exit t)
+     ("m" maximize-window "maximize" :exit t)
      ("u" toggle-frame-fullscreen "fullscreen" :exit t))
     "Resize"
     (("h" shrink-window-horizontally "←")

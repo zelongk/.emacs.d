@@ -17,7 +17,7 @@
 (setq use-package-enable-imenu-support t)
 (setq load-prefer-newer noninteractive)
 
-(setenv "LSP_USE_PLISTS" "true")
+(setenv "LSP_USE_PLISTS" "true") ;; Lsp-mode plists
 
 ;; PERF: Many elisp file API calls consult `file-name-handler-alist'.
 ;; Setting it to nil speeds up startup significantly.
@@ -33,6 +33,15 @@
 (prefer-coding-system 'utf-8)
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize t)
+
+;; Suppress GUI features
+(setq use-file-dialog nil
+      use-dialog-box nil
+      inhibit-startup-screen t
+      inhibit-startup-echo-area-message user-login-name
+      inhibit-default-init t
+      initial-major-mode 'fundamental-mode
+      initial-scratch-message nil)
 
 ;; Faster to disable these here (before they've been initialized)
 (push '(menu-bar-lines . 0) default-frame-alist)

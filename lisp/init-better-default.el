@@ -1,10 +1,16 @@
 ;; -*- lexical-binding: t -*-
 
-(use-package benchmark-init
-  :demand t
-  :config
-  ;; To disable collection of benchmark data after init is done.
-  (add-hook 'emacs-startup-hook 'benchmark-init/deactivate)
+(use-package benchmark-init :demand t
+  :hook (after-init . benchmark-init/deactivate))
+
+(let (
+      ;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
+      (gc-cons-threshold most-positive-fixnum)
+      ;; 清空避免加载远程文件的时候分析文件。
+      (file-name-handler-alist nil))
+  (require 'benchmark-init-modes)
+  (require 'benchmark-init)
+  (benchmark-init/activate)
   )
 
 ;; Load some component of large package (org, magit etc.) before complete mount
@@ -153,11 +159,11 @@ If this is a daemon session, load them all immediately instead."
           "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
           "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
           "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
-          (lambda (file) (file-in-directory-p file package-user-dir))))
+          (lambda (file) (file-in-directory-p file package-user-dir)))
+        recentf-auto-cleanup 'never)
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude)
-  (add-to-list 'recentf-filename-handlers #'abbreviate-file-name)
-  )
+  (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
 
 (use-package savehist
   :straight nil
@@ -262,6 +268,11 @@ If this is a daemon session, load them all immediately instead."
 (setq create-lockfiles nil)
 ;; (setq auto-save-file-name-transforms
 ;;       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
+
+(setq tramp-default-method "rpc")
+
+(use-package tramp
+  :straight (:type built-in))
 
 (use-package tramp-hlo
   :config

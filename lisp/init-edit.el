@@ -6,7 +6,6 @@
 (use-package smartparens
   :diminish
   :hook (after-init . smartparens-global-mode)
-  ;; :hook (after-init . smartparens-global-strict-mode)
   :init (sp-use-paredit-bindings)
   :config
   ;; Autopair quotes more conservatively; if I'm next to a word/before another
@@ -59,7 +58,7 @@
          (prog-mode . goto-address-prog-mode)))
 
 (use-package multiple-cursors
-  :hook after-init
+  :hook prog-mode
   :bind (("C-S-c C-S-c"   . mc/edit-lines)
          ("C->"           . mc/mark-next-like-this)
          ("C-<"           . mc/mark-previous-like-this)

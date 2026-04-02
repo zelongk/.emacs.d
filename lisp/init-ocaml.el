@@ -5,10 +5,9 @@
   :straight t
   :mode (("\\.ocamlinit\\'" . tuareg-mode))
   :config
-  (setq tuareg-prettify-symbols-full t)
-  (add-hook 'tuareg-mode-hook (lambda () )))
+  (setq tuareg-prettify-symbols-full t))
 
-(use-package dune)
+;; (use-package dune)
 
 (use-package opam-switch-mode
   :hook (tuareg-mode . opam-switch-mode)

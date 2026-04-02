@@ -35,6 +35,7 @@ rime
 .yas-compiled-snippets.el
 flycheck_*.el
 tabsession.el
+.lsp-session-v1
 emacs.desktop
 history
 !alias

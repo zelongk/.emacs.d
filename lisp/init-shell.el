@@ -2,9 +2,37 @@
 
 (use-package shell
   :straight nil
-  :hook ((comint-output-filter-functions . comint-strip-ctrl-m))
+  :hook ((shell-mode . my/shell-mode-hook)
+         (comint-output-filter-functions . comint-strip-ctrl-m))
   :init
-  (setq system-uses-terminfo nil))
+  (setq system-uses-terminfo nil)
+
+  (with-no-warnings
+    (defun my/shell-simple-send (proc command)
+      "Various PROC COMMANDs pre-processing before sending to shell."
+      (cond
+       ;; Checking for clear command and execute it.
+       ((string-match "^[ \t]*clear[ \t]*$" command)
+        (comint-send-string proc "\n")
+        (erase-buffer))
+       ;; Checking for man command and execute it.
+       ((string-match "^[ \t]*man[ \t]*" command)
+        (comint-send-string proc "\n")
+        (setq command (replace-regexp-in-string "^[ \t]*man[ \t]*" "" command))
+        (setq command (replace-regexp-in-string "[ \t]+$" "" command))
+        ;;(message (format "command %s command" command))
+        (funcall 'man command))
+       ;; Send other commands to the default handler.
+       (t (comint-simple-send proc command))))
+
+    (defun my/shell-mode-hook ()
+      "Shell mode customization."
+      (local-set-key '[up] 'comint-previous-input)
+      (local-set-key '[down] 'comint-next-input)
+      (local-set-key '[(shift tab)] 'comint-next-matching-input-from-input)
+
+      (ansi-color-for-comint-mode-on)
+      (setq comint-input-sender 'my/shell-simple-send))))
 
 ;; Emacs command shell
 (use-package eshell
@@ -12,10 +40,13 @@
   :defines eshell-prompt-function
   :bind (:map eshell-mode-map
               ([remap recenter-top-bottom] . eshell/clear))
+
   :config
+  (setq eshell-banner-message "")
   (with-no-warnings
     (defun eshell/clear ()
       "Clear the eshell buffer."
+      (interactive)
       (let ((inhibit-read-only t))
         (erase-buffer)
         (eshell-send-input)))
@@ -113,11 +144,9 @@
   (advice-add 'gud-filter :around #'my/advice-compilation-filter)
   )
 
-(setq eshell-banner-message "")
-
 (use-package eat
-  :bind ("C-`" . eat-toggle)
-  :bind ("C-<escape>" . eshell-toggle)
+  :bind ("C-<escape>" . eat-toggle)
+  :bind ("C-`" . eshell-toggle)
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode))
   :straight `(eat :repo "https://codeberg.org/akib/emacs-eat"
@@ -143,7 +172,8 @@
   ;; Improve latency
   (setq process-adaptive-read-buffering t)
 
-  (setq tramp-remote-process-environment '("TERM=xterm-256color" "TERMINFO=''" "ENV=''" "TMOUT=0" "LC_CTYPE=''" "CDPATH=" "HISTORY=" "MAIL=" "MAILCHECK=" "MAILPATH=" "PAGER=cat" "autocorrect=" "correct="))
+  (with-eval-after-load 'tramp
+    (setq tramp-remote-process-environment '("TERM=xterm-256color" "TERMINFO=''" "ENV=''" "TMOUT=0" "LC_CTYPE=''" "CDPATH=" "HISTORY=" "MAIL=" "MAILCHECK=" "MAILPATH=" "PAGER=cat" "autocorrect=" "correct=")))
   (when (eq system-type 'darwin)
     (define-key eat-semi-char-mode-map (kbd "C-h")  #'eat-self-input)
     (define-key eat-semi-char-mode-map (kbd "<backspace>") (kbd "C-h"))))

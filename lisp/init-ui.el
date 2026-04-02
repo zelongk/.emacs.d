@@ -7,22 +7,13 @@
 
 (use-package diminish)
 
-;; Suppress GUI features
-(setq use-file-dialog nil
-      use-dialog-box nil
-      inhibit-startup-screen t
-      inhibit-startup-echo-area-message user-login-name
-      inhibit-default-init t
-      initial-scratch-message nil)
-
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
 
 (setq fast-but-imprecise-scrolling t)
 (setq redisplay-skip-fontification-on-input t)
 
-(setq frame-inhibit-implied-resize t
-      frame-resize-pixelwise t)
+(setq frame-resize-pixelwise t)
 
 ;; 隐藏 title bar
 (add-to-list 'default-frame-alist '(undecorated-round . t))
@@ -46,30 +37,40 @@
   :bind ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
   :bind ("M-<f5>" . (lambda () (interactive) (doric-themes-load-random 'dark)))
   :commands doric-themes-load-random
-  :init
-  (defun synchronise-theme ()
-    (let* ((hour (string-to-number
-                  (substring (current-time-string) 11 13))))
-      (if (member hour (number-sequence 6 18))
-          (doric-themes-load-random 'light)
-        (doric-themes-load-random 'dark))))
-  :init
-  (synchronise-theme)
-  (run-with-timer 3600 3600 'synchronise-theme)
+  ;; :init
+  ;; (defun synchronise-theme ()
+  ;;   (let* ((hour (string-to-number
+  ;;                 (substring (current-time-string) 11 13))))
+  ;;     (if (member hour (number-sequence 6 18))
+  ;;         (doric-themes-load-random 'light)
+  ;;       (doric-themes-load-random 'dark))))
+  ;; (synchronise-theme)
+  ;; (run-with-timer 3600 3600 'synchronise-theme)
   )
+
+(use-package auto-dark
+  :ensure t
+  ;; :custom
+  ;; (auto-dark-themes '((doric-beach) (leuven)))
+  ;; (auto-dark-allow-osascript t)
+  ;; (auto-dark-detection-method nil) ;; dangerous to be set manually
+  :hook
+  (auto-dark-dark-mode
+   . (lambda ()
+       ;; something to execute when dark mode is detected
+       (doric-themes-load-random 'dark))
+   )
+  (auto-dark-light-mode
+   . (lambda ()
+       ;; something to execute when light mode is detected
+       (doric-themes-load-random 'light)
+       ))
+  :hook after-init)
 
 (use-package rainbow-delimiters
   :hook ((prog-mode . rainbow-delimiters-mode)
          (typst-ts-mode . rainbow-delimiters-mode)
          (python-ts-mode . rainbow-delimiters-mode)))
-
-;; (use-package prism
-;;   :hook (prog-mode . prism-mode)
-;;   :hook (text-mode . prism-mode)
-;;   :hook (typst-ts-mode . prism-mode)
-;;   :hook (python-ts-mode . prism-whitespace-mode)
-;;   :config
-;;   (setq prism-parens t))
 
 (use-package rainbow-mode
   :hook text-mode
