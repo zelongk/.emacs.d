@@ -181,7 +181,12 @@ If this is a daemon session, load them all immediately instead."
 (setq kill-whole-line t)
 (setq make-backup-files nil)
 (setq use-short-answers t)
-;; (setq frame-title-format "\n")
+(setq frame-title-format
+      '((:eval (if (and (boundp 'projectile-mode)
+                        projectile-mode
+                        (projectile-project-p))
+                   (format "[%s] %s" (projectile-project-name) (buffer-name)) ;; Add project name in front when avaliable
+                 "%b")))) ;; Otherwise buffer name only
 (setq custom-safe-themes t)
 
 (add-to-list 'default-frame-alist '(drag-internal-border . 1))

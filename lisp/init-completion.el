@@ -117,6 +117,7 @@
 	       ([remap Info-search]        . consult-info)
          ;; ([remap isearch-forward]    . consult-line)
          ([remap recentf-open-files] . consult-recent-file)
+         ([remap bookmark-jump] . consult-bookmark)
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
          ;; Custom M-# bindings for fast register access
          ("M-#" . consult-register-load)

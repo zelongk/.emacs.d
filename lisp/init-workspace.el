@@ -10,22 +10,20 @@
   ;; Recommended keymap prefix on Windows/Linux
   (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map))
 
+(use-package ibuffer
+  :ensure nil
+  :bind ("C-x C-b" . ibuffer)
+  :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
+(use-package nerd-icons-ibuffer
+  :straight t
+  :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
 (use-package ibuffer-projectile
-  :config
+  :init
   (add-hook 'ibuffer-hook
             (lambda ()
               (ibuffer-projectile-set-filter-groups)
               (unless (eq ibuffer-sorting-mode 'alphabetic)
                 (ibuffer-do-sort-by-alphabetic)))))
-
-;; (use-package consult-projectile
-;;   :bind (([remap projectile-find-file] . consult-projectile-find-file)
-;;          ([remap projectile-recentf] . consult-projectile-recentf)
-;;          ([remap projectile-switch-project] . consult-projectile-switch-project)
-;;          ([remap projectile-switch-to-buffer] . consult-projectile-switch-to-buffer)
-;;          ([remap projectile-find-dir] . consult-projectile-find-dir)))
-
-(global-set-key (kbd "C-x C-b") #'ibuffer)
 
 (use-package beframe
   :hook after-init
@@ -49,6 +47,7 @@
                   (beframe--assume
                    (list (get-buffer buf))))))
 
+  ;; Beframe integration with other packages
   (with-eval-after-load 'consult
     (defun consult-beframe-buffer-list (&optional frame)
       "Return the list of buffers from `beframe-buffer-names' sorted by visibility.

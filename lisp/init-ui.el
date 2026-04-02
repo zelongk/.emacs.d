@@ -164,10 +164,6 @@
   ;; but you can use any other Nerd Font if you want
   (nerd-icons-font-family "Symbols Nerd Font Mono"))
 
-(use-package nerd-icons-ibuffer
-  :straight t
-  :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
-
 ;; Display transient in child frame
 ;; (use-package transient-posframe
 ;;   :diminish

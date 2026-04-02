@@ -86,6 +86,10 @@
               org-faces org-entities org-list org-pcomplete org-src
               org-footnote org-macro ob org org-clock org-agenda
               org-capture))
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (yas-activate-extra-mode 'LaTeX-mode)))
   ;; For hydra
   (defun hot-expand (str &optional mod)
     "Expand org template.
@@ -208,10 +212,6 @@ the element after the #+HEADER: tag."
           ("NOTE" success bold)
           ("BUG" error bold)
           ("XXX" font-lock-constant-face bold))))
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (yas-activate-extra-mode 'LaTeX-mode)))
 
 (use-package org-latex-preview
   :straight nil
