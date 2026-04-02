@@ -25,28 +25,32 @@
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
-        modus-themes-mixed-fonts t))
+        modus-themes-mixed-fonts t)
+  :commands (modus-themes-load-random-dark
+             modus-themes-load-random-light
+             modus-themes-load-random))
 
-;; (use-package standard-themes :demand t
-;;   :config
-;;   (modus-themes-load-theme 'standard-light-tinted))
-
-;; fix this
 (use-package doric-themes
-  :bind ("<f5>" . doric-themes-load-random)
-  :bind ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
-  :bind ("M-<f5>" . (lambda () (interactive) (doric-themes-load-random 'dark)))
-  :commands doric-themes-load-random
-  ;; :init
-  ;; (defun synchronise-theme ()
-  ;;   (let* ((hour (string-to-number
-  ;;                 (substring (current-time-string) 11 13))))
-  ;;     (if (member hour (number-sequence 6 18))
-  ;;         (doric-themes-load-random 'light)
-  ;;       (doric-themes-load-random 'dark))))
-  ;; (synchronise-theme)
-  ;; (run-with-timer 3600 3600 'synchronise-theme)
-  )
+  ;; :bind ("<f5>" . doric-themes-load-random)
+  ;; :bind ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
+  ;; :bind ("M-<f5>" . (lambda () (interactive) (doric-themes-load-random 'dark)))
+  :commands doric-themes-load-random)
+
+(use-package ef-themes
+  :bind ("<f5>" . modus-themes-load-random)
+  :bind ("C-<f5>" . modus-themes-load-random-light)
+  :bind ("M-<f5>" . modus-themes-load-random-dark)
+
+  :init
+  ;; This makes the Modus commands listed below consider only the Ef
+  ;; themes.  For an alternative that includes Modus and all
+  ;; derivative themes (like Ef), enable the
+  ;; `modus-themes-include-derivatives-mode' instead.  The manual of
+  ;; the Ef themes has a section that explains all the possibilities:
+  ;;
+  ;; - Evaluate `(info "(ef-themes) Working with other Modus themes or taking over Modus")'
+  ;; - Visit <https://protesilaos.com/emacs/ef-themes#h:6585235a-5219-4f78-9dd5-6a64d87d1b6e>
+  (ef-themes-take-over-modus-themes-mode 1))
 
 (use-package auto-dark
   :ensure t
@@ -58,12 +62,14 @@
   (auto-dark-dark-mode
    . (lambda ()
        ;; something to execute when dark mode is detected
-       (doric-themes-load-random 'dark))
-   )
+       ;; (doric-themes-load-random 'dark))
+       (modus-themes-load-random-dark)
+   ))
   (auto-dark-light-mode
    . (lambda ()
        ;; something to execute when light mode is detected
-       (doric-themes-load-random 'light)
+       ;; (doric-themes-load-random 'light)
+       (modus-themes-load-random-light)
        ))
   :hook elpaca-after-init)
 

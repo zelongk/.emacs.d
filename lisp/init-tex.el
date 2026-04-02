@@ -41,9 +41,6 @@
   (TeX-show-compilation nil)
   (TeX-command-extra-options "-shell-escape")
   (TeX-view-program-selection '((output-pdf "displayline")))
-  (LaTeX-indent-level 0)
-  (LaTeX-item-indent 0)
-  (TeX-newline-function 'newline)
   :config
   (add-hook 'LaTeX-mode-hook '(lambda ()
                                 (setq TeX-command-default "LaTeXMk")))

@@ -6,32 +6,9 @@
 ;; 	   "* TODO %?\n%i\n%a" :prepend t))))
 
 (use-package org
-  :ensure (org (:repo "https://code.tecosaur.net/tec/org-mode.git"
-		                  :branch "dev"))
-  ;; :ensure (org :fork (:host nil
-  ;; 			    :repo "https://code.tecosaur.net/tec/org-mode.git" 
-  ;;                           :branch "dev")
-  ;;                           :remote "tecosaur")
-  ;;                :branch "dev"
-  ;;                :files (:defaults "etc")
-  ;;                :build t
-  ;;                :pre-build
-  ;;                (with-temp-file "org-version.el"
-  ;;                  (require 'lisp-mnt)
-  ;;                  (let ((version
-  ;;                         (with-temp-buffer
-  ;;                           (insert-file-contents "lisp/org.el")
-  ;;                           (lm-header "version")))
-  ;;                        (git-version
-  ;;                         (string-trim
-  ;;                          (with-temp-buffer
-  ;;                            (call-process "git" nil t nil "rev-parse" "--short" "HEAD")
-  ;;                            (buffer-string)))))
-  ;;                    (insert
-  ;;                     (format "(defun org-release () \"The release version of Org.\" %S)\n" version)
-  ;;                     (format "(defun org-git-version () \"The truncate git commit hash of Org mode.\" %S)\n" git-version)
-  ;;                     "(provide 'org-version)\n")))
-  ;; 		 :pin nil)
+  :defer
+  :ensure (org :repo "https://code.tecosaur.net/tec/org-mode.git/"
+               :branch "dev")
   :hook (org-mode . org-cdlatex-mode)
   :hook (org-mode . org-indent-mode)
   :hook (org-mode . visual-line-mode)
@@ -143,7 +120,43 @@ the element after the #+HEADER: tag."
   (add-hook 'org-after-refile-insert-hook
             (defun save-buffer-after-capture ()
               (when (bound-and-true-p org-capture-is-refiling)
-                (save-buffer)))))
+                (save-buffer))))
+  
+  ;; ;; Enable lsp in org-babel
+  ;; (cl-defmacro lsp-org-babel-enable (lang)
+  ;;   "Support LANG in org source code block."
+  ;;   (cl-check-type lang string)
+  ;;   (let* ((edit-pre (intern (format "org-babel-edit-prep:%s" lang)))
+  ;;          (intern-pre (intern (format "lsp--%s" (symbol-name edit-pre)))))
+  ;;     `(progn
+  ;;        (defun ,intern-pre (info)
+  ;;          (setq buffer-file-name (or (->> info caddr (alist-get :file))
+  ;;                                     "org-src-babel.tmp"))
+  ;;          (when (fboundp 'lsp-deferred)
+  ;;            ;; Avoid headerline conflicts
+  ;;            (setq-local lsp-headerline-breadcrumb-enable nil)
+  ;;            (lsp-deferred)
+  ;;            (_
+  ;;             (user-error "LSP:: invalid type"))))
+  ;;        (put ',intern-pre 'function-documentation
+  ;;             (format "Enable lsp-mode in the buffer of org source block (%s)."
+  ;;                     (upcase ,lang)))
+
+  ;;        (if (fboundp ',edit-pre)
+  ;;            (advice-add ',edit-pre :after ',intern-pre)
+  ;;          (progn
+  ;;            (defun ,edit-pre (info)
+  ;;              (,intern-pre info))
+  ;;            (put ',edit-pre 'function-documentation
+  ;;                 (format "Prepare local buffer environment for org source block (%s)."
+  ;;                         (upcase ,lang))))))))
+
+  ;; (defconst org-babel-lang-list
+  ;;   '("go" "python" "ipython" "ruby" "js" "css" "sass" "c" "rust" "java" "cpp" "c++" "shell")
+  ;;   "The supported programming languages for interactive Babel.")
+  ;; (dolist (lang org-babel-lang-list)
+  ;;   (eval `(lsp-org-babel-enable ,lang)))
+  )
 
 (use-package org-contrib)
 
@@ -327,40 +340,5 @@ the element after the #+HEADER: tag."
 
 (use-package djvu)
 (use-package org-noter)
-
-;; Enable lsp in org-babel
-(cl-defmacro lsp-org-babel-enable (lang)
-  "Support LANG in org source code block."
-  (cl-check-type lang string)
-  (let* ((edit-pre (intern (format "org-babel-edit-prep:%s" lang)))
-         (intern-pre (intern (format "lsp--%s" (symbol-name edit-pre)))))
-    `(progn
-       (defun ,intern-pre (info)
-         (setq buffer-file-name (or (->> info caddr (alist-get :file))
-                                    "org-src-babel.tmp"))
-         (when (fboundp 'lsp-deferred)
-           ;; Avoid headerline conflicts
-           (setq-local lsp-headerline-breadcrumb-enable nil)
-           (lsp-deferred)
-           (_
-            (user-error "LSP:: invalid type"))))
-       (put ',intern-pre 'function-documentation
-            (format "Enable lsp-mode in the buffer of org source block (%s)."
-                    (upcase ,lang)))
-
-       (if (fboundp ',edit-pre)
-           (advice-add ',edit-pre :after ',intern-pre)
-         (progn
-           (defun ,edit-pre (info)
-             (,intern-pre info))
-           (put ',edit-pre 'function-documentation
-                (format "Prepare local buffer environment for org source block (%s)."
-                        (upcase ,lang))))))))
-
-(defconst org-babel-lang-list
-  '("go" "python" "ipython" "ruby" "js" "css" "sass" "c" "rust" "java" "cpp" "c++" "shell")
-  "The supported programming languages for interactive Babel.")
-(dolist (lang org-babel-lang-list)
-  (eval `(lsp-org-babel-enable ,lang)))
 
 (provide 'init-org)

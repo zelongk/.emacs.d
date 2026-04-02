@@ -81,13 +81,21 @@
    '("Y" . meow-sync-grab)
    '("z" . meow-pop-selection)
    '("'" . repeat)
-   '("<escape>" . ignore)))
+   '("<escape>" . ignore))
+  (meow-define-keys
+      'beacon
+    '("C-g" . meow-grab))
+  )
 
 (use-package meow
   :demand t
   :hook (elpaca-after-init . meow-global-mode)
   :config
   (meow-setup)
+  (add-to-list 'meow-mode-state-list '((magit-mode . insert)))
+  (setq meow-keypad-leader-dispatch "C-c"
+        meow-cursor-type-normal 'hbar
+        meow-use-clipboard t)
   (setq meow-replace-state-name-list
         '((normal . "<N>")
           (motion . "<M>")

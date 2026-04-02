@@ -250,12 +250,11 @@
   ;;Quit completion before saving
   (add-hook 'before-save-hook #'corfu-quit)
   (advice-add #'persistent-scratch-save :before #'corfu-quit)
-  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
+  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer)
+  (use-package nerd-icons-corfu
+    :init
+    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)))
 
-;; (use-package nerd-icons-corfu
-;;   :init
-;;   (with-eval-after-load 'corfu
-;;     (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)))
 
 ;; A few more useful configurations...
 (use-package emacs

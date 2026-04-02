@@ -4,42 +4,46 @@
   :ensure nil
   :hook (elpaca-after-init . delete-selection-mode))
 
-(use-package smartparens
-  :diminish
-  :hook (elpaca-after-init . smartparens-global-mode)
-  :init (sp-use-paredit-bindings)
-  :config
-  ;; Autopair quotes more conservatively; if I'm next to a word/before another
-  ;; quote, I don't want to open a new pair or it would unbalance them.
-  (let ((unless-list '(sp-point-before-word-p
-                       sp-point-after-word-p
-                       sp-point-before-same-p)))
-    (sp-pair "'"  nil :unless unless-list)
-    (sp-pair "\"" nil :unless unless-list))
-  (dolist (brace '("(" "{" "["))
-    (sp-pair brace nil
-             :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
-             ;; Don't autopair opening braces if before a word character or
-             ;; other opening brace. The rationale: it interferes with manual
-             ;; balancing of braces, and is odd form to have s-exps with no
-             ;; whitespace in between, e.g. ()()(). Insert whitespace if
-             ;; genuinely want to start a new form in the middle of a word.
-             :unless '(sp-point-before-word-p sp-point-before-same-p)))
+(use-package electric-pair-mode
+  :ensure nil
+  :hook elpaca-after-init)
 
-  (sp-local-pair sp-lisp-modes "(" ")" :unless '(:rem sp-point-before-same-p))
+;; (use-package smartparens
+;;   :diminish
+;;   :hook (elpaca-after-init . smartparens-global-mode)
+;;   :init (sp-use-paredit-bindings)
+;;   :config
+;;   ;; Autopair quotes more conservatively; if I'm next to a word/before another
+;;   ;; quote, I don't want to open a new pair or it would unbalance them.
+;;   (let ((unless-list '(sp-point-before-word-p
+;;                        sp-point-after-word-p
+;;                        sp-point-before-same-p)))
+;;     (sp-pair "'"  nil :unless unless-list)
+;;     (sp-pair "\"" nil :unless unless-list))
+;;   (dolist (brace '("(" "{" "["))
+;;     (sp-pair brace nil
+;;              :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
+;;              ;; Don't autopair opening braces if before a word character or
+;;              ;; other opening brace. The rationale: it interferes with manual
+;;              ;; balancing of braces, and is odd form to have s-exps with no
+;;              ;; whitespace in between, e.g. ()()(). Insert whitespace if
+;;              ;; genuinely want to start a new form in the middle of a word.
+;;              :unless '(sp-point-before-word-p sp-point-before-same-p)))
 
-  ;; Don't do square-bracket space-expansion where it doesn't make sense to
-  (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode markdown-ts-mode gfm-mode)
-                 "[" nil :post-handlers '(:rem ("| " "SPC"))))
+;;   (sp-local-pair sp-lisp-modes "(" ")" :unless '(:rem sp-point-before-same-p))
+
+;;   ;; Don't do square-bracket space-expansion where it doesn't make sense to
+;;   (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode markdown-ts-mode gfm-mode)
+;;                  "[" nil :post-handlers '(:rem ("| " "SPC"))))
 
 
 ;; ;; Hungry deletion
-;; (use-package hungry-delete
-;;   :diminish
-;;   :hook (elpaca-after-init . global-hungry-delete-mode)
-;;   :init (setq hungry-delete-chars-to-skip " \t\f\v"
-;;               hungry-delete-except-modes
-;;               '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
+(use-package hungry-delete
+  :diminish
+  :hook (elpaca-after-init . global-hungry-delete-mode)
+  :init (setq hungry-delete-chars-to-skip " \t\f\v"
+              hungry-delete-except-modes
+              '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
 
 (use-package abbrev
   :ensure nil
@@ -58,18 +62,18 @@
   :hook ((text-mode . goto-address-mode)
          (prog-mode . goto-address-prog-mode)))
 
-(use-package multiple-cursors
-  :hook prog-mode
-  :bind (("C-S-c C-S-c"   . mc/edit-lines)
-         ("C->"           . mc/mark-next-like-this)
-         ("C-<"           . mc/mark-previous-like-this)
-         ("C-c C-<"       . mc/mark-all-like-this)
-         ("C-M->"         . mc/skip-to-next-like-this)
-         ("C-M-<"         . mc/skip-to-previous-like-this)
-         ("s-<mouse-1>"   . mc/add-cursor-on-click)
-         ("C-S-<mouse-1>" . mc/add-cursor-on-click)
-         :map mc/keymap
-         ("C-|" . mc/vertical-align-with-space)))
+;; (use-package multiple-cursors
+;;   :hook prog-mode
+;;   :bind (("C-S-c C-S-c"   . mc/edit-lines)
+;;          ("C->"           . mc/mark-next-like-this)
+;;          ("C-<"           . mc/mark-previous-like-this)
+;;          ("C-c C-<"       . mc/mark-all-like-this)
+;;          ("C-M->"         . mc/skip-to-next-like-this)
+;;          ("C-M-<"         . mc/skip-to-previous-like-this)
+;;          ("s-<mouse-1>"   . mc/add-cursor-on-click)
+;;          ("C-S-<mouse-1>" . mc/add-cursor-on-click)
+;;          :map mc/keymap
+;;          ("C-|" . mc/vertical-align-with-space)))
 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
