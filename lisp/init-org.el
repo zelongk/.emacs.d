@@ -232,20 +232,41 @@ the element after the #+HEADER: tag."
   :ensure nil
   :hook (org-mode . org-latex-preview-mode)
   :hook (org-latex-preview-mode . org-latex-preview-center-mode)
+  :bind ("C-c C-x SPC" . org-latex-preview-clear-cache)
   :config
   ;; Higher resolution when using dvipng
-  (plist-put org-latex-preview-appearance-options :page-width 1.0)
+  (plist-put org-latex-preview-appearance-options :zoom 0.85)
   ;; (plist-put org-latex-preview-appearance-options :margin 1)
-  (plist-put org-latex-preview-appearance-options :scale 2.0)
 
-  ;; ;; Block C-n, C-p etc from opening up previews when using `org-latex-preview-mode'
-  ;; (setq org-latex-preview-mode-ignored-commands
-  ;;       '(next-line previous-line mwheel-scroll
-  ;;         scroll-up-command scroll-down-command))
-
+  ;; Add margin and rescale display math
+  (defvar my/org-latex-display-math-scale 0.8)
+  (defvar my/org-latex-display-math-margin 8)
+  (defun my/org-latex-preview-add-margin-advice (ov _path-info)
+    (save-excursion
+      (goto-char (overlay-start ov))
+      (when-let* ((elem (org-element-context))
+                  ((or (eq (org-element-type elem) 'latex-environment)
+                       (string-match-p "^\\\\\\[" (org-element-property :value elem))))
+                  (img (overlay-get ov 'preview-image))
+                  ((and (consp img) (eq (car img) 'image))))
+        (let* ((plist (copy-sequence (cdr img)))
+               (height (plist-get plist :height)))
+          (when (and (consp height) (numberp (car height)))
+            (setq plist
+                  (plist-put plist :height
+                             (cons (* my/org-latex-display-math-scale (car height))
+                                   (cdr height)))))
+          (setq plist (plist-put plist :margin my/org-latex-display-math-margin))
+          (let ((new-img (cons 'image plist)))
+            (overlay-put ov 'preview-image new-img)
+            (when (overlay-get ov 'display)
+              (overlay-put ov 'display new-img)))))))
+  (advice-add 'org-latex-preview--update-overlay :after
+              #'my/org-latex-preview-add-margin-advice)
+  
   (setq org-latex-preview-numbered t)
   (setq org-latex-preview-mode-display-live t)
-  (setq org-latex-preview-process-default 'dvipng)
+  (setq org-latex-preview-process-default 'dvisvgm)
   (setq org-latex-preview-mode-update-delay 0.25)
   (defun my/org-latex-preview-uncenter (ov)
     (overlay-put ov 'before-string nil))
