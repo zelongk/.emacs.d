@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package benchmark-init :demand t
-  :hook (elpaca-elpaca-after-init . benchmark-init/deactivate))
+  :hook (elpaca-after-init . benchmark-init/deactivate))
 
 ;; Load some component of large package (org, magit etc.) before complete mount
 (defvar elemacs-incremental-packages '(t)

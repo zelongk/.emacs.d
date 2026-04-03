@@ -64,7 +64,7 @@
        ;; something to execute when dark mode is detected
        ;; (doric-themes-load-random 'dark))
        (modus-themes-load-random-dark)
-   ))
+       ))
   (auto-dark-light-mode
    . (lambda ()
        ;; something to execute when light mode is detected
@@ -160,9 +160,9 @@
 
 (use-package nerd-icons
   :ensure (nerd-icons
-             :type git
-             :host github
-             :repo "rainstormstudio/nerd-icons.el")
+           :type git
+           :host github
+           :repo "rainstormstudio/nerd-icons.el")
   ;; :files (:defaults "data"))
   :custom
   ;; The Nerd Font you want to use in GUI
@@ -188,9 +188,23 @@
     ;; Don't open a file in a new frame
     (setq ns-pop-up-frames nil)))
 
-(use-package beacon
-  :diminish
-  :hook elpaca-after-init)
+;; (use-package beacon
+;;   :diminish
+;;   :hook elpaca-after-init)
+
+;; hl current line
+(use-package hl-line
+  :ensure nil
+  :hook ((after-init . global-hl-line-mode)
+         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
+          (lambda () (setq-local global-hl-line-mode nil)))))
+
+;; Pulse highlight on selection
+(use-package pulsar
+  :custom-face
+  (pulsar-generic ((t :inherit region :extend t)))
+  :custom (pulsar-delay pulse-delay)
+  :hook (emacs-startup . pulsar-global-mode))
 
 (use-package spacious-padding
   :diminish
@@ -201,5 +215,9 @@
   :hook elpaca-after-init
   :bind (([remap eval-defun] . eros-eval-defun)
          ([remap eval-last-sexp] . eros-eval-last-sexp)))
+
+(use-package goggles
+  :diminish
+  :hook (prog-mode text-mode conf-mode))
 
 (provide 'init-ui)

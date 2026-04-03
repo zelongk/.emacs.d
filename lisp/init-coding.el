@@ -10,7 +10,8 @@
   (setq xref-show-definitions-function #'xref-show-definitions-completing-read
         xref-show-xrefs-function #'xref-show-definitions-completing-read))
 
-(use-package apheleia :diminish)
+(use-package apheleia :diminish
+  :hook (prog-mode))
 
 (use-package editorconfig
   :diminish

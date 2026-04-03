@@ -18,6 +18,7 @@
 (setq load-prefer-newer noninteractive)
 
 (setenv "LSP_USE_PLISTS" "true") ;; Lsp-mode plists
+(setenv "LIBGS" "/opt/homebrew/lib/libgs.dylib")
 
 ;; PERF: Many elisp file API calls consult `file-name-handler-alist'.
 ;; Setting it to nil speeds up startup significantly.

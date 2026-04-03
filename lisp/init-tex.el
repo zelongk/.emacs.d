@@ -23,7 +23,8 @@
          (LaTeX-mode . visual-line-mode)
          (LaTeX-mode . turn-on-reftex)
          (LaTeX-mode . lsp-deferred)
-         (LaTeX-mode . (lambda () (lsp-ui-mode -1))))
+         (LaTeX-mode . (lambda () (lsp-ui-mode -1)))
+         (LaTeX-mode . (lambda () (apheleia-mode -1))))
   :bind (:map LaTeX-mode-map
               ("C-S-e" . latex-math-from-calc)
               ("C-c x" . TeX-clean)
