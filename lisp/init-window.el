@@ -39,6 +39,7 @@
 (use-package ace-window
   :hook (emacs-startup . ace-window-display-mode)
   :bind (([remap other-window] . ace-window)
+         ("M-o" . ace-window)
          ("C-c w" . ace-window-hydra/body))
   :custom
   (aw-scope 'frame)

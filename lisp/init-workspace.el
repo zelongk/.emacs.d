@@ -13,6 +13,12 @@
 (use-package ibuffer
   :ensure nil
   :bind ("C-x C-b" . ibuffer)
+  :bind (:map ibuffer-mode-map
+         ("M-o" . nil))
+  :hook (ibuffer-mode . hl-line-mode)
+  :config
+  (add-to-list 'ibuffer-help-buffer-modes 'helpful-mode)
+  (add-to-list 'ibuffer-help-buffer-modes 'Man-mode)
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 (use-package nerd-icons-ibuffer
   :ensure t

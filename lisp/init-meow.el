@@ -94,7 +94,6 @@
   (meow-setup)
   (add-to-list 'meow-mode-state-list '((magit-mode . insert)))
   (setq meow-keypad-leader-dispatch "C-c"
-        meow-cursor-type-normal 'hbar
         meow-use-clipboard t)
   (setq meow-replace-state-name-list
         '((normal . "<N>")

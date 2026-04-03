@@ -46,6 +46,7 @@
 (require 'init-vcs)
 (require 'init-llm)
 (require 'init-check)
+(require 'init-writing)
 
 ;; (require 'init-eglot)
 (require 'init-lsp)
