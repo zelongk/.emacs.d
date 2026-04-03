@@ -1,10 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-;; (defun org-capture-init()
-;;   (setq org-capture-templates
-;; 	'(("t" "Personal todo" entry ("Inbox")
-;; 	   "* TODO %?\n%i\n%a" :prepend t))))
-
 (use-package org
   :defer
   :ensure (org :repo "https://code.tecosaur.net/tec/org-mode.git/"
@@ -12,7 +7,6 @@
   :hook (org-mode . org-cdlatex-mode)
   :hook (org-mode . org-indent-mode)
   :hook (org-mode . visual-line-mode)
-
   :pretty-hydra
   ;; See `org-structure-template-alist'
   ((:color blue :quit-key ("q" "C-g"))
@@ -58,7 +52,8 @@
                        (if (or (region-active-p) (looking-back "^\s*" 1))
                            (org-hydra/body)
                          (self-insert-command 1))))
-              ("M-<return>" . org-insert-subheading))
+              ("M-<return>" . org-insert-subheading)
+              ("C-'" . nil))
   :config
   (elemacs-load-packages-incrementally
    '(calendar find-func format-spec org-macs org-compat
@@ -101,6 +96,7 @@ the element after the #+HEADER: tag."
   (setq org-pretty-entities t
         org-pretty-entities-include-sub-superscripts nil)
 
+  
   (setq org-default-note-file (expand-file-name "notes.org" org-directory)
         org-capture-templates
         '(("t" "Personal todo" entry
@@ -111,51 +107,79 @@ the element after the #+HEADER: tag."
            "* %u %?\n%i\n%a" :prepend t)
           ("j" "Journal" entry
            (file+olp+datetree "diary.org")
-           "* %U %?\n%i\n%a" :prepend t))
-
-        org-todo-keywords
-        '((sequence "TODO(t)" "IN-PROGRESS(i)" "ON-HOLD(h)" "|" "DONE(d)" "NO(n)")))
+           "* %U %?\n%i\n%a" :prepend t)))
+  (with-no-warnings
+    (custom-declare-face '+org-todo-active  '((t (:inherit (bold font-lock-constant-face org-todo)))) "")
+    (custom-declare-face '+org-todo-project '((t (:inherit (bold font-lock-doc-face org-todo)))) "")
+    (custom-declare-face '+org-todo-onhold  '((t (:inherit (bold warning org-todo)))) "")
+    (custom-declare-face '+org-todo-cancel  '((t (:inherit (bold error org-todo)))) ""))
+  (setq org-todo-keywords
+        '((sequence
+           "TODO(t)"  ; A task that needs doing & is ready to do
+           "PROJ(p)"  ; A project, which usually contains other tasks
+           "LOOP(r)"  ; A recurring task
+           "STRT(s)"  ; A task that is in progress
+           "WAIT(w)"  ; Something external is holding up this task
+           "HOLD(h)"  ; This task is paused/on hold because of me
+           "IDEA(i)"  ; An unconfirmed and unapproved task or notion
+           "|"
+           "DONE(d)"  ; Task successfully completed
+           "KILL(k)") ; Task was cancelled, aborted, or is no longer applicable
+          (sequence
+           "|"
+           "OKAY(o)"
+           "YES(y)"
+           "NO(n)"))
+        org-todo-keyword-faces
+        '(("[-]"  . +org-todo-active)
+          ("STRT" . +org-todo-active)
+          ("[?]"  . +org-todo-onhold)
+          ("WAIT" . +org-todo-onhold)
+          ("HOLD" . +org-todo-onhold)
+          ("PROJ" . +org-todo-project)
+          ("NO"   . +org-todo-cancel)
+          ("KILL" . +org-todo-cancel)))
 
   (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
   (add-hook 'org-after-refile-insert-hook
             (defun save-buffer-after-capture ()
               (when (bound-and-true-p org-capture-is-refiling)
                 (save-buffer))))
-  
+
   ;; ;; Enable lsp in org-babel
-  ;; (cl-defmacro lsp-org-babel-enable (lang)
-  ;;   "Support LANG in org source code block."
-  ;;   (cl-check-type lang string)
-  ;;   (let* ((edit-pre (intern (format "org-babel-edit-prep:%s" lang)))
-  ;;          (intern-pre (intern (format "lsp--%s" (symbol-name edit-pre)))))
-  ;;     `(progn
-  ;;        (defun ,intern-pre (info)
-  ;;          (setq buffer-file-name (or (->> info caddr (alist-get :file))
-  ;;                                     "org-src-babel.tmp"))
-  ;;          (when (fboundp 'lsp-deferred)
-  ;;            ;; Avoid headerline conflicts
-  ;;            (setq-local lsp-headerline-breadcrumb-enable nil)
-  ;;            (lsp-deferred)
-  ;;            (_
-  ;;             (user-error "LSP:: invalid type"))))
-  ;;        (put ',intern-pre 'function-documentation
-  ;;             (format "Enable lsp-mode in the buffer of org source block (%s)."
-  ;;                     (upcase ,lang)))
+  (cl-defmacro lsp-org-babel-enable (lang)
+    "Support LANG in org source code block."
+    (cl-check-type lang string)
+    (let* ((edit-pre (intern (format "org-babel-edit-prep:%s" lang)))
+           (intern-pre (intern (format "lsp--%s" (symbol-name edit-pre)))))
+      `(progn
+         (defun ,intern-pre (info)
+           (setq buffer-file-name (or (->> info caddr (alist-get :file))
+                                      "org-src-babel.tmp"))
+           (when (fboundp 'lsp-deferred)
+             ;; Avoid headerline conflicts
+             (setq-local lsp-headerline-breadcrumb-enable nil)
+             (lsp-deferred)
+             (_
+              (user-error "LSP:: invalid type"))))
+         (put ',intern-pre 'function-documentation
+              (format "Enable lsp-mode in the buffer of org source block (%s)."
+                      (upcase ,lang)))
 
-  ;;        (if (fboundp ',edit-pre)
-  ;;            (advice-add ',edit-pre :after ',intern-pre)
-  ;;          (progn
-  ;;            (defun ,edit-pre (info)
-  ;;              (,intern-pre info))
-  ;;            (put ',edit-pre 'function-documentation
-  ;;                 (format "Prepare local buffer environment for org source block (%s)."
-  ;;                         (upcase ,lang))))))))
+         (if (fboundp ',edit-pre)
+             (advice-add ',edit-pre :after ',intern-pre)
+           (progn
+             (defun ,edit-pre (info)
+               (,intern-pre info))
+             (put ',edit-pre 'function-documentation
+                  (format "Prepare local buffer environment for org source block (%s)."
+                          (upcase ,lang))))))))
 
-  ;; (defconst org-babel-lang-list
-  ;;   '("go" "python" "ipython" "ruby" "js" "css" "sass" "c" "rust" "java" "cpp" "c++" "shell")
-  ;;   "The supported programming languages for interactive Babel.")
-  ;; (dolist (lang org-babel-lang-list)
-  ;;   (eval `(lsp-org-babel-enable ,lang)))
+  (defconst org-babel-lang-list
+    '("go" "python" "ipython" "ruby" "js" "css" "sass" "c" "rust" "java" "cpp" "c++" "shell" "haskell")
+    "The supported programming languages for interactive Babel.")
+  (dolist (lang org-babel-lang-list)
+    (eval `(lsp-org-babel-enable ,lang)))
   )
 
 (use-package org-contrib)
@@ -234,12 +258,8 @@ the element after the #+HEADER: tag."
   :hook (org-latex-preview-mode . org-latex-preview-center-mode)
   :bind ("C-c C-x SPC" . org-latex-preview-clear-cache)
   :config
-  ;; Higher resolution when using dvipng
-  (plist-put org-latex-preview-appearance-options :zoom 0.85)
-  ;; (plist-put org-latex-preview-appearance-options :margin 1)
-
   ;; Add margin and rescale display math
-  (defvar my/org-latex-display-math-scale 0.8)
+  (defvar my/org-latex-display-math-scale 1)
   (defvar my/org-latex-display-math-margin 8)
   (defun my/org-latex-preview-add-margin-advice (ov _path-info)
     (save-excursion
@@ -264,10 +284,12 @@ the element after the #+HEADER: tag."
   (advice-add 'org-latex-preview--update-overlay :after
               #'my/org-latex-preview-add-margin-advice)
   
-  (setq org-latex-preview-numbered t)
+  ;; (setq org-latex-preview-numbered t)
   (setq org-latex-preview-mode-display-live t)
   (setq org-latex-preview-process-default 'dvisvgm)
   (setq org-latex-preview-mode-update-delay 0.25)
+
+  ;; Centre display maths
   (defun my/org-latex-preview-uncenter (ov)
     (overlay-put ov 'before-string nil))
   (defun my/org-latex-preview-recenter (ov)

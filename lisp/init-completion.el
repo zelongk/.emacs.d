@@ -32,7 +32,7 @@
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
   :custom
-  (completion-styles '(orderless basic))
+  (completion-styles '(orderless partial-completion basic))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles orderless partial-completion))))
   (orderless-component-separator #'orderless-escapable-split-on-space))
@@ -250,11 +250,11 @@
   ;;Quit completion before saving
   (add-hook 'before-save-hook #'corfu-quit)
   (advice-add #'persistent-scratch-save :before #'corfu-quit)
-  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer)
-  (use-package nerd-icons-corfu
-    :init
-    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)))
+  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
+(use-package nerd-icons-corfu
+  :init
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 ;; A few more useful configurations...
 (use-package emacs
@@ -294,10 +294,6 @@
   ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 
-;; (use-package yasnippet-capf
-;;   :after cape
-;;   :config
-;;   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (provide 'init-completion)
 

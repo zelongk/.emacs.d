@@ -5,6 +5,18 @@
   :diminish
   :hook (elpaca-after-init . yas-global-mode)
   :hook ((post-self-insert . my/yas-try-expanding-auto-snippets))
+  :commands (yas-minor-mode-on
+             yas-expand
+             yas-expand-snippet
+             yas-lookup-snippet
+             yas-insert-snippet
+             yas-new-snippet
+             yas-visit-snippet-file
+             yas-activate-extra-mode
+             yas-deactivate-extra-mode
+             yas-maybe-expand-abbrev-key-filter)
+  :init
+  (defvar yas-verbosity 2)
   :config
   (elemacs-load-packages-incrementally '(eldoc easymenu help-mode))
   (use-package warnings
@@ -26,9 +38,8 @@
       (let ((yas-buffer-local-condition ''(require-snippet-condition . auto)))
         (yas-expand)))))
 
-;; Collection of yasnippet snippets
-(use-package yasnippet-snippets)
-
-
+(use-package doom-snippets
+  :after yasnippet
+  :ensure (doom-snippets :type git :host github :repo "doomemacs/snippets" :files ("*.el" "*")))
 
 (provide 'init-snippet)

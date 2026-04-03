@@ -92,7 +92,10 @@
   :hook (elpaca-after-init . meow-global-mode)
   :config
   (meow-setup)
-  (add-to-list 'meow-mode-state-list '((magit-mode . insert)))
+  (add-to-list 'meow-mode-state-list '(magit-mode . insert))
+  (add-to-list 'meow-mode-state-list '(eat-mode . insert))
+  (add-to-list 'meow-mode-state-list '(eshell-mode . insert))
+
   (setq meow-keypad-leader-dispatch "C-c"
         meow-use-clipboard t)
   (setq meow-replace-state-name-list

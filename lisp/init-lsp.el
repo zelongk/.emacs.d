@@ -21,43 +21,48 @@
                        (lsp-enable-which-key-integration)
                        ;; (add-hook 'before-save-hook #'lsp-format-buffer t t)
                        (add-hook 'before-save-hook #'lsp-organize-imports t t))))
+  :hook (lsp-completion-mode . my/lsp-mode-setup-completion)
   :bind (:map lsp-mode-map
               ("C-c c d" . lsp-describe-thing-at-point)
               ([remap xref-find-definitions] . lsp-find-definition)
               ([remap xref-find-references] . lsp-find-references))
-  :init (setq lsp-use-plists t
-              lsp-log-io nil
+  :init
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless)))
+  (setq lsp-use-plists t
+        lsp-log-io nil
 
-              lsp-enable-suggest-server-download t
-              ;; lsp-auto-configure t
+        lsp-enable-suggest-server-download t
+        ;; lsp-auto-configure t
 
-              lsp-keymap-prefix "C-c c"
-              lsp-keep-workspace-alive nil
-              lsp-signature-auto-activate nil
-              lsp-modeline-code-actions-enable nil
-              lsp-modeline-diagnostics-enable nil
-              lsp-modeline-workspace-status-enable nil
+        lsp-keymap-prefix "C-c c"
+        lsp-keep-workspace-alive nil
+        lsp-signature-auto-activate nil
+        lsp-modeline-code-actions-enable nil
+        lsp-modeline-diagnostics-enable nil
+        lsp-modeline-workspace-status-enable nil
 
-              lsp-completion-enable t
-              lsp-completion-provider :none ;; using corfu
-              lsp-completion-enable-additional-text-edit t
-              lsp-enable-snippet t
-              lsp-completion-show-kind t
+        lsp-completion-enable t
+        lsp-completion-provider :none ;; using corfu
+        lsp-completion-enable-additional-text-edit t
+        lsp-enable-snippet t
+        lsp-completion-show-kind t
 
-              lsp-semantic-tokens-enable t
-              lsp-progress-spinner-type 'progress-bar-filled
+        lsp-semantic-tokens-enable t
+        lsp-progress-spinner-type 'progress-bar-filled
 
-              lsp-enable-file-watchers nil
-              lsp-enable-folding nil
-              lsp-enable-symbol-highlighting nil
-              lsp-enable-text-document-color nil
-              lsp-enable-imenu t
+        lsp-enable-file-watchers nil
+        lsp-enable-folding nil
+        lsp-enable-symbol-highlighting nil
+        lsp-enable-text-document-color nil
+        lsp-enable-imenu t
 
-              lsp-enable-indentation nil
-              lsp-enable-on-type-formatting nil
+        lsp-enable-indentation nil
+        lsp-enable-on-type-formatting nil
 
-              ;; For diagnostics
-              lsp-diagnostics-disabled-modes '(markdown-mode gfm-mode))
+        ;; For diagnostics
+        lsp-diagnostics-disabled-modes '(markdown-mode gfm-mode))
   :config
   (with-no-warnings
     ;; Disable `lsp-mode' in `git-timemachine-mode'
