@@ -51,7 +51,7 @@
 
 ;; Fast search tool `ripgrep'
 (use-package rg
-  ;; :hook (elpaca-after-init . rg-enable-default-bindings)
+  :hook (elpaca-after-init . rg-enable-default-bindings)
   :bind (:map rg-global-map
               ("c" . rg-dwim-current-dir)
               ("f" . rg-dwim-current-file)

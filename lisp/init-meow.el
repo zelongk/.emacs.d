@@ -95,6 +95,7 @@
   (add-to-list 'meow-mode-state-list '(magit-mode . insert))
   (add-to-list 'meow-mode-state-list '(eat-mode . insert))
   (add-to-list 'meow-mode-state-list '(eshell-mode . insert))
+  (add-to-list 'meow-mode-state-list '(git-commit-elisp-text-mode . insert))
 
   (setq meow-keypad-leader-dispatch "C-c"
         meow-use-clipboard t)

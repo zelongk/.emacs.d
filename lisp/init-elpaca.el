@@ -2,15 +2,15 @@
 
 ;;;;;;;;;;;; elpaca initialise ;;;;;;;;;;;;;;;;;;
 (defvar elpaca-installer-version 0.12)
-(defvar elpaca-directory (expand-file-name "elpa/" user-emacs-directory))
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-sources-directory (expand-file-name "sources/" elpaca-directory))
 (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
                               :ref nil :depth 1 :inherit ignore
                               :files (:defaults "elpaca-test.el" (:exclude "extensions"))
                               :build (:not elpaca-activate)))
-(let* ((repo  (expand-file-name "elpa/" elpaca-sources-directory))
-       (build (expand-file-name "elpa/" elpaca-builds-directory))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-sources-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
        (order (cdr elpaca-order))
        (default-directory repo))
   (add-to-list 'load-path (if (file-exists-p build) build repo))

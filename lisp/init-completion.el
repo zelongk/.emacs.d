@@ -163,7 +163,6 @@
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref))
 
-;; (use-package consult-projectile)
 (use-package consult-flycheck)
 
 (use-package consult-dir

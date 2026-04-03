@@ -14,8 +14,7 @@
   :ensure nil
   :bind ("C-x C-b" . ibuffer)
   :bind (:map ibuffer-mode-map
-         ("M-o" . nil))
-  :hook (ibuffer-mode . hl-line-mode)
+              ("M-o" . nil))
   :config
   (add-to-list 'ibuffer-help-buffer-modes 'helpful-mode)
   (add-to-list 'ibuffer-help-buffer-modes 'Man-mode)

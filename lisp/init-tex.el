@@ -88,6 +88,27 @@
                                     (?c ("\\circ"))
                                     ))
   (setq cdlatex-math-modify-alist '((?f "\\mathbb" nil t nil nil)))
+  (dolist (cmd '(("smat" "Insert smallmatrix env"
+                  "\\left( \\begin{smallmatrix} ? \\end{smallmatrix} \\right)"
+                  lazytab-position-cursor-and-edit
+                  nil nil t)
+                 ("bmat" "Insert bmatrix env"
+                  "\\begin{bmatrix} ? \\end{bmatrix}"
+                  lazytab-position-cursor-and-edit
+                  nil nil t)
+                 ("pmat" "Insert pmatrix env"
+                  "\\begin{pmatrix} ? \\end{pmatrix}"
+                  lazytab-position-cursor-and-edit
+                  nil nil t)
+                 ("ali" "Insert pmatrix env"
+                  "\\begin{aligned} ? \\end{aligned}"
+                  lazytab-position-cursor-and-edit
+                  nil nil t)
+                 ("tbl" "Insert table"
+                  "\\begin{table}\n\\centering ? \\caption{}\n\\end{table}\n"
+                  lazytab-position-cursor-and-edit
+                  nil t nil)))
+    (push cmd cdlatex-command-alist))
   (defun tjh/cdlatex-yas-expand ()
     "Resolve the conflict between cdlatex and yasnippet. When this
 function returns true, the default `cdlatex-tab` will not be
@@ -101,6 +122,17 @@ expansion, then cdlatex expansion."
           nil)
       nil))
   (add-hook 'cdlatex-tab-hook 'tjh/cdlatex-yas-expand))
+
+(use-package lazytab
+  :demand t
+  :after cdlatex
+  :ensure '(lazytab :type git :host github :repo "karthink/lazytab" :files ("*.el"))
+  :bind (:map orgtbl-mode-map
+              ("<tab>" . lazytab-org-table-next-field-maybe)
+              ("TAB" . lazytab-org-table-next-field-maybe))
+  :config
+  (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90)
+  )
 
 ;; (use-package texpresso
 ;;   :defer nil

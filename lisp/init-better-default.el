@@ -88,7 +88,7 @@ If this is a daemon session, load them all immediately instead."
     (exec-path-from-shell-initialize)))
 
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
-(add-hook 'elpaca-elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
+(add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
 
 ;; Start server
 (use-package server
@@ -100,7 +100,7 @@ If this is a daemon session, load them all immediately instead."
 ;; Save place
 (use-package saveplace
   :ensure nil
-  :hook (elpaca-elpaca-after-init . save-place-mode))
+  :hook (elpaca-after-init . save-place-mode))
 
 (use-package display-line-numbers
   :ensure nil
@@ -136,7 +136,7 @@ If this is a daemon session, load them all immediately instead."
 
 (use-package paren
   :ensure nil
-  :hook (elpaca-elpaca-after-init . show-paren-mode))
+  :hook (elpaca-after-init . show-paren-mode))
 
 ;; ;; Show trailing whitespace only in prog-mode and text-mode
 ;; (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
@@ -160,7 +160,7 @@ If this is a daemon session, load them all immediately instead."
 
 (use-package savehist
   :ensure nil
-  :hook (elpaca-elpaca-after-init . savehist-mode)
+  :hook (elpaca-after-init . savehist-mode)
   :init (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
               history-length 1000
               savehist-additional-variables '(mark-ring
@@ -219,7 +219,7 @@ If this is a daemon session, load them all immediately instead."
 
 (use-package browse-kill-ring
   :bind ("C-c k" . browse-kill-ring)
-  :hook (elpaca-elpaca-after-init . browse-kill-ring-default-keybindings)
+  :hook (elpaca-after-init . browse-kill-ring-default-keybindings)
   :init (setq browse-kill-ring-separator "────────────────"
               browse-kill-ring-separator-face 'shadow))
 
@@ -227,7 +227,7 @@ If this is a daemon session, load them all immediately instead."
   :init
   (setq scroll-conservatively 3
 	      scroll-margin 0)
-  :hook (elpaca-elpaca-after-init . ultra-scroll-mode))
+  :hook (elpaca-after-init . ultra-scroll-mode))
 
 (use-package helpful
   :bind (([remap describe-function] . helpful-callable)

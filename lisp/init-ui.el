@@ -196,15 +196,11 @@
 (use-package hl-line
   :ensure nil
   :hook ((after-init . global-hl-line-mode)
-         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
+         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode eat-mode) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
-;; Pulse highlight on selection
-(use-package pulsar
-  :custom-face
-  (pulsar-generic ((t :inherit region :extend t)))
-  :custom (pulsar-delay pulse-delay)
-  :hook (emacs-startup . pulsar-global-mode))
+(use-package beacon
+  :hook elpaca-after-init)
 
 (use-package spacious-padding
   :diminish
