@@ -23,9 +23,4 @@
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-env "PYTHONPATH")))
 
-;; (with-eval-after-load 'eglot
-;;   (add-hook 'python-ts-mode-hook #'eglot-ensure)
-;;   (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio"))))
-
-
 (provide 'init-python)

@@ -151,7 +151,8 @@ If this is a daemon session, load them all immediately instead."
         '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
           "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
           "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
-          "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
+          "^/tmp/" "^/var/folders/.+$" "^/ssh:" "^/rpc:" "/persp-confs/"
+          "^/sshx:" "^/sudo:"
           (lambda (file) (file-in-directory-p file package-user-dir)))
         recentf-auto-cleanup 'never)
   :config
@@ -267,14 +268,14 @@ If this is a daemon session, load them all immediately instead."
 ;; (setq auto-save-file-name-transforms
 ;;       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
 
-(setq tramp-default-method "rpc")
-
-(use-package tramp)
+(use-package tramp
+  :config
+  (setq tramp-default-method "rpc"))
 
 (use-package tramp-hlo
-  :config
-  (tramp-hlo-setup))
+  :hook (elpaca-after-init . tramp-hlo-setup))
 
+(use-package msgpack)
 (use-package tramp-rpc
   :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
   :config

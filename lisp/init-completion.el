@@ -236,6 +236,7 @@
                              circe-mode
                              help-mode
                              gud-mode
+                             eat-mode
                              vterm-mode)
                         t))
   :custom-face

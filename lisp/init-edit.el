@@ -135,7 +135,7 @@
 (use-package olivetti
   :hook org-mode
   :diminish
-  :bind ("<f7>" . olivetti-mode)
+  :bind (("<f7>" . olivetti-mode))
   :custom
   (olivetti-style 'fancy)
   (olivetti-margin-width 5)

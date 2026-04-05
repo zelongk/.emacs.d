@@ -88,6 +88,33 @@
                                     (?c ("\\circ"))
                                     ))
   (setq cdlatex-math-modify-alist '((?f "\\mathbb" nil t nil nil)))
+  
+  (defun tjh/cdlatex-yas-expand ()
+    "Resolve the conflict between cdlatex and yasnippet. When this
+function returns true, the default `cdlatex-tab` will not be
+executed. The effect of function is to first try yasnippet
+expansion, then cdlatex expansion."
+    (interactive)
+    (if (or (bound-and-true-p yas-minor-mode)
+            (bound-and-true-p yas-global-mode))
+        (if (yas-expand)
+            t
+          nil)
+      nil))
+  (add-hook 'cdlatex-tab-hook 'tjh/cdlatex-yas-expand)
+  (cdlatex-reset-mode))
+
+(use-package lazytab
+  :demand t
+  :after cdlatex latex
+  :ensure '(lazytab :type git :host github :repo "karthink/lazytab" :files ("*.el"))
+  :bind (:map LaTeX-mode-map
+              ("C-x |" . (lambda () (interactive) (lazytab-position-cursor-and-edit))))
+  :bind (:map orgtbl-mode-map
+              ("<tab>" . lazytab-org-table-next-field-maybe)
+              ("TAB" . lazytab-org-table-next-field-maybe))
+  :config
+  (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90)
   (dolist (cmd '(("smat" "Insert smallmatrix env"
                   "\\left( \\begin{smallmatrix} ? \\end{smallmatrix} \\right)"
                   lazytab-position-cursor-and-edit
@@ -109,29 +136,7 @@
                   lazytab-position-cursor-and-edit
                   nil t nil)))
     (push cmd cdlatex-command-alist))
-  (defun tjh/cdlatex-yas-expand ()
-    "Resolve the conflict between cdlatex and yasnippet. When this
-function returns true, the default `cdlatex-tab` will not be
-executed. The effect of function is to first try yasnippet
-expansion, then cdlatex expansion."
-    (interactive)
-    (if (or (bound-and-true-p yas-minor-mode)
-            (bound-and-true-p yas-global-mode))
-        (if (yas-expand)
-            t
-          nil)
-      nil))
-  (add-hook 'cdlatex-tab-hook 'tjh/cdlatex-yas-expand))
-
-(use-package lazytab
-  :demand t
-  :after cdlatex
-  :ensure '(lazytab :type git :host github :repo "karthink/lazytab" :files ("*.el"))
-  :bind (:map orgtbl-mode-map
-              ("<tab>" . lazytab-org-table-next-field-maybe)
-              ("TAB" . lazytab-org-table-next-field-maybe))
-  :config
-  (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90)
+  (cdlatex-reset-mode)
   )
 
 ;; (use-package texpresso

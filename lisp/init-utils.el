@@ -30,19 +30,18 @@
   (which-key-add-key-based-replacements "C-x t" "tabs")
   (which-key-add-key-based-replacements "C-x v" "version control"))
 
-(use-package grep
-  :ensure nil
-  :autoload grep-apply-setting
-  :init
-  (when (executable-find "rg")
-    (grep-apply-setting
-     'grep-command "rg --color=auto --null -nH --no-heading -e ")
-    (grep-apply-setting
-     'grep-template "rg --color=auto --null --no-heading -g '!*/' -e <R> <D>")
-    (grep-apply-setting
-     'grep-find-command '("rg --color=auto --null -nH --no-heading -e ''" . 38))
-    (grep-apply-setting
-     'grep-find-template "rg --color=auto --null -nH --no-heading -e <R> <D>")))
+;; (use-package grep
+;;   :ensure nil
+;;   :autoload grep-apply-setting
+;;   :init
+;;   (grep-apply-setting
+;;    'grep-command "rg --color=auto --null -nH --no-heading -e ")
+;;   (grep-apply-setting
+;;    'grep-template "rg --color=auto --null --no-heading -g '!*/' -e <R> <D>")
+;;   (grep-apply-setting
+;;    'grep-find-command '("rg --color=auto --null -nH --no-heading -e ''" . 38))
+;;   (grep-apply-setting
+;;    'grep-find-template "rg --color=auto --null -nH --no-heading -e <R> <D>"))
 
 ;; Writable grep buffer
 (use-package wgrep
@@ -51,7 +50,7 @@
 
 ;; Fast search tool `ripgrep'
 (use-package rg
-  :hook (elpaca-after-init . rg-enable-default-bindings)
+  :bind ("C-c s" . rg-menu)
   :bind (:map rg-global-map
               ("c" . rg-dwim-current-dir)
               ("f" . rg-dwim-current-file)
@@ -62,13 +61,9 @@
   (rg-enable-default-bindings)
   )
 
-;; (use-package pdf-tools
-;;   :config
-;;   (pdf-tools-install))
-
-;; (use-package saveplace-pdf-view
-;;   :after pdf-tools
-;;   :demand t)
+;; (use-package sudo-edit
+;;   :commands sudo-edit sudo-edit-find-file
+;;   :bind ("C-c C-r" . sudo-edit))
 
 ;; (use-package keycast
 ;;   :hook (elpaca-after-init . keycast-mode-line-mode)

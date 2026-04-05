@@ -82,9 +82,12 @@
    '("z" . meow-pop-selection)
    '("'" . repeat)
    '("<escape>" . ignore))
-  (meow-define-keys
-      'beacon
-    '("C-g" . meow-grab))
+  ;; (meow-define-keys
+  ;;     'beacon
+  ;;   '("C-g" . meow-grab))
+  ;; (meow-define-keys
+  ;;     'insert
+  ;;   '("ESC" . <escape>))
   )
 
 (use-package meow

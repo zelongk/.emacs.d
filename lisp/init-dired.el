@@ -9,6 +9,7 @@
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always
         dired-recursive-copies 'always
+        dired-dwim-target t
         dired-kill-when-opening-new-dired-buffer t)
 
   ;; Show directory first

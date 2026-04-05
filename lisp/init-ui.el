@@ -114,19 +114,19 @@
       window-divider-default-right-width 1)
 (add-hook 'window-setup-hook #'window-divider-mode)
 
-(pcase system-type
-  ('darwin  ; macOS
-   (set-face-attribute 'default nil :font "Sarasa Term SC-22")  ; 20 * 1.5
-   (set-face-attribute 'variable-pitch nil :font "Bookerly-22" :weight 'light)
-   (set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC-22")
+;; (pcase system-type
+;; ('darwin  ; macOS
+(set-face-attribute 'default nil :font "Sarasa Term SC-22")  ; 20 * 1.5
+(set-face-attribute 'variable-pitch nil :font "Bookerly-20" :weight 'light)
+(set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC-22")
 
-   (add-to-list 'default-frame-alist '(height . 53))
-   (add-to-list 'default-frame-alist '(width . 90)))
+(add-to-list 'default-frame-alist '(height . 53))
+(add-to-list 'default-frame-alist '(width . 90))
 
-  ('gnu/linux  ; Linux (including Debian)
-   (set-face-attribute 'variable-pitch nil :font "Sarasa Mono TC Nerd Font-14")  ; 20 * 1.5
-   (add-to-list 'default-frame-alist '(height . 40))
-   (add-to-list 'default-frame-alist '(width . 90))))
+;; ('gnu/linux  ; Linux (including Debian)
+;; (set-face-attribute 'variable-pitch nil :font "Sarasa Mono TC Nerd Font-14")  ; 20 * 1.5
+;; (add-to-list 'default-frame-alist '(height . 40))
+;; (add-to-list 'default-frame-alist '(width . 90))))
 
 (use-package mixed-pitch
   :diminish
@@ -195,7 +195,7 @@
 ;; hl current line
 (use-package hl-line
   :ensure nil
-  :hook ((after-init . global-hl-line-mode)
+  :hook ((elpaca-after-init . global-hl-line-mode)
          ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode eat-mode) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 

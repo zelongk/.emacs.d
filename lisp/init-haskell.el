@@ -14,5 +14,16 @@
         haskell-process-auto-import-loaded-modules t)
   (add-to-list 'completion-ignored-extensions ".hi"))
 
+(use-package haskell-ts-mode
+  :custom
+  (haskell-ts-font-lock-level 4)
+  (haskell-ts-use-indent t)
+  (haskell-ts-ghci "ghci")
+  (haskell-ts-use-indent t)
+  :config
+  (add-to-list 'major-mode-remap-alist '(haskell-mode . haskell-ts-mode)))
+
+
+(use-package lsp-haskell)
 
 (provide 'init-haskell)

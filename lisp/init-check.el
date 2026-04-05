@@ -20,13 +20,13 @@
         ;; Display errors a little quicker (default is 0.9s)
         flycheck-display-errors-delay 0.25))
 
-(use-package flyover
-  :diminish
-  :hook prog-mode
-  :config
-  ;; Disable flyover-mode in emacs-lisp-mode
-  (add-hook 'emacs-lisp-mode-hook (lambda () (flyover-mode -1)))
-  :custom (flyover-checkers '(flycheck)))
+;; (use-package flyover
+;;   :diminish
+;;   :hook prog-mode
+;;   :config
+;;   ;; Disable flyover-mode in emacs-lisp-mode
+;;   (add-hook 'emacs-lisp-mode-hook (lambda () (flyover-mode -1)))
+;;   :custom (flyover-checkers '(flycheck)))
 
 
 (provide 'init-check)
