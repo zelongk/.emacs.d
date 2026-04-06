@@ -40,8 +40,15 @@
   :bind ("<f5>" . modus-themes-load-random)
   :bind ("C-<f5>" . modus-themes-load-random-light)
   :bind ("M-<f5>" . modus-themes-load-random-dark)
-
   :init
+  (setq ef-themes-light-themes '(ef-arbutus ef-cyprus ef-day ef-duo-light ef-eagle ef-elea-light
+                                            ef-kassio  ef-melissa-light ef-orange ef-reverie
+                                            ef-spring ef-summer ef-trio-light ef-tritanopia-light))
+
+  (setq ef-themes-dark-themes '(ef-autumn ef-bio ef-cherie ef-dark ef-deuteranopia-dark ef-dream
+                                          ef-duo-dark ef-elea-dark ef-fig ef-maris-dark
+                                          ef-melissa-dark ef-night ef-owl ef-rosa ef-symbiosis
+                                          ef-trio-dark ef-tritanopia-dark ef-winter))
   ;; This makes the Modus commands listed below consider only the Ef
   ;; themes.  For an alternative that includes Modus and all
   ;; derivative themes (like Ef), enable the
@@ -63,13 +70,13 @@
    . (lambda ()
        ;; something to execute when dark mode is detected
        ;; (doric-themes-load-random 'dark))
-       (modus-themes-load-random-dark)
+       (ef-themes-load-random-dark)
        ))
   (auto-dark-light-mode
    . (lambda ()
        ;; something to execute when light mode is detected
        ;; (doric-themes-load-random 'light)
-       (modus-themes-load-random-light)
+       (ef-themes-load-random-light)
        ))
   :hook elpaca-after-init)
 

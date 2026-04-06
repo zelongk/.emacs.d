@@ -258,6 +258,11 @@ the element after the #+HEADER: tag."
   :hook (org-latex-preview-mode . org-latex-preview-center-mode)
   :bind ("C-c C-x SPC" . org-latex-preview-clear-cache)
   :config
+  ;; preview buffer on enter
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (run-with-idle-timer 0.5 nil 
+                                   (lambda () (org-latex-preview '(16))))))
   ;; Add margin and rescale display math
   (defvar my/org-latex-display-math-scale 1)
   (defvar my/org-latex-display-math-margin 8)

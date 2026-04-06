@@ -41,6 +41,9 @@
   :bind (:map eshell-mode-map
               ([remap recenter-top-bottom] . eshell/clear))
   :config
+  ;; (defun eshell/clear ()
+  ;;   (interactive)
+  ;;   (eshell/clear-scrollback))
   (setq eshell-banner-message ""))
 
 (use-package xterm-color
