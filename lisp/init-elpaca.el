@@ -39,12 +39,6 @@
     (let ((load-source-file-function nil)) (load "./elpaca-autoloads"))))
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
-;; Install a package via the elpaca macro
-;; See the "recipes" section of the manual for more details.
-
-;; (elpaca example-package)
-
-;; Uncomment for systems which cannot create symlinks:
 
 (when (eq system-type 'windows-nt)
   (elpaca-no-symlink-mode))
@@ -59,8 +53,6 @@
 ;;use the :wait recipe keyword to block until that package is installed/configured.
 ;;For example:
 ;;(use-package general :ensure (:wait t) :demand t)
-
-(setq elpaca-lock-file (expand-file-name "lock-file.eld" user-emacs-directory))
 
 (setq use-package-always-ensure t
       use-package-expand-minimally t

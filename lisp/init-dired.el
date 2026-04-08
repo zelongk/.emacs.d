@@ -33,9 +33,8 @@
 
 ;; (use-package dirvish
 ;;   :bind ("C-c o p" . dirvish-side)
-;;   :init (dirvish-override-dired-mode)
 ;;   :config
 ;;   (setq dirvish-use-header-line nil
-;; 	dirvish-use-mode-line nil))
+;; 	      dirvish-use-mode-line nil))
 
 (provide 'init-dired)

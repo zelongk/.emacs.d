@@ -14,6 +14,7 @@
 (setq native-comp-async-report-warnings-errors nil)
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "site-lisp/" user-emacs-directory))
 (setq use-package-enable-imenu-support t)
 (setq load-prefer-newer noninteractive)
 

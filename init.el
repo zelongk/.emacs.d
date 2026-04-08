@@ -37,7 +37,7 @@
 (require 'init-workspace)
 
 ;; (require 'init-god)
-(require 'init-meow)
+;; (require 'init-meow)
 
 (require 'init-input)
 (require 'init-utils)
@@ -54,12 +54,13 @@
 (require 'init-org)
 (require 'init-tex)
 ;; (require 'init-markdown)
-(require 'init-typst)
 (require 'init-cc)
 (require 'init-python)
 (require 'init-haskell)
 (require 'init-rust)
 (require 'init-ocaml)
+;; (require 'init-typst)
+
 
 (provide 'init)
 ;;; Code:

@@ -265,7 +265,7 @@ the element after the #+HEADER: tag."
                                    (lambda () (org-latex-preview '(16))))))
   ;; Add margin and rescale display math
   (defvar my/org-latex-display-math-scale 1)
-  (defvar my/org-latex-display-math-margin 8)
+  (defvar my/org-latex-display-math-margin 5)
   (defun my/org-latex-preview-add-margin-advice (ov _path-info)
     (save-excursion
       (goto-char (overlay-start ov))

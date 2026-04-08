@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package xref
+  :ensure nil
   :init
   ;; Use faster search tool
   (when (executable-find "rg")
