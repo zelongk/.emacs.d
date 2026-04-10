@@ -4,9 +4,9 @@
   :defer
   :ensure (org :repo "https://code.tecosaur.net/tec/org-mode.git/"
                :branch "dev")
-  :hook (org-mode . org-cdlatex-mode)
-  :hook (org-mode . org-indent-mode)
-  :hook (org-mode . visual-line-mode)
+  :hook ((org-mode . org-cdlatex-mode)
+         (org-mode . org-indent-mode)
+         (org-mode . visual-line-mode))
   :pretty-hydra
   ;; See `org-structure-template-alist'
   ((:color blue :quit-key ("q" "C-g"))
@@ -54,6 +54,9 @@
                          (self-insert-command 1))))
               ("M-<return>" . org-insert-subheading)
               ("C-'" . nil))
+  :bind (("C-c n t" . org-todo-list)
+         ("C-c n a" . org-agenda)
+         ("C-c n n" . org-capture))
   :config
   (elemacs-load-packages-incrementally
    '(calendar find-func format-spec org-macs org-compat
@@ -96,7 +99,7 @@ the element after the #+HEADER: tag."
   (setq org-pretty-entities t
         org-pretty-entities-include-sub-superscripts nil)
 
-  
+
   (setq org-default-note-file (expand-file-name "notes.org" org-directory)
         org-capture-templates
         '(("t" "Personal todo" entry

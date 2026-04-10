@@ -13,7 +13,7 @@
                         (unless (derived-mode-p
                                  'emacs-lisp-mode 'lisp-mode
                                  'makefile-mode 'snippet-mode
-                                 'ron-mode)
+                                 'lisp-data-mode 'ron-mode)
                           (lsp-deferred))))
          ((markdown-mode yaml-mode yaml-ts-mode) . lsp-deferred)
          (lsp-mode . (lambda ()

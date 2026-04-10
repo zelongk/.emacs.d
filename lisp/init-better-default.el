@@ -93,11 +93,11 @@ If this is a daemon session, load them all immediately instead."
 ;; Start server
 (use-package server
   :ensure nil
+  :autoload server-running-p
   :hook (emacs-startup . (lambda ()
-			                     (unless server-mode
+			                     (unless (server-running-p)
                              (server-mode 1)))))
 
-;; Save place
 (use-package saveplace
   :ensure nil
   :hook (elpaca-after-init . save-place-mode))
@@ -200,14 +200,6 @@ If this is a daemon session, load them all immediately instead."
 (setq-default delete-by-moving-to-trash t
 	            x-stretch-cursor t
 	            window-combination-resize t)
-
-(define-key global-map (kbd "C-<wheel-up>")  nil)
-(define-key global-map (kbd "C-<wheel-down>")  nil)
-(global-set-key (kbd "s-a") 'mark-whole-buffer) ;;对应Windows上面的Ctrl-a 全选
-(global-set-key (kbd "s-c") 'kill-ring-save) ;;对应Windows上面的Ctrl-c 复制
-(global-set-key (kbd "s-s") 'save-buffer) ;; 对应Windows上面的Ctrl-s 保存
-(global-set-key (kbd "s-v") 'yank) ;对应Windows上面的Ctrl-v 粘贴
-(global-set-key (kbd "s-z") 'undo) ;对应Windows上面的Ctrol-z 撤销
 
 (setq kill-ring-max 200)
 ;; Save clipboard contents into kill-ring before replace them

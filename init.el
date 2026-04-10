@@ -41,6 +41,7 @@
 
 (require 'init-input)
 (require 'init-utils)
+;; (require 'init-eaf)
 
 (require 'init-coding)
 (require 'init-vcs)
@@ -59,7 +60,7 @@
 (require 'init-haskell)
 (require 'init-rust)
 (require 'init-ocaml)
-;; (require 'init-typst)
+(require 'init-typst)
 
 
 (provide 'init)

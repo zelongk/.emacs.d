@@ -75,7 +75,14 @@
   ;; (with-eval-after-load 'eglot
   ;;   (add-to-list 'eglot-server-programs '((LaTeX-mode latex-mode) "texlab")))
 
-  (setq reftex-plug-into-AUCTeX t))
+  (setq reftex-plug-into-AUCTeX t)
+  (use-package texpresso
+    :ensure (:host github :repo "let-def/texpresso" :files ("emacs/*.el"))
+    :hook (texpresso-mode . texpresso-sync-mode)
+    :after auctex
+    :bind (:map LaTeX-mode-map
+                ("C-c C-p" . texpresso)))
+  )
 
 (use-package cdlatex
   :diminish
@@ -138,9 +145,5 @@ expansion, then cdlatex expansion."
     (push cmd cdlatex-command-alist))
   (cdlatex-reset-mode)
   )
-
-;; (use-package texpresso
-;;   :defer nil
-;;   :load-path "~/.emacs.d/lisp/packages/")
 
 (provide 'init-tex)

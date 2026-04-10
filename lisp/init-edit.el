@@ -6,13 +6,24 @@
 
 (use-package electric-pair-mode
   :ensure nil
-  :hook elpaca-after-init)
+  :hook elpaca-after-init
+  :config
+  (dolist (mode '(LaTeX-mode-hook org-mode-hook))
+    (add-hook mode
+              (lambda ()
+                (setq-local electric-pair-pairs
+                            (append electric-pair-pairs '((?\\ . ?\\))))
+                (setq-local electric-pair-text-pairs electric-pair-pairs)))))
 
 (use-package puni
   :hook (elpaca-after-init . puni-global-mode)
+  :custom
+  (puni-confirm-when-delete-unbalanced-active-region nil)
   :bind (:map puni-mode-map
               ("M-s" . puni-splice)
-              ("DEL" . my-backspace))
+              ("DEL" . my-backspace)
+              ("C-=" . puni-expand-region)
+              )
   :init
   (defun my-backspace ()
     (interactive)
@@ -20,14 +31,14 @@
         (delete-region (line-beginning-position) (point))
       (puni-backward-delete-char))))
 
-;; ;; Hungry deletion
-;; (use-package hungry-delete
-;;   :diminish
-;;   :hook (elpaca-after-init . global-hungry-delete-mode)
-;;   :init (setq hungry-delete-chars-to-skip " \t\f\v"
-;;               backward-delete-char-untabify-method 'all
-;;               hungry-delete-except-modes
-;;               '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
+;; (use-package combobulate
+;;   :ensure (:host github :repo "mickeynp/combobulate")
+;;   :hook prog-mode
+;;   :config
+;;   ;; You can customize Combobulate's key prefix here.
+;;   ;; Note that you may have to restart Emacs for this to take effect!
+;;   (setq combobulate-key-prefix "C-c o")
+;;   )
 
 (use-package abbrev
   :ensure nil
@@ -59,8 +70,8 @@
          :map mc/keymap
          ("C-|" . mc/vertical-align-with-space)))
 
-(use-package expand-region
-  :bind ("C-=" . er/expand-region))
+;; (use-package expand-region
+;;   :bind ("C-=" . er/expand-region))
 
 (use-package mwim
   :bind (([remap move-beginning-of-line] . mwim-beginning)
@@ -123,7 +134,7 @@
   :custom
   (olivetti-style 'fancy)
   (olivetti-margin-width 5)
-  (olivetti-body-width 90))
+  (olivetti-body-width 80))
 
 (setq-default bidi-display-reordering 'left-to-right
               bidi-paragraph-direction 'left-to-right

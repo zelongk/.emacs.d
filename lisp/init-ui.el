@@ -60,6 +60,7 @@
   (ef-themes-take-over-modus-themes-mode 1))
 
 (use-package auto-dark
+  :when (and (eq system-type 'darwin) (display-graphic-p))
   :ensure t
   ;; :custom
   ;; (auto-dark-themes '((doric-beach) (leuven)))
@@ -80,6 +81,7 @@
        ))
   :hook elpaca-after-init)
 
+
 (use-package rainbow-delimiters
   :hook ((prog-mode . rainbow-delimiters-mode)
          (typst-ts-mode . rainbow-delimiters-mode)
@@ -90,12 +92,14 @@
   :hook prog-mode)
 
 (use-package mood-line
-  :hook emacs-startup)
+  :hook emacs-startup
+  :custom (mood-line-glyph-alist mood-line-glyphs-fira-code))
 
 ;; (use-package doom-modeline
 ;;   :hook (elpaca-after-init . doom-modeline-mode)
 ;;   :config
 ;;   (setq doom-modeline-support-imenu t
+;;         doom-modeline-icons nil
 ;;         doom-modeline-height 30
 ;;         doom-modeline-buffer-file-name-style 'relative-from-project
 ;;         doom-modeline-enable-word-count t
@@ -125,7 +129,7 @@
 ;; ('darwin  ; macOS
 (set-face-attribute 'default nil :font "Sarasa Term SC-22")  ; 20 * 1.5
 (set-face-attribute 'variable-pitch nil :font "Bookerly-20" :weight 'light)
-(set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC-22")
+(set-face-attribute 'fixed-pitch nil :font "Sarasa Mono TC Nerd Font-22")
 
 (add-to-list 'default-frame-alist '(height . 53))
 (add-to-list 'default-frame-alist '(width . 90))
@@ -169,24 +173,13 @@
   :ensure (nerd-icons
            :type git
            :host github
-           :repo "rainstormstudio/nerd-icons.el")
-  ;; :files (:defaults "data"))
-  :custom
-  ;; The Nerd Font you want to use in GUI
-  ;; "Symbols Nerd Font Mono" is the default and is recommended
-  ;; but you can use any other Nerd Font if you want
-  (nerd-icons-font-family "Symbols Nerd Font Mono"))
-
-;; Display transient in child frame
-;; (use-package transient-posframe
-;;   :diminish
-;;   :commands transient-posframe-mode
-;;   :custom-face
-;;   (transient-posframe-border ((t (:inherit posframe-border :background unspecified))))
-;;   :hook elpaca-after-init
-;;   :init (setq transient-mode-line-format nil
-;;               transient-posframe-parameters '((left-fringe . 8)
-;;                                               (right-fringe . 8))))
+           :repo "rainstormstudio/nerd-icons.el"))
+;; :files (:defaults "data"))
+;; :custom
+;; The Nerd Font you want to use in GUI
+;; "Symbols Nerd Font Mono" is the default and is recommended
+;; but you can use any other Nerd Font if you want
+;; (nerd-icons-font-family "Symbols Nerd Font Mono"))
 
 (with-no-warnings
   (when (featurep 'ns)
@@ -195,10 +188,6 @@
     ;; Don't open a file in a new frame
     (setq ns-pop-up-frames nil)))
 
-;; (use-package beacon
-;;   :diminish
-;;   :hook elpaca-after-init)
-
 ;; hl current line
 (use-package hl-line
   :ensure nil
@@ -206,8 +195,9 @@
          ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode eat-mode) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
-(use-package beacon
-  :hook elpaca-after-init)
+;; (use-package beacon
+;;   :diminish
+;;   :hook elpaca-after-init)
 
 (use-package spacious-padding
   :diminish

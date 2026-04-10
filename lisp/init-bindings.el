@@ -1,12 +1,13 @@
 ;; -*- lexical-binding: t -*-
 
-(define-prefix-command 'orgmode-map)
-(global-set-key (kbd "C-c n") 'orgmode-map)
-
-(define-key orgmode-map (kbd "a") #'org-agenda)
-(define-key orgmode-map (kbd "n") #'org-capture)
-(define-key orgmode-map (kbd "t") #'org-todo-list)
-
+(define-key global-map (kbd "C-<wheel-up>")  nil)
+(define-key global-map (kbd "C-<wheel-down>")  nil)
+(global-set-key (kbd "s-a") 'mark-whole-buffer) ;;对应Windows上面的Ctrl-a 全选
+(global-set-key (kbd "s-c") 'kill-ring-save) ;;对应Windows上面的Ctrl-c 复制
+(global-set-key (kbd "s-s") 'save-buffer) ;; 对应Windows上面的Ctrl-s 保存
+(global-set-key (kbd "s-v") 'yank) ;对应Windows上面的Ctrl-v 粘贴
+(global-set-key (kbd "s-x") 'execute-extended-command) ;对应Windows上面的Ctrol-z 撤销
+(global-set-key (kbd "s-z") 'undo) ;对应Windows上面的Ctrol-z 撤销
 
 (setq duplicate-line-final-position 1)
 (global-set-key (kbd "M-p") #'duplicate-dwim)
