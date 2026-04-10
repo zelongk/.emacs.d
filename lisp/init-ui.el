@@ -91,22 +91,22 @@
   :hook text-mode
   :hook prog-mode)
 
-(use-package mood-line
-  :hook emacs-startup
-  :custom (mood-line-glyph-alist mood-line-glyphs-fira-code))
+;; (use-package mood-line
+;;   :hook emacs-startup
+;;   :custom (mood-line-glyph-alist mood-line-glyphs-fira-code))
 
-;; (use-package doom-modeline
-;;   :hook (elpaca-after-init . doom-modeline-mode)
-;;   :config
-;;   (setq doom-modeline-support-imenu t
-;;         doom-modeline-icons nil
-;;         doom-modeline-height 30
-;;         doom-modeline-buffer-file-name-style 'relative-from-project
-;;         doom-modeline-enable-word-count t
-;;         ;; doom-modeline-project-name t
-;;         doom-modeline-check 'simple
-;;         doom-modeline-buffer-encoding nil
-;;         doom-modeline-major-mode-icon nil))
+(use-package doom-modeline
+  :hook (elpaca-after-init . doom-modeline-mode)
+  :config
+  (setq doom-modeline-support-imenu t
+        doom-modeline-icons nil
+        doom-modeline-height 30
+        doom-modeline-buffer-file-name-style 'relative-from-project
+        doom-modeline-enable-word-count t
+        ;; doom-modeline-project-name t
+        doom-modeline-check 'simple
+        doom-modeline-buffer-encoding nil
+        doom-modeline-major-mode-icon nil))
 
 (use-package hide-mode-line
   :autoload turn-off-hide-mode-line-mode
