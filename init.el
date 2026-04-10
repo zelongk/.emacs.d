@@ -54,7 +54,6 @@
 
 (require 'init-org)
 (require 'init-tex)
-;; (require 'init-markdown)
 (require 'init-cc)
 (require 'init-python)
 (require 'init-haskell)

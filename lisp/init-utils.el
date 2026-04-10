@@ -30,19 +30,6 @@
   (which-key-add-key-based-replacements "C-x t" "tabs")
   (which-key-add-key-based-replacements "C-x v" "version control"))
 
-;; (use-package grep
-;;   :ensure nil
-;;   :autoload grep-apply-setting
-;;   :init
-;;   (grep-apply-setting
-;;    'grep-command "rg --color=auto --null -nH --no-heading -e ")
-;;   (grep-apply-setting
-;;    'grep-template "rg --color=auto --null --no-heading -g '!*/' -e <R> <D>")
-;;   (grep-apply-setting
-;;    'grep-find-command '("rg --color=auto --null -nH --no-heading -e ''" . 38))
-;;   (grep-apply-setting
-;;    'grep-find-template "rg --color=auto --null -nH --no-heading -e <R> <D>"))
-
 ;; Writable grep buffer
 (use-package wgrep
   :init (setq wgrep-auto-save-buffer t
@@ -61,14 +48,6 @@
   (rg-enable-default-bindings)
   )
 
-;; (use-package sudo-edit
-;;   :commands sudo-edit sudo-edit-find-file
-;;   :bind ("C-c C-r" . sudo-edit))
-
-;; (use-package keycast
-;;   :hook (elpaca-after-init . keycast-mode-line-mode)
-;;   :config
-;;   (setq keycast-mode-line-remove-tail-elements nil))
 
 (use-package elcord)
 
