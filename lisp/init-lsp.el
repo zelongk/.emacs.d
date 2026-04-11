@@ -1,9 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-;; LSP booster
-
-
-
 (use-package lsp-mode
   :diminish
   :defines (lsp-diagnostics-disabled-modes lsp-clients-python-library-directories)

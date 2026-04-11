@@ -61,6 +61,7 @@
 
 (use-package auto-dark
   :when (and (eq system-type 'darwin) (display-graphic-p))
+  :diminish
   :ensure t
   ;; :custom
   ;; (auto-dark-themes '((doric-beach) (leuven)))
@@ -83,11 +84,13 @@
 
 
 (use-package rainbow-delimiters
+  :diminish
   :hook ((prog-mode . rainbow-delimiters-mode)
          (typst-ts-mode . rainbow-delimiters-mode)
          (python-ts-mode . rainbow-delimiters-mode)))
 
 (use-package rainbow-mode
+  :diminish
   :hook text-mode
   :hook prog-mode)
 
@@ -99,14 +102,18 @@
   :hook (elpaca-after-init . doom-modeline-mode)
   :config
   (setq doom-modeline-support-imenu t
-        doom-modeline-icons nil
+        ;; doom-modeline-icons nil
         doom-modeline-height 30
         doom-modeline-buffer-file-name-style 'relative-from-project
         doom-modeline-enable-word-count t
         ;; doom-modeline-project-name t
         doom-modeline-check 'simple
+        doom-modeline-minor-modes t
         doom-modeline-buffer-encoding nil
         doom-modeline-major-mode-icon nil))
+
+(use-package minions
+  :hook elpaca-after-init)
 
 (use-package hide-mode-line
   :autoload turn-off-hide-mode-line-mode

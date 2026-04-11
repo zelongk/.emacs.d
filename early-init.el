@@ -42,7 +42,7 @@
       inhibit-startup-screen t
       inhibit-startup-echo-area-message user-login-name
       inhibit-default-init t
-      ;; initial-major-mode 'l-mode
+      initial-major-mode 'text-mode
       initial-scratch-message nil)
 
 ;; Faster to disable these here (before they've been initialized)

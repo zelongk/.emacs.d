@@ -20,9 +20,20 @@
   :custom
   (puni-confirm-when-delete-unbalanced-active-region nil)
   :bind (:map puni-mode-map
+              ("M-r" . puni-raise)
               ("M-s" . puni-splice)
+              ("M-S" . puni-split)
               ("DEL" . my-backspace)
               ("C-=" . puni-expand-region)
+              ("M-[" . puni-slurp-backward)
+              ("M-]" . puni-slurp-forward)
+              ("M-<left>" . puni-slurp-backward)
+              ("M-<right>" . puni-slurp-forward)
+              ("C-M-[" . puni-barf-backward)
+              ("C-M-]" . puni-barf-forward)
+              ("C-M-<left>" . puni-barf-backward)
+              ("C-M-<right>" . puni-barf-forward)
+              ([remap backward-kill-word] . puni-backward-kill-word)
               )
   :init
   (defun my-backspace ()

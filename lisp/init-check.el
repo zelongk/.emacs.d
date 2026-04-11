@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package flycheck
+  :diminish
   :hook (emacs-startup . global-flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit)

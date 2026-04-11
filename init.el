@@ -30,7 +30,7 @@
 
 (require 'init-bindings)
 (require 'init-dired)
-;; (require 'init-dashboard) ;; not working
+;; (require 'init-dashboard)
 (require 'init-window)
 (require 'init-shell)
 ;; (require 'init-treemacs) ;; not working
