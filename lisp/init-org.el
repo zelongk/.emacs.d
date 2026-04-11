@@ -2,7 +2,7 @@
 
 (use-package org
   :defer
-  :ensure (org :repo "https://code.tecosaur.net/tec/org-mode.git/"
+  :ensure (org :repo "https://code.200568.top/mirrors/org-mode.git/"
                :branch "dev")
   :hook ((org-mode . org-cdlatex-mode)
          (org-mode . org-indent-mode)
