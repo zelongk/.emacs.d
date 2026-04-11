@@ -176,12 +176,12 @@ If this is a daemon session, load them all immediately instead."
 (setq make-backup-files nil)
 (setq use-short-answers t)
 (setq frame-title-format
-      '((:eval (if (and (boundp 'projectile-mode)
-                        projectile-mode
-                        (projectile-project-p))
-                   (format "[%s] %s" (projectile-project-name) (buffer-name)) ;; Add project name in front when avaliable
-                 "%b")))) ;; Otherwise buffer name only
-(setq custom-safe-themes t)
+      '((:eval
+         (let* ((proj (project-current nil))
+                (pname (and proj (project-name proj))))
+           (if pname
+               (format "[%s] %s" pname (buffer-name))
+             (buffer-name)))))) ;; Otherwise buffer name only
 
 (add-to-list 'default-frame-alist '(drag-internal-border . 1))
 (add-to-list 'default-frame-alist '(internal-border-width . 5))
@@ -271,7 +271,6 @@ If this is a daemon session, load them all immediately instead."
 (use-package tramp-rpc
   :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
   :config
-  (tramp-rpc-magit-enable)
-  (tramp-rpc-projectile-enable))
+  (tramp-rpc-magit-enable))
 
 (provide 'init-better-default)
