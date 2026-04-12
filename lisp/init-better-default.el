@@ -31,7 +31,7 @@
   :ensure nil
   :autoload server-running-p
   :hook (emacs-startup . (lambda ()
-			                     (unless (server-running-p)
+			               (unless (server-running-p)
                              (server-mode 1)))))
 
 (use-package saveplace
@@ -49,7 +49,7 @@
                   circe-mode-hook
                   help-mode-hook
                   gud-mode-hook
-		              treemacs-mode-hook
+		          treemacs-mode-hook
                   org-mode-hook
                   vterm-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode -1))))
@@ -129,18 +129,19 @@
 
 (pcase system-type ('darwin (setq insert-directory-program "gls")))
 
-(setq-default tab-width 2
-              standard-indent 2
-	            compilation-scroll-output t
-	            indent-tabs-mode nil)
+(setq-default tab-width 4
+              standard-indent 4
+              c-basic-offset 4
+              compilation-scroll-output t
+	          indent-tabs-mode nil)
 
 (setq ring-bell-function 'ignore)
 (setq undo-limit 80000000
       password-cache-expiry nil)
 
 (setq-default delete-by-moving-to-trash t
-	            x-stretch-cursor t
-	            window-combination-resize t)
+	          x-stretch-cursor t
+	          window-combination-resize t)
 
 (setq kill-ring-max 200)
 ;; Save clipboard contents into kill-ring before replace them
@@ -160,7 +161,7 @@
 (use-package ultra-scroll
   :init
   (setq scroll-conservatively 3
-	      scroll-margin 0)
+	    scroll-margin 0)
   :hook (elpaca-after-init . ultra-scroll-mode))
 
 (use-package helpful
