@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
+
+
 (use-package latex
   :after tex
   :ensure (auctex :pre-build (("./autogen.sh")

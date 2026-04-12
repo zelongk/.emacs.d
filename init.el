@@ -52,6 +52,8 @@
 ;; (require 'init-eglot)
 (require 'init-lsp)
 
+(require 'init-pretty-latex)
+
 (require 'init-org)
 (require 'init-tex)
 (require 'init-cc)
