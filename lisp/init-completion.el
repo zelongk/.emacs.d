@@ -176,11 +176,27 @@
 
 (use-package embark
   :commands embark-prefix-help-command
-  :bind (("C-;"   . embark-act)
-         ("M-."   . embark-dwim)        ; overrides `xref-find-definitions'
+  :bind (("M-SPC"   . embark-act)
+         ("M-*"   . embark-act-all)
+         ("M-S-SPC"   . embark-select)
+         ("S-<return>"   . embark-dwim)        ; overrides `xref-find-definitions'
          ([remap describe-bindings] . embark-bindings)
          :map minibuffer-local-map
-         ("M-." . my-embark-preview))
+         ("M-." . my-embark-preview)
+         :map embark-file-map
+         ;; ("S"        . sudo-find-file)
+         ("4"        . find-file-other-window)
+         ("5"        . find-file-other-frame)
+         ("C-="      . diff)
+         :map embark-buffer-map
+         ("d"        . diff-buffer-with-file)
+         ("l"        . eval-buffer)
+         ("4"        . switch-to-buffer-other-window)
+         ("5"        . switch-to-buffer-other-frame)
+         ("C-="      . diff-buffers)
+         :map embark-bookmark-map
+         ("4"        . bookmark-jump-other-window)
+         ("5"        . bookmark-jump-other-frame))
   :init
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
@@ -218,8 +234,10 @@
   (define-key embark-bookmark-map (kbd "3") (my/embark-split-action bookmark-jump split-window-right)))
 
 (use-package embark-consult
-  :bind (:map minibuffer-mode-map
-              ("C-c C-o" . embark-export))
+  :bind (:map minibuffer-local-completion-map
+              ("C-c C-o" . embark-export)
+              ("C->" . embark-become)
+              ("M-*" . embark-act-all))
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 ;; Auto completion
