@@ -31,11 +31,25 @@
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
-  :custom
-  (completion-styles '(orderless partial-completion basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles orderless partial-completion))))
-  (orderless-component-separator #'orderless-escapable-split-on-space))
+  :demand t
+  :config
+  (setq orderless-component-separator #'split-string-and-unquote)
+  (setq completion-styles '(orderless partial-completion basic))
+  ;; (setq completion-category-defaults nil)
+  ;; (setq completion-category-overrides '((file (styles orderless partial-completion))))
+
+  (defun orderless-fast-dispatch (word index total)
+    (and (= index 0) (= total 1) (length< word 5)
+         ;; `(orderless-regexp . ,(concat "^" (regexp-quote word)))
+         (cons 'orderless-literal-prefix word)))
+  (orderless-define-completion-style orderless-fast
+    (orderless-style-dispatchers '(orderless-fast-dispatch
+                                   orderless-affix-dispatch))
+    (orderless-matching-styles '(orderless-literal orderless-regexp)))
+  
+  (setf (alist-get ?~ orderless-affix-dispatch-alist nil 'remove) nil
+        (alist-get ?` orderless-affix-dispatch-alist) #'orderless-flex)
+  )
 
 ;; Support Pinyin
 (use-package pinyinlib

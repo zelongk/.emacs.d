@@ -68,27 +68,16 @@
   :hook ((text-mode . goto-address-mode)
          (prog-mode . goto-address-prog-mode)))
 
-;; (use-package multiple-cursors
-;;   :hook elpaca-after-init
-;;   :bind (("C-S-c C-S-c"   . mc/edit-lines)
-;;          ("C->"           . mc/mark-next-like-this)
-;;          ("C-<"           . mc/mark-previous-like-this)
-;;          ("C-c C-<"       . mc/mark-all-like-this)
-;;          ("C-M->"         . mc/skip-to-next-like-this)
-;;          ("C-M-<"         . mc/skip-to-previous-like-this)
-;;          ("s-<mouse-1>"   . mc/add-cursor-on-click)
-;;          ("C-S-<mouse-1>" . mc/add-cursor-on-click)
-;;          :map mc/keymap
-;;          ("C-|" . mc/vertical-align-with-space)))
-
 (use-package macrursors
   :hook elpaca-after-init
   :ensure (:host github :repo "karthink/macrursors"
                  :branch "expand-region")
-  :bind (("C-<" . macrursors-mark-previous-instance-of)
-         ("C->" . macrursors-mark-next-instance-of)
+  :bind-keymap ("C-;" . macrursors-mark-map)
+  :bind (("C-<" . macrursors-mark-previous-line)
+         ("C->" . macrursors-mark-next-line)
          ("M-P" . macrursors-mark-previous-instance-of)
          ("M-N" . macrursors-mark-next-instance-of)
+         ("C-M-;" . macrursors-mark-all-instances-of)
          ("C-c SPC" . macrursors-select)
          :map isearch-mode-map
          ("C-;" . macrursors-mark-from-isearch)
@@ -96,6 +85,8 @@
          ("M-s p" . macrursors-mark-previous-from-isearch)
          :map macrursors-mode-map
          ("C-'" . macrursors-hideshow)
+         ("C-;" . nil)
+         ("C-; C-;" . macrursors-end)
          :map macrursors-mark-map
          ("C-n" . macrursors-mark-next-line)
          ("C-p" . macrursors-mark-previous-line)
@@ -118,8 +109,6 @@
     :defer nil :ensure nil
     :bind (:map macrursors-mark-map
                 ("C-g" . macrursors-select-clear))))
-
-
 
 (use-package mwim
   :bind (([remap move-beginning-of-line] . mwim-beginning)

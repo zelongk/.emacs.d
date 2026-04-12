@@ -58,8 +58,6 @@
       use-package-expand-minimally t
       use-package-always-defer t)
 
-(elpaca-wait)
-
 (use-package elpaca-ui
   :ensure nil
   :bind (:map elpaca-ui-mode-map

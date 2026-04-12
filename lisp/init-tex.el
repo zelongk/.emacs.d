@@ -4,7 +4,8 @@
 
 (use-package latex
   :after tex
-  :ensure (auctex :pre-build (("./autogen.sh")
+  :ensure (auctex :repo "https://code.200568.top/mirrors/auctex" :branch "master"
+                  :pre-build (("./autogen.sh")
                               ("./configure" "--without-texmf-dir" "--with-lispdir=.")
                               ("make")))
   ;; :ensure (auctex :type git :host nil :repo "https://git.savannah.gnu.org/git/auctex.git")

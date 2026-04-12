@@ -11,8 +11,8 @@
   (setq gptel-display-buffer-action nil)  ; if user changes this, popup manager will bow out
   )
 
-(use-package gptel-magit
-  :hook (magit-mode . gptel-magit-install))
+;; (use-package gptel-magit
+;;   :hook (magit-mode . gptel-magit-install))
 
 (use-package gptel-agent
   :config (gptel-agent-update))  

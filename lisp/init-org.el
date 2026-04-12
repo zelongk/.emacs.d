@@ -58,12 +58,6 @@
          ("C-c n a" . org-agenda)
          ("C-c n n" . org-capture))
   :config
-  (elemacs-load-packages-incrementally
-   '(calendar find-func format-spec org-macs org-compat
-              org-faces org-entities org-list org-pcomplete org-src
-              org-footnote org-macro ob org org-clock org-agenda
-              org-capture))
-
   (add-hook 'org-mode-hook
             (lambda ()
               (yas-activate-extra-mode 'LaTeX-mode)))

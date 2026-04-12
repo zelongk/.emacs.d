@@ -12,7 +12,7 @@
     (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
 
 (use-package magit
-  :defer t
+  :ensure magit
   :bind (("C-c g" . magit-dispatch))
   :custom
   (magit-diff-refine-hunk t)
@@ -26,8 +26,9 @@
     (setq magit-section-initial-visibility-alist
           '((stashes . hide)
             ([file unstaged status] . hide))))
-  (elemacs-load-packages-incrementally '(dash f s with-editor eieio transient git-commit llama))
+  ;; (elemacs-load-packages-incrementally '(dash f s with-editor eieio transient git-commit llama))
   (setq magit-show-long-lines-warning nil))
+
 
 ;; Show TODOs in Magit
 (use-package magit-todos
