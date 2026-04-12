@@ -6,7 +6,15 @@
   :custom
   (magit-diff-refine-hunk t)
   (git-commit-major-mode 'git-commit-elisp-text-mode)
+  (magit-tramp-pipe-stty-settings 'pty)
   :config
+  (use-package magit-section
+    :bind (:map magit-section-mode-map
+                ("," . magit-section-up))
+    :config
+    (setq magit-section-initial-visibility-alist
+          '((stashes . hide)
+            ([file unstaged status] . hide))))
   (elemacs-load-packages-incrementally '(dash f s with-editor eieio transient git-commit llama))
   (setq magit-show-long-lines-warning nil))
 

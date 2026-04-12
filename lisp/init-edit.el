@@ -164,7 +164,9 @@
 
 ;; Remember undo history
 (use-package undo-fu-session
-  :hook (elpaca-after-init . undo-fu-session-global-mode))
+  :hook (elpaca-after-init . undo-fu-session-global-mode)
+  :config
+  (setq undo-fu-session-directory (expand-file-name "undo-fu-session" user-cache-directory)))
 
 ;; Process
 (use-package proced

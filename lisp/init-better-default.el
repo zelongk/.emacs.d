@@ -113,7 +113,9 @@ If this is a daemon session, load them all immediately instead."
 
 (use-package saveplace
   :ensure nil
-  :hook (elpaca-after-init . save-place-mode))
+  :hook (elpaca-after-init . save-place-mode)
+  :config
+  (setq save-place-file (expand-file-name "places" user-cache-directory)))
 
 (use-package display-line-numbers
   :ensure nil
@@ -168,6 +170,7 @@ If this is a daemon session, load them all immediately instead."
           "^/sshx:" "^/sudo:"
           (lambda (file) (file-in-directory-p file package-user-dir)))
         recentf-auto-cleanup 'never)
+  (setq recentf-save-file (expand-file-name "recentf" user-cache-directory))
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude)
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
@@ -175,14 +178,16 @@ If this is a daemon session, load them all immediately instead."
 (use-package savehist
   :ensure nil
   :hook (elpaca-after-init . savehist-mode)
-  :init (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
-              history-length 1000
-              savehist-additional-variables '(mark-ring
-                                              global-mark-ring
-                                              search-ring
-                                              regexp-search-ring
-                                              extended-command-history)
-              savehist-autosave-interval 300))
+  :init
+  (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
+        history-length 1000
+        savehist-file (expand-file-name "history" user-cache-directory)
+        savehist-additional-variables '(mark-ring
+                                        global-mark-ring
+                                        search-ring
+                                        regexp-search-ring
+                                        extended-command-history)
+        savehist-autosave-interval 300))
 
 (setq-default cursor-type 'bar)
 (setq kill-whole-line t)
@@ -274,8 +279,36 @@ If this is a daemon session, load them all immediately instead."
 ;;       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
 
 (use-package tramp
+  :commands (sudo-find-file sudo-this-file)
+  :bind ("C-x C-S-f" . sudo-find-file)
   :config
-  (setq tramp-default-method "rpc"))
+  (setq tramp-default-method "rpc")
+  (defun sudo-find-file (file)
+    "Open FILE as root."
+    (interactive "FOpen file as root: ")
+    (when (file-writable-p file)
+      (user-error "File is user writeable, aborting sudo"))
+    (find-file (if (file-remote-p file)
+                   (concat "/" (file-remote-p file 'method) ":"
+                           (file-remote-p file 'user) "@" (file-remote-p file 'host)
+                           "|sudo:root@"
+                           (file-remote-p file 'host) ":" (file-remote-p file 'localname))
+                 (concat "/sudo:root@localhost:" file))))
+  (defun sudo-this-file ()
+    "Open the current file as root."
+    (interactive)
+    (sudo-find-file (file-truename buffer-file-name)))
+
+  (setq tramp-verbose 1
+        tramp-persistency-file-name (expand-file-name "tramp" user-cache-directory))
+  (setq remote-file-name-inhibit-locks t
+        remote-file-name-inhibit-auto-save-visited t
+        tramp-copy-size-limit (* 1024 1024)))
+
+(use-package bookmark
+  :ensure nil
+  :config
+  (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)))
 
 (use-package tramp-hlo
   :hook (elpaca-after-init . tramp-hlo-setup))
@@ -284,6 +317,16 @@ If this is a daemon session, load them all immediately instead."
 (use-package tramp-rpc
   :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
   :config
+  (setq tramp-rpc-deploy-local-cache-directory (expand-file-name "tramp-rpc" user-cache-directory))
   (tramp-rpc-magit-enable))
+
+(use-package transient
+  :ensure (:host github :repo "magit/transient")
+  :config
+  (transient-bind-q-to-quit)
+  (setq transient-history-file (expand-file-name "transient/history.el" user-cache-directory)
+        transient-levels-file (expand-file-name "transient/levels.el" user-cache-directory)
+        transient-values-file (expand-file-name "transient/values.el" user-cache-directory)
+        transient-show-popup t))
 
 (provide 'init-better-default)

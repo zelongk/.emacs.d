@@ -1,6 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 
-;; (use-package project)
+(use-package project
+  :config
+  (setq project-list-file (expand-file-name "projects" user-cache-directory)))
 
 (use-package ibuffer
   :ensure nil

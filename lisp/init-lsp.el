@@ -28,6 +28,7 @@
           '(orderless)))
   (setq lsp-use-plists t
         lsp-log-io nil
+        lsp-session-file (expand-file-name "lsp-sessions" user-cache-directory)
 
         lsp-enable-suggest-server-download t
         ;; lsp-auto-configure t
