@@ -1,5 +1,16 @@
 ;; -*- lexical-binding: t; -*-
 
+(use-package diff-hl
+  :diminish
+  :custom
+  (diff-hl-draw-borders nil)
+  :hook (vc-responsible-backend diff-hl-mode)
+  :hook (dlff-hl-mode diff-hl-flydiff-mode)
+  :config
+  ;; (setq-default fringes-outside-margins t)
+  (with-eval-after-load 'magit
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
+
 (use-package magit
   :defer t
   :bind (("C-c g" . magit-dispatch))
@@ -17,12 +28,6 @@
             ([file unstaged status] . hide))))
   (elemacs-load-packages-incrementally '(dash f s with-editor eieio transient git-commit llama))
   (setq magit-show-long-lines-warning nil))
-
-;; Prime cache before Magit refresh
-(use-package magit-prime
-  :diminish
-  :config
-  (magit-prime-mode))
 
 ;; Show TODOs in Magit
 (use-package magit-todos

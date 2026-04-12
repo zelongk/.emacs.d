@@ -151,11 +151,6 @@
   :hook org-mode
   :hook LaTeX-mode)
 
-(use-package diff-hl
-  :diminish
-  :hook (elpaca-after-init global-diff-hl-mode)
-  :hook (elpaca-after-init diff-hl-dired-mode)
-  :hook (elpaca-after-init diff-hl-flydiff-mode))
 
 ;; Easily adjust the font size in all frames
 (use-package default-text-scale

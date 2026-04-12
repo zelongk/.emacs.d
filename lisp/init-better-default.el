@@ -269,11 +269,15 @@ If this is a daemon session, load them all immediately instead."
          (lambda (button)
            (helpful-variable (button-get button 'apropos-symbol))))))))
 
+(use-package auto-save
+  :ensure nil
+  :config
+  (setq auto-save-list-file-prefix (expand-file-name ".saves-" user-cache-directory)))
+
 (setq delete-by-moving-to-trash t
       inhibit-compacting-font-caches t
       make-backup-files nil)
 
-(setq-default auto-save-default nil)
 (setq create-lockfiles nil)
 ;; (setq auto-save-file-name-transforms
 ;;       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
