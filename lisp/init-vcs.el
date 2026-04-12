@@ -7,7 +7,7 @@
   (magit-diff-refine-hunk t)
   (git-commit-major-mode 'git-commit-elisp-text-mode)
   :config
-  (elemacs-load-packages-incrementally '(dash f s with-editor eieio transient git-commit))
+  (elemacs-load-packages-incrementally '(dash f s with-editor eieio transient git-commit llama))
   (setq magit-show-long-lines-warning nil))
 
 ;; Prime cache before Magit refresh

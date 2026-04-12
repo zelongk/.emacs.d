@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-
-(use-package project)
+;; (use-package project)
 
 (use-package ibuffer
   :ensure nil

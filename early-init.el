@@ -8,10 +8,9 @@
 
 (setq read-process-output-max (* 1024 1024))
 
-(setq package-enable-at-startup nil)
-
-(setq native-comp-jit-compilation nil)
-(setq native-comp-async-report-warnings-errors nil)
+(setq package-enable-at-startup nil
+      package-quickstart nil
+      load-prefer-newer t)
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "site-lisp/" user-emacs-directory))
@@ -35,26 +34,44 @@
 (prefer-coding-system 'utf-8)
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize t)
+(setq auto-mode-case-fold nil)
+(setq jka-compr-verbose init-file-debug)
+(setq bidi-inhibit-bpa t)
 
 ;; Suppress GUI features
+(setq inhibit-x-resources t
+      inhibit-startup-buffer-menu t
+      initial-buffer-choice t)
 (setq use-file-dialog nil
       use-dialog-box nil
       inhibit-startup-screen t
+      inhibit-startup-message t
       inhibit-startup-echo-area-message user-login-name
       inhibit-default-init t
       initial-major-mode 'text-mode
       initial-scratch-message nil)
+(advice-add #'display-startup-screen :override #'ignore)
+(fset #'display-startup-echo-area-message #'ignore)
 
 ;; Faster to disable these here (before they've been initialized)
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars . nil) default-frame-alist)
 (push '(horizontal-scroll-bars . nil) default-frame-alist)
+(when (fboundp 'horizontal-scroll-bar-mode)
+  (horizontal-scroll-bar-mode -1))
 (when (featurep 'ns)
   (push '(ns-transparent-titlebar . t) default-frame-alist))
 ;; (push '(ns-appearance . light) default-frame-alist))
 
 ;; Prevent flash of unstyled mode line
 (setq mode-line-format nil)
+
+(when (boundp 'native-comp-eln-load-path)
+  (setcar native-comp-eln-load-path
+          (expand-file-name "~/.cache/eln-cache/")))
+
+(setq native-comp-jit-compilation nil
+      native-comp-async-report-warnings-errors nil)
 
 (provide 'early-init)

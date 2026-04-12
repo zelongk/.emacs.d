@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t;-*-
 
+;; (require 'compile)
 (use-package typst-ts-mode
   :ensure (:type git :host codeberg :repo "meow_king/typst-ts-mode")
   :hook (typst-ts-mode . lsp-deferred)
@@ -24,7 +25,5 @@
   (setq typst-preview-open-browser-automatically t) ; open browser automatically when typst-preview-start is run
   (define-key typst-ts-mode-map (kbd "C-c C-j") 'typst-preview-send-position)
   (define-key typst-ts-mode-map (kbd "C-c C-l") #'typst-preview-mode))
-
-
 
 (provide 'init-typst)

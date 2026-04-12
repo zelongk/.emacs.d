@@ -80,6 +80,19 @@ If this is a daemon session, load them all immediately instead."
 
 (add-hook 'emacs-startup-hook #'elemacs-load-packages-incrementally-h)
 
+(defun native-compile-elpaca ()
+  "Native-compile packages in elpa directory."
+  (interactive)
+  (if (fboundp 'native-compile-async)
+      (native-compile-async elpaca-builds-directory t)))
+
+(defun native-compile-site-lisp ()
+  "Native compile packages in site-lisp directory."
+  (interactive)
+  (let ((dir (locate-user-emacs-file "site-lisp")))
+    (if (fboundp 'native-compile-async)
+        (native-compile-async dir t))))
+
 (when (memq window-system '(mac ns x))
   (use-package exec-path-from-shell
     :commands exec-path-from-shell-initialize
