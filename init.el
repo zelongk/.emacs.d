@@ -30,10 +30,8 @@
 
 (require 'init-bindings)
 (require 'init-dired)
-;; (require 'init-dashboard)
 (require 'init-window)
 (require 'init-shell)
-;; (require 'init-treemacs) ;; not working
 (require 'init-workspace)
 
 ;; (require 'init-god)

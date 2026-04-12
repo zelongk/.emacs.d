@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-
-
 (use-package latex
   :after tex
   :ensure (auctex :repo "https://code.200568.top/mirrors/auctex" :branch "master"
