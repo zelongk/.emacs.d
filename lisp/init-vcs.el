@@ -12,7 +12,7 @@
     (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
 
 (use-package magit
-  :ensure magit
+  :ensure (magit :repo "magit/magit" :tag "v4.5.0")
   :bind (("C-c g" . magit-dispatch))
   :custom
   (magit-diff-refine-hunk t)
@@ -28,7 +28,6 @@
             ([file unstaged status] . hide))))
   ;; (elemacs-load-packages-incrementally '(dash f s with-editor eieio transient git-commit llama))
   (setq magit-show-long-lines-warning nil))
-
 
 ;; Show TODOs in Magit
 (use-package magit-todos

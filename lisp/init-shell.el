@@ -90,11 +90,11 @@
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode))
   :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
-		            :files ("*.el" ("term" "term/*.el") "*.texi"
-			                  "*.ti" ("terminfo/e" "terminfo/e/*")
-			                  ("terminfo/65" "terminfo/65/*")
-			                  ("integration" "integration/*")
-			                  (:exclude ".dir-locals.el" "*-tests.el")))
+		        :files ("*.el" ("term" "term/*.el") "*.texi"
+			            "*.ti" ("terminfo/e" "terminfo/e/*")
+			            ("terminfo/65" "terminfo/65/*")
+			            ("integration" "integration/*")
+			            (:exclude ".dir-locals.el" "*-tests.el")))
   :custom
   (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
@@ -126,8 +126,8 @@
   (setq eshell-highlight-prompt t)
   (setq eshell-prompt-function #'epe-theme-lambda))
 
-;; (use-package eshell-z
-;;   :hook (eshell-mode . (lambda () (require 'eshell-z))))
+(use-package eshell-z
+  :hook (eshell-mode . (lambda () (require 'eshell-z))))
 
 ;; (use-package esh-help
 ;;   :commands setup-esh-help-eldoc

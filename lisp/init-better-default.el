@@ -228,7 +228,8 @@
     (sudo-find-file (file-truename buffer-file-name)))
 
   (setq tramp-verbose 1
-        tramp-persistency-file-name (expand-file-name "tramp" user-cache-directory))
+        tramp-persistency-file-name (expand-file-name "tramp" user-cache-directory)
+        tramp-allow-unsafe-temporary-files t)
   (setq remote-file-name-inhibit-locks t
         remote-file-name-inhibit-auto-save-visited t
         tramp-copy-size-limit (* 1024 1024)))
@@ -242,11 +243,11 @@
   :hook (elpaca-after-init . tramp-hlo-setup))
 
 (use-package msgpack)
-;; (use-package tramp-rpc
-;;   :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
-;;   :config
-;;   (setq tramp-rpc-deploy-local-cache-directory (expand-file-name "tramp-rpc" user-cache-directory))
-;;   (tramp-rpc-magit-enable))
+(use-package tramp-rpc
+  :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
+  :config
+  (setq tramp-rpc-deploy-local-cache-directory (expand-file-name "tramp-rpc" user-cache-directory))
+  (tramp-rpc-magit-enable))
 
 (use-package transient
   :ensure (:host github :repo "magit/transient")

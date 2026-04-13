@@ -127,8 +127,8 @@
 (use-package consult
   :commands consult-customize
   :bind (("C-." . consult-imenu)
-	       ("C-c T" . consult-theme)
-	       ([remap Info-search]        . consult-info)
+	     ("C-c T" . consult-theme)
+	     ([remap Info-search]        . consult-info)
          ;; ([remap isearch-forward]    . consult-line)
          ([remap recentf-open-files] . consult-recent-file)
          ([remap bookmark-jump] . consult-bookmark)
@@ -152,7 +152,7 @@
          ("M-g I" . consult-imenu-multi)
 
          ;; M-g bindings in `search-map'
-	       ("s-f" . consult-line)
+	     ("s-f" . consult-line)
          ("M-g d" . consult-find)                  ;; Alternative: consult-fd
          ("M-g c" . consult-locate)
          ("M-g G" . consult-git-grep)
@@ -161,8 +161,8 @@
          ("M-g L" . consult-line-multi)
          ("M-g k" . consult-keep-lines)
          ("M-g u" . consult-focus-lines)
-	       ("C-x C-r" . consult-recent-file)
-	       ("C-x b" . consult-buffer)
+	     ("C-x C-r" . consult-recent-file)
+	     ("C-x b" . consult-buffer)
 
          ("M-g e" . consult-isearch-history)
          :map isearch-mode-map
@@ -198,7 +198,7 @@
          :map minibuffer-local-map
          ("M-." . my-embark-preview)
          :map embark-file-map
-         ;; ("S"        . sudo-find-file)
+         ("S"        . sudo-find-file)
          ("4"        . find-file-other-window)
          ("5"        . find-file-other-frame)
          ("C-="      . diff)
