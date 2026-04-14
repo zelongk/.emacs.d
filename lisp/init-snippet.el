@@ -17,8 +17,7 @@
              yas-maybe-expand-abbrev-key-filter)
   :init
   (defvar yas-verbosity 2)
-  ;; :config
-  ;; (elemacs-load-packages-incrementally '(eldoc easymenu help-mode))
+  :config
   (use-package warnings
     :ensure nil
     :config

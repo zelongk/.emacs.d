@@ -19,29 +19,14 @@
 
 (use-package utop)
 
-;; (use-package ocaml-eglot
-;;   :ensure t
-;;   :after tuareg
-;;   :hook (tuareg-mode . ocaml-eglot)
-;;   :hook (ocaml-eglot . eglot-ensure)
-;;   :config
-;;   (setq ocaml-eglot-syntax-checker 'flycheck))
-
-
-;; (use-package merlin
-;;   :hook (tuareg-mode . +ocaml-init-merlin)
-;;   :init
-;;   (defun +ocaml-init-merlin ()
-;;     (when (executable-find "ocamlmerlin")
-;;       (merlin-mode)))
-;;   :config
-;;   (setq merlin-completion-with-doc t))
-
-;; (use-package merlin-eldoc
-;;   :hook (merlin-mode . merlin-eldoc-setup))
-
-(use-package flycheck-ocaml)
-
+(use-package ocaml-eglot
+  :disabled t
+  :ensure t
+  :after tuareg
+  :hook (tuareg-mode . ocaml-eglot)
+  :hook (ocaml-eglot . eglot-ensure)
+  :config
+  (setq ocaml-eglot-syntax-checker 'flycheck))
 
 
 (provide 'init-ocaml)

@@ -19,10 +19,10 @@
       (add-to-list 'major-mode-remap-alist
                    '(c-or-c++-mode . c-or-c++-ts-mode)))))
 
-;; (with-eval-after-load 'eglot
-;;   (add-hook 'c-ts-mode-hook #'eglot-ensure)
-;;   (add-hook 'c++-ts-mode-hook #'eglot-ensure)
-;;   (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd")))
+(with-eval-after-load 'eglot
+  (add-hook 'c-ts-mode-hook #'eglot-ensure)
+  (add-hook 'c++-ts-mode-hook #'eglot-ensure)
+  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd")))
 
 
 (provide 'init-cc)

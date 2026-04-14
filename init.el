@@ -1,6 +1,4 @@
 ;;; init.el --- This is the  -*- lexical-binding: t -*-
-;;; Commentary:
-;;; blablabla
 
 ;; Optimize `auto-mode-alist`
 (setq auto-mode-case-fold nil)
@@ -64,6 +62,4 @@
 
 
 (provide 'init)
-;;; Code:
-;;; alskdjasd
 ;;; init.el ends here

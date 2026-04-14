@@ -1,34 +1,5 @@
 ;;; init-completion.el --- Initialize completion configurations.	-*- lexical-binding: t -*-
 
-;; Copyright (C) 2016-2025 Vincent Zhang
-
-;; Author: Vincent Zhang <seagle0128@gmail.com>
-;; URL: https://github.com/seagle0128/.emacs.d
-
-;; This file is not part of GNU Emacs.
-;;
-;; This program is free software; you can redistribute it and/or
-;; modify it under the terms of the GNU General Public License as
-;; published by the Free Software Foundation; either version 3, or
-;; (at your option) any later version.
-;;
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-;; General Public License for more details.
-;;
-;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
-;; Floor, Boston, MA 02110-1301, USA.
-;;
-
-;;; Commentary:
-;;
-;; Modern completion configuration.
-;;
-
-
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
   :demand t
@@ -73,9 +44,10 @@
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 
-;; (use-package vertico-posframe
-;;   :after vertico
-;;   :hook (vertico-mode . vertico-posframe-mode))
+(use-package vertico-posframe
+  :disabled t
+  :after vertico
+  :hook (vertico-mode . vertico-posframe-mode))
 
 (use-package vertico-multiform
   :ensure nil
@@ -291,9 +263,9 @@
   (advice-add #'persistent-scratch-save :before #'corfu-quit)
   (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
-;; (use-package nerd-icons-corfu
-;; :init
-;; (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+(use-package nerd-icons-corfu
+  :init
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 ;; A few more useful configurations...
 (use-package emacs

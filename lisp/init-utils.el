@@ -46,7 +46,6 @@
   (rg-enable-default-bindings)
   )
 
-
 (use-package elcord)
 
 (when (display-graphic-p)

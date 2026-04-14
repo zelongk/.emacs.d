@@ -41,9 +41,6 @@
   :bind (:map eshell-mode-map
               ([remap recenter-top-bottom] . eshell/clear))
   :config
-  ;; (defun eshell/clear ()
-  ;;   (interactive)
-  ;;   (eshell/clear-scrollback))
   (setq eshell-banner-message ""))
 
 (use-package xterm-color
@@ -107,9 +104,10 @@
 (use-package eshell-z
   :hook (eshell-mode . (lambda () (require 'eshell-z))))
 
-;; (use-package esh-help
-;;   :commands setup-esh-help-eldoc
-;;   :init (setup-esh-help-eldoc))
+(use-package esh-help
+  :disabled
+  :commands setup-esh-help-eldoc
+  :init (setup-esh-help-eldoc))
 
 (use-package eshell-syntax-highlighting
   :after eshell-mode

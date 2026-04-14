@@ -42,14 +42,15 @@
         (delete-region (line-beginning-position) (point))
       (puni-backward-delete-char))))
 
-;; (use-package combobulate
-;;   :ensure (:host github :repo "mickeynp/combobulate")
-;;   :hook prog-mode
-;;   :config
-;;   ;; You can customize Combobulate's key prefix here.
-;;   ;; Note that you may have to restart Emacs for this to take effect!
-;;   (setq combobulate-key-prefix "C-c o")
-;;   )
+(use-package combobulate
+  :disabled
+  :ensure (:host github :repo "mickeynp/combobulate")
+  :hook prog-mode
+  :config
+  ;; You can customize Combobulate's key prefix here.
+  ;; Note that you may have to restart Emacs for this to take effect!
+  (setq combobulate-key-prefix "C-c o")
+  )
 
 (use-package abbrev
   :ensure nil

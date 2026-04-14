@@ -8,10 +8,11 @@
   (rime-show-candidate 'posframe)
   (rime-posframe-properties nil))
 
-;; (use-package sis
-;;   :hook ((elpaca-after-init . sis-global-respect-mode)
-;;          (elpaca-after-init . sis-global-context-mode)
-;;          (elpaca-after-init . sis-global-inline-mode)))
+(use-package sis
+  :disabled t
+  :hook ((elpaca-after-init . sis-global-respect-mode)
+         (elpaca-after-init . sis-global-context-mode)
+         (elpaca-after-init . sis-global-inline-mode)))
 
 
 (provide 'init-input)

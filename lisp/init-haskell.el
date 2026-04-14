@@ -23,7 +23,4 @@
   :config
   (add-to-list 'major-mode-remap-alist '(haskell-mode . haskell-ts-mode)))
 
-
-(use-package lsp-haskell)
-
 (provide 'init-haskell)

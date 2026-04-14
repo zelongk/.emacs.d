@@ -56,17 +56,6 @@
   (setq display-line-numbers-type 'relative)
   )
 
-;; (use-package del-trailing-white
-;;   :ensure nil
-;;   :hook ((prog-mode markdown-mode conf-mode) . enable-trailing-whitespace)
-;;   :init
-;;   (setq-default show-trailing-whitespace nil)
-;;   (defun enable-trailing-whitespace ()
-;;     "Show trailing spaces and delete on saving."
-;;     (setq show-trailing-whitespace t)
-;;     (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
-;;   )
-
 (use-package subword
   :ensure nil
   :diminish
@@ -75,10 +64,6 @@
 (use-package paren
   :ensure nil
   :hook (elpaca-after-init . show-paren-mode))
-
-;; ;; Show trailing whitespace only in prog-mode and text-mode
-;; (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
-;; (add-hook 'text-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 (use-package recentf
   :ensure nil
@@ -240,15 +225,16 @@
   :config
   (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)))
 
-;; (use-package tramp-hlo
-;;   :hook (elpaca-after-init . tramp-hlo-setup))
+(use-package tramp-hlo
+  :disabled t
+  :hook (elpaca-after-init . tramp-hlo-setup))
 
-;; (use-package msgpack)
-;; (use-package tramp-rpc
-;;   :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
-;;   :config
-;;   (setq tramp-rpc-deploy-local-cache-directory (expand-file-name "tramp-rpc" user-cache-directory))
-;;   (tramp-rpc-magit-enable))
+(use-package tramp-rpc
+  :disabled t
+  :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
+  :config
+  (setq tramp-rpc-deploy-local-cache-directory (expand-file-name "tramp-rpc" user-cache-directory))
+  (tramp-rpc-magit-enable))
 
 (use-package transient
   :ensure (:host github :repo "magit/transient")

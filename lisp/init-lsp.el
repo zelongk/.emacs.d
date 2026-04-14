@@ -110,6 +110,7 @@
 (use-package consult-lsp
   :bind (:map lsp-mode-map
               ("C-M-." . consult-lsp-symbols)))
+
 (use-package lsp-ui
   :custom-face
   (lsp-ui-sideline-code-action ((t (:inherit warning))))
@@ -182,5 +183,8 @@
                               ,(face-foreground 'font-lock-constant-face)
                               ,(face-foreground 'font-lock-variable-name-face))))
 
+
+
+(use-package lsp-haskell)
 
 (provide 'init-lsp)
