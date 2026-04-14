@@ -132,11 +132,16 @@
       window-divider-default-right-width 1)
 (add-hook 'window-setup-hook #'window-divider-mode)
 
+
+(defvar my/font-size 220)
 ;; (pcase system-type
 ;; ('darwin  ; macOS
-(set-face-attribute 'default nil :font "Sarasa Term SC-22")  ; 20 * 1.5
-(set-face-attribute 'variable-pitch nil :font "Bookerly-20" :weight 'light)
-(set-face-attribute 'fixed-pitch nil :font "Sarasa Mono TC Nerd Font-22")
+(set-face-attribute 'default nil :font "Sarasa Term SC" :height my/font-size)  ; 20 * 1.5
+(set-face-attribute 'variable-pitch nil :font "Bookerly" :height (- my/font-size 20) :weight 'light)
+(set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC" :height my/font-size)
+;; Use Symbols Nerd Font as fallback for private-use icons
+;; (set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono") nil 'append)
+(set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size (/ my/font-size 10)) nil 'prepend)
 
 (add-to-list 'default-frame-alist '(height . 53))
 (add-to-list 'default-frame-alist '(width . 90))
@@ -150,7 +155,6 @@
   :diminish
   :hook org-mode
   :hook LaTeX-mode)
-
 
 ;; Easily adjust the font size in all frames
 (use-package default-text-scale
@@ -176,12 +180,7 @@
            :type git
            :host github
            :repo "rainstormstudio/nerd-icons.el"))
-;; :files (:defaults "data"))
-;; :custom
-;; The Nerd Font you want to use in GUI
-;; "Symbols Nerd Font Mono" is the default and is recommended
-;; but you can use any other Nerd Font if you want
-;; (nerd-icons-font-family "Symbols Nerd Font Mono"))
+
 
 (with-no-warnings
   (when (featurep 'ns)

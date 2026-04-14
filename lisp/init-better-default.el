@@ -129,9 +129,10 @@
 
 (pcase system-type ('darwin (setq insert-directory-program "gls")))
 
-(setq-default tab-width 4
-              standard-indent 4
-              c-basic-offset 4
+(defvar my/tab-size 4)
+(setq-default tab-width my/tab-size
+              standard-indent my/tab-size
+              c-basic-offset my/tab-size
               compilation-scroll-output t
 	          indent-tabs-mode nil)
 

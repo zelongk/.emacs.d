@@ -126,19 +126,24 @@
 ;; Consulting completing-read
 (use-package consult
   :commands consult-customize
-  :bind (("C-." . consult-imenu)
-	     ("C-c T" . consult-theme)
-	     ([remap Info-search]        . consult-info)
+  :bind (([remap Info-search]        . consult-info)
          ;; ([remap isearch-forward]    . consult-line)
          ([remap recentf-open-files] . consult-recent-file)
          ([remap bookmark-jump] . consult-bookmark)
+         ("C-." . consult-imenu)
+	     ("C-c T" . consult-theme)
+         
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+         
          ;; Custom M-# bindings for fast register access
          ("M-#" . consult-register-load)
          ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
          ("C-M-#" . consult-register)
+
+         
          ;; Other custom bindings
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+         
          ;; M-g bindings in `goto-map'
          ("M-g e" . consult-compile-error)
          ("M-g r" . consult-grep-match)

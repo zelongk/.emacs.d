@@ -54,10 +54,15 @@
                          (self-insert-command 1))))
               ("M-<return>" . org-insert-subheading)
               ("C-'" . nil))
-  :bind (("C-c n t" . org-todo-list)
-         ("C-c n a" . org-agenda)
-         ("C-c n n" . org-capture))
+
+  
+  :bind-keymap ("C-c n" . org-prefix-map)
+  :bind (:map org-prefix-map
+              ("t" . org-todo-list)
+              ("a" . org-agenda)
+              ("n" . org-capture))
   :config
+  (defvar-keymap org-prefix-map)
   (add-hook 'org-mode-hook
             (lambda ()
               (yas-activate-extra-mode 'LaTeX-mode)))
@@ -351,14 +356,15 @@ the element after the #+HEADER: tag."
 (use-package org-roam
   :custom
   (org-roam-directory (file-truename "~/org/roam"))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ("C-c n w" . org-roam-refile)
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today))
+  :bind (:map org-prefix-map
+              ("l" . org-roam-buffer-toggle)
+              ("f" . org-roam-node-find)
+              ("g" . org-roam-graph)
+              ("i" . org-roam-node-insert)
+              ("c" . org-roam-capture)
+              ("w" . org-roam-refile)
+              ;; Dailies
+              ("j" . org-roam-dailies-capture-today))
   :bind (:map org-mode-map
               ("C-c C-x i" . org-id-get-create))
   :config

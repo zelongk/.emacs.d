@@ -28,9 +28,9 @@
 
 (use-package beframe
   :hook elpaca-after-init
+  :bind-keymap ("C-c b" . beframe-prefix-map)
   :bind ("C-x f" . other-frame-prefix)
   :config
-  (define-key global-map (kbd "C-c b") #'beframe-prefix-map)
   (setq beframe-functions-in-frames '(project-switch-project)
         beframe-rename-function #'ignore
         beframe-global-buffers '("*scratch*" "*Messages*" "*Backtrace*"))

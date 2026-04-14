@@ -29,8 +29,8 @@
               ("M-]" . puni-slurp-forward)
               ;; ("M-<left>" . puni-slurp-backward)
               ;; ("M-<right>" . puni-slurp-forward)
-              ("C-M-[" . puni-barf-backward)
-              ("C-M-]" . puni-barf-forward)
+              ("s-[" . puni-barf-backward)
+              ("s-]" . puni-barf-forward)
               ;; ("C-M-<left>" . puni-barf-backward)
               ;; ("C-M-<right>" . puni-barf-forward)
               ([remap backward-kill-word] . puni-backward-kill-word)
@@ -87,6 +87,7 @@
          ("C-'" . macrursors-hideshow)
          ("C-;" . nil)
          ("C-; C-;" . macrursors-end)
+         ("C-; C-j" . macrursors-end)
          :map macrursors-mark-map
          ("C-n" . macrursors-mark-next-line)
          ("C-p" . macrursors-mark-previous-line)
