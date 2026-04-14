@@ -46,47 +46,11 @@
   ;;   (eshell/clear-scrollback))
   (setq eshell-banner-message ""))
 
-(use-package xterm-color
-  :defines (compilation-environment
-            eshell-preoutput-filter-functions
-            eshell-output-filter-functions)
-  :init
-  ;; For shell and interpreters
-  (setenv "TERM" "xterm-256color")
-
-  (setq comint-output-filter-functions
-        (remove 'ansi-color-process-output comint-output-filter-functions))
-  (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
-  (add-hook 'shell-mode-hook
-            (lambda ()
-              ;; Disable font-locking to improve performance
-              (font-lock-mode -1)
-              ;; Prevent font-locking from being re-enabled
-              (make-local-variable 'font-lock-function)
-              (setq font-lock-function #'ignore)))
-
-  ;; For eshell
-  (with-eval-after-load 'esh-mode
-    (add-hook 'eshell-before-prompt-hook
-              (lambda ()
-                (setq xterm-color-preserve-properties t)))
-    (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
-    (setq eshell-output-filter-functions
-          (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
-
-  (setq compilation-environment '("TERM=xterm-256color"))
-  (defun my/advice-compilation-filter (fn proc string)
-    (funcall fn proc
-             (if (eq major-mode 'rg-mode) ; compatible with `rg'
-                 string
-               (xterm-color-filter string))))
-  (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
-  (advice-add 'gud-filter :around #'my/advice-compilation-filter)
-  )
+(setq compilation-environment '("TERM=xterm-256color"))
 
 (use-package eat
-  :bind ("C-<escape>" . eat-toggle)
-  :bind ("C-`" . eshell-toggle)
+  :bind ("C-`" . eat-toggle)
+  :bind ("C-<escape>" . eshell-toggle)
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode))
   :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
@@ -96,9 +60,20 @@
 			            ("integration" "integration/*")
 			            (:exclude ".dir-locals.el" "*-tests.el")))
   :custom
-  (eat-term-name "xterm-256color")
+  ;; (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
-  ;; (eat-shell )
+  (eat-shell "/opt/homebrew/bin/elvish")
+  (eat-tramp-shell (("docker" . "/bin/sh")
+                    ("ssh" . "/bin/bash")
+                    ("sshx" . "/bin/bash")
+                    ("rpc" . "/bin/bash")))
+
+  ;; Clear commands eshell considers visual by default.
+  (eshell-visual-commands '())
+  (eat-minimum-latency 0.002)
+  (eat-enable-directory-tracking t)
+  (eat-enable-shell-prompt-annotation t)
+  
   :config
   (defun eshell-toggle () (interactive)
          (if (string= (buffer-name) "*eshell*")
@@ -112,8 +87,11 @@
   ;; Improve latency
   (setq process-adaptive-read-buffering t)
 
-  (with-eval-after-load 'tramp
-    (setq tramp-remote-process-environment '("TERM=xterm-256color" "TERMINFO=''" "ENV=''" "TMOUT=0" "LC_CTYPE=''" "CDPATH=" "HISTORY=" "MAIL=" "MAILCHECK=" "MAILPATH=" "PAGER=cat" "autocorrect=" "correct=")))
+  (setq tramp-remote-process-environment ("TERM=xterm-256color" "TERMINFO=''" "ENV=''"
+                                          "TMOUT=0" "LC_CTYPE=''" "CDPATH=" "HISTORY="
+                                          "MAIL=" "MAILCHECK=" "MAILPATH=" "PAGER=cat"
+                                          "autocorrect=" "correct="))
+
   (when (eq system-type 'darwin)
     (define-key eat-semi-char-mode-map (kbd "C-h")  #'eat-self-input)
     (define-key eat-semi-char-mode-map (kbd "<backspace>") (kbd "C-h"))))
