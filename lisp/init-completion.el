@@ -271,9 +271,11 @@
                              eat-mode
                              vterm-mode)
                         t))
+
+  
   :custom-face
   (corfu-border ((t (:inherit region :background unspecified))))
-  :bind ("M-/" . completion-at-point)
+  :bind (("M-/" . completion-at-point))
   :init
   (global-corfu-mode)
   (corfu-history-mode)

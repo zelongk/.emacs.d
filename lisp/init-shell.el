@@ -46,7 +46,12 @@
   ;;   (eshell/clear-scrollback))
   (setq eshell-banner-message ""))
 
-(setq compilation-environment '("TERM=xterm-256color"))
+(use-package xterm-color
+  :defines (compilation-environment)
+  :init
+  (setenv "TERM" "xterm-256color")
+  (setq compilation-environment '("TERM=xterm-256color"))
+  )
 
 (use-package eat
   :bind ("C-`" . eat-toggle)
@@ -60,13 +65,13 @@
 			            ("integration" "integration/*")
 			            (:exclude ".dir-locals.el" "*-tests.el")))
   :custom
-  ;; (eat-term-name "xterm-256color")
+  (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
   (eat-shell "/opt/homebrew/bin/elvish")
-  (eat-tramp-shell (("docker" . "/bin/sh")
-                    ("ssh" . "/bin/bash")
-                    ("sshx" . "/bin/bash")
-                    ("rpc" . "/bin/bash")))
+  (eat-tramp-shells '(("docker" . "/bin/sh")
+                      ("ssh" . "/bin/bash")
+                      ("sshx" . "/bin/bash")
+                      ("rpc" . "/bin/bash")))
 
   ;; Clear commands eshell considers visual by default.
   (eshell-visual-commands '())
@@ -85,12 +90,7 @@
            (eat)))
 
   ;; Improve latency
-  (setq process-adaptive-read-buffering t)
-
-  (setq tramp-remote-process-environment ("TERM=xterm-256color" "TERMINFO=''" "ENV=''"
-                                          "TMOUT=0" "LC_CTYPE=''" "CDPATH=" "HISTORY="
-                                          "MAIL=" "MAILCHECK=" "MAILPATH=" "PAGER=cat"
-                                          "autocorrect=" "correct="))
+  (setq process-adaptive-read-buffering t)  
 
   (when (eq system-type 'darwin)
     (define-key eat-semi-char-mode-map (kbd "C-h")  #'eat-self-input)
