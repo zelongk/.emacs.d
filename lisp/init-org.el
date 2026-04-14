@@ -182,7 +182,7 @@ the element after the #+HEADER: tag."
 (use-package org-contrib)
 
 (with-eval-after-load 'org
-	(setq org-highlight-latex-and-related '(native script entities)))
+  (setq org-highlight-latex-and-related '(native script entities)))
 
 (use-package org-modern
   :after org
@@ -191,11 +191,11 @@ the element after the #+HEADER: tag."
   :init
   (with-eval-after-load 'org
     (setq org-hide-emphasis-markers t
-	        org-pretty-entities t))
+	      org-pretty-entities t))
   :config
   (setq org-modern-table-vertical 1
-	      org-modern-table-horizontal 0.2
-	      org-modern-todo-faces
+	    org-modern-table-horizontal 0.2
+	    org-modern-todo-faces
         '(("TODO" :inverse-video t :inherit org-todo)
           ("PROJ" :inverse-video t :inherit +org-todo-project)
           ("STRT" :inverse-video t :inherit +org-todo-active)
@@ -205,10 +205,10 @@ the element after the #+HEADER: tag."
           ("[?]"  :inverse-video t :inherit +org-todo-onhold)
           ("KILL" :inverse-video t :inherit +org-todo-cancel)
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
-	      org-modern-list '((43 . "➤")
+	    org-modern-list '((43 . "➤")
                           (45 . "–")
                           (42 . "•"))
-	      ))
+	    ))
 
 (use-package org-modern-indent
   :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
@@ -219,8 +219,8 @@ the element after the #+HEADER: tag."
   :hook (org-mode . org-appear-mode)
   :config
   (setq org-appear-autoemphasis t
-	      org-appear-autosubmarkers t
-	      org-appear-autolinks nil)
+	    org-appear-autosubmarkers t
+	    org-appear-autolinks nil)
   (run-at-time nil nil #'org-appear--set-elements))
 
 (use-package hl-todo

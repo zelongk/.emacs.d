@@ -181,7 +181,7 @@
 
 (use-package consult-dir
   :bind (("C-x C-d" . consult-dir)
-         :map minibuffer-local-completion-map
+         :map minibuffer-local-map
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
 
@@ -248,7 +248,7 @@
   (define-key embark-bookmark-map (kbd "3") (my/embark-split-action bookmark-jump split-window-right)))
 
 (use-package embark-consult
-  :bind (:map minibuffer-local-completion-map
+  :bind (:map minibuffer-local-map
               ("C-c C-o" . embark-export)
               ("C->" . embark-become)
               ("M-*" . embark-act-all))
@@ -284,9 +284,9 @@
   (advice-add #'persistent-scratch-save :before #'corfu-quit)
   (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
-(use-package nerd-icons-corfu
-  :init
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+;; (use-package nerd-icons-corfu
+;; :init
+;; (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 ;; A few more useful configurations...
 (use-package emacs

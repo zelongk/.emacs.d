@@ -53,6 +53,7 @@
 (require 'init-pretty-latex)
 
 (require 'init-org)
+(require 'init-markdown)
 (require 'init-tex)
 (require 'init-cc)
 (require 'init-python)

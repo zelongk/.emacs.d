@@ -7,7 +7,7 @@
   :commands (lsp-format-buffer lsp-organize-imports lsp lsp-deferred)
   :hook ((prog-mode . (lambda ()
                         (unless (derived-mode-p
-                                 'emacs-lisp-mode 'lisp-mode
+                                 'elvish-mode 'emacs-lisp-mode 'lisp-mode
                                  'makefile-mode 'snippet-mode
                                  'lisp-data-mode 'ron-mode)
                           (lsp-deferred))))

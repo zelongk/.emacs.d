@@ -18,6 +18,8 @@
   :diminish
   :hook elpaca-after-init)
 
+(use-package elvish-mode)
+
 (use-package docker-compose-mode)
 
 (use-package treesit-auto

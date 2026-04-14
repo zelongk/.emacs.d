@@ -1,10 +1,9 @@
 ;; -*- lexical-binding: t; -*-
 
-
-(use-package markdown-mode)
-
-(use-package markdown-ts-mode)
-
-(use-package grip-mode)
+(use-package grip-mode
+  :ensure t
+  :config (setq grip-command 'auto) ;; auto, grip, go-grip or mdopen
+  :bind (:map markdown-mode-command-map
+              ("g" . grip-mode)))
 
 (provide 'init-markdown)

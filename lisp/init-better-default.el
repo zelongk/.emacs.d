@@ -239,15 +239,15 @@
   :config
   (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)))
 
-(use-package tramp-hlo
-  :hook (elpaca-after-init . tramp-hlo-setup))
+;; (use-package tramp-hlo
+;;   :hook (elpaca-after-init . tramp-hlo-setup))
 
-(use-package msgpack)
-(use-package tramp-rpc
-  :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
-  :config
-  (setq tramp-rpc-deploy-local-cache-directory (expand-file-name "tramp-rpc" user-cache-directory))
-  (tramp-rpc-magit-enable))
+;; (use-package msgpack)
+;; (use-package tramp-rpc
+;;   :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
+;;   :config
+;;   (setq tramp-rpc-deploy-local-cache-directory (expand-file-name "tramp-rpc" user-cache-directory))
+;;   (tramp-rpc-magit-enable))
 
 (use-package transient
   :ensure (:host github :repo "magit/transient")

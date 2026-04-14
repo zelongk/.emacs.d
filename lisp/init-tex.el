@@ -28,8 +28,7 @@
          (LaTeX-mode . (lambda () (apheleia-mode -1))))
   :bind (:map LaTeX-mode-map
               ("C-S-e" . latex-math-from-calc)
-              ("C-c x" . TeX-clean)
-              ("S-s-<mouse-1>" . TeX-view))
+              ("C-c x" . TeX-clean))
   :custom
   (TeX-auto-save t)
   (TeX-parse-self t)
@@ -78,11 +77,14 @@
 
   (setq reftex-plug-into-AUCTeX t)
   (use-package texpresso
+    :commands texpresso 
     :ensure (:host github :repo "let-def/texpresso" :files ("emacs/*.el"))
     :hook (texpresso-mode . texpresso-sync-mode)
-    :after auctex
+    :custom
+    (texpresso-follow-cursor t)
     :bind (:map LaTeX-mode-map
-                ("C-c C-p" . texpresso)))
+                ("C-c C-p" . texpresso)
+                ("S-s-<mouse-1>" . texpresso-move-to-cursor)))
   )
 
 (use-package cdlatex
