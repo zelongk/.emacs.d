@@ -179,7 +179,9 @@
   :ensure (nerd-icons
            :type git
            :host github
-           :repo "rainstormstudio/nerd-icons.el"))
+           :repo "rainstormstudio/nerd-icons.el")
+  :custom
+  (nerd-icons-default-adjust 0.05))
 
 
 (with-no-warnings
