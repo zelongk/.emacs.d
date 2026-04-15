@@ -26,6 +26,22 @@
                        (ibuffer-do-sort-by-project-file-relative))))
   :init (setq ibuffer-project-use-cache t))
 
+(use-package tab-bar
+  :ensure nil
+  :hook (window-setup . tab-bar-mode)
+  :bind (:map tab-bar-mode-map
+              ("s-t" . tab-new)
+              ("s-w" . tab-close)
+              ("s-W" . delete-frame))
+  :config
+  (setq tab-bar-separator ""
+        tab-bar-new-tab-choice "*scratch*"
+        tab-bar-auto-width t
+        tab-bar-close-button-show nil
+        tab-bar-new-button-show nil
+        tab-bar-tab-hints nil)
+  (customize-set-variable 'tab-bar-select-tab-modifiers '(super)))
+
 (use-package beframe
   :hook elpaca-after-init
   :bind-keymap ("C-c b" . beframe-prefix-map)

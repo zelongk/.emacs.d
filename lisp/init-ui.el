@@ -5,10 +5,9 @@
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
 
-(setq fast-but-imprecise-scrolling t)
-(setq redisplay-skip-fontification-on-input t)
-
-(setq frame-resize-pixelwise t)
+(setq fast-but-imprecise-scrolling t
+      redisplay-skip-fontification-on-input t
+      frame-resize-pixelwise t)
 
 ;; 隐藏 title bar
 (add-to-list 'default-frame-alist '(undecorated-round . t))
@@ -26,6 +25,7 @@
              modus-themes-load-random))
 
 (use-package doric-themes
+  :disabled t
   ;; :bind ("<f5>" . doric-themes-load-random)
   ;; :bind ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
   ;; :bind ("M-<f5>" . (lambda () (interactive) (doric-themes-load-random 'dark)))
@@ -114,11 +114,18 @@
       window-divider-default-right-width 1)
 (add-hook 'window-setup-hook #'window-divider-mode)
 
-
 (defvar my/font-size 220)
-(set-face-attribute 'default nil :font "Sarasa Term SC" :height my/font-size)  ; 20 * 1.5
-(set-face-attribute 'variable-pitch nil :font "Bookerly" :height (- my/font-size 20) :weight 'light)
-(set-face-attribute 'fixed-pitch nil :font "Sarasa Term SC" :height my/font-size)
+(set-face-attribute 'default nil
+                    :font "Sarasa Term SC"
+                    :height my/font-size) ; 20 * 1.5
+(set-face-attribute 'variable-pitch nil
+                    :font "Bookerly"
+                    :height (- my/font-size 20)
+                    :weight 'light)
+(set-face-attribute 'fixed-pitch nil
+                    :font "Sarasa Term SC"
+                    :height my/font-size)
+
 ;; Use Symbols Nerd Font as fallback for private-use icons
 (set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size (/ my/font-size 10)) nil 'prepend)
 

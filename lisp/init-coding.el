@@ -11,6 +11,9 @@
   (setq xref-show-definitions-function #'xref-show-definitions-completing-read
         xref-show-xrefs-function #'xref-show-definitions-completing-read))
 
+(setq blink-matching-paren-highlight-offscreen t
+      show-paren-context-when-offscreen 'overlay)
+
 (use-package apheleia :diminish
   :hook (prog-mode))
 

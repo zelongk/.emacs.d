@@ -15,6 +15,8 @@
                       (delete-dups (append file-name-handler-alist default-handlers))))
               101)))
 
+(defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory))
+
 (require 'init-elpaca)
 ;; (require 'init-straight)
 (require 'init-gc)

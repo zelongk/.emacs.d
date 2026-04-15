@@ -53,8 +53,7 @@
                   org-mode-hook
                   vterm-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode -1))))
-  (setq display-line-numbers-type 'relative)
-  )
+  (setq display-line-numbers-type 'relative))
 
 (use-package subword
   :ensure nil
@@ -181,8 +180,10 @@
 
 (use-package auto-save
   :ensure nil
-  :config
-  (setq auto-save-list-file-prefix (expand-file-name ".saves-" user-cache-directory)))
+  :init
+  (setq auto-save-list-file-prefix (expand-file-name ".saves-" user-cache-directory)
+        auto-save-list-file-name (expand-file-name ".saves-mac" user-cache-directory))
+  (setq-default auto-save-default nil))
 
 (setq delete-by-moving-to-trash t
       inhibit-compacting-font-caches t

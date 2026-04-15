@@ -12,7 +12,6 @@
       package-quickstart nil
       load-prefer-newer t)
 
-(defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "site-lisp/" user-emacs-directory))
 (setq use-package-enable-imenu-support t)
