@@ -35,14 +35,61 @@
               ("s-W" . delete-frame))
   :config
   (setq tab-bar-separator ""
+        tab-bar-show 1
         tab-bar-new-tab-choice "*scratch*"
         tab-bar-auto-width t
+        tab-bar-auto-width-max '((220) 20)
         tab-bar-close-button-show nil
         tab-bar-new-button-show nil
         tab-bar-tab-hints nil)
   (customize-set-variable 'tab-bar-select-tab-modifiers '(super)))
 
+(use-package tabspaces
+  :functions tabspaces-mode
+  :commands (tabspaces-switch-or-create-workspace
+             tabspaces-open-or-create-project-and-workspace)
+  :hook ((elpaca-after-init . tabspaces-mode))
+  :bind (:map tabspaces-command-map
+              ("l" . tabspaces-restore-session)
+              ("s" . tabspaces-save-session)
+              ("TAB" . tabspaces-switch-or-create-workspace))
+  :custom
+  (tabspaces-use-filtered-buffers-as-default t)
+  (tabspaces-default-tab "Default")
+  (tabspaces-remove-to-default t)
+  (tabspaces-include-buffers '("*scratch*" "*Messages*"))
+  (tabspaces-exclude-buffers '("*eat*" "*vterm*" "*shell*" "*eshell*"))
+  
+  (tabspaces-session-file (expand-file-name "tabspaces/tabsession.el" user-cache-directory))
+  (tabspaces-session-project-session-store (expand-file-name "tabspaces/" user-cache-directory))
+  (tabspaces-initialize-project-with-todo t)
+  (tabspaces-todo-file-name "project-todo.org")
+  ;; sessions
+  (tabspaces-session t)
+  (tabspaces-session-auto-restore nil)
+  :config
+  (with-eval-after-load 'consult
+    ;; hide full buffer list (still available with "b" prefix)
+    (plist-put consult-source-buffer :hidden t)
+    (plist-put consult-source-buffer :default nil)
+    ;; set consult-workspace buffer list
+    (defvar consult--source-workspace
+      (list :name     "Workspace Buffers"
+            :narrow   ?w
+            :history  'buffer-name-history
+            :category 'buffer
+            :state    #'consult--buffer-state
+            :default  t
+            :items    (lambda () (consult--buffer-query
+                                  :predicate #'tabspaces--local-buffer-p
+                                  :sort 'visibility
+                                  :as #'buffer-name)))
+
+      "Set workspace buffer list for consult-buffer.")
+    (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
+
 (use-package beframe
+  :disabled t
   :hook elpaca-after-init
   :bind-keymap ("C-c b" . beframe-prefix-map)
   :bind ("C-x f" . other-frame-prefix)

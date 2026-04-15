@@ -119,34 +119,11 @@ expansion, then cdlatex expansion."
   :after cdlatex latex
   :ensure '(lazytab :type git :host github :repo "karthink/lazytab" :files ("*.el"))
   :bind (:map LaTeX-mode-map
-              ("C-x |" . (lambda () (interactive) (lazytab-position-cursor-and-edit))))
+              ("C-x |" . (lambda () (interactive) (lazytab-orgtbl-edit))))
   :bind (:map orgtbl-mode-map
               ("<tab>" . lazytab-org-table-next-field-maybe)
               ("TAB" . lazytab-org-table-next-field-maybe))
   :config
-  (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90)
-  (dolist (cmd '(("smat" "Insert smallmatrix env"
-                  "\\left( \\begin{smallmatrix} ? \\end{smallmatrix} \\right)"
-                  lazytab-position-cursor-and-edit
-                  nil nil t)
-                 ("bmat" "Insert bmatrix env"
-                  "\\begin{bmatrix} ? \\end{bmatrix}"
-                  lazytab-position-cursor-and-edit
-                  nil nil t)
-                 ("pmat" "Insert pmatrix env"
-                  "\\begin{pmatrix} ? \\end{pmatrix}"
-                  lazytab-position-cursor-and-edit
-                  nil nil t)
-                 ("ali" "Insert pmatrix env"
-                  "\\begin{aligned} ? \\end{aligned}"
-                  lazytab-position-cursor-and-edit
-                  nil nil t)
-                 ("tbl" "Insert table"
-                  "\\begin{table}\n\\centering ? \\caption{}\n\\end{table}\n"
-                  lazytab-position-cursor-and-edit
-                  nil t nil)))
-    (push cmd cdlatex-command-alist))
-  (cdlatex-reset-mode)
-  )
+  (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90))
 
 (provide 'init-tex)

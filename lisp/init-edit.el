@@ -118,12 +118,14 @@
 
 (use-package avy
   :bind
-  (("C-'" . avy-goto-char-timer))
+  (("C-'" . avy-goto-char-timer)
+   :map isearch-mode-map
+   ("C-'" . avy-isearch))
   :config
   (setq avy-all-windows nil
         avy-all-windows-alt t
-        avy-background t
-        avy-style 'pre))
+        avy-background nil
+        avy-style 'at-full))
 
 ;; Kill text between cursor and char
 (use-package avy-zap
