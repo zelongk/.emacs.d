@@ -43,6 +43,8 @@
          ("C-c w" . ace-window-hydra/body))
   :custom
   (aw-scope 'frame)
+  (aw-background nil)
+  (aw-display-mode-overlay nil)
   :pretty-hydra
   (("Actions"
     (("TAB" other-window "switch")

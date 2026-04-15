@@ -14,16 +14,13 @@
 (setq blink-matching-paren-highlight-offscreen t
       show-paren-context-when-offscreen 'overlay)
 
-(use-package apheleia :diminish
+(use-package apheleia
+  :diminish
   :hook (prog-mode))
 
 (use-package editorconfig
   :diminish
   :hook elpaca-after-init)
-
-(use-package elvish-mode)
-
-(use-package docker-compose-mode)
 
 (use-package treesit-auto
   :hook (elpaca-after-init . global-treesit-auto-mode)
@@ -32,8 +29,19 @@
   :config
   (treesit-auto-add-to-auto-mode-alist 'all))
 
-(use-package systemd)
-
 (add-hook 'prog-mode-hook #'toggle-truncate-lines)
+
+
+;; Support for some lang
+(use-package elvish-mode)
+
+(use-package docker-compose-mode
+  :hook yaml-ts-mode)
+
+(use-package ansible
+  :hook yaml-ts-mode)
+(use-package ansible-doc)
+
+(use-package systemd)
 
 (provide 'init-coding)
