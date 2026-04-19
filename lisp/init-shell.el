@@ -103,16 +103,6 @@
   (setq eshell-highlight-prompt t)
   (setq eshell-prompt-function #'epe-theme-lambda))
 
-(use-package eshell-z
-  :ensure t
-  :after eshell
-  :hook (eshell-mode . (lambda () (require 'eshell-z))))
-
-(use-package esh-help
-  :disabled
-  :commands setup-esh-help-eldoc
-  :init (setup-esh-help-eldoc))
-
 (use-package eshell-syntax-highlighting
   :ensure t
   :after eshell

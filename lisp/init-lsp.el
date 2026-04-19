@@ -118,6 +118,28 @@
   :after lsp-mode
   :custom-face
   (lsp-ui-sideline-code-action ((t (:inherit warning))))
+  :bind (("C-c u" . lsp-ui-imenu)
+         :map lsp-ui-mode-map
+         ("s-<return>" . lsp-ui-sideline-apply-code-actions)
+         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+         ([remap xref-find-references] . lsp-ui-peek-find-references))
+  :hook ((lsp-mode . lsp-ui-mode)
+         (after-load-theme . lsp-ui-set-doc-border))
+  :init
+  (setq lsp-ui-sideline-show-diagnostics nil
+        lsp-ui-sideline-ignore-duplicate t
+        lsp-ui-doc-delay 0.1
+        lsp-ui-doc-show-with-cursor (not (display-graphic-p))
+        lsp-ui-imenu-auto-refresh 'after-save
+        lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
+                              ,(face-foreground 'font-lock-string-face)
+                              ,(face-foreground 'font-lock-constant-face)
+                              ,(face-foreground 'font-lock-variable-name-face))))
+
+(use-package lsp-ui
+  :disabled t
+  :bind (:map lsp-ui-mode-map
+              ("M-<f6>" . lsp-ui-hydra/body))
   :pretty-hydra
   ((:color amaranth :quit-key ("q" "C-g"))
    ("Doc"
@@ -142,7 +164,7 @@
     "Sideline"
     (("s e" (progn
               (lsp-ui-sideline-enable (not lsp-ui-sideline-mode))
-              (setq lsp-ui-sideline-enable (not lsp-ui-sideline-enable)))
+              (setq lsp-ui-sideline-enable (not lsp-ui-sideline-enable)));; 
       "enable" :toggle lsp-ui-sideline-mode)
      ("s h" (setq lsp-ui-sideline-show-hover (not lsp-ui-sideline-show-hover))
       "hover" :toggle lsp-ui-sideline-show-hover)
@@ -167,26 +189,7 @@
      ("C-f" forward-char nil)
      ("M-b" backward-word nil)
      ("M-f" forward-word nil)
-     ("c" lsp-ui-sideline-apply-code-actions "apply code actions"))))
-  :bind (("C-c u" . lsp-ui-imenu)
-         :map lsp-ui-mode-map
-         ("M-<f6>" . lsp-ui-hydra/body)
-         ("s-<return>" . lsp-ui-sideline-apply-code-actions)
-         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ([remap xref-find-references] . lsp-ui-peek-find-references))
-  :hook ((lsp-mode . lsp-ui-mode)
-         (after-load-theme . lsp-ui-set-doc-border))
-  :init
-  (setq lsp-ui-sideline-show-diagnostics nil
-        lsp-ui-sideline-ignore-duplicate t
-        lsp-ui-doc-delay 0.1
-        lsp-ui-doc-show-with-cursor (not (display-graphic-p))
-        lsp-ui-imenu-auto-refresh 'after-save
-        lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
-                              ,(face-foreground 'font-lock-string-face)
-                              ,(face-foreground 'font-lock-constant-face)
-                              ,(face-foreground 'font-lock-variable-name-face))))
-
+     ("c" lsp-ui-sideline-apply-code-actions "apply code actions")))))
 
 (use-package lsp-haskell
   :ensure t

@@ -21,7 +21,7 @@
 ;; (require 'init-straight)
 (require 'init-gc)
 (require 'init-better-default)
-(require 'init-hydra)
+;; (require 'init-hydra)
 
 (require 'init-ui)
 (require 'init-edit)

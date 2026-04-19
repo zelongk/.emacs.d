@@ -39,12 +39,46 @@
   :ensure t
   :hook (emacs-startup . ace-window-display-mode)
   :bind (([remap other-window] . ace-window)
+         
+         ;; ("C-c w" . ace-window-hydra/body)
          ("M-o" . ace-window)
-         ("C-c w" . ace-window-hydra/body))
+         ("C-c 2" . split-window-vertically-instead)
+         ("C-c 3" . split-window-horizontally-instead))
   :custom
   (aw-scope 'frame)
   (aw-background nil)
   (aw-display-mode-overlay nil)
+  (aw-dispatch-always t)
+  :config
+  (defun my/aw-take-over-window (window)
+    "Move from current window to WINDOW.
+
+Delete current window in the process."
+    (let ((buf (current-buffer)))
+      (if (one-window-p)
+          (delete-frame)
+        (delete-window))
+      (aw-switch-to-window window)
+      (switch-to-buffer buf)))
+  (setq aw-dispatch-alist
+        '((?k aw-delete-window "Delete Window")
+          (?x aw-swap-window "Swap Windows")
+          (?m my/aw-take-over-window "Move Window")
+          (?c aw-copy-window "Copy Window")
+          (?j aw-switch-buffer-in-window "Select Buffer")
+          (?o aw-flip-window)
+          (?b aw-switch-buffer-other-window "Switch Buffer Other Window")
+          (?c aw-split-window-fair "Split Fair Window")
+          (?s aw-split-window-vert "Split Vert Window")
+          (?v aw-split-window-horz "Split Horz Window")
+          (?O delete-other-windows "Delete Other Windows")
+          (?? aw-show-dispatch-help)))
+  )
+
+;; hydra for ace-window
+(use-package ace-window
+  :disabled t
+  :after ace-window
   :pretty-hydra
   (("Actions"
     (("TAB" other-window "switch")

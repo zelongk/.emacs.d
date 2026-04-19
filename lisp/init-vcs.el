@@ -69,6 +69,17 @@
 (use-package smerge-mode
   :defer t
   :diminish
+  :hook ((find-file . (lambda ()
+                        (save-excursion
+                          (goto-char (point-min))
+                          (when (re-search-forward "^<<<<<<< " nil t)
+                            (smerge-mode 1)))))))
+
+(use-package smerge-mode
+  :disabled t
+  :hook ((magit-diff-visit-file . (lambda ()
+                                    (when smerge-mode
+                                      (smerge-mode-hydra/body)))))
   :pretty-hydra
   ((:title (pretty-hydra-title "Smerge" 'octicon "nf-oct-diff")
            :color pink :quit-key ("q" "C-g"))
@@ -98,15 +109,6 @@
              (bury-buffer))
       "Save and bury buffer" :exit t))))
   :bind (:map smerge-mode-map
-              ("C-c m" . smerge-mode-hydra/body))
-  :hook ((find-file . (lambda ()
-                        (save-excursion
-                          (goto-char (point-min))
-                          (when (re-search-forward "^<<<<<<< " nil t)
-                            (smerge-mode 1)))))
-         (magit-diff-visit-file . (lambda ()
-                                    (when smerge-mode
-                                      (smerge-mode-hydra/body))))))
-
+              ("C-c m" . smerge-mode-hydra/body)))
 
 (provide 'init-vcs)

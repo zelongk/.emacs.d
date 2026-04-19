@@ -11,12 +11,6 @@
          ("C-c n a" . org-agenda)
          ("C-c n n" . org-capture)
          :map org-mode-map
-         ("<" . (lambda ()
-                  "Insert org template."
-                  (interactive)
-                  (if (or (region-active-p) (looking-back "^\s*" 1))
-                      (org-hydra/body)
-                    (self-insert-command 1))))
          ("M-<return>" . org-insert-subheading)
          ("C-'" . nil))
   :config
@@ -27,27 +21,7 @@
   (add-hook 'org-mode-hook
             (lambda ()
               (yas-activate-extra-mode 'LaTeX-mode)))
-  ;; For hydra
-  (defun hot-expand (str &optional mod)
-    "Expand org template.
 
-STR is a structure template string recognised by org like <s. MOD is a
-string with additional parameters to add the begin line of the structure
-element. HEADER string includes more parameters that are prepended to
-the element after the #+HEADER: tag."
-    (let (text)
-      (when (region-active-p)
-        (setq text (buffer-substring (region-beginning) (region-end)))
-        (delete-region (region-beginning) (region-end)))
-      (insert str)
-      (if (fboundp 'org-try-structure-completion)
-          (org-try-structure-completion) ; < org 9
-        (progn
-          ;; New template expansion since org 9
-          (require 'org-tempo nil t)
-          (org-tempo-complete-tag)))
-      (when mod (insert mod) (forward-line))
-      (when text (insert text))))
   (setq org-highlight-latex-and-related '(native latex entities))
   (setq org-startup-indented t)
   (setq org-pretty-entities t
@@ -278,7 +252,15 @@ the element after the #+HEADER: tag."
 ;; Org hydra
 (use-package org
   :after org
+  :disabled t
   :pretty-hydra
+  :bind (:map org-mode-map
+              ("<" . (lambda ()
+                       "Insert org template."
+                       (interactive)
+                       (if (or (region-active-p) (looking-back "^\s*" 1))
+                           (org-hydra/body)
+                         (self-insert-command 1)))))
   ;; See `org-structure-template-alist'
   ((:color blue :quit-key ("q" "C-g"))
    ("Basic"
@@ -315,7 +297,29 @@ the element after the #+HEADER: tag."
      ("P" (progn
             (insert "#+HEADERS: :results output :exports both :shebang \"#!/usr/bin/env perl\"\n")
             (hot-expand "<s" "perl")) "Perl tangled")
-     ("<" self-insert-command "ins")))))
+     ("<" self-insert-command "ins"))))
+  :config
+  ;; For hydra
+  (defun hot-expand (str &optional mod)
+    "Expand org template.
+
+STR is a structure template string recognised by org like <s. MOD is a
+string with additional parameters to add the begin line of the structure
+element. HEADER string includes more parameters that are prepended to
+the element after the #+HEADER: tag."
+    (let (text)
+      (when (region-active-p)
+        (setq text (buffer-substring (region-beginning) (region-end)))
+        (delete-region (region-beginning) (region-end)))
+      (insert str)
+      (if (fboundp 'org-try-structure-completion)
+          (org-try-structure-completion) ; < org 9
+        (progn
+          ;; New template expansion since org 9
+          (require 'org-tempo nil t)
+          (org-tempo-complete-tag)))
+      (when mod (insert mod) (forward-line))
+      (when text (insert text)))))
 
 ;; Org latex preview center
 (use-package org-latex-preview

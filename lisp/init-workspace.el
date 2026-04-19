@@ -1,6 +1,13 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package project
+  :init
+  (setq frame-title-format '((:eval
+                              (let* ((proj (project-current nil))
+                                     (pname (and proj (project-name proj))))
+                                (if pname
+                                    (format "[%s] %s" pname (buffer-name))
+                                  (buffer-name)))))) ;; Otherwise buffer name only
   :config
   (setq project-list-file (expand-file-name "projects" user-cache-directory)))
 

@@ -93,54 +93,51 @@
                                         extended-command-history)
         savehist-autosave-interval 300))
 
-(setq-default cursor-type 'bar)
-(setq kill-whole-line t)
-(setq make-backup-files nil)
-(setq use-short-answers t)
-(setq frame-title-format
-      '((:eval
-         (let* ((proj (project-current nil))
-                (pname (and proj (project-name proj))))
-           (if pname
-               (format "[%s] %s" pname (buffer-name))
-             (buffer-name)))))) ;; Otherwise buffer name only
+(use-package emacs
+  :init
+  (setq-default cursor-type 'bar)
+  (setq kill-whole-line t
+        make-backup-files nil
+        use-short-answers t
+        confirm-kill-processes nil)
+  
+  (add-to-list 'default-frame-alist '(drag-internal-border . 1))
+  (add-to-list 'default-frame-alist '(internal-border-width . 5))
 
-(add-to-list 'default-frame-alist '(drag-internal-border . 1))
-(add-to-list 'default-frame-alist '(internal-border-width . 5))
+  (pcase system-type ('darwin (setq insert-directory-program "gls")))
 
-(pcase system-type ('darwin (setq insert-directory-program "gls")))
+  (defvar my/tab-size 4)
+  (setq-default tab-width my/tab-size
+                standard-indent my/tab-size
+                c-basic-offset my/tab-size
+                compilation-scroll-output t
+	            indent-tabs-mode nil)
 
-(defvar my/tab-size 4)
-(setq-default tab-width my/tab-size
-              standard-indent my/tab-size
-              c-basic-offset my/tab-size
-              compilation-scroll-output t
-	          indent-tabs-mode nil)
+  (setq ring-bell-function 'ignore)
+  (setq undo-limit 80000000
+        password-cache-expiry nil)
 
-(setq ring-bell-function 'ignore)
-(setq undo-limit 80000000
-      password-cache-expiry nil)
+  (setq-default delete-by-moving-to-trash t
+	            x-stretch-cursor t
+	            window-combination-resize t)
 
-(setq-default delete-by-moving-to-trash t
-	          x-stretch-cursor t
-	          window-combination-resize t)
+  (setq kill-ring-max 200)
+  ;; Save clipboard contents into kill-ring before replace them
+  (setq save-interprogram-paste-before-kill t)
 
-(setq kill-ring-max 200)
-;; Save clipboard contents into kill-ring before replace them
-(setq save-interprogram-paste-before-kill t)
+  ;; Kill & Mark things easily
+  (use-package easy-kill
+    :ensure t
+    :bind (([remap kill-ring-save] . easy-kill)
+           ([remap mark-sexp] . easy-mark)))
 
-;; Kill & Mark things easily
-(use-package easy-kill
-  :ensure t
-  :bind (([remap kill-ring-save] . easy-kill)
-         ([remap mark-sexp] . easy-mark)))
-
-(use-package browse-kill-ring
-  :ensure t
-  :bind ("C-c k" . browse-kill-ring)
-  :hook (elpaca-after-init . browse-kill-ring-default-keybindings)
-  :init (setq browse-kill-ring-separator "────────────────"
-              browse-kill-ring-separator-face 'shadow))
+  (use-package browse-kill-ring
+    :ensure t
+    :bind ("C-c k" . browse-kill-ring)
+    :hook (elpaca-after-init . browse-kill-ring-default-keybindings)
+    :init (setq browse-kill-ring-separator "────────────────"
+                browse-kill-ring-separator-face 'shadow))
+  )
 
 (use-package ultra-scroll
   :ensure t
