@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package dired
-  :ensure nil
   :bind (("C-x x @" . tramp-revert-buffer-with-sudo)
          :map dired-mode-map
          ("C-c C-p" . wdired-change-to-wdired-mode)
@@ -19,6 +18,7 @@
 
 ;; Colorful dired
 (use-package diredfl
+  :ensure t
   :diminish
   :hook dired-mode
   :hook dirvish-directory-view-mode)
@@ -27,6 +27,8 @@
 (use-package dired-aux :ensure nil)
 
 (use-package nerd-icons-dired
+  :ensure t
+  :defer
   :diminish
   :hook
   (dired-mode . nerd-icons-dired-mode))

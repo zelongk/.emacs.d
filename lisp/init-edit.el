@@ -1,11 +1,9 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package delsel
-  :ensure nil
   :hook (elpaca-after-init . delete-selection-mode))
 
 (use-package electric-pair-mode
-  :ensure nil
   :hook elpaca-after-init
   :config
   (dolist (mode '(LaTeX-mode-hook org-mode-hook))
@@ -16,6 +14,7 @@
                 (setq-local electric-pair-text-pairs electric-pair-pairs)))))
 
 (use-package puni
+  :ensure t
   :hook (elpaca-after-init . puni-global-mode)
   :custom
   (puni-confirm-when-delete-unbalanced-active-region nil)
@@ -53,26 +52,24 @@
   )
 
 (use-package abbrev
-  :ensure nil
   :diminish
   :config
   (setq-default abbrev-mode t)
   (setq abbrev-file-name (expand-file-name "abbrev.el" user-emacs-directory)))
 
 (use-package autorevert
-  :ensure nil
   :diminish
   :hook (elpaca-after-init . global-auto-revert-mode))
 
 (use-package goto-addr
-  :ensure nil
+  :defer
   :hook ((text-mode . goto-address-mode)
          (prog-mode . goto-address-prog-mode)))
 
 (use-package macrursors
-  :hook elpaca-after-init
   :ensure (:host github :repo "karthink/macrursors"
                  :branch "expand-region")
+  :hook elpaca-after-init
   :bind-keymap ("C-;" . macrursors-mark-map)
   :bind (("C-<" . macrursors-mark-previous-line)
          ("C->" . macrursors-mark-next-line)
@@ -113,10 +110,12 @@
                 ("C-g" . macrursors-select-clear))))
 
 (use-package mwim
+  :ensure t
   :bind (([remap move-beginning-of-line] . mwim-beginning)
          ([remap move-end-of-line] . mwim-end)))
 
 (use-package avy
+  :ensure t
   :bind
   (("C-'" . avy-goto-char-timer)
    :map isearch-mode-map
@@ -129,15 +128,18 @@
 
 ;; Kill text between cursor and char
 (use-package avy-zap
+  :ensure t
   :bind (("M-z" . avy-zap-to-char-dwim)
          ("M-Z" . avy-zap-up-to-char-dwim)))
 
 (use-package ace-pinyin
+  :ensure t
   :diminish
   :hook (elpaca-after-init . ace-pinyin-global-mode))
 
 ;; show number of matches
 (use-package anzu
+  :ensure t
   :diminish
   :bind (([remap query-replace] . anzu-query-replace)
          ([remap query-replace-regexp] . anzu-query-replace-regexp)
@@ -148,22 +150,24 @@
 
 ;; Goto last change
 (use-package goto-chg
+  :ensure t
   :bind ("C-," . goto-last-change))
 
 ;; Treat undo history as a tree
 (use-package vundo
+  :ensure t
   :bind ("C-x u" . vundo)
   :config (setq vundo-glyph-alist vundo-unicode-symbols))
 
 ;; Remember undo history
 (use-package undo-fu-session
+  :ensure t
   :hook (elpaca-after-init . undo-fu-session-global-mode)
   :config
   (setq undo-fu-session-directory (expand-file-name "undo-fu-session" user-cache-directory)))
 
 ;; Process
 (use-package proced
-  :ensure nil
   :init
   (setq-default proced-format 'verbose)
   (setq proced-auto-update-flag t
@@ -171,8 +175,9 @@
         proced-enable-color-flag t))
 
 (use-package olivetti
+  :ensure t
+  :defer
   :hook org-mode
-  :diminish
   :bind (("<f7>" . olivetti-mode))
   :custom
   (olivetti-style 'fancy)

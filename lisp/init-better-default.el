@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
-(use-package benchmark-init :demand t
+(use-package benchmark-init :ensure t
+  :demand t
   :hook (elpaca-after-init . benchmark-init/deactivate))
 
 (defun native-compile-elpaca ()
@@ -18,9 +19,12 @@
 
 (when (memq window-system '(mac ns x))
   (use-package exec-path-from-shell
+    :ensure t
     :commands exec-path-from-shell-initialize
     :init
-    (setq exec-path-from-shell-arguments '("-l"))
+    (setq exec-path-from-shell-arguments '("-l")
+          exec-path-from-shell-variables '("PATH" "MANPATH" "HOMEBREW_NO_AUTO_UPDATE"
+                                           "HOMEBREW_NO_ENV_HINTS" "LIBGS" "PYTHONPATH"))
     (exec-path-from-shell-initialize)))
 
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
@@ -28,20 +32,17 @@
 
 ;; Start server
 (use-package server
-  :ensure nil
   :autoload server-running-p
   :hook (emacs-startup . (lambda ()
 			               (unless (server-running-p)
                              (server-mode 1)))))
 
 (use-package saveplace
-  :ensure nil
   :hook (elpaca-after-init . save-place-mode)
   :config
   (setq save-place-file (expand-file-name "places" user-cache-directory)))
 
 (use-package display-line-numbers
-  :ensure nil
   :hook (text-mode . display-line-numbers-mode)
   :hook (prog-mode . display-line-numbers-mode)
   :config
@@ -56,16 +57,13 @@
   (setq display-line-numbers-type 'relative))
 
 (use-package subword
-  :ensure nil
   :diminish
   :hook (prog-mode minibuffer-setup))
 
 (use-package paren
-  :ensure nil
   :hook (elpaca-after-init . show-paren-mode))
 
 (use-package recentf
-  :ensure nil
   :hook (elpaca-after-init . recentf-mode)
   :init
   (setq recentf-max-saved-items 500
@@ -83,7 +81,6 @@
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
 
 (use-package savehist
-  :ensure nil
   :hook (elpaca-after-init . savehist-mode)
   :init
   (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
@@ -134,22 +131,27 @@
 
 ;; Kill & Mark things easily
 (use-package easy-kill
+  :ensure t
   :bind (([remap kill-ring-save] . easy-kill)
          ([remap mark-sexp] . easy-mark)))
 
 (use-package browse-kill-ring
+  :ensure t
   :bind ("C-c k" . browse-kill-ring)
   :hook (elpaca-after-init . browse-kill-ring-default-keybindings)
   :init (setq browse-kill-ring-separator "────────────────"
               browse-kill-ring-separator-face 'shadow))
 
 (use-package ultra-scroll
+  :ensure t
   :init
   (setq scroll-conservatively 3
 	    scroll-margin 0)
   :hook (elpaca-after-init . ultra-scroll-mode))
 
 (use-package helpful
+  :ensure t
+  :defer
   :bind (([remap describe-function] . helpful-callable)
          ([remap describe-command]  . helpful-command)
          ([remap describe-variable] . helpful-variable)
@@ -178,20 +180,17 @@
          (lambda (button)
            (helpful-variable (button-get button 'apropos-symbol))))))))
 
-(use-package auto-save
-  :ensure nil
+;; file related
+(use-package emacs
   :init
   (setq auto-save-list-file-prefix (expand-file-name ".saves-" user-cache-directory)
         auto-save-list-file-name (expand-file-name ".saves-mac" user-cache-directory))
-  (setq-default auto-save-default nil))
+  (setq-default auto-save-default nil)
+  (setq delete-by-moving-to-trash t
+        inhibit-compacting-font-caches t
+        make-backup-files nil)
 
-(setq delete-by-moving-to-trash t
-      inhibit-compacting-font-caches t
-      make-backup-files nil)
-
-(setq create-lockfiles nil)
-;; (setq auto-save-file-name-transforms
-;;       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
+  (setq create-lockfiles nil))
 
 (use-package tramp
   :commands (sudo-find-file sudo-this-file)
@@ -222,23 +221,19 @@
         tramp-copy-size-limit (* 1024 1024)))
 
 (use-package bookmark
-  :ensure nil
   :config
   (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)))
 
-(use-package tramp-hlo
-  :disabled t
-  :hook (elpaca-after-init . tramp-hlo-setup))
-
 (use-package tramp-rpc
-  :disabled t
   :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
+  :defer
   :config
   (setq tramp-rpc-deploy-local-cache-directory (expand-file-name "tramp-rpc" user-cache-directory))
   (tramp-rpc-magit-enable))
 
 (use-package transient
   :ensure (:host github :repo "magit/transient")
+  :defer
   :config
   (transient-bind-q-to-quit)
   (setq transient-history-file (expand-file-name "transient/history.el" user-cache-directory)

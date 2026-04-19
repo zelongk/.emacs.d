@@ -7,60 +7,23 @@
   :hook ((org-mode . org-cdlatex-mode)
          (org-mode . org-indent-mode)
          (org-mode . visual-line-mode))
-  :pretty-hydra
-  ;; See `org-structure-template-alist'
-  ((:color blue :quit-key ("q" "C-g"))
-   ("Basic"
-    (("a" (hot-expand "<a") "ascii")
-     ("c" (hot-expand "<c") "center")
-     ("C" (hot-expand "<C") "comment")
-     ("x" (hot-expand "<e") "example")
-     ("E" (hot-expand "<E") "export")
-     ("l" (hot-expand "<l") "latex")
-     ("n" (hot-expand "<n") "note")
-     ("O" (hot-expand "<q") "quote")
-     ("v" (hot-expand "<v") "verse"))
-    "Head"
-    (("i" (hot-expand "<i") "index")
-     ("A" (hot-expand "<A") "ASCII")
-     ("I" (hot-expand "<I") "INCLUDE")
-     ("H" (hot-expand "<H") "HTML")
-     ("L" (hot-expand "<L") "LaTeX"))
-    "Source"
-    (("s" (hot-expand "<s") "src")
-     ("e" (hot-expand "<s" "emacs-lisp") "emacs-lisp")
-     ("y" (hot-expand "<s" "python :results output") "python")
-     ("p" (hot-expand "<s" "perl") "perl")
-     ("w" (hot-expand "<s" "powershell") "powershell")
-     ("r" (hot-expand "<s" "ruby") "ruby")
-     ("S" (hot-expand "<s" "sh") "sh")
-     ("h" (hot-expand "<s" "haskell") "haskell")
-     ("o" (hot-expand "<s" "ocaml") "ocaml")
-     ("g" (hot-expand "<s" "go :imports '\(\"fmt\"\)") "golang"))
-    "Misc"
-    (("m" (hot-expand "<s" "mermaid :file chart.png") "mermaid")
-     ("u" (hot-expand "<s" "plantuml :file chart.png") "plantuml")
-     ("Y" (hot-expand "<s" "ipython :session :exports both :results raw drawer\n$0") "ipython")
-     ("P" (progn
-            (insert "#+HEADERS: :results output :exports both :shebang \"#!/usr/bin/env perl\"\n")
-            (hot-expand "<s" "perl")) "Perl tangled")
-     ("<" self-insert-command "ins"))))
-  :bind (:map org-mode-map
-              ("<" . (lambda ()
-                       "Insert org template."
-                       (interactive)
-                       (if (or (region-active-p) (looking-back "^\s*" 1))
-                           (org-hydra/body)
-                         (self-insert-command 1))))
-              ("M-<return>" . org-insert-subheading)
-              ("C-'" . nil))
-
   :bind (("C-c n t" . org-todo-list)
          ("C-c n a" . org-agenda)
-         ("C-c n n" . org-capture))
+         ("C-c n n" . org-capture)
+         :map org-mode-map
+         ("<" . (lambda ()
+                  "Insert org template."
+                  (interactive)
+                  (if (or (region-active-p) (looking-back "^\s*" 1))
+                      (org-hydra/body)
+                    (self-insert-command 1))))
+         ("M-<return>" . org-insert-subheading)
+         ("C-'" . nil))
   :config
-  ;; (with-eval-after-load 'warnings
-  ;;   (add-to-list 'warning-suppress-types '(org-element)))
+  (setq org-element-use-cache t
+        org-element-cache-persistent t)
+
+  ;; Share snippets with LaTeX-mode
   (add-hook 'org-mode-hook
             (lambda ()
               (yas-activate-extra-mode 'LaTeX-mode)))
@@ -85,17 +48,53 @@ the element after the #+HEADER: tag."
           (org-tempo-complete-tag)))
       (when mod (insert mod) (forward-line))
       (when text (insert text))))
-
-
-  ;; (org-capture-init)
-  (add-to-list 'org-modules 'org-habit)
-  (setq org-directory "~/org/")
-  (add-to-list 'org-agenda-files "~/org")
   (setq org-highlight-latex-and-related '(native latex entities))
   (setq org-startup-indented t)
   (setq org-pretty-entities t
         org-pretty-entities-include-sub-superscripts nil)
+  
+  ;; Enable lsp in org-babel
+  (cl-defmacro lsp-org-babel-enable (lang)
+    "Support LANG in org source code block."
+    (cl-check-type lang string)
+    (let* ((edit-pre (intern (format "org-babel-edit-prep:%s" lang)))
+           (intern-pre (intern (format "lsp--%s" (symbol-name edit-pre)))))
+      `(progn
+         (defun ,intern-pre (info)
+           (setq buffer-file-name (or (->> info caddr (alist-get :file))
+                                      "org-src-babel.tmp"))
+           (when (fboundp 'lsp-deferred)
+             ;; Avoid headerline conflicts
+             (setq-local lsp-headerline-breadcrumb-enable nil)
+             (lsp-deferred)
+             (_
+              (user-error "LSP:: invalid type"))))
+         (put ',intern-pre 'function-documentation
+              (format "Enable lsp-mode in the buffer of org source block (%s)."
+                      (upcase ,lang)))
 
+         (if (fboundp ',edit-pre)
+             (advice-add ',edit-pre :after ',intern-pre)
+           (progn
+             (defun ,edit-pre (info)
+               (,intern-pre info))
+             (put ',edit-pre 'function-documentation
+                  (format "Prepare local buffer environment for org source block (%s)."
+                          (upcase ,lang))))))))
+
+  (defconst org-babel-lang-list
+    '("go" "python" "ipython" "ruby" "js" "css" "sass" "c" "rust" "java" "cpp" "c++" "shell" "haskell")
+    "The supported programming languages for interactive Babel.")
+  (dolist (lang org-babel-lang-list)
+    (eval `(lsp-org-babel-enable ,lang))))
+
+;; org agenda-related
+(use-package org
+  :after org
+  :config
+  (add-to-list 'org-modules 'org-habit)
+  (setq org-directory "~/org/")
+  (add-to-list 'org-agenda-files "~/org")
 
   (setq org-default-note-file (expand-file-name "notes.org" org-directory)
         org-capture-templates
@@ -144,53 +143,17 @@ the element after the #+HEADER: tag."
   (add-hook 'org-after-refile-insert-hook
             (defun save-buffer-after-capture ()
               (when (bound-and-true-p org-capture-is-refiling)
-                (save-buffer))))
+                (save-buffer)))))
 
-  ;; ;; Enable lsp in org-babel
-  (cl-defmacro lsp-org-babel-enable (lang)
-    "Support LANG in org source code block."
-    (cl-check-type lang string)
-    (let* ((edit-pre (intern (format "org-babel-edit-prep:%s" lang)))
-           (intern-pre (intern (format "lsp--%s" (symbol-name edit-pre)))))
-      `(progn
-         (defun ,intern-pre (info)
-           (setq buffer-file-name (or (->> info caddr (alist-get :file))
-                                      "org-src-babel.tmp"))
-           (when (fboundp 'lsp-deferred)
-             ;; Avoid headerline conflicts
-             (setq-local lsp-headerline-breadcrumb-enable nil)
-             (lsp-deferred)
-             (_
-              (user-error "LSP:: invalid type"))))
-         (put ',intern-pre 'function-documentation
-              (format "Enable lsp-mode in the buffer of org source block (%s)."
-                      (upcase ,lang)))
-
-         (if (fboundp ',edit-pre)
-             (advice-add ',edit-pre :after ',intern-pre)
-           (progn
-             (defun ,edit-pre (info)
-               (,intern-pre info))
-             (put ',edit-pre 'function-documentation
-                  (format "Prepare local buffer environment for org source block (%s)."
-                          (upcase ,lang))))))))
-
-  (defconst org-babel-lang-list
-    '("go" "python" "ipython" "ruby" "js" "css" "sass" "c" "rust" "java" "cpp" "c++" "shell" "haskell")
-    "The supported programming languages for interactive Babel.")
-  (dolist (lang org-babel-lang-list)
-    (eval `(lsp-org-babel-enable ,lang)))
-  )
-
-(use-package org-contrib)
-
-(with-eval-after-load 'org
-  (setq org-highlight-latex-and-related '(native script entities)))
+(use-package org-contrib
+  :ensure t
+  :after org)
 
 (use-package org-modern
+  :ensure t
   :after org
-  :hook (org-mode . org-modern-mode)
-  :hook (org-agenda-finalize . org-modern-agenda)
+  :hook ((org-mode . org-modern-mode)
+         (org-agenda-finalize . org-modern-agenda))
   :init
   (with-eval-after-load 'org
     (setq org-hide-emphasis-markers t
@@ -215,54 +178,26 @@ the element after the #+HEADER: tag."
 
 (use-package org-modern-indent
   :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
+  :after org-modern
   :config ; add late to hook
   (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
 
 (use-package org-appear
+  :ensure t
+  :defer t
   :hook (org-mode . org-appear-mode)
+  :autoload org-appear--set-elements
   :config
   (setq org-appear-autoemphasis t
 	    org-appear-autosubmarkers t
 	    org-appear-autolinks nil)
   (run-at-time nil nil #'org-appear--set-elements))
 
-(use-package hl-todo
-  :hook (elpaca-after-init . global-hl-todo-mode)
-  :config
-  (setq hl-todo-highlight-punctuation ":"
-        hl-todo-keyword-faces
-        '(;; For reminders to change or add something at a later date.
-          ("TODO" warning bold)
-          ;; For code (or code paths) that are broken, unimplemented, or slow,
-          ;; and may become bigger problems later.
-          ("FIXME" error bold)
-          ;; For code that needs to be revisited later, either to upstream it,
-          ;; improve it, or address non-critical issues.
-          ("REVIEW" font-lock-keyword-face bold)
-          ;; For code smells where questionable practices are used
-          ;; intentionally, and/or is likely to break in a future update.
-          ("HACK" font-lock-constant-face bold)
-          ;; For sections of code that just gotta go, and will be gone soon.
-          ;; Specifically, this means the code is deprecated, not necessarily
-          ;; the feature it enables.
-          ("DEPRECATED" font-lock-doc-face bold)
-          ;; Extra keywords commonly found in the wild, whose meaning may vary
-          ;; from project to project.
-          ("NOTE" success bold)
-          ("BUG" error bold)
-          ("XXX" font-lock-constant-face bold))))
-
 (use-package org-latex-preview
-  :ensure nil
+  :after org
   :hook (org-mode . org-latex-preview-mode)
-  :hook (org-latex-preview-mode . org-latex-preview-center-mode)
   :bind ("C-c C-x SPC" . org-latex-preview-clear-cache)
   :config
-  ;; preview buffer on enter
-  ;; (add-hook 'org-mode-hook
-  ;;           (lambda ()
-  ;;             (run-with-idle-timer 0.5 nil 
-  ;;                                  (lambda () (org-latex-preview '(16))))))
   ;; Add margin and rescale display math
   (defvar my/org-latex-display-math-scale 1)
   (defvar my/org-latex-display-math-margin 5)
@@ -292,8 +227,103 @@ the element after the #+HEADER: tag."
   ;; (setq org-latex-preview-numbered t)
   (setq org-latex-preview-mode-display-live t)
   (setq org-latex-preview-process-default 'dvisvgm)
-  (setq org-latex-preview-mode-update-delay 0.25)
+  (setq org-latex-preview-mode-update-delay 0.25))
 
+(use-package org-roam
+  :ensure t
+  :defer t
+  :custom
+  (org-roam-directory (file-truename "~/org/roam"))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ("C-c n w" . org-roam-refile)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :bind (:map org-mode-map
+              ("C-c C-x i" . org-id-get-create))
+  :config
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
+        org-id-locations-file (expand-file-name "org-id-locations" user-cache-directory)
+        org-roam-db-location (expand-file-name "org-roam.db" org-directory))
+  (org-roam-db-autosync-mode)
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol))
+
+(use-package org-roam-ui
+  :ensure t
+  :after org-roam)
+
+(use-package org-download
+  :ensure t
+  :after org
+  :autoload org-download-clipboard
+  :hook ((org-mode dired-mode) . org-download-enable)
+  :bind (:map org-mode-map
+              ("C-M-y" . org-download-clipboard))
+  :config
+  (setq-default org-download-heading-lvl 1)
+  (defconst org-download-image-dir "./attachments/")
+  (setq-default org-download-method 'directory))
+
+(use-package valign
+  :ensure t
+  :hook (org-mode . valign-mode))
+
+;;; Miscs.
+
+;; Org hydra
+(use-package org
+  :after org
+  :pretty-hydra
+  ;; See `org-structure-template-alist'
+  ((:color blue :quit-key ("q" "C-g"))
+   ("Basic"
+    (("a" (hot-expand "<a") "ascii")
+     ("c" (hot-expand "<c") "center")
+     ("C" (hot-expand "<C") "comment")
+     ("x" (hot-expand "<e") "example")
+     ("E" (hot-expand "<E") "export")
+     ("l" (hot-expand "<l") "latex")
+     ("n" (hot-expand "<n") "note")
+     ("O" (hot-expand "<q") "quote")
+     ("v" (hot-expand "<v") "verse"))
+    "Head"
+    (("i" (hot-expand "<i") "index")
+     ("A" (hot-expand "<A") "ASCII")
+     ("I" (hot-expand "<I") "INCLUDE")
+     ("H" (hot-expand "<H") "HTML")
+     ("L" (hot-expand "<L") "LaTeX"))
+    "Source"
+    (("s" (hot-expand "<s") "src")
+     ("e" (hot-expand "<s" "emacs-lisp") "emacs-lisp")
+     ("y" (hot-expand "<s" "python :results output") "python")
+     ("p" (hot-expand "<s" "perl") "perl")
+     ("w" (hot-expand "<s" "powershell") "powershell")
+     ("r" (hot-expand "<s" "ruby") "ruby")
+     ("S" (hot-expand "<s" "sh") "sh")
+     ("h" (hot-expand "<s" "haskell") "haskell")
+     ("o" (hot-expand "<s" "ocaml") "ocaml")
+     ("g" (hot-expand "<s" "go :imports '\(\"fmt\"\)") "golang"))
+    "Misc"
+    (("m" (hot-expand "<s" "mermaid :file chart.png") "mermaid")
+     ("u" (hot-expand "<s" "plantuml :file chart.png") "plantuml")
+     ("Y" (hot-expand "<s" "ipython :session :exports both :results raw drawer\n$0") "ipython")
+     ("P" (progn
+            (insert "#+HEADERS: :results output :exports both :shebang \"#!/usr/bin/env perl\"\n")
+            (hot-expand "<s" "perl")) "Perl tangled")
+     ("<" self-insert-command "ins")))))
+
+;; Org latex preview center
+(use-package org-latex-preview
+  :after org-latex-preview
+  :defer nil
+  :hook (text-scale-mode . my/text-scale-adjust-latex-previews)
+  :hook (org-latex-preview-mode . org-latex-preview-center-mode)
+  :config
   ;; Centre display maths
   (defun my/org-latex-preview-uncenter (ov)
     (overlay-put ov 'before-string nil))
@@ -347,48 +377,6 @@ the element after the #+HEADER: tag."
      (cons 'image
            (plist-put
             (cdr (overlay-get ov 'display))
-            :scale (+ 1.0 (* 0.25 text-scale-mode-amount))))))
-
-  (add-hook 'text-scale-mode-hook #'my/text-scale-adjust-latex-previews))
-
-(use-package org-roam
-  :custom
-  (org-roam-directory (file-truename "~/org/roam"))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ("C-c n w" . org-roam-refile)
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today))
-  :bind (:map org-mode-map
-              ("C-c C-x i" . org-id-get-create))
-  :config
-  ;; If you're using a vertical completion framework, you might want a more informative completion interface
-  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
-        org-id-locations-file (expand-file-name "org-id-locations" user-cache-directory)
-        org-roam-db-location (expand-file-name "org-roam.db" org-directory))
-  (org-roam-db-autosync-mode)
-  ;; If using org-roam-protocol
-  (require 'org-roam-protocol))
-
-(use-package org-roam-ui)
-
-(use-package org-download
-  :autoload org-download-clipboard
-  :hook ((org-mode dired-mode) . org-download-enable)
-  :bind (:map org-mode-map
-              ("C-M-y" . org-download-clipboard))
-  :config
-  (setq-default org-download-heading-lvl 1)
-  (defconst org-download-image-dir "./attachments/")
-  (setq-default org-download-method 'directory))
-
-(use-package valign
-  :hook (org-mode . valign-mode))
-
-(use-package djvu)
-(use-package org-noter)
+            :scale (+ 1.0 (* 0.25 text-scale-mode-amount)))))))
 
 (provide 'init-org)

@@ -1,6 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 
+(use-package vc
+  :defer t)
+
 (use-package diff-hl
+  :ensure t
+  :defer t
   :diminish
   :custom
   (diff-hl-draw-borders nil)
@@ -13,6 +18,7 @@
 
 (use-package magit
   :ensure (magit :repo "magit/magit" :tag "v4.5.0")
+  :defer t
   :bind (("C-c g" . magit-dispatch))
   :custom
   (magit-diff-refine-hunk t)
@@ -39,6 +45,7 @@
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
+  :after vc
   :custom-face
   (git-timemachine-minibuffer-author-face ((t (:inherit success :foreground unspecified))))
   (git-timemachine-minibuffer-detail-face ((t (:inherit warning :foreground unspecified))))
@@ -60,7 +67,7 @@
                               (user-error "Cannot revert the timemachine buffer"))))))
 
 (use-package smerge-mode
-  :ensure nil
+  :defer t
   :diminish
   :pretty-hydra
   ((:title (pretty-hydra-title "Smerge" 'octicon "nf-oct-diff")

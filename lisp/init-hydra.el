@@ -1,6 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package hydra
+  :ensure t
+  :defer
   :hook ((emacs-lisp-mode . hydra-add-imenu)))
 
 (use-package pretty-hydra

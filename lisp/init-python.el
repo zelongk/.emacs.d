@@ -3,7 +3,7 @@
 ;; Python Mode
 ;; Install: pip install pyflakes autopep8
 (use-package python
-  :ensure nil
+  :defer
   :functions exec-path-from-shell-copy-env
   :hook (inferior-python-mode . (lambda ()
                                   (process-query-on-exit-flag
@@ -17,10 +17,6 @@
   ;; systems stupidly make the unversioned one point at Python 2.
   (when (and (executable-find "python3")
              (string= python-shell-interpreter "python"))
-    (setq python-shell-interpreter "python3"))
-
-  ;; Env vars
-  (with-eval-after-load 'exec-path-from-shell
-    (exec-path-from-shell-copy-env "PYTHONPATH")))
+    (setq python-shell-interpreter "python3")))
 
 (provide 'init-python)

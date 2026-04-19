@@ -3,6 +3,7 @@
 
 (use-package gcmh
   :diminish
+  :ensure t
   :hook (emacs-startup . gcmh-mode)
   :config
   (setq gcmh-high-cons-threshold #x4000000

@@ -26,6 +26,7 @@
 (require 'init-ui)
 (require 'init-edit)
 (require 'init-completion)
+(require 'init-corfu)
 (require 'init-snippet)
 
 (require 'init-bindings)

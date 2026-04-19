@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(use-package diminish)
+(use-package diminish :ensure t)
 
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
@@ -13,6 +13,7 @@
 (add-to-list 'default-frame-alist '(undecorated-round . t))
 
 (use-package solaire-mode
+  :ensure t
   :hook (elpaca-after-init . solaire-global-mode))
 
 (use-package modus-themes
@@ -25,6 +26,7 @@
              modus-themes-load-random))
 
 (use-package doric-themes
+  :ensure t
   :disabled t
   ;; :bind ("<f5>" . doric-themes-load-random)
   ;; :bind ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
@@ -32,6 +34,7 @@
   :commands doric-themes-load-random)
 
 (use-package ef-themes
+  :ensure t
   :bind ("<f5>" . modus-themes-load-random)
   :bind ("C-<f5>" . modus-themes-load-random-light)
   :bind ("M-<f5>" . modus-themes-load-random-dark)
@@ -65,12 +68,16 @@
 
 
 (use-package rainbow-delimiters
+  :ensure t
+  :defer
   :diminish
   :hook ((prog-mode . rainbow-delimiters-mode)
          (typst-ts-mode . rainbow-delimiters-mode)
          (python-ts-mode . rainbow-delimiters-mode)))
 
 (use-package rainbow-mode
+  :ensure t
+  :defer
   :diminish
   :hook text-mode
   :hook prog-mode)
@@ -81,6 +88,7 @@
   :custom (mood-line-glyph-alist mood-line-glyphs-fira-code))
 
 (use-package doom-modeline
+  :ensure t
   :hook (elpaca-after-init . doom-modeline-mode)
   :config
   (setq doom-modeline-support-imenu t
@@ -95,9 +103,12 @@
         doom-modeline-major-mode-icon nil))
 
 (use-package minions
+  :ensure t
   :hook elpaca-after-init)
 
 (use-package hide-mode-line
+  :ensure t
+  :defer
   :autoload turn-off-hide-mode-line-mode
   :hook (((eat-mode
            eshell-mode shell-mode
@@ -133,12 +144,15 @@
 (add-to-list 'default-frame-alist '(width . 90))
 
 (use-package mixed-pitch
+  :ensure t
+  :defer
   :diminish
   :hook org-mode
   :hook LaTeX-mode)
 
 ;; Easily adjust the font size in all frames
 (use-package default-text-scale
+  :ensure t
   :hook (elpaca-after-init . default-text-scale-mode)
   :bind (:map default-text-scale-mode-map
               ("C-s-=" . default-text-scale-increase)
@@ -161,6 +175,7 @@
            :type git
            :host github
            :repo "rainstormstudio/nerd-icons.el")
+  :defer
   :custom
   (nerd-icons-default-adjust 0.05))
 
@@ -174,28 +189,59 @@
 
 ;; hl current line
 (use-package hl-line
-  :ensure nil
   :hook ((elpaca-after-init . global-hl-line-mode)
          ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode eat-mode) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
-(use-package beacon
-  :disabled t
-  :diminish
-  :hook elpaca-after-init)
+;; (use-package beacon
+;;   :ensure t
+;;   :diminish
+;;   :hook elpaca-after-init)
 
 (use-package spacious-padding
+  :ensure t
   :diminish
   :hook elpaca-after-init)
 
 ;; Eval result overlay
 (use-package eros
-  :hook elpaca-after-init
+  :ensure t
+  :defer
+  :hook emacs-lisp-mode lisp-interaction-mode
   :bind (([remap eval-defun] . eros-eval-defun)
          ([remap eval-last-sexp] . eros-eval-last-sexp)))
 
 (use-package goggles
+  :ensure t
+  :defer
   :diminish
   :hook (prog-mode text-mode conf-mode))
+
+(use-package hl-todo
+  :ensure t
+  :hook (elpaca-after-init . global-hl-todo-mode)
+  :config
+  (setq hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces
+        '(;; For reminders to change or add something at a later date.
+          ("TODO" warning bold)
+          ;; For code (or code paths) that are broken, unimplemented, or slow,
+          ;; and may become bigger problems later.
+          ("FIXME" error bold)
+          ;; For code that needs to be revisited later, either to upstream it,
+          ;; improve it, or address non-critical issues.
+          ("REVIEW" font-lock-keyword-face bold)
+          ;; For code smells where questionable practices are used
+          ;; intentionally, and/or is likely to break in a future update.
+          ("HACK" font-lock-constant-face bold)
+          ;; For sections of code that just gotta go, and will be gone soon.
+          ;; Specifically, this means the code is deprecated, not necessarily
+          ;; the feature it enables.
+          ("DEPRECATED" font-lock-doc-face bold)
+          ;; Extra keywords commonly found in the wild, whose meaning may vary
+          ;; from project to project.
+          ("NOTE" success bold)
+          ("BUG" error bold)
+          ("XXX" font-lock-constant-face bold))))
 
 (provide 'init-ui)

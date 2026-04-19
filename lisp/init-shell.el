@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package shell
-  :ensure nil
   :hook ((shell-mode . my/shell-mode-hook)
          (comint-output-filter-functions . comint-strip-ctrl-m))
   :init
@@ -36,7 +35,7 @@
 
 ;; Emacs command shell
 (use-package eshell
-  :ensure nil
+  :defer
   :defines eshell-prompt-function
   :bind (:map eshell-mode-map
               ([remap recenter-top-bottom] . eshell/clear))
@@ -44,15 +43,17 @@
   (setq eshell-banner-message ""))
 
 (use-package xterm-color
+  :ensure t
+  :defer t
   :defines (compilation-environment)
   :init
   (setenv "TERM" "xterm-256color")
-  (setq compilation-environment '("TERM=xterm-256color"))
-  )
+  (setq compilation-environment '("TERM=xterm-256color")))
 
 (use-package eat
-  :bind ("C-`" . eat-toggle)
-  :bind ("C-<escape>" . eshell-toggle)
+  :bind (("C-`" . eat-toggle)
+         ("C-<escape>" . eshell-toggle)
+         ([remap project-shell] . eat-project-toggle))
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode))
   :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
@@ -85,6 +86,10 @@
          (if (string= (buffer-name) "*eat*")
              (delete-window)
            (eat)))
+  (defun eat-project-toggle () (interactive)
+         (if (string= (buffer-name) "*eat*")
+             (delete-window)
+           (eat-project)))
 
   ;; Improve latency
   (setq process-adaptive-read-buffering t)  
@@ -94,6 +99,7 @@
     (define-key eat-semi-char-mode-map (kbd "<backspace>") (kbd "C-h"))))
 
 (use-package eshell-prompt-extras
+  :ensure t
   :after esh-opt
   :defines eshell-highlight-prompt
   :autoload (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)
@@ -102,6 +108,8 @@
   (setq eshell-prompt-function #'epe-theme-lambda))
 
 (use-package eshell-z
+  :ensure t
+  :after eshell
   :hook (eshell-mode . (lambda () (require 'eshell-z))))
 
 (use-package esh-help
@@ -110,7 +118,8 @@
   :init (setup-esh-help-eldoc))
 
 (use-package eshell-syntax-highlighting
-  :after eshell-mode
+  :ensure t
+  :after eshell
   :hook (elpaca-after-init . eshell-syntax-highlighting-global-mode))
 
 

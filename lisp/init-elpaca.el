@@ -54,12 +54,7 @@
 ;;For example:
 ;;(use-package general :ensure (:wait t) :demand t)
 
-(setq use-package-always-ensure t
-      use-package-expand-minimally t
-      use-package-always-defer t)
-
 (use-package elpaca-ui
-  :ensure nil
   :bind (:map elpaca-ui-mode-map
               ("p" . previous-line)
               ("F" . elpaca-ui-mark-pull))

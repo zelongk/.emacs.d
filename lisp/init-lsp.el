@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package lsp-mode
-  :diminish
+  :ensure t
   :defines (lsp-diagnostics-disabled-modes lsp-clients-python-library-directories)
   :autoload lsp-enable-which-key-integration
   :commands (lsp-format-buffer lsp-organize-imports lsp lsp-deferred)
@@ -19,7 +19,7 @@
                        (add-hook 'before-save-hook #'lsp-organize-imports t t))))
   :hook (lsp-completion-mode . my/lsp-mode-setup-completion)
   :bind (:map lsp-mode-map
-              ("C-c c d" . lsp-describe-thing-at-point)
+              ("C-c C-d" . lsp-describe-thing-at-point)
               ([remap xref-find-definitions] . lsp-find-definition)
               ([remap xref-find-references] . lsp-find-references))
   :init
@@ -108,10 +108,14 @@
 
   )
 (use-package consult-lsp
+  :ensure t
+  :after lsp-mode
   :bind (:map lsp-mode-map
               ("C-M-." . consult-lsp-symbols)))
 
 (use-package lsp-ui
+  :ensure t
+  :after lsp-mode
   :custom-face
   (lsp-ui-sideline-code-action ((t (:inherit warning))))
   :pretty-hydra
@@ -184,7 +188,8 @@
                               ,(face-foreground 'font-lock-variable-name-face))))
 
 
-
-(use-package lsp-haskell)
+(use-package lsp-haskell
+  :ensure t
+  :after lsp-mode)
 
 (provide 'init-lsp)

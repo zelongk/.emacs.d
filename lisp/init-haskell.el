@@ -2,6 +2,8 @@
 
 
 (use-package haskell-mode
+  :ensure t
+  :defer t
   :hook (haskell-mode . (lambda ()
                           (haskell-collapse-mode)
                           (interactive-haskell-mode)
@@ -15,6 +17,8 @@
   (add-to-list 'completion-ignored-extensions ".hi"))
 
 (use-package haskell-ts-mode
+  :ensure t
+  :defer t
   :custom
   (haskell-ts-font-lock-level 4)
   (haskell-ts-use-indent t)

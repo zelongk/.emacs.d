@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package flyspell
-  :ensure nil
   :commands flyspell-mode
   :bind (:map flyspell-mode-map
               ("C-M-i" . nil)
@@ -13,6 +12,7 @@
 
 (use-package jinx
   :diminish
+  :ensure t
   :hook ((text-mode prog-mode conf-mode org-mode) . jinx-mode)
   :commands jinx-mode
   :bind ([remap ispell-word] . jinx-correct))

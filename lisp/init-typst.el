@@ -3,6 +3,7 @@
 ;; (require 'compile)
 (use-package typst-ts-mode
   :ensure (:type git :host codeberg :repo "meow_king/typst-ts-mode")
+  :defer
   :hook (typst-ts-mode . lsp-deferred)
   :config
   ;; (typst-ts-watch-options "--open")
@@ -13,7 +14,7 @@
 
 (use-package typst-preview
   :ensure (:type git :host github :repo "havarddj/typst-preview.el")
-
+  :after typst-ts-mode
   :custom
   (typst-preview-browser "default") ; this is the default option; other options are `eaf-browser' or `xwidget'.
   (typst-preview-invert-colors "auto") ; invert colors depending on system theme

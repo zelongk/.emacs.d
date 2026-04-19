@@ -22,7 +22,6 @@
   :mode (("\\.tex\\'" . LaTeX-mode))
   :hook ((LaTeX-mode . prettify-symbols-mode)
          (LaTeX-mode . visual-line-mode)
-         (LaTeX-mode . turn-on-reftex)
          (LaTeX-mode . lsp-deferred)
          (LaTeX-mode . (lambda () (lsp-ui-mode -1)))
          (LaTeX-mode . (lambda () (apheleia-mode -1))))
@@ -46,10 +45,6 @@
   (add-hook 'LaTeX-mode-hook '(lambda ()
                                 (setq TeX-command-default "LaTeXMk")))
 
-
-  ;; Format math as a Latex string with Calc
-  ;; (add-hook 'LaTeX-mode-hook #'eglot-ensure)
-
   (setq-default LaTeX-indent-environment-list nil)
 
   (defun latex-math-from-calc ()
@@ -72,10 +67,6 @@
   ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
   ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
 
-  ;; (with-eval-after-load 'eglot
-  ;;   (add-to-list 'eglot-server-programs '((LaTeX-mode latex-mode) "texlab")))
-
-  (setq reftex-plug-into-AUCTeX t)
   (use-package texpresso
     :commands texpresso 
     :ensure (:host github :repo "let-def/texpresso" :files ("emacs/*.el"))
@@ -84,21 +75,51 @@
     (texpresso-follow-cursor t)
     :bind (:map LaTeX-mode-map
                 ("C-c C-p" . texpresso)
-                ("S-s-<mouse-1>" . texpresso-move-to-cursor)))
-  )
+                ("S-s-<mouse-1>" . texpresso-move-to-cursor))))
+
+(use-package reftex
+  :after latex
+  :defer 2
+  :commands turn-on-reftex
+  :hook ((latex-mode LaTeX-mode) . turn-on-reftex)
+  :config
+  (setf (alist-get "\\*RefTex" display-buffer-alist nil t #'equal)
+        '((display-buffer-in-side-window)
+          (window-height . 0.25)
+          (side . bottom) (slot . -9)))
+  (setq reftex-default-bibliography '("~/Documents/roam/biblio.bib"))
+  (setq reftex-insert-label-flags '("sf" "sfte"))
+  (setq reftex-plug-into-AUCTeX t)
+  (setq reftex-ref-style-default-list '("Default" "AMSmath" "Cleveref"))
+  (setq reftex-use-multiple-selection-buffers t))
+
+(use-package consult-reftex
+  :ensure (:host github :repo "karthink/consult-reftex")
+  ;; :load-path "plugins/consult-reftex/"
+  :after (reftex consult embark)
+  :bind (:map reftex-mode-map
+              ("C-c )"   . consult-reftex-insert-reference)
+              ("C-c M-." . consult-reftex-goto-label)
+              :map org-mode-map
+              ("C-c (" . consult-reftex-goto-label)
+              ("C-c )"   . consult-reftex-insert-reference)))
 
 (use-package cdlatex
+  :ensure t
+  :after latex
   :diminish
-  :hook (LaTeX-mode . turn-on-cdlatex)
+  :hook ((LaTeX-mode . turn-on-cdlatex)
+         (LaTeX-mode . cdlatex-electricindex-mode))
   ;; :bind (:map cdlatex-mode-map
   ;;             ("<tab>" . cdlatex-tab))
   :config
+  (setq cdlatex-math-symbol-prefix ?\;)
   (setq cdlatex-math-symbol-alist '((?f ("\\varphi" "\\phi"))
                                     (?i ("\\iota"))
                                     (?c ("\\circ"))
                                     ))
   (setq cdlatex-math-modify-alist '((?f "\\mathbb" nil t nil nil)))
-  
+
   (defun tjh/cdlatex-yas-expand ()
     "Resolve the conflict between cdlatex and yasnippet. When this
 function returns true, the default `cdlatex-tab` will not be
@@ -115,9 +136,9 @@ expansion, then cdlatex expansion."
   (cdlatex-reset-mode))
 
 (use-package lazytab
-  :demand t
-  :after cdlatex latex
   :ensure '(lazytab :type git :host github :repo "karthink/lazytab" :files ("*.el"))
+  :demand t
+  :after cdlatex
   :bind (:map LaTeX-mode-map
               ("C-x |" . (lambda () (interactive) (lazytab-orgtbl-edit))))
   :bind (:map orgtbl-mode-map
@@ -125,5 +146,38 @@ expansion, then cdlatex expansion."
               ("TAB" . lazytab-org-table-next-field-maybe))
   :config
   (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90))
+
+(use-package citar
+  :ensure t
+  :after latex
+  :defer
+  :bind (:map LaTeX-mode-map
+              ("C-c ]" . citar-insert-citation)
+              :map org-mode-map
+              ("C-c C-x ]" . citar-insert-citation))
+  :config
+  (delete citar-indicator-cited citar-indicators)
+  (setq citar-bibliography ;; '("~/Documents/research/control_systems.bib")
+        `(,(expand-file-name "~/Documents/roam/biblio.bib"))
+        citar-at-point-function 'embark-act
+        citar-file-open-function #'consult-file-externally)
+  
+  (use-package cdlatex
+    :config
+    (defun my/cdlatex-bibtex-action ()
+      "Call `citar-insert-citation' interactively."
+      (call-interactively 'citar-insert-citation))
+    (setf (alist-get "cite" cdlatex-command-alist nil nil 'equal)
+          '("Make a citation interactively"
+            "" my/cdlatex-bibtex-action nil t nil))
+    (setf (alist-get "cite{" cdlatex-command-alist nil nil 'equal)
+          '("Make a citation interactively"
+            "cite{" my/cdlatex-bibtex-action nil t nil))))
+
+(use-package citar-embark
+  :ensure t
+  :after (citar embark)
+  :config
+  (citar-embark--enable))
 
 (provide 'init-tex)

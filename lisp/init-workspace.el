@@ -5,7 +5,7 @@
   (setq project-list-file (expand-file-name "projects" user-cache-directory)))
 
 (use-package ibuffer
-  :ensure nil
+  :defer t
   :bind ("C-x C-b" . ibuffer)
   :bind (:map ibuffer-mode-map
               ("M-o" . nil))
@@ -13,11 +13,15 @@
   (add-to-list 'ibuffer-help-buffer-modes 'helpful-mode)
   (add-to-list 'ibuffer-help-buffer-modes 'Man-mode)
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
+
 (use-package nerd-icons-ibuffer
   :ensure t
   :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
+
 ;; Group ibuffer's list by project
 (use-package ibuffer-project
+  :ensure t
+  :after ibuffer project
   :autoload (ibuffer-project-generate-filter-groups ibuffer-do-sort-by-project-file-relative)
   :hook (ibuffer . (lambda ()
                      "Group ibuffer's list by project."
@@ -27,7 +31,6 @@
   :init (setq ibuffer-project-use-cache t))
 
 (use-package tab-bar
-  :ensure nil
   :hook (window-setup . tab-bar-mode)
   :bind (:map tab-bar-mode-map
               ("s-t" . tab-new)
@@ -45,6 +48,7 @@
   (customize-set-variable 'tab-bar-select-tab-modifiers '(super)))
 
 (use-package tabspaces
+  :ensure t
   :functions tabspaces-mode
   :commands (tabspaces-switch-or-create-workspace
              tabspaces-open-or-create-project-and-workspace)

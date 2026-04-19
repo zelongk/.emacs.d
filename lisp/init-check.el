@@ -1,8 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package flycheck
+  :ensure t
+  :defer t
   :diminish
-  :hook (emacs-startup . global-flycheck-mode)
+  :hook (prog-mode . flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit)
 

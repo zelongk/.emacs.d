@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
 (use-package xref
-  :ensure nil
   :init
   ;; Use faster search tool
   (when (executable-find "rg")
@@ -15,15 +14,19 @@
       show-paren-context-when-offscreen 'overlay)
 
 (use-package apheleia
+  :ensure t
+  :defer t
   :diminish
   :hook (prog-mode))
 
 (use-package editorconfig
+  :ensure t
   :diminish
   :hook elpaca-after-init)
 
 (use-package treesit-auto
-  :hook (elpaca-after-init . global-treesit-auto-mode)
+  :ensure t
+  :hook (prog-mode . treesit-auto-mode)
   :custom
   (treesit-auto-install 'prompt)
   :config
@@ -33,15 +36,27 @@
 
 
 ;; Support for some lang
-(use-package elvish-mode)
+(use-package elvish-mode
+  :ensure t
+  :defer t)
 
 (use-package docker-compose-mode
+  :ensure t
+  :defer t
   :hook yaml-ts-mode)
 
 (use-package ansible
+  :ensure t
+  :defer t
   :hook yaml-ts-mode)
-(use-package ansible-doc)
+(use-package ansible-doc
+  :ensure t
+  :after ansible)
 
-(use-package systemd)
+(use-package systemd
+  :ensure t
+  :defer t)
+
+(use-package envrc :ensure t :defer)
 
 (provide 'init-coding)

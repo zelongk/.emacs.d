@@ -2,7 +2,7 @@
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
-  :demand t
+  :ensure t
   :config
   (setq orderless-component-separator #'split-string-and-unquote)
   (setq completion-styles '(orderless partial-completion basic))
@@ -24,6 +24,7 @@
 
 ;; Support Pinyin
 (use-package pinyinlib
+  :ensure t
   :after orderless
   :functions orderless-regexp
   :autoload pinyinlib-build-regexp-string
@@ -35,6 +36,7 @@
 
 ;; VERTical Interactive COmpletion
 (use-package vertico
+  :ensure t
   :custom (vertico-count 15)
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
@@ -50,7 +52,6 @@
   :hook (vertico-mode . vertico-posframe-mode))
 
 (use-package vertico-multiform
-  :ensure nil
   :hook (vertico-mode . vertico-multiform-mode)
   :config
   (defvar +vertico-transform-functions nil)
@@ -88,15 +89,18 @@
 
 ;; Enrich existing commands with completion annotations
 (use-package marginalia
+  :ensure t
   :hook (elpaca-after-init . marginalia-mode))
 
 
 ;; Add icons to completion candidates
 (use-package nerd-icons-completion
+  :ensure t
   :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
 
 ;; Consulting completing-read
 (use-package consult
+  :ensure t
   :commands consult-customize
   :bind (([remap Info-search]        . consult-info)
          ;; ([remap isearch-forward]    . consult-line)
@@ -154,18 +158,23 @@
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref))
 
-(use-package consult-flycheck)
+(use-package consult-flycheck
+  :ensure t)
 
 (use-package consult-dir
+  :ensure t
   :bind (("C-x C-d" . consult-dir)
          :map minibuffer-local-map
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
 
 (use-package consult-yasnippet
+  :ensure t
+  :after yasnippet
   :bind ("M-g y" . consult-yasnippet))
 
 (use-package embark
+  :ensure t
   :commands embark-prefix-help-command
   :bind (("M-SPC"   . embark-act)
          ("M-*"   . embark-act-all)
@@ -225,86 +234,13 @@
   (define-key embark-bookmark-map (kbd "3") (my/embark-split-action bookmark-jump split-window-right)))
 
 (use-package embark-consult
+  :ensure
+  :after embark consult
   :bind (:map minibuffer-local-map
               ("C-c C-o" . embark-export)
               ("C->" . embark-become)
               ("M-*" . embark-act-all))
   :hook (embark-collect-mode . consult-preview-at-point-mode))
-
-;; Auto completion
-(use-package corfu
-  :custom
-  (corfu-auto t)
-  (corfu-auto-prefix 2)
-  (corfu-count 12)
-  (corfu-preview-current nil)
-  (corfu-on-exact-match nil)
-  (corfu-auto-delay 0.2)
-  (corfu-popupinfo-delay '(0.4 . 0.2))
-  (global-corfu-modes '((not erc-mode
-                             circe-mode
-                             help-mode
-                             gud-mode
-                             eat-mode
-                             vterm-mode)
-                        t))
-
-  
-  :custom-face
-  (corfu-border ((t (:inherit region :background unspecified))))
-  :bind (("M-/" . completion-at-point))
-  :init
-  (global-corfu-mode)
-  (corfu-history-mode)
-  (corfu-popupinfo-mode)
-  :config
-  ;;Quit completion before saving
-  (add-hook 'before-save-hook #'corfu-quit)
-  (advice-add #'persistent-scratch-save :before #'corfu-quit)
-  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
-
-(use-package nerd-icons-corfu
-  :init
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-
-;; A few more useful configurations...
-(use-package emacs
-  :ensure nil
-  :custom
-  ;; TAB cycle if there are only few candidates
-  ;; (completion-cycle-threshold 3)
-
-  ;; Enable indentation+completion using the TAB key.
-  ;; `completion-at-point' is often bound to M-TAB.
-  (tab-always-indent 'complete)
-
-  ;; Emacs 30 and newer: Disable Ispell completion function. As an alternative,
-  ;; try `cape-dict'.
-  (text-mode-ispell-word-completion nil)
-
-  ;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current
-  ;; mode.  Corfu commands are hidden, since they are not used via M-x. This
-  ;; setting is useful beyond Corfu.
-  (read-extended-command-predicate #'command-completion-default-include-p))
-
-(use-package cape
-  :commands (cape-file cape-elisp-block cape-keyword)
-  :autoload (cape-wrap-noninterruptible cape-wrap-nonexclusive cape-wrap-buster)
-  :autoload (cape-wrap-silent)
-  :init
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  ;; Make these capfs composable.
-  (advice-add 'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
-  (advice-add 'lsp-completion-at-point :around #'cape-wrap-nonexclusive)
-  (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
-  ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-  ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
-  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
-
 
 (provide 'init-completion)
 

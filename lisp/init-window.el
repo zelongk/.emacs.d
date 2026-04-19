@@ -2,7 +2,6 @@
 ;; Restore old window configurations
 
 (use-package winner
-  :ensure nil
   :commands (winner-undo winner-redo)
   :hook elpaca-after-init
   :init (setq winner-boring-buffers '("*Completions*"
@@ -37,6 +36,7 @@
       (set-window-buffer (next-window) other-buffer))))
 
 (use-package ace-window
+  :ensure t
   :hook (emacs-startup . ace-window-display-mode)
   :bind (([remap other-window] . ace-window)
          ("M-o" . ace-window)
@@ -78,6 +78,7 @@
      ("<right>" winner-redo "winner redo")))))
 
 (use-package popper
+  :ensure t
   :custom
   (popper-group-function #'popper-group-by-directory)
   (popper-echo-dispatch-actions t)
