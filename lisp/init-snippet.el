@@ -73,4 +73,9 @@
                              (write-file ".yas-skip")))) ;; Ignore their latex-mode snippets
   :after yasnippet)
 
+(use-package consult-yasnippet
+  :ensure t
+  :after yasnippet
+  :bind ("M-g y" . consult-yasnippet))
+
 (provide 'init-snippet)

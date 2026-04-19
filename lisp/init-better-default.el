@@ -193,6 +193,7 @@
   (setq create-lockfiles nil))
 
 (use-package tramp
+  :ensure t
   :commands (sudo-find-file sudo-this-file)
   :bind ("C-x C-S-f" . sudo-find-file)
   :config

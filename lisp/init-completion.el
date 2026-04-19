@@ -158,20 +158,12 @@
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref))
 
-(use-package consult-flycheck
-  :ensure t)
-
 (use-package consult-dir
   :ensure t
   :bind (("C-x C-d" . consult-dir)
          :map minibuffer-local-map
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
-
-(use-package consult-yasnippet
-  :ensure t
-  :after yasnippet
-  :bind ("M-g y" . consult-yasnippet))
 
 (use-package embark
   :ensure t

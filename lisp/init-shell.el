@@ -53,7 +53,7 @@
 (use-package eat
   :bind (("C-`" . eat-toggle)
          ("C-<escape>" . eshell-toggle)
-         ([remap project-shell] . eat-project-toggle))
+         ([remap project-shell] . eat-project))
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode))
   :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
@@ -86,10 +86,6 @@
          (if (string= (buffer-name) "*eat*")
              (delete-window)
            (eat)))
-  (defun eat-project-toggle () (interactive)
-         (if (string= (buffer-name) "*eat*")
-             (delete-window)
-           (eat-project)))
 
   ;; Improve latency
   (setq process-adaptive-read-buffering t)  

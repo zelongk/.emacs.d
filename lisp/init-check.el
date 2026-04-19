@@ -23,6 +23,10 @@
         ;; Display errors a little quicker (default is 0.9s)
         flycheck-display-errors-delay 0.25))
 
+(use-package consult-flycheck
+  :ensure t
+  :after flycheck)
+
 (use-package flyover
   :disabled t
   :diminish
