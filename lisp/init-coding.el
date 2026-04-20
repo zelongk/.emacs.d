@@ -21,8 +21,7 @@
 
 (use-package editorconfig
   :ensure t
-  :diminish
-  :hook elpaca-after-init)
+  :diminish)
 
 (use-package treesit-auto
   :ensure t

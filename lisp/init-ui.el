@@ -204,15 +204,32 @@
     (setq ns-pop-up-frames nil)))
 
 ;; hl current line
-(use-package hl-line
-  :hook ((elpaca-after-init . global-hl-line-mode)
-         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode eat-mode) .
-          (lambda () (setq-local global-hl-line-mode nil)))))
+;; (use-package hl-line
+;;   :hook ((elpaca-after-init . global-hl-line-mode)
+;;          ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode eat-mode) .
+;;           (lambda () (setq-local global-hl-line-mode nil)))))
 
-;; (use-package beacon
-;;   :ensure t
-;;   :diminish
-;;   :hook elpaca-after-init)
+(use-package beacon
+  :ensure t
+  :disabled t
+  :diminish
+  :hook elpaca-after-init)
+
+(use-package pulsar
+  :ensure t
+  :bind (([remap count-lines-page] . pulsar-pulse-line) ; overrides `count-lines-page'
+         ("C-x L" . pulsar-highlight-permanently-dwim)) ; or use `pulsar-highlight-temporarily-dwim'
+  :hook (elpaca-after-init . pulsar-global-mode)
+  :custom-face (pulsar-generic ((t :inherit region :extend t)))
+  :custom
+  (pulsar-delay pulse-delay)
+  (pulsar-iterations 5)
+  (pulsar-face 'pulsar-green)
+  (pulsar-region-face 'pulsar-yellow)
+  (pulsar-highlight-face 'pulsar-magenta)
+  :config
+  (add-hook 'next-error-hook #'pulsar-pulse-line)
+  (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line))
 
 (use-package spacious-padding
   :ensure t
