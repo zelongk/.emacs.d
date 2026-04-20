@@ -3,6 +3,12 @@
 (use-package vc
   :defer t)
 
+(use-package diff-mode
+  :defer t)
+
+(use-package ediff
+  :defer t)
+
 (use-package diff-hl
   :ensure t
   :defer t
@@ -32,7 +38,6 @@
     (setq magit-section-initial-visibility-alist
           '((stashes . hide)
             ([file unstaged status] . hide))))
-  ;; (elemacs-load-packages-incrementally '(dash f s with-editor eieio transient git-commit llama))
   (setq magit-show-long-lines-warning nil))
 
 ;; Show TODOs in Magit

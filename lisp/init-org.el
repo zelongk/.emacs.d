@@ -18,10 +18,6 @@
         org-element-cache-persistent t)
 
   ;; Share snippets with LaTeX-mode
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (yas-activate-extra-mode 'LaTeX-mode)))
-
   (setq org-highlight-latex-and-related '(native latex entities))
   (setq org-startup-indented t)
   (setq org-pretty-entities t
@@ -382,5 +378,6 @@ the element after the #+HEADER: tag."
            (plist-put
             (cdr (overlay-get ov 'display))
             :scale (+ 1.0 (* 0.25 text-scale-mode-amount)))))))
+
 
 (provide 'init-org)

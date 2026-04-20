@@ -139,13 +139,18 @@ expansion, then cdlatex expansion."
   :ensure '(lazytab :type git :host github :repo "karthink/lazytab" :files ("*.el"))
   :demand t
   :after cdlatex
-  :bind (:map LaTeX-mode-map
+  :bind (:map org-mode-map
               ("C-x |" . (lambda () (interactive) (lazytab-orgtbl-edit))))
   :bind (:map orgtbl-mode-map
               ("<tab>" . lazytab-org-table-next-field-maybe)
               ("TAB" . lazytab-org-table-next-field-maybe))
   :config
   (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90))
+
+(use-package lazytab
+  :after lazytab latex
+  :bind (:map LaTeX-mode-map
+              ("C-x |" . (lambda () (interactive) (lazytab-orgtbl-edit)))))
 
 (use-package citar
   :ensure t

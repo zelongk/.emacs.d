@@ -43,7 +43,8 @@
          ;; ("C-c w" . ace-window-hydra/body)
          ("M-o" . ace-window)
          ("C-c 2" . split-window-vertically-instead)
-         ("C-c 3" . split-window-horizontally-instead))
+         ("C-c 3" . split-window-horizontally-instead)
+         ("C-x m" . maximize-window))
   :custom
   (aw-scope 'frame)
   (aw-background nil)

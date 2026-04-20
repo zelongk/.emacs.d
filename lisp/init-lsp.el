@@ -17,15 +17,11 @@
                        (lsp-enable-which-key-integration)
                        ;; (add-hook 'before-save-hook #'lsp-format-buffer t t)
                        (add-hook 'before-save-hook #'lsp-organize-imports t t))))
-  :hook (lsp-completion-mode . my/lsp-mode-setup-completion)
   :bind (:map lsp-mode-map
               ("C-c C-d" . lsp-describe-thing-at-point)
               ([remap xref-find-definitions] . lsp-find-definition)
               ([remap xref-find-references] . lsp-find-references))
   :init
-  (defun my/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
   (setq lsp-use-plists t
         lsp-log-io nil
         lsp-session-file (expand-file-name "lsp-sessions" user-cache-directory)

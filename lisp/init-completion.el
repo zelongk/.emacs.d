@@ -189,6 +189,7 @@
          :map embark-bookmark-map
          ("4"        . bookmark-jump-other-window)
          ("5"        . bookmark-jump-other-frame))
+
   :init
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)

@@ -1,5 +1,23 @@
 ;; -*- lexical-binding: t -*-
 
+(defconst IS-MAC     (eq system-type 'darwin))
+(defconst IS-LINUX   (eq system-type 'gnu/linux))
+(defconst IS-WINDOWS (memq system-type '(cygwin windows-nt ms-dos)))
+(defconst IS-BSD     (or IS-MAC (eq system-type 'berkeley-unix)))
+(defconst IS-GUIX    (and IS-LINUX
+                          (with-temp-buffer
+                            (insert-file-contents "/etc/os-release")
+                            (re-search-forward "ID=\\(?:guix\\|nixos\\)" nil t))))
+
+;; A helper to keep track of start-up time:
+(eval-when-compile (require 'cl-lib))
+(let ((emacs-start-time (current-time)))
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (let ((elapsed (float-time (time-subtract (current-time) emacs-start-time))))
+                (message "[Emacs initialized in %.3fs]" elapsed)))))
+
+
 (use-package benchmark-init :ensure t
   :demand t
   :hook (elpaca-after-init . benchmark-init/deactivate))
@@ -54,7 +72,8 @@
                   org-mode-hook
                   vterm-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode -1))))
-  (setq display-line-numbers-type 'relative))
+  (setq display-line-numbers-type 'relative)
+  (setq display-line-numbers-width-start 4))
 
 (use-package subword
   :diminish

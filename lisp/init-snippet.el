@@ -2,11 +2,11 @@
 ;; Yasnippet settings
 (use-package yasnippet
   :ensure t
-  :defer t
+  :defer 
   :diminish
-  :hook (((text-mode prog-mode LaTeX-mode org-mode
+  :hook (((prog-mode LaTeX-mode org-mode
                      eval-expression-minibuffer-setup)
-          . yas-minor-mode)
+          . yas-minor-mode-on)
          (yas-minor-mode . my/yas-auto-setup))
   :commands (yas-minor-mode-on
              yas-expand
@@ -20,13 +20,8 @@
              yas-maybe-expand-abbrev-key-filter)
   :init
   (defvar yas-verbosity 2)
-  :config
-  (use-package warnings
-    :ensure nil
-    :config
-    (cl-pushnew '(yasnippet backquote-change)
-                warning-suppress-types
-                :test 'equal))
+  :config 
+  (yas-reload-all)
 
   ;; Snippets trigger inside a word
   ;; (setq yas-key-syntaxes (list #'yas-longest-key-from-whitespace "w_.()" "w_." "w_" "w"))

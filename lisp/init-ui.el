@@ -12,15 +12,59 @@
 ;; 隐藏 title bar
 (add-to-list 'default-frame-alist '(undecorated-round . t))
 
+
+;;; FONTS
+(use-package show-font
+  :ensure (:host github :repo "protesilaos/show-font")
+  :defer)
+
+(defvar my/font-size 220)
+(set-face-attribute 'default nil
+                    :font "Sarasa Term SC"
+                    :height my/font-size) ; 20 * 1.5
+(set-face-attribute 'variable-pitch nil
+                    :font "Bookerly"
+                    :height (- my/font-size 20)
+                    :weight 'light)
+(set-face-attribute 'fixed-pitch nil
+                    :font "Sarasa Term SC"
+                    :height my/font-size)
+
+;; Use Symbols Nerd Font as fallback for private-use icons
+(set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size (/ my/font-size 10)) nil 'prepend)
+
+(add-to-list 'default-frame-alist '(height . 53))
+(add-to-list 'default-frame-alist '(width . 90))
+
+(use-package mixed-pitch
+  :ensure t
+  :diminish
+  :hook org-mode
+  :hook LaTeX-mode)
+
+;; Easily adjust the font size in all frames
+(use-package default-text-scale
+  :ensure t
+  :hook (elpaca-after-init . default-text-scale-mode)
+  :bind (:map default-text-scale-mode-map
+              ("C-s-=" . default-text-scale-increase)
+              ("C-s--" . default-text-scale-decrease)
+              ("C-s-0" . default-text-scale-reset)))
+
+;; UI settings
 (use-package solaire-mode
   :ensure t
   :hook (elpaca-after-init . solaire-global-mode))
 
 (use-package modus-themes
+  :ensure t
+  :defer
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
-        modus-themes-mixed-fonts t)
+        modus-themes-mixed-fonts t
+        modus-themes-prompts '(bold background)
+        modus-themes-variable-pitch-ui nil)
   :commands (modus-themes-load-random-dark
              modus-themes-load-random-light
              modus-themes-load-random))
@@ -35,10 +79,20 @@
 
 (use-package ef-themes
   :ensure t
+  :defer
   :bind ("<f5>" . modus-themes-load-random)
   :bind ("C-<f5>" . modus-themes-load-random-light)
   :bind ("M-<f5>" . modus-themes-load-random-dark)
   :init
+  (ef-themes-take-over-modus-themes-mode 1)
+  (setq ef-themes-headings
+        '((0 . (1.50))
+          (1 . (1.28))
+          (2 . (1.22))
+          (3 . (1.17))
+          (4 . (1.14))
+          (t . (1.1))))
+
   (setq ef-themes-light-themes '(ef-arbutus ef-cyprus ef-day ef-duo-light ef-eagle ef-elea-light
                                             ef-kassio  ef-melissa-light ef-orange ef-reverie
                                             ef-spring ef-summer ef-trio-light ef-tritanopia-light))
@@ -46,8 +100,7 @@
   (setq ef-themes-dark-themes '(ef-autumn ef-bio ef-cherie ef-dark ef-deuteranopia-dark ef-dream
                                           ef-duo-dark ef-elea-dark ef-fig ef-maris-dark
                                           ef-melissa-dark ef-night ef-owl ef-rosa ef-symbiosis
-                                          ef-trio-dark ef-tritanopia-dark ef-winter))
-  (ef-themes-take-over-modus-themes-mode 1))
+                                          ef-trio-dark ef-tritanopia-dark ef-winter)))
 
 (use-package auto-dark
   :when (and (eq system-type 'darwin) (display-graphic-p))
@@ -69,7 +122,6 @@
 
 (use-package rainbow-delimiters
   :ensure t
-  :defer
   :diminish
   :hook ((prog-mode . rainbow-delimiters-mode)
          (typst-ts-mode . rainbow-delimiters-mode)
@@ -77,7 +129,6 @@
 
 (use-package rainbow-mode
   :ensure t
-  :defer
   :diminish
   :hook text-mode
   :hook prog-mode)
@@ -108,7 +159,6 @@
 
 (use-package hide-mode-line
   :ensure t
-  :defer
   :autoload turn-off-hide-mode-line-mode
   :hook (((eat-mode
            eshell-mode shell-mode
@@ -124,40 +174,6 @@
       window-divider-default-bottom-width 1
       window-divider-default-right-width 1)
 (add-hook 'window-setup-hook #'window-divider-mode)
-
-(defvar my/font-size 220)
-(set-face-attribute 'default nil
-                    :font "Sarasa Term SC"
-                    :height my/font-size) ; 20 * 1.5
-(set-face-attribute 'variable-pitch nil
-                    :font "Bookerly"
-                    :height (- my/font-size 20)
-                    :weight 'light)
-(set-face-attribute 'fixed-pitch nil
-                    :font "Sarasa Term SC"
-                    :height my/font-size)
-
-;; Use Symbols Nerd Font as fallback for private-use icons
-(set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size (/ my/font-size 10)) nil 'prepend)
-
-(add-to-list 'default-frame-alist '(height . 53))
-(add-to-list 'default-frame-alist '(width . 90))
-
-(use-package mixed-pitch
-  :ensure t
-  :defer
-  :diminish
-  :hook org-mode
-  :hook LaTeX-mode)
-
-;; Easily adjust the font size in all frames
-(use-package default-text-scale
-  :ensure t
-  :hook (elpaca-after-init . default-text-scale-mode)
-  :bind (:map default-text-scale-mode-map
-              ("C-s-=" . default-text-scale-increase)
-              ("C-s--" . default-text-scale-decrease)
-              ("C-s-0" . default-text-scale-reset)))
 
 (setq hscroll-step 1
       hscroll-margin 2

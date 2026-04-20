@@ -80,4 +80,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq use-package-verbose nil
+      use-package-compute-statistics nil
+      ;; use-package-ignore-unknown-keywords t
+      use-package-minimum-reported-time 0.01
+      use-package-expand-minimally t
+      use-package-enable-imenu-support t)
+
 (provide 'init-elpaca)

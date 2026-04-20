@@ -176,13 +176,13 @@
 
 (use-package olivetti
   :ensure t
-  :defer
   :hook org-mode
   :bind (("<f7>" . olivetti-mode))
   :custom
   (olivetti-style 'fancy)
   (olivetti-margin-width 5)
-  (olivetti-body-width 80))
+  (olivetti-body-width 90)
+  (olivetti-minimum-body-width 76))
 
 (setq-default bidi-display-reordering 'left-to-right
               bidi-paragraph-direction 'left-to-right
