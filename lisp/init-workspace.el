@@ -52,7 +52,13 @@
         tab-bar-close-button-show nil
         tab-bar-new-button-show nil
         tab-bar-tab-hints nil)
-  (customize-set-variable 'tab-bar-select-tab-modifiers '(super)))
+  (customize-set-variable 'tab-bar-select-tab-modifiers '(super))
+  
+  (defun my/tab-bar-name ()
+    (if-let ((p (project-current nil)))
+        (project-name p)
+      (buffer-name)))
+  (setq tab-bar-tab-name-function #'my/tab-bar-name))
 
 (use-package tabspaces
   :ensure t

@@ -28,6 +28,9 @@
   (corfu-history-mode)
   (corfu-popupinfo-mode)
   :config
+  ;; Let corfu child frame be empty, ask wm to toggle float for empty frame from emacs.
+  (setf (alist-get 'name  corfu--frame-parameters nil nil #'eq)  ""
+        (alist-get 'title corfu--frame-parameters nil nil #'eq)  "")
   ;;Quit completion before saving
   (add-hook 'before-save-hook #'corfu-quit)
   (advice-add #'persistent-scratch-save :before #'corfu-quit)

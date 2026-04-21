@@ -48,6 +48,8 @@
 (setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
 
+(setq package-user-dir (expand-file-name "elpa" user-cache-directory))
+
 ;; Start server
 (use-package server
   :autoload server-running-p

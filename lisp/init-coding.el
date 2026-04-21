@@ -56,6 +56,14 @@
   :ensure t
   :defer t)
 
+(use-package caddyfile-mode
+  :ensure t
+  :defer t)
+
+(use-package dotenv-mode
+  :ensure t
+  :defer t)
+
 (use-package envrc :ensure t :defer)
 
 (provide 'init-coding)

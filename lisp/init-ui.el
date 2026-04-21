@@ -195,7 +195,6 @@
   :custom
   (nerd-icons-default-adjust 0.05))
 
-
 (with-no-warnings
   (when (featurep 'ns)
     ;; Render thinner fonts
