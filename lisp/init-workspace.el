@@ -45,20 +45,30 @@
               ("s-W" . delete-frame))
   :config
   (setq tab-bar-separator ""
-        tab-bar-show 1
+        tab-bar-show t
         tab-bar-new-tab-choice "*scratch*"
-        tab-bar-auto-width t
-        tab-bar-auto-width-max '((220) 20)
+        tab-bar-auto-width nil
+        tab-bar-tab-name-truncated-max 20
         tab-bar-close-button-show nil
         tab-bar-new-button-show nil
-        tab-bar-tab-hints nil)
-  (customize-set-variable 'tab-bar-select-tab-modifiers '(super))
+        tab-bar-tab-hints t
+        tab-bar-select-tab-modifiers '(super))
   
   (defun my/tab-bar-name ()
     (if-let ((p (project-current nil)))
         (project-name p)
       (buffer-name)))
-  (setq tab-bar-tab-name-function #'my/tab-bar-name))
+  (setq tab-bar-tab-name-function #'my/tab-bar-name)
+  
+  (defun my/tab-bar-tab-name-format (tab i)
+    (let* ((s (tab-bar-tab-name-format-default tab i))
+           (face (get-text-property 0 'face s)))
+      (concat (propertize " " 'face face)
+              s
+              (propertize " " 'face face))))
+  (setq tab-bar-tab-name-format-function #'my/tab-bar-tab-name-format))
+
+
 
 (use-package tabspaces
   :ensure t
@@ -134,7 +144,6 @@
       "Return the list of buffers from `beframe-buffer-names' sorted by visibility.
 With optional argument FRAME, return the list of buffers of FRAME."
       (beframe-buffer-list frame :sort #'beframe-buffer-sort-visibility))
-
     (setq consult-buffer-list-function #'consult-beframe-buffer-list)))
 
 (provide 'init-workspace)

@@ -150,6 +150,7 @@
         ;; doom-modeline-project-name t
         doom-modeline-check 'simple
         doom-modeline-minor-modes t
+        doom-modeline-workspace-name nil
         doom-modeline-buffer-encoding nil
         doom-modeline-major-mode-icon nil))
 

@@ -40,6 +40,7 @@
 
 (require 'init-input)
 (require 'init-utils)
+;; (require 'init-svg)
 ;; (require 'init-eaf)
 
 (require 'init-coding)
