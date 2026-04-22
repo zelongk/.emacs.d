@@ -140,17 +140,21 @@ expansion, then cdlatex expansion."
   :demand t
   :after cdlatex
   :bind (:map org-mode-map
-              ("C-x |" . (lambda () (interactive) (lazytab-orgtbl-edit))))
+              ("C-x |" . my/lazytab-orgtbl-edit))
   :bind (:map orgtbl-mode-map
               ("<tab>" . lazytab-org-table-next-field-maybe)
               ("TAB" . lazytab-org-table-next-field-maybe))
-  :config
-  (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90))
-
-(use-package lazytab
-  :after lazytab latex
   :bind (:map LaTeX-mode-map
-              ("C-x |" . (lambda () (interactive) (lazytab-orgtbl-edit)))))
+              ("C-x |" . my/lazytab-orgtbl-edit))
+  :config
+  (defun my/lazytab-orgtbl-edit ()
+    (interactive)
+    (when (memq major-mode '(LaTeX-mode latex-mode org-mode))
+      (advice-add 'orgtbl-ctrl-c-ctrl-c :after #'lazytab-orgtbl-replace)
+      (orgtbl-mode 1)
+      (open-line 1)
+      (insert "\n|")))
+  (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90))
 
 (use-package citar
   :ensure t

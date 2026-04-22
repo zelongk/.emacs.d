@@ -5,10 +5,10 @@
   :ensure t
   :config
   ;; (setq orderless-component-separator #'split-string-and-unquote)
-  (setq completion-styles '(orderless partial-completion flex)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles orderless partial-completion))))
-
+  (setq completion-styles '(orderless partial-completion flex))
+  (setf (alist-get ?~ orderless-affix-dispatch-alist nil 'remove) nil
+        (alist-get ?` orderless-affix-dispatch-alist) #'orderless-flex)
+  
   (defun orderless-fast-dispatch (word index total)
     (and (= index 0) (= total 1) (length< word 5)
          ;; `(orderless-regexp . ,(concat "^" (regexp-quote word)))
@@ -16,11 +16,7 @@
   (orderless-define-completion-style orderless-fast
     (orderless-style-dispatchers '(orderless-fast-dispatch
                                    orderless-affix-dispatch))
-    (orderless-matching-styles '(orderless-literal orderless-regexp)))
-  
-  (setf (alist-get ?~ orderless-affix-dispatch-alist nil 'remove) nil
-        (alist-get ?` orderless-affix-dispatch-alist) #'orderless-flex)
-  )
+    (orderless-matching-styles '(orderless-literal orderless-regexp))))
 
 ;; Support Pinyin
 (use-package pinyinlib

@@ -93,6 +93,35 @@
           (4 . (1.14))
           (t . (1.1))))
 
+  (setq ef-themes-common-palette-overrides
+        '((bg-tab-bar bg-main)
+          (bg-tab-current bg-active)
+          (bg-tab-other bg-main)
+          (date-common cyan)           ; default value (for timestamps and more)
+          (date-deadline red-warmer)
+          (date-event magenta-warmer)
+          (date-holiday blue)           ; for M-x calendar
+          (date-now yellow-warmer)
+          (date-scheduled magenta-cooler)
+          (date-weekday cyan-cooler)
+          (date-weekend blue-faint)
+          (mail-recipient fg-main)
+          ;; (fg-heading-1 blue-warmer)
+          ;; (fg-heading-2 yellow-cooler)
+          ;; (fg-heading-3 cyan-cooler)
+          ;; (fg-line-number-inactive "gray50")
+          (fg-line-number-active fg-main)
+          (bg-line-number-inactive unspecified)
+          (bg-line-number-active unspecified)
+          (bg-region bg-sage)
+          (fg-region unspecified)
+          ;; (comment yellow-cooler)
+          ;; (string green-cooler)
+          (fringe unspecified) ;; bg-blue-nuanced
+          (border-mode-line-active unspecified)
+          (border-mode-line-inactive unspecified))
+        )
+
   (setq ef-themes-light-themes '(ef-arbutus ef-cyprus ef-day ef-duo-light ef-eagle ef-elea-light
                                             ef-kassio  ef-melissa-light ef-orange ef-reverie
                                             ef-spring ef-summer ef-trio-light ef-tritanopia-light))

@@ -44,13 +44,14 @@
               ("s-w" . tab-close)
               ("s-W" . delete-frame))
   :config
-  (setq tab-bar-separator ""
+  (setq tab-bar-separator " "
         tab-bar-show t
         tab-bar-new-tab-choice "*scratch*"
         tab-bar-auto-width nil
         tab-bar-tab-name-truncated-max 20
         tab-bar-close-button-show nil
         tab-bar-new-button-show nil
+        tab-bar-format '(tab-bar-format-menu-bar tab-bar-format-tabs tab-bar-separator)
         tab-bar-tab-hints t
         tab-bar-select-tab-modifiers '(super))
   
@@ -59,7 +60,8 @@
         (project-name p)
       (buffer-name)))
   (setq tab-bar-tab-name-function #'my/tab-bar-name)
-  
+
+  ;; Add surround space to tab name
   (defun my/tab-bar-tab-name-format (tab i)
     (let* ((s (tab-bar-tab-name-format-default tab i))
            (face (get-text-property 0 'face s)))
@@ -75,12 +77,15 @@
   :functions tabspaces-mode
   :commands (tabspaces-switch-or-create-workspace
              tabspaces-open-or-create-project-and-workspace)
-  :hook ((elpaca-after-init . tabspaces-mode))
+  :hook ((elpaca-after-init . tabspaces-mode)
+         (tabspaces-mode . tab-bar-history-mode))
   :bind (:map tabspaces-command-map
               ("l" . tabspaces-restore-session)
               ("s" . tabspaces-save-session)
               ("TAB" . tabspaces-switch-or-create-workspace))
   :custom
+  (tab-bar-history-limit 30)
+  
   (tabspaces-use-filtered-buffers-as-default t)
   (tabspaces-default-tab "Default")
   (tabspaces-remove-to-default t)
