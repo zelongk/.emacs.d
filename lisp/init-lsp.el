@@ -29,7 +29,7 @@
         lsp-session-file (expand-file-name "lsp-sessions" user-cache-directory)
 
         lsp-enable-suggest-server-download t
-        ;; lsp-auto-configure t
+        lsp-auto-configure t
 
         lsp-keymap-prefix "C-c c"
         lsp-keep-workspace-alive nil
@@ -54,7 +54,7 @@
         lsp-enable-imenu t
 
         lsp-enable-indentation nil
-        lsp-enable-on-type-formatting nil
+        lsp-enable-on-type-formatting t
 
         ;; For diagnostics
         lsp-diagnostics-disabled-modes '(markdown-mode gfm-mode))

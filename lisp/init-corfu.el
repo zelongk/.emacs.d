@@ -18,7 +18,6 @@
                              eat-mode
                              vterm-mode)
                         t))
-
   
   :custom-face
   (corfu-border ((t (:inherit region :background unspecified))))

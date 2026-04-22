@@ -167,6 +167,17 @@
            embark-collect-mode lsp-ui-imenu-mode
            pdf-annot-list-mode) . turn-on-hide-mode-line-mode)))
 
+(use-package centaur-tabs
+  :disabled t
+  :ensure t
+  :config
+  (centaur-tabs-mode t)
+  (setq centaur-tabs-set-icons t
+        centaur-tabs-icon-type 'nerd-icons
+        centaur-tabs-set-close-button nil
+        centaur-tabs-show-new-tab-button nil
+        centaur-tabs-set-modified-marker t))
+
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 
