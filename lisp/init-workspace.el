@@ -58,7 +58,7 @@
   (defun my/tab-bar-name ()
     (if-let ((p (project-current nil)))
         (project-name p)
-      (buffer-name)))
+      (tab-bar-tab-name-truncated)))
   (setq tab-bar-tab-name-function #'my/tab-bar-name)
 
   ;; Add surround space to tab name
