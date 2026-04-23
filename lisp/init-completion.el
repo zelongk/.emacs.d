@@ -4,8 +4,8 @@
 (use-package orderless
   :ensure t
   :config
-  ;; (setq orderless-component-separator #'split-string-and-unquote)
-  (setq completion-styles '(orderless partial-completion flex))
+  ;; (setq orderle(split-string  &optional SEPARATORS OMIT-NULLS)-component-separator #'split-string-and-unquote)
+  (setq completion-styles '(orderless partial-completion basic))
   (setf (alist-get ?~ orderless-affix-dispatch-alist nil 'remove) nil
         (alist-get ?` orderless-affix-dispatch-alist) #'orderless-flex)
   
