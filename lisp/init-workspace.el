@@ -76,19 +76,16 @@
   :config
   (defun my/with-other-tab (&rest app)
     (tab-bar-new-tab)
-    ;; (funcall #'other-tab-prefix) ;; I don't want tab-name be messed.
     (apply app))
 
-  (defvar functions-in-new-tab)
-  (setq functions-in-new-tab '(project-switch-project))
+  (setq +functions-in-new-tab '(project-switch-project))
 
   (defun my/functions-in-new-tab (&optional disable)
-    (dolist (cmd functions-in-new-tab)
-      (cond
-       (disable
-        (advice-remove cmd #'my/with-other-tab))
-       (tab-bar-mode
-        (advice-add cmd :around #'my/with-other-tab)))))
+    (dolist (cmd +functions-in-new-tab)
+      (if disable
+          (advice-remove cmd #'my/with-other-tab)
+        (advice-add cmd :around #'my/with-other-tab))))
+  ;; Pass an argument to disable e.g. (my/functions-in-new-tab t)
   (my/functions-in-new-tab))
 
 (use-package tabspaces

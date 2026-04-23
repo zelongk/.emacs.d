@@ -144,8 +144,6 @@ expansion, then cdlatex expansion."
   :bind (:map orgtbl-mode-map
               ("<tab>" . lazytab-org-table-next-field-maybe)
               ("TAB" . lazytab-org-table-next-field-maybe))
-  :bind (:map LaTeX-mode-map
-              ("C-x |" . my/lazytab-orgtbl-edit))
   :config
   (defun my/lazytab-orgtbl-edit ()
     (interactive)
@@ -155,6 +153,11 @@ expansion, then cdlatex expansion."
       (open-line 1)
       (insert "\n|")))
   (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90))
+
+(use-package lazytab
+  :after latex
+  :bind (:map LaTeX-mode-map
+              ("C-x |" . my/lazytab-orgtbl-edit)))
 
 (use-package citar
   :ensure t
