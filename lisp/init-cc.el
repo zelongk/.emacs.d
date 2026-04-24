@@ -4,8 +4,6 @@
   (use-package c-ts-mode
     :defer
     :functions treesit-available-p
-    :bind (:map c-ts-base-mode-map
-                ("C-c C-c" . compile))
     :init
     (setq c-ts-mode-indent-offset 2)
     (setq-default c-basic-offset 2)

@@ -2,19 +2,19 @@
 
 (define-key global-map (kbd "C-<wheel-up>")  nil)
 (define-key global-map (kbd "C-<wheel-down>")  nil)
-(global-set-key (kbd "s-a") 'mark-whole-buffer) ;;对应Windows上面的Ctrl-a 全选
-(global-set-key (kbd "s-c") 'kill-ring-save) ;;对应Windows上面的Ctrl-c 复制
-(global-set-key (kbd "s-s") 'save-buffer) ;; 对应Windows上面的Ctrl-s 保存
-(global-set-key (kbd "s-v") 'yank) ;对应Windows上面的Ctrl-v 粘贴
-(global-set-key (kbd "s-x") 'execute-extended-command) ;对应Windows上面的Ctrol-z 撤销
-(global-set-key (kbd "s-z") 'undo) ;对应Windows上面的Ctrol-z 撤销
+(global-set-key (kbd "s-a") 'mark-whole-buffer)
+(global-set-key (kbd "s-c") 'kill-ring-save)
+(global-set-key (kbd "s-s") 'save-buffer)
+(global-set-key (kbd "s-v") 'yank)
+(global-set-key (kbd "s-x") 'execute-extended-command)
+(global-set-key (kbd "s-z") 'undo)
 
 (setq duplicate-line-final-position 1)
 (global-set-key (kbd "M-p") #'duplicate-dwim)
 (global-set-key (kbd "C-c y") #'copy-from-above-command)
 (global-set-key (kbd "s-k") #'kill-current-buffer)
 
-(define-key prog-mode-map (kbd "C-c C-c") #'compile)
+(define-key prog-mode-map (kbd "C-c C-k") #'compile)
 
 (defun delete-this-file ()
   "Delete the current file, and kill the buffer."
