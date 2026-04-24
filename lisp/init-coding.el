@@ -19,10 +19,6 @@
   :diminish
   :hook (prog-mode))
 
-(use-package eldoc
-  :defer
-  :diminish)
-
 (use-package editorconfig
   :ensure t
   :diminish)

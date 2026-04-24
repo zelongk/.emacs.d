@@ -7,8 +7,7 @@
   :hook (haskell-mode . (lambda ()
                           (haskell-collapse-mode)
                           (interactive-haskell-mode)
-                          (haskell-doc-mode)
-                          (haskell-indent-mode)))
+                          (turn-on-haskell-doc)))
   :mode (("\\.hs\\'" . haskell-mode))
   :bind ("C-c C-z" . run-haskell)
   :config
@@ -16,15 +15,15 @@
         haskell-process-auto-import-loaded-modules t)
   (add-to-list 'completion-ignored-extensions ".hi"))
 
-(use-package haskell-ts-mode
-  :ensure t
-  :defer t
-  :custom
-  (haskell-ts-font-lock-level 4)
-  (haskell-ts-use-indent t)
-  (haskell-ts-ghci "ghci")
-  (haskell-ts-use-indent t)
-  :config
-  (add-to-list 'major-mode-remap-alist '(haskell-mode . haskell-ts-mode)))
+;; (use-package haskell-ts-mode
+;;   :ensure t
+;;   :defer t
+;;   :custom
+;;   (haskell-ts-font-lock-level 4)
+;;   (haskell-ts-use-indent t)
+;;   (haskell-ts-ghci "ghci")
+;;   (haskell-ts-use-indent t)
+;;   :config
+;;   (add-to-list 'major-mode-remap-alist '(haskell-mode . haskell-ts-mode)))
 
 (provide 'init-haskell)

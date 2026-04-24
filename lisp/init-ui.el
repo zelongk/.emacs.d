@@ -148,19 +148,10 @@
        ))
   :hook elpaca-after-init)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                        ; Modeline                            ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package rainbow-delimiters
-  :ensure t
-  :diminish
-  :hook ((prog-mode . rainbow-delimiters-mode)
-         (typst-ts-mode . rainbow-delimiters-mode)
-         (python-ts-mode . rainbow-delimiters-mode)))
-
-(use-package rainbow-mode
-  :ensure t
-  :diminish
-  :hook text-mode
-  :hook prog-mode)
 
 (use-package mood-line
   :disabled t
@@ -195,7 +186,76 @@
                   mode-line-frame-identification mode-line-buffer-identification "   "
                   mode-line-position (project-mode-line project-mode-line-format)
                   " " (vc-mode vc-mode) "  " mode-line-modes mode-line-misc-info
-                  mode-line-end-spaces)))
+                  mode-line-end-spaces))
+  (defvar mode-line-cleaner-alist
+    `((company-mode . " ⇝")
+      (corfu-mode . " ⇝")
+      (yas-minor-mode .  " ")
+      (smartparens-mode . " ()")
+      (evil-smartparens-mode . "")
+      (eldoc-mode . "")
+      (abbrev-mode . "")
+      (evil-snipe-local-mode . "")
+      (evil-owl-mode . "")
+      (evil-rsi-mode . "")
+      (evil-commentary-mode . "")
+      (ivy-mode . "")
+      (counsel-mode . "")
+      (wrap-region-mode . "")
+      (rainbow-mode . "")
+      (which-key-mode . "")
+      (undo-tree-mode . "")
+      ;; (undo-tree-mode . " ⎌")
+      (auto-revert-mode . "")
+      ;; Major modes
+      (lisp-interaction-mode . "λ")
+      (hi-lock-mode . "")
+      (python-mode . "Py")
+      (emacs-lisp-mode . "Eλ")
+      (nxhtml-mode . "nx")
+      (dot-mode . "")
+      (scheme-mode . " SCM")
+      (matlab-mode . "M")
+      (org-mode . " ORG" ;; "⦿"
+                )
+      (valign-mode . "")
+      (eldoc-mode . "")
+      (org-cdlatex-mode . "")
+      (cdlatex-mode . "")
+      (org-indent-mode . "")
+      (org-roam-mode . "")
+      (visual-line-mode . "")
+      (latex-mode . "TeX")
+      (outline-minor-mode . " ֍" ;; " [o]"
+                          )
+      (hs-minor-mode . "")
+      (matlab-functions-have-end-minor-mode . "")
+      (org-roam-ui-mode . " UI")
+      (abridge-diff-mode . "")
+      ;; Evil modes
+      (evil-traces-mode . "")
+      (latex-extra-mode . "")
+      (strokes-mode . "")
+      (flymake-mode . " fly")
+      (sideline-mode . "")
+      (god-mode . ,(propertize "God" 'face 'success))
+      (gcmh-mode . ""))
+    "Alist for `clean-mode-line'.
+
+  ; ;; When you add a new element to the alist, keep in mind that you
+  ; ;; must pass the correct minor/major mode symbol and a string you
+  ; ;; want to use in the modeline *in lieu of* the original.")
+
+  (defun clean-mode-line ()
+    (cl-loop for cleaner in mode-line-cleaner-alist
+             do (let* ((mode (car cleaner))
+                       (mode-str (cdr cleaner))
+                       (old-mode-str (cdr (assq mode minor-mode-alist))))
+                  (when old-mode-str
+                    (setcar old-mode-str mode-str))
+                  ;; major mode
+                  (when (eq mode major-mode)
+                    (setq mode-name mode-str))))))
 
 (use-package hide-mode-line
   :ensure t
@@ -205,6 +265,11 @@
            term-mode vterm-mode
            embark-collect-mode lsp-ui-imenu-mode
            pdf-annot-list-mode) . turn-on-hide-mode-line-mode)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                        ;              Interface              ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 (use-package centaur-tabs
   :disabled t
@@ -216,6 +281,14 @@
         centaur-tabs-set-close-button nil
         centaur-tabs-show-new-tab-button nil
         centaur-tabs-set-modified-marker t))
+
+(use-package spacious-padding
+  :ensure t
+  :diminish
+  :hook elpaca-after-init
+  :config
+  (setq spacious-padding-subtle-frame-lines t)
+  (plist-put spacious-padding-widths :mode-line-width 0))
 
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
@@ -253,6 +326,23 @@
     ;; Don't open a file in a new frame
     (setq ns-pop-up-frames nil)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                        ;            Coding related           ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package rainbow-delimiters
+  :ensure t
+  :diminish
+  :hook ((prog-mode . rainbow-delimiters-mode)
+         (typst-ts-mode . rainbow-delimiters-mode)
+         (python-ts-mode . rainbow-delimiters-mode)))
+
+(use-package rainbow-mode
+  :ensure t
+  :diminish
+  :hook text-mode
+  :hook prog-mode)
+
 ;; hl current line
 (use-package hl-line
   :disabled t
@@ -281,14 +371,6 @@
   :config
   (add-hook 'next-error-hook #'pulsar-pulse-line)
   (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line))
-
-(use-package spacious-padding
-  :ensure t
-  :diminish
-  :hook elpaca-after-init
-  :config
-  (setq spacious-padding-subtle-frame-lines t)
-  (plist-put spacious-padding-widths :mode-line-width 0))
 
 ;; Eval result overlay
 (use-package eros

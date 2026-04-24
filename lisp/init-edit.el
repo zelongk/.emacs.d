@@ -52,10 +52,10 @@
   )
 
 (use-package abbrev
-  :diminish
-  :config
+  :init
   (setq-default abbrev-mode t)
   (setq abbrev-file-name (expand-file-name "abbrev.el" user-emacs-directory)))
+
 
 (use-package autorevert
   :diminish
