@@ -14,7 +14,7 @@
 (global-set-key (kbd "C-c y") #'copy-from-above-command)
 (global-set-key (kbd "s-k") #'kill-current-buffer)
 
-(global-set-key (kbd "C-c C-c") #'compile)
+(define-key prog-mode-map (kbd "C-c C-c") #'compile)
 
 (defun delete-this-file ()
   "Delete the current file, and kill the buffer."

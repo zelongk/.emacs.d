@@ -1,54 +1,31 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package shell
-  :hook ((shell-mode . my/shell-mode-hook)
-         (comint-output-filter-functions . comint-strip-ctrl-m))
+(use-package comint
   :init
-  (setq system-uses-terminfo nil)
+  (setq ansi-color-for-comint-mode t
+        ansi-color-for-compilation-mode t))
 
-  (with-no-warnings
-    (defun my/shell-simple-send (proc command)
-      "Various PROC COMMANDs pre-processing before sending to shell."
-      (cond
-       ;; Checking for clear command and execute it.
-       ((string-match "^[ \t]*clear[ \t]*$" command)
-        (comint-send-string proc "\n")
-        (erase-buffer))
-       ;; Checking for man command and execute it.
-       ((string-match "^[ \t]*man[ \t]*" command)
-        (comint-send-string proc "\n")
-        (setq command (replace-regexp-in-string "^[ \t]*man[ \t]*" "" command))
-        (setq command (replace-regexp-in-string "[ \t]+$" "" command))
-        ;;(message (format "command %s command" command))
-        (funcall 'man command))
-       ;; Send other commands to the default handler.
-       (t (comint-simple-send proc command))))
+(use-package ansi-color
+  :hook (compilation-filter . ansi-color-compilation-filter)) 
 
-    (defun my/shell-mode-hook ()
-      "Shell mode customization."
-      (local-set-key '[up] 'comint-previous-input)
-      (local-set-key '[down] 'comint-next-input)
-      (local-set-key '[(shift tab)] 'comint-next-matching-input-from-input)
-
-      (ansi-color-for-comint-mode-on)
-      (setq comint-input-sender 'my/shell-simple-send))))
-
-;; Emacs command shell
-(use-package eshell
-  :defer
-  :defines eshell-prompt-function
-  :bind (:map eshell-mode-map
-              ([remap recenter-top-bottom] . eshell/clear))
-  :config
-  (setq eshell-banner-message ""))
 
 (use-package xterm-color
   :ensure t
-  :defer t
   :defines (compilation-environment)
   :init
   (setenv "TERM" "xterm-256color")
-  (setq compilation-environment '("TERM=xterm-256color")))
+  (setq comint-output-filter-functions
+        (remove 'ansi-color-process-output comint-output-filter-functions))
+  (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
+
+  (setq compilation-environment '("TERM=xterm-256color"))
+  (defun my/advice-compilation-filter (fn proc string)
+    (funcall fn proc
+             (if (eq major-mode 'rg-mode) ; compatible with `rg'
+                 string
+               (xterm-color-filter string))))
+  (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
+  (advice-add 'gud-filter :around #'my/advice-compilation-filter))
 
 (use-package eat
   :bind (("C-`" . eat-toggle)
@@ -63,14 +40,12 @@
 			            ("integration" "integration/*")
 			            (:exclude ".dir-locals.el" "*-tests.el")))
   :custom
-  (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
   (eat-shell "/opt/homebrew/bin/elvish")
   (eat-tramp-shells '(("docker" . "/bin/sh")
                       ("ssh" . "/bin/bash")
                       ("sshx" . "/bin/bash")
                       ("rpc" . "/bin/bash")))
-
   ;; Clear commands eshell considers visual by default.
   (eshell-visual-commands '())
   (eat-minimum-latency 0.002)
@@ -93,6 +68,17 @@
   (when (eq system-type 'darwin)
     (define-key eat-semi-char-mode-map (kbd "C-h")  #'eat-self-input)
     (define-key eat-semi-char-mode-map (kbd "<backspace>") (kbd "C-h"))))
+
+
+
+;;; Eshell related
+(use-package eshell
+  :defer
+  :defines eshell-prompt-function
+  :bind (:map eshell-mode-map
+              ([remap recenter-top-bottom] . eshell/clear))
+  :config
+  (setq eshell-banner-message ""))
 
 (use-package eshell-prompt-extras
   :ensure t

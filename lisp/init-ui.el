@@ -197,10 +197,6 @@
                   " " (vc-mode vc-mode) "  " mode-line-modes mode-line-misc-info
                   mode-line-end-spaces)))
 
-(use-package minions
-  :ensure t
-  :hook elpaca-after-init)
-
 (use-package hide-mode-line
   :ensure t
   :autoload turn-off-hide-mode-line-mode

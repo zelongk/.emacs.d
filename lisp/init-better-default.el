@@ -150,15 +150,7 @@
   (use-package easy-kill
     :ensure t
     :bind (([remap kill-ring-save] . easy-kill)
-           ([remap mark-sexp] . easy-mark)))
-
-  (use-package browse-kill-ring
-    :ensure t
-    :bind ("C-c k" . browse-kill-ring)
-    :hook (elpaca-after-init . browse-kill-ring-default-keybindings)
-    :init (setq browse-kill-ring-separator "────────────────"
-                browse-kill-ring-separator-face 'shadow))
-  )
+           ([remap mark-sexp] . easy-mark))))
 
 (use-package ultra-scroll
   :ensure t
