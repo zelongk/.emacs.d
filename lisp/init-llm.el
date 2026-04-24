@@ -3,7 +3,8 @@
 (use-package gptel
   :ensure t
   :commands (gptel gptel-menu gptel-send)
-  :bind (("C-c l s" . gptel-send)
+  :bind (("C-c l l" . gptell)
+         ("C-c l s" . gptel-send)
 	     ("C-c l m" . gptel-menu))
   :hook (gptel-mode . gptel-highlight-mode)
   :config

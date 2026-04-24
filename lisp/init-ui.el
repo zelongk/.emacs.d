@@ -168,6 +168,7 @@
   :custom (mood-line-glyph-alist mood-line-glyphs-fira-code))
 
 (use-package doom-modeline
+  :disabled t
   :ensure t
   :hook (elpaca-after-init . doom-modeline-mode)
   :config
@@ -176,12 +177,25 @@
         doom-modeline-height 30
         doom-modeline-buffer-file-name-style 'relative-from-project
         doom-modeline-enable-word-count t
-        ;; doom-modeline-project-name t
+        doom-modeline-project-name nil
         doom-modeline-check 'simple
         doom-modeline-minor-modes t
         doom-modeline-workspace-name nil
         doom-modeline-buffer-encoding nil
         doom-modeline-major-mode-icon nil))
+
+;; Modeline
+(use-package emacs
+  :config
+  (setq-default mode-line-format
+                '("%e" mode-line-front-space
+                  (:propertize
+                   ("" mode-line-client mode-line-window-dedicated)
+                   display (min-width (6.0)))
+                  mode-line-frame-identification mode-line-buffer-identification "   "
+                  mode-line-position (project-mode-line project-mode-line-format)
+                  " " (vc-mode vc-mode) "  " mode-line-modes mode-line-misc-info
+                  mode-line-end-spaces)))
 
 (use-package minions
   :ensure t
@@ -244,10 +258,11 @@
     (setq ns-pop-up-frames nil)))
 
 ;; hl current line
-;; (use-package hl-line
-;;   :hook ((elpaca-after-init . global-hl-line-mode)
-;;          ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode eat-mode) .
-;;           (lambda () (setq-local global-hl-line-mode nil)))))
+(use-package hl-line
+  :disabled t
+  :hook ((elpaca-after-init . global-hl-line-mode)
+         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode eat-mode) .
+          (lambda () (setq-local global-hl-line-mode nil)))))
 
 (use-package beacon
   :ensure t
@@ -274,7 +289,10 @@
 (use-package spacious-padding
   :ensure t
   :diminish
-  :hook elpaca-after-init)
+  :hook elpaca-after-init
+  :config
+  (setq spacious-padding-subtle-frame-lines t)
+  (plist-put spacious-padding-widths :mode-line-width 0))
 
 ;; Eval result overlay
 (use-package eros
