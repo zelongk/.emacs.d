@@ -107,7 +107,6 @@
 (use-package cdlatex
   :ensure t
   :after latex
-  :diminish
   :hook ((LaTeX-mode . turn-on-cdlatex)
          (LaTeX-mode . cdlatex-electricindex-mode))
   ;; :bind (:map cdlatex-mode-map

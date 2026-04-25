@@ -3,7 +3,6 @@
 (use-package flycheck
   :ensure t
   :defer t
-  :diminish
   :hook (prog-mode . flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit)

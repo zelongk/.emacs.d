@@ -11,7 +11,7 @@
                           (eglot-ensure))))
          ((markdown-mode yaml-mode yaml-ts-mode) . eglot-ensure))
   :bind (:map eglot-mode-map
-	            ("C-c c a" . eglot-code-actions))
+	          ("C-c c a" . eglot-code-actions))
   :config
   (setq completion-category-defaults nil)
   (setq eglot-autoshutdown t
@@ -32,17 +32,12 @@
   :after consult
   :after eglot
   :bind (:map eglot-mode-map
-	            ([remap xref-find-apropos] . consult-eglot-symbols))
+	          ([remap xref-find-apropos] . consult-eglot-symbols))
   :config
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
 
 ;; (use-package eldoc-box
 ;;   :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
-
-(use-package eldoc
-  :after eglot
-  :ensure nil
-  :diminish)
 
 (use-package eldoc-mouse
   :after eldoc

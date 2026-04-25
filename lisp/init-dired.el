@@ -19,7 +19,6 @@
 ;; Colorful dired
 (use-package diredfl
   :ensure t
-  :diminish
   :hook dired-mode
   :hook dirvish-directory-view-mode)
 
@@ -29,7 +28,6 @@
 (use-package nerd-icons-dired
   :ensure t
   :defer
-  :diminish
   :hook
   (dired-mode . nerd-icons-dired-mode))
 

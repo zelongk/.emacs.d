@@ -11,9 +11,7 @@
               ))
 
 (use-package jinx
-  :diminish
   :ensure t
-  :hook ((text-mode prog-mode conf-mode org-mode) . jinx-mode)
   :commands jinx-mode
   :bind ([remap ispell-word] . jinx-correct))
 

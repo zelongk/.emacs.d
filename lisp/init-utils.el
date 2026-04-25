@@ -6,6 +6,7 @@
   :functions childframe-completion-workable-p
   :bind ("C-h M-m" . which-key-show-major-mode)
   :hook (elpaca-after-init . which-key-mode)
+  :hook (god-mode . which-key--god-mode-support-enabled)
   :init (setq which-key-max-description-length 30
 	          which-key-idle-delay 0.5
               which-key-lighter nil

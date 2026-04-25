@@ -177,7 +177,7 @@
 
 ;; Modeline
 (use-package emacs
-  :config
+  :init
   (setq-default mode-line-format
                 '("%e" mode-line-front-space
                   (:propertize
@@ -211,6 +211,11 @@
       (lisp-interaction-mode . "λ")
       (hi-lock-mode . "")
       (python-mode . "Py")
+      (haskell-mode . "Hs")
+      (interactive-haskell-mode . "")
+      (haskell-doc-mode . "")
+      (haskell-collapse-mode . "")
+      (haskell- mode . "")
       (emacs-lisp-mode . "Eλ")
       (nxhtml-mode . "nx")
       (dot-mode . "")
@@ -237,6 +242,7 @@
       (latex-extra-mode . "")
       (strokes-mode . "")
       (flymake-mode . " fly")
+      (flycheck-mode . " fly")
       (sideline-mode . "")
       (god-mode . ,(propertize "God" 'face 'success))
       (gcmh-mode . ""))
@@ -255,7 +261,8 @@
                     (setcar old-mode-str mode-str))
                   ;; major mode
                   (when (eq mode major-mode)
-                    (setq mode-name mode-str))))))
+                    (setq mode-name mode-str)))))
+  (add-hook 'change-major-mode-hook #'clean-mode-line))
 
 (use-package hide-mode-line
   :ensure t
@@ -288,7 +295,8 @@
   :hook elpaca-after-init
   :config
   (setq spacious-padding-subtle-frame-lines t)
-  (plist-put spacious-padding-widths :mode-line-width 0))
+  (plist-put spacious-padding-widths :mode-line-width 0)
+  (plist-put spacious-padding-widths :header-line-width 4))
 
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
