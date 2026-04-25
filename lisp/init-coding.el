@@ -11,7 +11,7 @@
         xref-show-xrefs-function #'xref-show-definitions-completing-read))
 
 (setq blink-matching-paren-highlight-offscreen t
-      show-paren-context-when-offscreen 'overlay)
+      show-paren-context-when-offscreen 'child-frame)
 
 (use-package apheleia
   :ensure t

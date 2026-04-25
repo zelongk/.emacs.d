@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package flycheck
-  :ensure t
+(use-package flycheck :ensure t
   :defer t
   :hook (prog-mode . flycheck-mode)
   :config
@@ -22,18 +21,20 @@
         ;; Display errors a little quicker (default is 0.9s)
         flycheck-display-errors-delay 0.25))
 
-(use-package consult-flycheck
-  :ensure t
+(use-package consult-flycheck :ensure t
   :after flycheck)
 
-(use-package flyover
-  :disabled t
+(use-package flyover :ensure t
+  ;; :disabled t
   :diminish
-  :hook prog-mode
+  :hook flycheck-mode
   :config
   ;; Disable flyover-mode in emacs-lisp-mode
   (add-hook 'emacs-lisp-mode-hook (lambda () (flyover-mode -1)))
-  :custom (flyover-checkers '(flycheck)))
+  (setq flyover-checkers '(flycheck)
+        flyover-display-mode 'hide-on-same-line
+        flyover-background-lightness 60
+        flyover-icon-background-tint-percent 50))
 
 
 (provide 'init-check)
