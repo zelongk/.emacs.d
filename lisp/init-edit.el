@@ -4,14 +4,7 @@
   :hook (elpaca-after-init . delete-selection-mode))
 
 (use-package electric-pair-mode
-  :hook elpaca-after-init
-  :config
-  (dolist (mode '(LaTeX-mode-hook org-mode-hook))
-    (add-hook mode
-              (lambda ()
-                (setq-local electric-pair-pairs
-                            (append electric-pair-pairs '((?\\ . ?\\))))
-                (setq-local electric-pair-text-pairs electric-pair-pairs)))))
+  :hook elpaca-after-init)
 
 (use-package puni
   :ensure t

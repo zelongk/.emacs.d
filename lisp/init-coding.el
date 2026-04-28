@@ -31,8 +31,15 @@
   :config
   (treesit-auto-add-to-auto-mode-alist 'all))
 
-(add-hook 'prog-mode-hook #'toggle-truncate-lines)
 
+;; Keep focus in the current window when starting compilation
+(defun my/compile-keep-focus (orig &rest args)
+  (save-selected-window
+    (apply orig args)))
+(advice-add 'compile   :around #'my/compile-keep-focus)
+(advice-add 'recompile :around #'my/compile-keep-focus)
+
+(add-hook 'prog-mode-hook #'toggle-truncate-lines)
 
 ;; Support for some lang
 (use-package elvish-mode

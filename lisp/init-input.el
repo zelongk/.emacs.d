@@ -6,7 +6,7 @@
   (default-input-method "rime")
   (rime-librime-root "/opt/homebrew")
   (rime-emacs-module-header-root "~/build-emacs-for-macos/builds/Emacs.app/Contents/Resources/include/")
-  (rime-show-candidate 'minibuffer)
+  (rime-show-candidate 'popup)
   (rime-posframe-properties nil))
 
 (use-package sis

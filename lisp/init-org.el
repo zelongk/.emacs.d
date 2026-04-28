@@ -22,6 +22,9 @@
   (setq org-startup-indented t)
   (setq org-pretty-entities t
         org-pretty-entities-include-sub-superscripts nil)
+
+  (setq org-tags-column 0
+        org-agenda-tags-column 80)
   
   ;; Enable lsp in org-babel
   (cl-defmacro lsp-org-babel-enable (lang)
@@ -121,7 +124,7 @@
 
 (use-package org-modern
   :ensure t
-  :after org
+  ;; :after org
   :hook ((org-mode . org-modern-mode)
          (org-agenda-finalize . org-modern-agenda))
   :init
@@ -162,6 +165,30 @@
 	    org-appear-autosubmarkers t
 	    org-appear-autolinks nil)
   (run-at-time nil nil #'org-appear--set-elements))
+
+(use-package org
+  :after org
+  :config
+  (setq org-latex-packages-alist
+        '(("T1" "fontenc" t)
+          ("" "amsmath" t)
+          ("" "bm" t) ; Bold math required
+          ("" "mathtools" t)
+          ("" "siunitx" t)
+          ("" "physics2" t)
+          ("" "algpseudocode" t)
+          ("" "algorithm" t)
+          ("" "mlmodern" t)
+          ("" "tikz" t)
+          ("" "tikz-cd" t)))
+
+  (setq org-latex-preview-preamble
+        "\\documentclass{article}
+[DEFAULT-PACKAGES]
+[PACKAGES]
+\\usepackage{xcolor}
+\\usephysicsmodule{ab,ab.braket,diagmat,xmat}%
+"))
 
 (use-package org-latex-preview
   :after org
@@ -227,6 +254,11 @@
   :ensure t
   :after org-roam)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                        ;              org utils              ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (use-package org-download
   :ensure t
   :after org
@@ -238,6 +270,11 @@
   (setq-default org-download-heading-lvl 1)
   (defconst org-download-image-dir "./attachments/")
   (setq-default org-download-method 'directory))
+
+(use-package org-drawio :ensure t
+  :commands (org-drawio-add
+             org-drawio-open)
+  :after org)
 
 (use-package valign
   :ensure t

@@ -27,6 +27,7 @@
 (use-package flyover :ensure t
   ;; :disabled t
   :diminish
+  :after flycheck
   :hook flycheck-mode
   :config
   ;; Disable flyover-mode in emacs-lisp-mode

@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package project
+  :bind-keymap ("s-p" . project-prefix-map)
   :init
   (setq frame-title-format '((:eval
                               (let* ((proj (project-current nil))
@@ -73,9 +74,10 @@
 ;; auto tab-bar
 (use-package tab-bar
   :after tab-bar
+  :disabled t
   :config
   (defun my/with-other-tab (&rest app)
-    (tab-bar-new-tab)
+    (project-other-tab-command)
     (apply app))
 
   (setq +functions-in-new-tab '(project-switch-project))

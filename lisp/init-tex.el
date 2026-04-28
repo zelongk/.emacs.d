@@ -191,4 +191,39 @@ expansion, then cdlatex expansion."
   :config
   (citar-embark--enable))
 
+;; Edit quiver generated tikzcd using the link given.
+(defun replace-quiver-diagram ()
+  "Extracts the quiver URL from the diagram under cursor and runs it in browser. Selects the diagram."
+  (interactive)
+  (let ((start 0)
+	    (end 0)
+	    (url-start 0)
+	    (url-end 0)
+	    (url ""))
+    (save-excursion
+	  (save-excursion
+	    (re-search-backward "% https://q.uiver.app" nil)
+	    (setq url-start (+ 2 (point)))
+	    (beginning-of-line)
+	    (setq start (point))
+	    (save-excursion
+	      (re-search-forward "\\\\end{tikzcd}" nil)
+	      (setq end (point)))
+	    (save-excursion
+	      (goto-char url-start)
+	      (re-search-forward "\n" nil)
+	      (setq url-end (- (point) 1))
+	      (skip-chars-forward " ")
+	      ;; If the next two symbols after new line, up to whitespace,
+	      ;; are "\[", modify the `end` value to be after \].
+	      (when (string= "[" (string (char-after (+ 1 (point)))))
+	        (setq end (+ 2 end))))
+	    (setq url (buffer-substring-no-properties url-start url-end))
+	    (start-process "" nil
+		               ;; Edit this line to change the browser.
+		               "open" "-a" "Firefox" url)))
+    (goto-char start)
+    (push-mark end t t)))
+
+
 (provide 'init-tex)
