@@ -88,11 +88,17 @@
   )
 
 
-(use-package meow
+(use-package meow :ensure t
+  :diminish meow-normal-mode
+  :diminish meow-insert-mode
+  :diminish meow-keypad-mode
+  :diminish meow-beacon-mode
+  :diminish meow-motion-mode
   :demand t
   :hook (elpaca-after-init . meow-global-mode)
   :config
   (meow-setup)
+  (meow-setup-indicator)
   (add-to-list 'meow-mode-state-list '(magit-mode . insert))
   (add-to-list 'meow-mode-state-list '(eat-mode . insert))
   (add-to-list 'meow-mode-state-list '(eshell-mode . insert))
@@ -112,7 +118,7 @@
 
 ;; Meow jk exit
 (use-package meow
-  :disabled t
+  ;; :disabled t
   :after meow
   :config
   ;; Use jk to escape from insert state to normal state
