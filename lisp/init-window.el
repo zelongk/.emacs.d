@@ -93,14 +93,18 @@ Delete current window in the process."
       ("m" "maximize" maximize-window :transient transient--do-exit)
       ("u" "fullscreen" toggle-frame-fullscreen :transient transient--do-exit)]
 
-     ["Layout"
+     ["Resize"
       ("h" "shrink H" shrink-window-horizontally)
       ("j" "enlarge" enlarge-window)
       ("k" "shrink" shrink-window)
       ("l" "enlarge H" enlarge-window-horizontally)
-      ("n" "balance" balance-windows)
-      ("r" "split right" split-window-right)
-      ("v" "split below" split-window-below)]
+      ("n" "balance" balance-windows)]
+
+     ["Split"
+      ("r" "horizontally" split-window-right)
+      ("R" "split-window-horizontally-instead" split-window-horizontally-instead)
+      ("v" "vertically" split-window-below)
+      ("V" "split-window-vertically-instead" split-window-vertically-instead)]
 
      ["Zoom"
       ("+" "text in" text-scale-increase)
