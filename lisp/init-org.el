@@ -344,5 +344,4 @@
             (cdr (overlay-get ov 'display))
             :scale (+ 1.0 (* 0.25 text-scale-mode-amount)))))))
 
-
 (provide 'init-org)

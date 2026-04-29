@@ -3,8 +3,8 @@
 (use-package delsel
   :hook (elpaca-after-init . delete-selection-mode))
 
-;; (use-package electric-pair-mode
-;;   :hook elpaca-after-init)
+(use-package electric-pair-mode
+  :hook prog-mode)
 
 (use-package puni
   :ensure t
