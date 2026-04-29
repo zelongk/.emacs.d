@@ -244,7 +244,6 @@
 
 (use-package transient
   :ensure (:host github :repo "magit/transient")
-  :defer
   :config
   (transient-bind-q-to-quit)
   (setq transient-history-file (expand-file-name "transient/history.el" user-cache-directory)

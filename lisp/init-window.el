@@ -76,41 +76,44 @@ Delete current window in the process."
           (?? aw-show-dispatch-help)))
   )
 
-;; hydra for ace-window
 (use-package ace-window
-  :disabled t
-  :after ace-window
-  :pretty-hydra
-  (("Actions"
-    (("TAB" other-window "switch")
-     ("x" ace-delete-window "delete")
-     ("X" ace-delete-other-windows "delete other" :exit t)
-     ("s" ace-swap-window "swap")
-     ("a" ace-select-window "select" :exit t)
-     ("m" maximize-window "maximize" :exit t)
-     ("u" toggle-frame-fullscreen "fullscreen" :exit t))
-    "Resize"
-    (("h" shrink-window-horizontally "←")
-     ("j" enlarge-window "↓")
-     ("k" shrink-window "↑")
-     ("l" enlarge-window-horizontally "→")
-     ("n" balance-windows "balance"))
-    "Split"
-    (("r" split-window-right "horizontally")
-     ("R" split-window-horizontally-instead "split-window-horizontally-instead")
-     ("v" split-window-below "vertically")
-     ("V" split-window-vertically-instead "split-window-vertically-instead"))
-    "Zoom"
-    (("+" text-scale-increase "in")
-     ("=" text-scale-increase "in")
-     ("-" text-scale-decrease "out")
-     ("0" (text-scale-increase 0) "reset"))
-    "Misc"
-    (("o" set-frame-font "frame font")
-     ("f" make-frame-command "new frame")
-     ("d" delete-frame "delete frame")
-     ("<left>" winner-undo "winner undo")
-     ("<right>" winner-redo "winner redo")))))
+  :after transient ace-window
+  :bind ("C-c w" . ace-window-transient-menu) ; Bind as you prefer
+  :config
+  (transient-define-prefix ace-window-transient-menu ()
+    "Ace Window Menu"
+    :transient-suffix 'transient--do-stay
+    
+    [["Actions"
+      ("TAB" "switch" other-window)
+      ("x" "delete" ace-delete-window)
+      ("X" "del other" ace-delete-other-windows :transient transient--do-exit)
+      ("s" "swap" ace-swap-window)
+      ("a" "select" ace-select-window :transient transient--do-exit)
+      ("m" "maximize" maximize-window :transient transient--do-exit)
+      ("u" "fullscreen" toggle-frame-fullscreen :transient transient--do-exit)]
+
+     ["Layout"
+      ("h" "shrink H" shrink-window-horizontally)
+      ("j" "enlarge" enlarge-window)
+      ("k" "shrink" shrink-window)
+      ("l" "enlarge H" enlarge-window-horizontally)
+      ("n" "balance" balance-windows)
+      ("r" "split right" split-window-right)
+      ("v" "split below" split-window-below)]
+
+     ["Zoom"
+      ("+" "text in" text-scale-increase)
+      ("=" "text in" text-scale-increase)
+      ("-" "text out" text-scale-decrease)
+      ("0" "reset" (lambda () (interactive) (text-scale-increase 0)))]
+
+     ["Misc"
+      ("o" "frame font" set-frame-font)
+      ("f" "new frame" make-frame-command)
+      ("d" "del frame" delete-frame)
+      ("<left>" "undo" winner-undo)
+      ("<right>" "redo" winner-redo)]]))
 
 (use-package popper
   :ensure t

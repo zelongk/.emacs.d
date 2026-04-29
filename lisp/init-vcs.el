@@ -81,39 +81,38 @@
                             (smerge-mode 1)))))))
 
 (use-package smerge-mode
-  :disabled t
   :hook ((magit-diff-visit-file . (lambda ()
                                     (when smerge-mode
-                                      (smerge-mode-hydra/body)))))
-  :pretty-hydra
-  ((:title (pretty-hydra-title "Smerge" 'octicon "nf-oct-diff")
-           :color pink :quit-key ("q" "C-g"))
-   ("Move"
-    (("n" smerge-next "next")
-     ("p" smerge-prev "previous"))
-    "Keep"
-    (("b" smerge-keep-base "base")
-     ("u" smerge-keep-upper "upper")
-     ("l" smerge-keep-lower "lower")
-     ("a" smerge-keep-all "all")
-     ("RET" smerge-keep-current "current")
-     ("C-m" smerge-keep-current "current"))
-    "Diff"
-    (("<" smerge-diff-base-upper "upper/base")
-     ("=" smerge-diff-upper-lower "upper/lower")
-     (">" smerge-diff-base-lower "upper/lower")
-     ("R" smerge-refine "refine")
-     ("E" smerge-ediff "ediff"))
-    "Other"
-    (("C" smerge-combine-with-next "combine")
-     ("r" smerge-resolve "resolve")
-     ("k" smerge-kill-current "kill")
-     ("ZZ" (lambda ()
-             (interactive)
-             (save-buffer)
-             (bury-buffer))
-      "Save and bury buffer" :exit t))))
+                                      (smerge-dispatch-menu)))))
   :bind (:map smerge-mode-map
-              ("C-c m" . smerge-mode-hydra/body)))
+              ("C-c m" . smerge-dispatch-menu))
+  
+  :config
+  (transient-define-prefix smerge-dispatch-menu ()
+    "Smerge Conflict Resolution"
+    :transient-suffix 'transient--do-stay
+    [["Move"
+      ("n" "next" smerge-next)
+      ("p" "previous" smerge-prev)]
+     
+     ["Keep"
+      ("b" "base" smerge-keep-base)
+      ("u" "upper" smerge-keep-upper)
+      ("l" "lower" smerge-keep-lower)
+      ("a" "all"  smerge-keep-all)
+      ("RET" "current" smerge-keep-current)]
+     
+     ["Diff"
+      ("<" "upper/base" smerge-diff-base-upper)
+      ("=" "upper/lower" smerge-diff-upper-lower)
+      (">" "base/lower" smerge-diff-base-lower)
+      ("R" "refine" smerge-refine)
+      ("E" "ediff" smerge-ediff)]
+     
+     ["Other"
+      ("C" "combine" smerge-combine-with-next)
+      ("r" "resolve" smerge-resolve)
+      ("k" "kill" smerge-kill-current)
+      ("ZZ" "Save & bury" (lambda () (interactive) (save-buffer) (bury-buffer)) :transient nil)]]))
 
 (provide 'init-vcs)
