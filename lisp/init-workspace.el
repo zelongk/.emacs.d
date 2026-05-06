@@ -52,12 +52,12 @@
         tab-bar-tab-name-truncated-max 20
         tab-bar-close-button-show nil
         tab-bar-new-button-show nil
-        tab-bar-format '(tab-bar-format-menu-bar tab-bar-format-tabs tab-bar-separator)
+        tab-bar-format '(tab-bar-format-tabs tab-bar-separator)
         tab-bar-tab-hints t
         tab-bar-select-tab-modifiers '(super))
   
   (defun my/tab-bar-name ()
-    (if-let ((p (project-current nil)))
+    (if-let* ((p (project-current nil)))
         (project-name p)
       (tab-bar-tab-name-truncated)))
   (setq tab-bar-tab-name-function #'my/tab-bar-name)

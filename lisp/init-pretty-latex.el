@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (add-hook 'prettify-symbols-mode-hook
           (defun prettify-symbols-latex-symbols ()
             "List of pretty symbols for latex-mode"

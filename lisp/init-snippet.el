@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 
 ;; Yasnippet settings
 (use-package yasnippet

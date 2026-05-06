@@ -121,6 +121,10 @@
         make-backup-files nil
         use-short-answers t
         confirm-kill-processes nil)
+
+  (if IS-MAC
+      (setq mac-command-modifier 'super
+            mac-option-modifier 'meta))
   
   (add-to-list 'default-frame-alist '(drag-internal-border . 1))
   (add-to-list 'default-frame-alist '(internal-border-width . 5))

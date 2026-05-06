@@ -62,7 +62,8 @@
   (horizontal-scroll-bar-mode -1))
 (when (featurep 'ns)
   (push '(ns-transparent-titlebar . t) default-frame-alist))
-;; (push '(ns-appearance . light) default-frame-alist))
+(when (featurep 'mac)
+  (push '(mac-transparent-titlebar . t) default-frame-alist))
 
 ;; Prevent flash of unstyled mode line
 (setq mode-line-format nil)

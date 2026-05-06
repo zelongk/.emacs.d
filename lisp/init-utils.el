@@ -56,6 +56,7 @@
 
 (use-package appine
   :ensure (appine :host github :repo "chaoswork/appine")
+  :after embark
   :custom (appine-use-for-org-links)
   :bind (("C-x a a" . appine)
          ("C-x a u" . appine-open-url)

@@ -9,10 +9,6 @@
       redisplay-skip-fontification-on-input t
       frame-resize-pixelwise t)
 
-;; 隐藏 title bar
-(add-to-list 'default-frame-alist '(undecorated-round . t))
-
-
 ;;; FONTS
 (use-package show-font
   :ensure (:host github :repo "protesilaos/show-font")
@@ -95,7 +91,7 @@
 
   (setq ef-themes-common-palette-overrides
         '((bg-tab-bar bg-main)
-          (bg-tab-current bg-active)
+          (bg-tab-current bg-hover)
           (bg-tab-other bg-main)
           (date-common cyan)           ; default value (for timestamps and more)
           (date-deadline red-warmer)
@@ -332,7 +328,13 @@
     ;; Render thinner fonts
     (setq ns-use-thin-smoothing t)
     ;; Don't open a file in a new frame
-    (setq ns-pop-up-frames nil)))
+    (setq ns-pop-up-frames nil))
+  (when (featurep 'mac)
+    ;; Render thinner fonts
+    (setq mac-use-thin-smoothing t)
+    ;; Don't open a file in a new frame
+    (setq mac-pop-up-frames nil))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                                         ;            Coding related           ;
