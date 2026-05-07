@@ -3,8 +3,8 @@
 (use-package delsel
   :hook (elpaca-after-init . delete-selection-mode))
 
-(use-package electric-pair-mode
-  :hook prog-mode)
+(use-package elec-pair
+  :hook (elpaca-after-init . electric-pair-mode))
 
 (use-package puni
   :ensure t
@@ -12,14 +12,14 @@
   :custom
   (puni-confirm-when-delete-unbalanced-active-region nil)
   :bind (:map puni-mode-map
+              ("DEL" . my-backspace)
               ("M-r" . puni-raise)
               ("M-s" . puni-splice)
               ("M-S" . puni-split)
-              ("DEL" . my-backspace)
               ("C-=" . puni-expand-region)
               ("M-[" . puni-slurp-backward)
               ("M-]" . puni-slurp-forward)
-              ;; ("M-<left>" . puni-slurp-backward)
+              ;; ("M-<left>" . puni-slurp-bac[]kward)
               ;; ("M-<right>" . puni-slurp-forward)
               ("s-[" . puni-barf-backward)
               ("s-]" . puni-barf-forward)
@@ -56,7 +56,7 @@
 
 (use-package goto-addr
   :defer
-  :hook ((text-mode . goto-address-mode)
+  :hook (((text-mode org-mode) . goto-address-mode)
          (prog-mode . goto-address-prog-mode)))
 
 (use-package macrursors

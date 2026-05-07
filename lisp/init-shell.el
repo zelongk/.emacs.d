@@ -41,7 +41,7 @@
 			            (:exclude ".dir-locals.el" "*-tests.el")))
   :custom
   (eat-kill-buffer-on-exit t)
-  (eat-shell "/opt/homebrew/bin/elvish")
+  (eat-shell "/opt/homebrew/bin/fish")
   (eat-tramp-shells '(("docker" . "/bin/sh")
                       ("ssh" . "/bin/bash")
                       ("sshx" . "/bin/bash")

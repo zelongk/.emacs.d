@@ -35,7 +35,7 @@
 (require 'init-workspace)
 
 ;; (require 'init-god)
-(require 'init-meow)
+;; (require 'init-meow)
 
 (require 'init-input)
 (require 'init-utils)
@@ -62,7 +62,7 @@
 (require 'init-rust)
 (require 'init-ocaml)
 (require 'init-zig)
-(require 'init-typst)
+;; (require 'init-typst)
 
 
 (provide 'init)

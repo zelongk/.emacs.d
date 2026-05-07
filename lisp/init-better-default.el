@@ -240,11 +240,17 @@
   (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)))
 
 (use-package tramp-rpc
+  :disabled t
   :ensure (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
   :defer
   :config
   (setq tramp-rpc-deploy-local-cache-directory (expand-file-name "tramp-rpc" user-cache-directory))
   (tramp-rpc-magit-enable))
+
+(use-package tramp-hlo :ensure t
+  :after tramp
+  :config
+  (tramp-hlo-setup))
 
 (use-package transient
   :ensure (:host github :repo "magit/transient")

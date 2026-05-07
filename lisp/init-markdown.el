@@ -7,4 +7,6 @@
   :bind (:map markdown-mode-command-map
               ("g" . grip-mode)))
 
+(add-to-list 'major-mode-remap-alist '(markdown-mode . markdown-ts-mode))
+
 (provide 'init-markdown)

@@ -17,7 +17,7 @@
   :ensure t
   :defer t
   :diminish
-  :hook (prog-mode))
+  :hook prog-mode)
 
 (use-package editorconfig
   :ensure t
@@ -43,6 +43,10 @@
 
 ;; Support for some lang
 (use-package elvish-mode
+  :ensure t
+  :defer t)
+
+(use-package fish-mode
   :ensure t
   :defer t)
 
