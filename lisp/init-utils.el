@@ -64,4 +64,9 @@
          :map embark-file-map
          ("O" . appine-open-file)))
 
+(use-package pdf-tools
+  :ensure t
+  :init
+  (pdf-loader-install))
+
 (provide 'init-utils)

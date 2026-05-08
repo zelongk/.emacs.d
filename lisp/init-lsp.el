@@ -107,9 +107,8 @@
             (message "Using emacs-lsp-booster for %s!" orig-result)
             (append (list "emacs-lsp-booster" "--") orig-result))
         orig-result)))
-  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
 
-  )
 (use-package consult-lsp
   :ensure t
   :after lsp-mode
@@ -174,8 +173,14 @@
       ("C-f" "fwd char" forward-char)]])
   )
 
-(use-package lsp-haskell
-  :ensure t
+(use-package lsp-haskell :ensure t
   :after lsp-mode)
+
+(use-package lsp-ltex-plus
+  :ensure (lsp-ltex-plus :host github :repo "emacs-languagetool/lsp-ltex-plus")
+  :hook (text-mode . (lambda () (lsp-deferred)))  ; or lsp-deferred
+  :after lsp-mode
+  :init
+  (setq lsp-ltex-plus-version "18.6.1"))
 
 (provide 'init-lsp)

@@ -5,9 +5,9 @@
   :custom
   (default-input-method "rime")
   (rime-librime-root "/opt/homebrew")
-  (rime-emacs-module-header-root "~/build-emacs-for-macos/builds/Emacs.app/Contents/Resources/include/")
+  ;; (rime-emacs-module-header-root "~/build-emacs-for-macos/builds/Emacs.app/Contents/Resources/include/")
   (rime-show-candidate 'popup)
-  (rime-posframe-properties nil))
+  (rime-popup-properties nil))
 
 (use-package sis
   :disabled t

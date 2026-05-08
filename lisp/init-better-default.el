@@ -17,7 +17,6 @@
               (let ((elapsed (float-time (time-subtract (current-time) emacs-start-time))))
                 (message "[Emacs initialized in %.3fs]" elapsed)))))
 
-
 (use-package benchmark-init :ensure t
   :demand t
   :hook (elpaca-after-init . benchmark-init/deactivate))
@@ -35,7 +34,7 @@
     (if (fboundp 'native-compile-async)
         (native-compile-async dir t))))
 
-(when (memq window-system '(mac ns x))
+(when (memq window-system '(ns x))
   (use-package exec-path-from-shell
     :ensure t
     :commands exec-path-from-shell-initialize
