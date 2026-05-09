@@ -17,7 +17,7 @@
     :host "openrouter.ai"
     :endpoint "/api/v1/chat/completions"
     :stream t
-    :key (getenv "OPENROUTER_API_KEY")
+    :key my-openrouter-api-key
     :models '(~google/gemini-flash-latest
               ~google/gemini-pro-latest
               openai/gpt-5.5)))

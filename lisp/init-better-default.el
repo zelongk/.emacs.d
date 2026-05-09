@@ -44,8 +44,12 @@
                                            "HOMEBREW_NO_ENV_HINTS" "LIBGS" "PYTHONPATH"))
     (exec-path-from-shell-initialize)))
 
-(setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
+
+(setq secrets-file (expand-file-name "secrets.el" user-emacs-directory))
+(add-hook 'elpaca-after-init-hook (lambda () (when (file-exists-p secrets-file)
+                                               (load secrets-file))))
 
 (setq package-user-dir (expand-file-name "elpa" user-cache-directory))
 
