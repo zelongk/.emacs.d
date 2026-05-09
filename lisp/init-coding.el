@@ -41,6 +41,8 @@
 
 (add-hook 'prog-mode-hook #'toggle-truncate-lines)
 
+(add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode))
+
 ;; Support for some lang
 (use-package elvish-mode
   :ensure t
@@ -52,13 +54,11 @@
 
 (use-package docker-compose-mode
   :ensure t
-  :defer t
-  :hook yaml-ts-mode)
+  :defer t)
 
 (use-package ansible
   :ensure t
-  :defer t
-  :hook yaml-ts-mode)
+  :defer t)
 (use-package ansible-doc
   :ensure t
   :after ansible)

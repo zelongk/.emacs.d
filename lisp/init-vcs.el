@@ -15,8 +15,12 @@
   :diminish
   :custom
   (diff-hl-draw-borders nil)
-  :hook (vc-responsible-backend diff-hl-mode)
-  :hook (dlff-hl-mode diff-hl-flydiff-mode)
+  (diff-hl-update-async 'thread)
+  (diff-hl-flydiff-delay 0.5)
+  :hook ((vc-responsible-backend diff-hl-mode)
+         (dlff-hl-mode diff-hl-flydiff-mode)
+         (magit-post-refresh . diff-hl-magit-post-refresh)
+         (dired-mode . diff-hl-dired-mode))
   :config
   ;; (setq-default fringes-outside-margins t)
   (with-eval-after-load 'magit

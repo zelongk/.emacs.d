@@ -178,9 +178,13 @@
 
 (use-package lsp-ltex-plus
   :ensure (lsp-ltex-plus :host github :repo "emacs-languagetool/lsp-ltex-plus")
-  :hook (text-mode . (lambda () (lsp-deferred)))  ; or lsp-deferred
   :after lsp-mode
   :init
-  (setq lsp-ltex-plus-version "18.6.1"))
+  (setq lsp-ltex-plus-version "18.6.1"
+        lsp-ltex-plus-active-modes '(text-mode bibtex-mode context-mode
+                                               latex-mode LaTeX-mode markdown-mode
+                                               gfm-mode rst-mode message-mode
+                                               mu4e-compose-mode)
+        lsp-ltex-plus-user-rules-path (expand-file-name "lsp-ltex-plus" user-cache-directory)))
 
 (provide 'init-lsp)

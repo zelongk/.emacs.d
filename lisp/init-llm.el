@@ -8,12 +8,19 @@
 	     ("C-c l m" . gptel-menu))
   :hook (gptel-mode . gptel-highlight-mode)
   :config
-  (setq gptel-model 'gpt-5.2
-        gptel-backend (gptel-make-gh-copilot "Copilot")
+  (setq gptel-model 'gpt-5.3-codex
         gptel-cache t
         gptel-default-mode #'org-mode
         gptel-display-buffer-action nil)  ; if user changes this, popup manager will bow out
-  )
+  (gptel-make-gh-copilot "Copilot")
+  (gptel-make-openai "OpenRouter"
+    :host "openrouter.ai"
+    :endpoint "/api/v1/chat/completions"
+    :stream t
+    :key (getenv "OPENROUTER_API_KEY")
+    :models '(~google/gemini-flash-latest
+              ~google/gemini-pro-latest
+              openai/gpt-5.5)))
 
 (use-package gptel-magit
   :ensure t

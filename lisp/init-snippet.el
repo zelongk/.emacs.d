@@ -6,7 +6,8 @@
   :defer 
   :diminish
   :hook (((prog-mode LaTeX-mode org-mode
-                     eval-expression-minibuffer-setup)
+                     eval-expression-minibuffer-setup
+                     yaml-ts-mode)
           . yas-minor-mode-on)
          (yas-minor-mode . my/yas-auto-setup))
   :commands (yas-minor-mode-on
