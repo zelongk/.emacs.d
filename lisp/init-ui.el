@@ -81,13 +81,13 @@
   :bind ("M-<f5>" . modus-themes-load-random-dark)
   :init
   (ef-themes-take-over-modus-themes-mode 1)
-  (setq ef-themes-headings
-        '((0 . (1.50))
-          (1 . (1.28))
-          (2 . (1.22))
-          (3 . (1.17))
-          (4 . (1.14))
-          (t . (1.1))))
+  ;; (setq ef-themes-headings
+  ;;       '((0 . (1.30))
+  ;;         (1 . (1.25))
+  ;;         (2 . (1.20))
+  ;;         (3 . (1.15))
+  ;;         (4 . (1.10))
+  ;;         (t . (1.05))))
 
   (defun my-ef-themes-custom-faces ()
     (ef-themes-with-colors

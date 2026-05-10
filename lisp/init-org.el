@@ -133,8 +133,7 @@
           org-modern-block-name t
           org-modern-block-fringe nil))
   :config
-  (setq org-modern-table-vertical 1
-	    org-modern-table-horizontal 0.2
+  (setq org-modern-table nil
 	    org-modern-todo-faces
         '(("TODO" :inverse-video t :inherit org-todo)
           ("PROJ" :inverse-video t :inherit +org-todo-project)
@@ -147,7 +146,23 @@
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
 	    org-modern-list '((43 . "➤")
                           (45 . "–")
-                          (42 . "•"))))
+                          (42 . "•"))
+        org-modern-fold-stars
+        '(("" . "")))
+  (setq prettify-symbols-alist
+        '(("[#A]" . ?🅐)
+          ("[#B]" . ?🅑 )
+          ("[#C]" . ?🅒)
+          ("#+TITLE:" . ?)
+          ("#+AUTHOR" . ?)
+          ("#+BEGIN_QUOTE" . ?)
+          ("#+END_QUOTE" . ?)
+          ("#+RESULTS:" . ?)
+          ("[ ]" . ?)
+          ("[-]" . ?)
+          ("[X]" . ?)
+          (":PROPERTIES:" . ?)
+          (":END:" . ?))))
 
 (use-package org-modern-indent
   :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
