@@ -6,6 +6,7 @@
                :branch "dev")
   :hook ((org-mode . org-cdlatex-mode)
          (org-mode . visual-line-mode)
+         (org-mode . org-indent-mode)
          (org-mode . prettify-symbols-mode))
   :bind (("C-c n t" . org-todo-list)
          ("C-c n a" . org-agenda)
@@ -21,9 +22,11 @@
   (setq org-highlight-latex-and-related '(native latex entities))
   (setq org-pretty-entities t
         org-pretty-entities-include-sub-superscripts nil)
-
+  
   (setq org-tags-column 0
-        org-agenda-tags-column 80)
+        org-agenda-tags-column 80
+        org-startup-indented t
+        org-indent-indentation-per-level 1)
   
   ;; Enable lsp in org-babel
   (cl-defmacro lsp-org-babel-enable (lang)
@@ -134,6 +137,7 @@
           org-modern-block-fringe nil))
   :config
   (setq org-modern-table nil
+        org-modern-hide-stars nil
 	    org-modern-todo-faces
         '(("TODO" :inverse-video t :inherit org-todo)
           ("PROJ" :inverse-video t :inherit +org-todo-project)
@@ -148,26 +152,11 @@
                           (45 . "–")
                           (42 . "•"))
         org-modern-fold-stars
-        '(("" . "")))
-  (setq prettify-symbols-alist
-        '(("[#A]" . ?🅐)
-          ("[#B]" . ?🅑 )
-          ("[#C]" . ?🅒)
-          ("#+TITLE:" . ?)
-          ("#+AUTHOR" . ?)
-          ("#+BEGIN_QUOTE" . ?)
-          ("#+END_QUOTE" . ?)
-          ("#+RESULTS:" . ?)
-          ("[ ]" . ?)
-          ("[-]" . ?)
-          ("[X]" . ?)
-          (":PROPERTIES:" . ?)
-          (":END:" . ?))))
+        '(("" . ""))))
 
 (use-package org-modern-indent
   :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
   :after org-modern org
-  :hook (org-mode . org-indent-mode)
   :hook org-indent-mode)
 
 
