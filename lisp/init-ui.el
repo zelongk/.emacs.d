@@ -89,10 +89,18 @@
           (4 . (1.14))
           (t . (1.1))))
 
+  (defun my-ef-themes-custom-faces ()
+    (ef-themes-with-colors
+      (custom-set-faces `(org-block ((t :background ,bg-main))))
+      (custom-set-faces `(org-block-begin-line ((t :background ,bg-main))))
+      (custom-set-faces `(org-block-end-line ((t :background ,bg-main))))))
+  (add-hook 'ef-themes-after-load-theme-hook #'my-ef-themes-custom-faces)
+  
   (setq ef-themes-common-palette-overrides
         '((bg-tab-bar bg-main)
           (bg-tab-current bg-hover)
           (bg-tab-other bg-main)
+          (org-block bg-main)
           (date-common cyan)           ; default value (for timestamps and more)
           (date-deadline red-warmer)
           (date-event magenta-warmer)
@@ -117,7 +125,6 @@
           (border-mode-line-active unspecified)
           (border-mode-line-inactive unspecified))
         )
-
   (setq ef-themes-light-themes '(ef-arbutus ef-cyprus ef-day ef-duo-light ef-eagle ef-elea-light
                                             ef-kassio  ef-melissa-light ef-orange ef-reverie
                                             ef-spring ef-summer ef-trio-light ef-tritanopia-light))

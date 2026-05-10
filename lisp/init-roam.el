@@ -1,0 +1,46 @@
+;; -*- lexical-binding: t;-*-
+
+(use-package org-roam
+  :ensure t
+  ;; :disabled t
+  :defer t
+  :custom
+  (org-roam-directory (file-truename "~/org/roam"))
+  :bind (("C-c n t" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n n" . org-roam-capture)
+         ("C-c n w" . org-roam-refile)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :bind (:map org-mode-map
+              ("C-c C-x i" . org-id-get-create))
+  :config
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
+        org-id-locations-file (expand-file-name "org-id-locations" user-cache-directory)
+        org-roam-db-location (expand-file-name "org-roam.db" org-directory))
+  (org-roam-db-autosync-mode)
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol))
+
+(use-package org-roam-ui
+  ;; :disabled t
+  :ensure t
+  :after org-roam)
+
+(use-package consult-org-roam :ensure t
+  :after org-roam
+  :hook elpaca-after-init
+  :custom
+  ;; Use `ripgrep' for searching with `consult-org-roam-search'
+  (consult-org-roam-grep-func #'consult-ripgrep)
+  :bind
+  (([remap org-roam-node-find] . consult-org-roam-file-find)
+   :map org-mode-map
+   ("C-c n b" . consult-org-roam-backlinks)
+   ("C-c n B" . consult-org-roam-backlinks-recursive)
+   ("C-c n l" . consult-org-roam-forward-links)
+   ("C-c n g" . consult-org-roam-search)))
+
+(provide 'init-roam)

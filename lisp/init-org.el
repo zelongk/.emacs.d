@@ -5,12 +5,11 @@
   :ensure (org :repo "https://code.200568.top/mirrors/org-mode.git/"
                :branch "dev")
   :hook ((org-mode . org-cdlatex-mode)
-         (org-mode . org-indent-mode)
          (org-mode . visual-line-mode)
          (org-mode . prettify-symbols-mode))
   :bind (("C-c n t" . org-todo-list)
          ("C-c n a" . org-agenda)
-         ("C-c n n" . org-capture)
+         ("C-c n c" . org-capture)
          :map org-mode-map
          ("M-<return>" . org-insert-subheading)
          ("C-'" . nil))
@@ -20,7 +19,6 @@
 
   ;; Share snippets with LaTeX-mode
   (setq org-highlight-latex-and-related '(native latex entities))
-  (setq org-startup-indented t)
   (setq org-pretty-entities t
         org-pretty-entities-include-sub-superscripts nil)
 
@@ -131,7 +129,9 @@
   :init
   (with-eval-after-load 'org
     (setq org-hide-emphasis-markers t
-	      org-pretty-entities t))
+	      org-pretty-entities t
+          org-modern-block-name t
+          org-modern-block-fringe nil))
   :config
   (setq org-modern-table-vertical 1
 	    org-modern-table-horizontal 0.2
@@ -147,14 +147,14 @@
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
 	    org-modern-list '((43 . "➤")
                           (45 . "–")
-                          (42 . "•"))
-	    ))
+                          (42 . "•"))))
 
 (use-package org-modern-indent
   :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
-  :after org-modern
-  :config ; add late to hook
-  (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
+  :after org-modern org
+  :hook (org-mode . org-indent-mode)
+  :hook org-indent-mode)
+
 
 (use-package org-appear
   :ensure t
@@ -226,34 +226,6 @@
   (setq org-latex-preview-mode-display-live t)
   (setq org-latex-preview-process-default 'dvisvgm)
   (setq org-latex-preview-mode-update-delay 0.25))
-
-(use-package org-roam
-  :ensure t
-  :defer t
-  :custom
-  (org-roam-directory (file-truename "~/org/roam"))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ("C-c n w" . org-roam-refile)
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today))
-  :bind (:map org-mode-map
-              ("C-c C-x i" . org-id-get-create))
-  :config
-  ;; If you're using a vertical completion framework, you might want a more informative completion interface
-  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
-        org-id-locations-file (expand-file-name "org-id-locations" user-cache-directory)
-        org-roam-db-location (expand-file-name "org-roam.db" org-directory))
-  (org-roam-db-autosync-mode)
-  ;; If using org-roam-protocol
-  (require 'org-roam-protocol))
-
-(use-package org-roam-ui
-  :ensure t
-  :after org-roam)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                                         ;              org utils              ;

@@ -49,12 +49,15 @@
 (require 'init-writing)
 
 ;; (require 'init-eglot)
-(require 'init-lsp)
 
 (require 'init-pretty-latex)
-
 (require 'init-org)
 (require 'init-markdown)
+
+(require 'init-roam)
+;; (require 'init-denote)
+
+(require 'init-lsp)
 (require 'init-tex)
 (require 'init-cc)
 (require 'init-python)
