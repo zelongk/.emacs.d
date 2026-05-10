@@ -6,14 +6,14 @@
                :branch "dev")
   :hook ((org-mode . org-cdlatex-mode)
          (org-mode . visual-line-mode)
-         (org-mode . org-indent-mode)
          (org-mode . prettify-symbols-mode))
   :bind (("C-c n t" . org-todo-list)
          ("C-c n a" . org-agenda)
          ("C-c n c" . org-capture)
          :map org-mode-map
          ("M-<return>" . org-insert-subheading)
-         ("C-'" . nil))
+         ("C-'" . nil)
+         ("C-c C-M-l" . org-toggle-link-displayt))
   :config
   (setq org-element-use-cache t
         org-element-cache-persistent t)
@@ -64,6 +64,64 @@
     (eval `(lsp-org-babel-enable ,lang))))
 
 ;; org agenda-related
+(use-package org-super-agenda :ensure t
+  :after org
+  :hook elpaca-after-init
+  :config
+  (setq org-agenda-prefix-format
+        '((agenda . " %i %-12:c%?-12t% s")
+          (todo . " %i")
+          (tags . " %i %-12:c")
+          (search . " %i %-12:c")))
+  (setq org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-compact-blocks t
+        org-agenda-start-day "+0d"
+        org-agenda-span 3)
+  (setq org-agenda-remove-tags t)
+  (setq org-super-agenda-groups
+        '(;; Each group has an implicit boolean OR operator between its selectors.
+          (:name "Today"  ; Optionally specify section name
+                 :time-grid t  ; Items that appear on the time grid
+                 :todo "TODAY")  ; Items that have this TODO keyword
+          (:name "Important"
+                 ;; Single arguments given alone
+                 :tag "bills"
+                 :priority "A")
+          (:name "Assignments"
+                 ;; Single arguments given alone
+                 :tag "Assignment")
+          ;; Set order of multiple groups at once
+          (:order-multi (2 (:name "Shopping"
+                                  ;; Boolean AND group matches items that match all subgroups
+                                  :and (:tag "shopping" :tag "@town"))
+                           (:name "Food-related"
+                                  ;; Multiple args given in list with implicit OR
+                                  :tag ("food" "dinner"))
+                           (:name "Personal"
+                                  :habit t
+                                  :tag "personal")
+                           ))
+          ;; Groups supply their own section names when none are given
+          (:name "NAS-related" :tag "NAS" :order 9)
+          (:todo "WAIT" :order 8)  ; Set order of this section
+          (:todo "HOLD" :order 8)  ; Set order of this section
+          (:todo ("IDEA")
+                 ;; Show this group at the end of the agenda (since it has the
+                 ;; highest number). If you specified this group last, items
+                 ;; with these todo keywords that e.g. have priority A would be
+                 ;; displayed in that group instead, because items are grouped
+                 ;; out in the order the groups are listed.
+                 :order 9)
+          (:name "Less Important" :priority<= "B"
+                 ;; Show this section after "Today" and "Important", because
+                 ;; their order is unspecified, defaulting to 0. Sections
+                 ;; are displayed lowest-number-first.
+                 :order 1)
+          ;; After the last group, the agenda will display items that didn't
+          ;; match any of these groups, with the default order position of 99
+          )))
+
 (use-package org
   :after org
   :config
@@ -90,6 +148,7 @@
   (setq org-todo-keywords
         '((sequence
            "TODO(t)"  ; A task that needs doing & is ready to do
+           "TODAY(a)" ; A task that needs to be done today
            "PROJ(p)"  ; A project, which usually contains other tasks
            "LOOP(r)"  ; A recurring task
            "STRT(s)"  ; A task that is in progress
@@ -158,7 +217,6 @@
   :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
   :after org-modern org
   :hook org-indent-mode)
-
 
 (use-package org-appear
   :ensure t
@@ -257,6 +315,13 @@
   :ensure t
   :hook (org-mode . valign-mode))
 
+(use-package org-super-links
+  :ensure (org-super-links :type git :host github :repo "toshism/org-super-links" :branch "develop")
+  :after org
+  :bind (:map org-mode-map
+              ("C-c C-M-s" . org-super-links-store-link)
+              ([remap org-insert-link] . org-super-links-insert-link)))
+
 ;;; Miscs
 
 ;; Org latex preview center
@@ -312,7 +377,7 @@
          (if (eq (overlay-get ov 'org-overlay-type)
                  'org-latex-overlay)
              (my/text-scale--resize-fragment ov))))))
-
+  
   (defun my/text-scale--resize-fragment (ov)
     (overlay-put
      ov 'display

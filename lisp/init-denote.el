@@ -18,7 +18,8 @@
    ("C-c n d" . denote-dired)
    ("C-c n g" . denote-grep))
   :config
-  (setq denote-directory (expand-file-name "~/Documents/notes/"))
+  (setq denote-directory (expand-file-name "~/Documents/notes/")
+        denote-org-store-link-to-heading t)
 
   ;; Automatically rename Denote buffers when opening them so that
   ;; instead of their long file name they have, for example, a literal
@@ -64,7 +65,7 @@
    ("C-c n e j l" . denote-explore-missing-links)
    ("C-c n e j z" . denote-explore-zero-keywords)
    ("C-c n e j s" . denote-explore-single-keywords)
-   ("C-c n e j r" . denote-explore-rename-keywords)
+   ("C-c n e j r" . denote-explore-rename-keyword)
    ("C-c n e j y" . denote-explore-sync-metadata)
    ("C-c n e j i" . denote-explore-isolated-files)
    ;; Visualise denote

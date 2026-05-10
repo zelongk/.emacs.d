@@ -4,4 +4,4 @@
 # group: math
 # condition: (and (texmathp) 'auto)
 # --
-\\sqrt{$1}
+\\sqrt{$0}

@@ -13,6 +13,7 @@
 (global-set-key (kbd "M-p") #'duplicate-dwim)
 (global-set-key (kbd "C-c y") #'copy-from-above-command)
 (global-set-key (kbd "s-k") #'kill-current-buffer)
+(global-set-key (kbd "C-x k") #'kill-current-buffer)
 
 (define-key prog-mode-map (kbd "C-c k") #'compile)
 

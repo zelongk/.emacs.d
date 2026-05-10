@@ -9,6 +9,8 @@
       redisplay-skip-fontification-on-input t
       frame-resize-pixelwise t)
 
+(setq frame-title-format "stop looking at me, time to work")
+
 ;;; FONTS
 (use-package show-font
   :ensure (:host github :repo "protesilaos/show-font")
@@ -302,8 +304,8 @@
   :diminish
   :hook elpaca-after-init
   :config
-  (setq spacious-padding-subtle-frame-lines t)
-  (plist-put spacious-padding-widths :mode-line-width 0)
+  (setq spacious-padding-subtle-frame-lines nil)
+  (plist-put spacious-padding-widths :mode-line-width 4)
   (plist-put spacious-padding-widths :header-line-width 4))
 
 (unless (daemonp)

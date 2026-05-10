@@ -9,11 +9,4 @@
   (rime-show-candidate 'popup)
   (rime-popup-properties nil))
 
-(use-package sis
-  :disabled t
-  :ensure t
-  :hook ((elpaca-after-init . sis-global-respect-mode)
-         (elpaca-after-init . sis-global-context-mode)
-         (elpaca-after-init . sis-global-inline-mode)))
-
 (provide 'init-input)

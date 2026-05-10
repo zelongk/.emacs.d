@@ -240,7 +240,8 @@
 
 (use-package bookmark
   :config
-  (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)))
+  (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)
+        bookmark-fringe-mark nil))
 
 (use-package tramp-rpc
   :disabled t
