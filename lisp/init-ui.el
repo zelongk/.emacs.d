@@ -89,11 +89,16 @@
   ;;         (4 . (1.10))
   ;;         (t . (1.05))))
 
+  (defun my-set-faces (faces color)
+    (dolist (face (if (listp faces) faces (list faces)))
+      (custom-set-faces `(,face ((t :background ,color))))))
   (defun my-ef-themes-custom-faces ()
     (ef-themes-with-colors
-      (custom-set-faces `(org-block ((t :background ,bg-main))))
-      (custom-set-faces `(org-block-begin-line ((t :background ,bg-main))))
-      (custom-set-faces `(org-block-end-line ((t :background ,bg-main))))))
+      (my-set-faces '(org-block
+                      org-block-begin-line
+                      org-block-end-line)
+                    bg-main)
+      (my-set-faces 'olivetti-fringe bg-dim)))
   (add-hook 'ef-themes-after-load-theme-hook #'my-ef-themes-custom-faces)
   
   (setq ef-themes-common-palette-overrides

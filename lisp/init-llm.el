@@ -3,16 +3,16 @@
 (use-package gptel
   :ensure t
   :commands (gptel gptel-menu gptel-send)
-  :bind (("C-c l l" . gptell)
+  :bind (("C-c l l" . gptel)
          ("C-c l s" . gptel-send)
 	     ("C-c l m" . gptel-menu))
   :hook (gptel-mode . gptel-highlight-mode)
   :config
   (setq gptel-model 'gpt-5.3-codex
+        gptel-backend (gptel-make-gh-copilot "Copilot")
         gptel-cache t
         gptel-default-mode #'org-mode
         gptel-display-buffer-action nil)  ; if user changes this, popup manager will bow out
-  (gptel-make-gh-copilot "Copilot")
   (gptel-make-openai "OpenRouter"
     :host "openrouter.ai"
     :endpoint "/api/v1/chat/completions"

@@ -19,8 +19,7 @@
 ;; Colorful dired
 (use-package diredfl
   :ensure t
-  :hook dired-mode
-  :hook dirvish-directory-view-mode)
+  :hook (elpaca-after-init . diredfl-global-mode))
 
 ;; Extra Dired functionality
 (use-package dired-aux :ensure nil)

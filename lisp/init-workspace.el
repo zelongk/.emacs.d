@@ -46,7 +46,7 @@
               ("s-W" . delete-frame))
   :config
   (setq tab-bar-separator " "
-        tab-bar-show t
+        tab-bar-show nil
         tab-bar-new-tab-choice "*scratch*"
         tab-bar-auto-width nil
         tab-bar-tab-name-truncated-max 20
