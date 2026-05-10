@@ -22,7 +22,16 @@
         org-roam-db-location (expand-file-name "org-roam.db" org-directory))
   (org-roam-db-autosync-mode)
   ;; If using org-roam-protocol
-  (require 'org-roam-protocol))
+  (require 'org-roam-protocol)
+
+  ;; Denote type filename
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?"
+           :target
+           (file+head "%<%Y%m%dT%H%M%S>--${slug}.org" ":PROPERTIES:\n:ID:          %<%Y%m%dT%H%M%S>\n:END:\n#+title:      ${title}\n#+date:       [%<%Y-%m-%d %a %H:%S>]\n#+filetags: \n#+identifier: %<%Y%m%dT%H%M%S>\n\n")
+           :immediate-finish t
+           :unnarrowed t)))
+  )
 
 (use-package org-roam-ui
   ;; :disabled t

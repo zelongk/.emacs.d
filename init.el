@@ -54,8 +54,8 @@
 (require 'init-org)
 (require 'init-markdown)
 
-(require 'init-roam)
-;; (require 'init-denote)
+;; (require 'init-roam)
+(require 'init-denote)
 
 (require 'init-lsp)
 (require 'init-tex)
