@@ -1,6 +1,6 @@
 # key: mk
 # name: Inline Math
-# condition: (and (not (texmathp)) (quote auto))
+# condition: (and (not (texmathp)) 'auto)
 # group: math
 # --
 \\( $0 \\)

@@ -315,15 +315,7 @@
   :ensure t
   :hook (org-mode-hook . valign-mode))
 
-(leaf org-super-links
-  :vc (:url "https://github.com/toshism/org-super-links" :branch "develop")
-  :after org
-  :bind (:org-mode-map
-         ("C-c C-M-s" . org-super-links-store-link)
-         ([remap org-insert-link] . org-super-links-insert-link)))
-
 ;;; Miscs
-
 ;; Org latex preview center
 (leaf org-latex-preview
   :after org-latex-preview

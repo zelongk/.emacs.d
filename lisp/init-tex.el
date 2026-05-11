@@ -72,8 +72,7 @@
     :bind
     (:LaTeX-mode-map
      ("C-c C-p" . texpresso)
-     ("S-s-<mouse-1>" . texpresso-move-to-cursor)))
-  )
+     ("S-s-<mouse-1>" . texpresso-move-to-cursor))))
 
 
 (leaf reftex
@@ -123,14 +122,17 @@ expansion, then cdlatex expansion."
   (cdlatex-reset-mode))
 
 (leaf lazytab
+  :require t
   :vc (:url "https://github.com/karthink/lazytab")
-  :leaf-defer nil
   :after cdlatex
-  :bind (:org-mode-map
-         ("C-x |" . my/lazytab-orgtbl-edit))
-  :bind (:orgtbl-mode-map
-         ("<tab>" . lazytab-org-table-next-field-maybe)
-         ("TAB" . lazytab-org-table-next-field-maybe))
+  :bind
+  (:org-mode-map
+   ("C-x |" . my/lazytab-orgtbl-edit))
+  (:LaTeX-mode-map
+   ("C-x |" . my/lazytab-orgtbl-edit))
+  (:orgtbl-mode-map
+   ("<tab>" . lazytab-org-table-next-field-maybe)
+   ("TAB" . lazytab-org-table-next-field-maybe))
   :config
   (defun my/lazytab-orgtbl-edit ()
     (interactive)
@@ -140,12 +142,6 @@ expansion, then cdlatex expansion."
       (open-line 1)
       (insert "\n|")))
   (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90))
-
-(leaf lazytab
-  :after latex
-  :bind
-  (:LaTeX-mode-map
-   ("C-x |" . my/lazytab-orgtbl-edit)))
 
 (leaf citar
   :ensure t
@@ -174,9 +170,9 @@ expansion, then cdlatex expansion."
           '("Make a citation interactively"
             "cite{" my/cdlatex-bibtex-action nil t nil))))
 
-(leaf citar-embark
-  :ensure t
-  :after (citar embark)
+(leaf citar-embark :ensure t
+  :after embark citar
+  :require t
   :config
   (citar-embark--enable))
 

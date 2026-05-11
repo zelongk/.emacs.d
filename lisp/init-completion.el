@@ -10,9 +10,9 @@
          ;; `(orderless-regexp . ,(concat "^" (regexp-quote word)))
          (cons 'orderless-literal-prefix word)))
   (orderless-define-completion-style orderless-fast
-                                     (orderless-style-dispatchers '(orderless-fast-dispatch
-                                                                    orderless-affix-dispatch))
-                                     (orderless-matching-styles '(orderless-literal orderless-regexp)))
+    (orderless-style-dispatchers '(orderless-fast-dispatch
+                                   orderless-affix-dispatch))
+    (orderless-matching-styles '(orderless-literal orderless-regexp)))
   (setq completion-styles '(orderless partial-completion basic))
   (setf (alist-get ?~ orderless-affix-dispatch-alist nil 'remove) nil
         (alist-get ?` orderless-affix-dispatch-alist) #'orderless-flex))
@@ -223,7 +223,8 @@
 
 (leaf embark-consult
   :ensure t
-  :after embark consult
+  :after (embark consult)
+  :require t
   :bind (:minibuffer-local-map
          ("C-c C-o" . embark-export)
          ("C->" . embark-become)

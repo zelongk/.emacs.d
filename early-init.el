@@ -8,8 +8,7 @@
 
 (setq read-process-output-max (* 1024 1024))
 
-(setq package-enable-at-startup t
-      package-quickstart nil
+(setq package-enable-at-startup nil 
       load-prefer-newer t)
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
@@ -73,5 +72,8 @@
 (when (native-comp-available-p)
   (setq native-comp-jit-compilation nil
         native-comp-async-report-warnings-errors nil))
+
+(setq byte-compile-warnings '(not obsolete))
+(setq warning-suppress-log-types '((comp) (bytecomp)))
 
 (provide 'early-init)

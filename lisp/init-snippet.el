@@ -6,7 +6,7 @@
   :hook (((prog-mode-hook LaTeX-mode-hook
                           org-mode-hook yaml-ts-mode)
           . yas-minor-mode-on)
-         (yas-minor-mode . my/yas-auto-setup))
+         (yas-minor-mode-hook . my/yas-auto-setup))
   :commands (yas-minor-mode-on
              yas-expand
              yas-expand-snippet
@@ -52,9 +52,9 @@
         (yas-abort-snippet)))
     (define-key yas-keymap (kbd "C-g") #'my/yas-corfu-cancel)))
 
-(leaf doom-snippets
-  :vc (:url "https://github.com/doomemacs/snippets")
-  :after yasnippet)
+;; (leaf doom-snippets
+;;   :vc (:url "https://github.com/doomemacs/snippets")
+;;   :after yasnippet)
 
 (leaf consult-yasnippet
   :ensure t

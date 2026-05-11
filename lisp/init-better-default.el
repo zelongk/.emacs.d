@@ -113,8 +113,6 @@
         use-short-answers t
         confirm-kill-processes nil)
 
-  (add-to-list 'warning-suppress-types '(obsolete))
-
   (if IS-MAC
       (setq mac-command-modifier 'super
             mac-option-modifier 'meta))
@@ -238,5 +236,12 @@
   :require t
   :config
   (tramp-hlo-setup))
+
+(leaf transient
+  :config
+  (setq transient-history-file (expand-file-name "transient/history.el" user-cache-directory)
+        transient-levels-file (expand-file-name "transient/levels.el" user-cache-directory)
+        transient-values-file (expand-file-name "transient/values.el" user-cache-directory)
+        transient-show-popup t))
 
 (provide 'init-better-default)

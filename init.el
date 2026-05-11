@@ -26,11 +26,12 @@
 (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(add-hook 'after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
+(add-hook 'after-init-hook (lambda () (load custom-file t t)))
 
 (setq secrets-file (expand-file-name "secrets.el" user-emacs-directory))
-(add-hook 'after-init-hook (lambda () (when (file-exists-p secrets-file)
-                                        (load secrets-file 'no-error 'no-message))))
+(eval-and-compile
+  (when (boundp 'secrets-file)
+    (load secrets-file t t)))
 
 ;; (require 'init-elpaca)
 ;; (require 'init-straight)

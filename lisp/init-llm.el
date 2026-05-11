@@ -3,6 +3,7 @@
 (leaf gptel
   :ensure t
   :commands (gptel gptel-menu gptel-send)
+  :leaf-defvar my-openrouter-api-key
   :bind
   ("C-c l l" . gptel)
   ("C-c l s" . gptel-send)
