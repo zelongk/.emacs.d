@@ -214,7 +214,7 @@
   :commands (sudo-find-file sudo-this-file)
   :bind ("C-x C-S-f" . sudo-find-file)
   :config
-  (setq tramp-default-method "rpc")
+  (setq tramp-default-method "sshx")
   (defun sudo-find-file (file)
     "Open FILE as root."
     (interactive "FOpen file as root: ")

@@ -112,12 +112,12 @@
   ;; :bind (:map cdlatex-mode-map
   ;;             ("<tab>" . cdlatex-tab))
   :config
-  (setq cdlatex-math-symbol-prefix ?\;)
   (setq cdlatex-math-symbol-alist '((?f ("\\varphi" "\\phi"))
                                     (?i ("\\iota"))
                                     (?c ("\\circ"))
                                     ))
-  (setq cdlatex-math-modify-alist '((?f "\\mathbb" nil t nil nil)))
+  (setq cdlatex-math-modify-alist '((?f "\\mathbb" nil t nil nil)
+                                    (?O "\\overset" nil t nil nil)))
 
   (defun tjh/cdlatex-yas-expand ()
     "Resolve the conflict between cdlatex and yasnippet. When this
