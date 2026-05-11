@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(use-package diminish :ensure t)
+(leaf diminish :elpaca t)
 
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
@@ -12,9 +12,8 @@
 (setq frame-title-format "stop looking at me, time to work")
 
 ;;; FONTS
-(use-package show-font
-  :ensure (:host github :repo "protesilaos/show-font")
-  :defer)
+(leaf show-font
+  :elpaca (show-font :host github :repo "protesilaos/show-font"))
 
 (defvar my/font-size 220)
 (set-face-attribute 'default nil
@@ -34,29 +33,27 @@
 (add-to-list 'default-frame-alist '(height . 53))
 (add-to-list 'default-frame-alist '(width . 90))
 
-(use-package mixed-pitch
-  :ensure t
-  :diminish
-  :hook org-mode
-  :hook LaTeX-mode)
+(leaf mixed-pitch
+  :elpaca t
+  :hook org-mode-hook
+  :hook LaTeX-mode-hook)
 
 ;; Easily adjust the font size in all frames
-(use-package default-text-scale
-  :ensure t
-  :hook (elpaca-after-init . default-text-scale-mode)
-  :bind (:map default-text-scale-mode-map
-              ("C-s-=" . default-text-scale-increase)
-              ("C-s--" . default-text-scale-decrease)
-              ("C-s-0" . default-text-scale-reset)))
+(leaf default-text-scale
+  :elpaca t
+  :hook (elpaca-after-init-hook . default-text-scale-mode)
+  :bind (:default-text-scale-mode-map
+         ("C-s-=" . default-text-scale-increase)
+         ("C-s--" . default-text-scale-decrease)
+         ("C-s-0" . default-text-scale-reset)))
 
 ;; UI settings
-(use-package solaire-mode
-  :ensure t
-  :hook (elpaca-after-init . solaire-global-mode))
+(leaf solaire-mode
+  :elpaca t
+  :hook (elpaca-after-init-hook . solaire-global-mode))
 
-(use-package modus-themes
-  :ensure t
-  :defer
+(leaf modus-themes
+  :elpaca t
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
@@ -67,17 +64,17 @@
              modus-themes-load-random-light
              modus-themes-load-random))
 
-(use-package doric-themes
-  :ensure t
+(leaf doric-themes
+  :elpaca t
   :disabled t
   ;; :bind ("<f5>" . doric-themes-load-random)
   ;; :bind ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
   ;; :bind ("M-<f5>" . (lambda () (interactive) (doric-themes-load-random 'dark)))
   :commands doric-themes-load-random)
 
-(use-package ef-themes
-  :ensure t
-  :defer
+(leaf ef-themes
+  :elpaca t
+  
   :bind ("<f5>" . modus-themes-load-random)
   :bind ("C-<f5>" . modus-themes-load-random-light)
   :bind ("M-<f5>" . modus-themes-load-random-dark)
@@ -130,8 +127,7 @@
           ;; (string green-cooler)
           (fringe unspecified) ;; bg-blue-nuanced
           (border-mode-line-active unspecified)
-          (border-mode-line-inactive unspecified))
-        )
+          (border-mode-line-inactive unspecified)))
   (setq ef-themes-light-themes '(ef-arbutus ef-cyprus ef-day ef-duo-light ef-eagle ef-elea-light
                                             ef-kassio  ef-melissa-light ef-orange ef-reverie
                                             ef-spring ef-summer ef-trio-light ef-tritanopia-light))
@@ -141,37 +137,36 @@
                                           ef-melissa-dark ef-night ef-owl ef-rosa ef-symbiosis
                                           ef-trio-dark ef-tritanopia-dark ef-winter)))
 
-(use-package auto-dark
+(leaf auto-dark
   :when (and (eq system-type 'darwin) (display-graphic-p))
-  :diminish
-  :ensure t
+  :elpaca t
   :hook
-  (auto-dark-dark-mode
+  (auto-dark-dark-mode-hook
    . (lambda ()
        ;; something to execute when dark mode is detected
        (ef-themes-load-random-dark)
        ))
-  (auto-dark-light-mode
+  (auto-dark-light-mode-hook
    . (lambda ()
        ;; something to execute when light mode is detected
        (ef-themes-load-random-light)
        ))
-  :hook elpaca-after-init)
+  :hook elpaca-after-init-hook)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                                         ; Modeline                            ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(use-package mood-line
+(leaf mood-line
   :disabled t
-  :hook emacs-startup
-  :custom (mood-line-glyph-alist mood-line-glyphs-fira-code))
+  :hook emacs-startup-hook
+  :custom (mood-line-glyph-alist . mood-line-glyphs-fira-code))
 
-(use-package doom-modeline
+(leaf doom-modeline
   :disabled t
-  :ensure t
-  :hook (elpaca-after-init . doom-modeline-mode)
+  :elpaca t
+  :hook (elpaca-after-init-hook . doom-modeline-mode)
   :config
   (setq doom-modeline-support-imenu t
         ;; doom-modeline-icons nil
@@ -186,98 +181,104 @@
         doom-modeline-major-mode-icon nil))
 
 ;; Modeline
-(use-package emacs
-  :init
-  (setq-default mode-line-format
-                '("%e" mode-line-front-space
-                  (:propertize
-                   ("" mode-line-client mode-line-window-dedicated)
-                   display (min-width (6.0)))
-                  mode-line-frame-identification mode-line-buffer-identification "   "
-                  mode-line-position (project-mode-line project-mode-line-format)
-                  " " (vc-mode vc-mode) "  " mode-line-modes mode-line-misc-info
-                  mode-line-end-spaces))
-  (defvar mode-line-cleaner-alist
-    `((company-mode . " ⇝")
-      (corfu-mode . " ⇝")
-      (yas-minor-mode .  " ")
-      (smartparens-mode . " ()")
-      (evil-smartparens-mode . "")
-      (eldoc-mode . "")
-      (abbrev-mode . "")
-      (evil-snipe-local-mode . "")
-      (evil-owl-mode . "")
-      (evil-rsi-mode . "")
-      (evil-commentary-mode . "")
-      (ivy-mode . "")
-      (counsel-mode . "")
-      (wrap-region-mode . "")
-      (rainbow-mode . "")
-      (which-key-mode . "")
-      (undo-tree-mode . "")
-      ;; (undo-tree-mode . " ⎌")
-      (auto-revert-mode . "")
-      ;; Major modes
-      (lisp-interaction-mode . "λ")
-      (hi-lock-mode . "")
-      (python-mode . "Py")
-      (haskell-mode . "Hs")
-      (interactive-haskell-mode . "")
-      (haskell-doc-mode . "")
-      (haskell-collapse-mode . "")
-      (haskell- mode . "")
-      (emacs-lisp-mode . "Eλ")
-      (nxhtml-mode . "nx")
-      (dot-mode . "")
-      (scheme-mode . " SCM")
-      (matlab-mode . "M")
-      (org-mode . " ORG" ;; "⦿"
-                )
-      (valign-mode . "")
-      (eldoc-mode . "")
-      (org-cdlatex-mode . "")
-      (cdlatex-mode . "")
-      (org-indent-mode . "")
-      (org-roam-mode . "")
-      (visual-line-mode . "")
-      (latex-mode . "TeX")
-      (outline-minor-mode . " ֍" ;; " [o]"
-                          )
-      (hs-minor-mode . "")
-      (matlab-functions-have-end-minor-mode . "")
-      (org-roam-ui-mode . " UI")
-      (abridge-diff-mode . "")
-      ;; Evil modes
-      (evil-traces-mode . "")
-      (latex-extra-mode . "")
-      (strokes-mode . "")
-      (flymake-mode . " fly")
-      (flycheck-mode . " fly")
-      (sideline-mode . "")
-      (god-mode . ,(propertize "God" 'face 'success))
-      (gcmh-mode . ""))
-    "Alist for `clean-mode-line'.
+
+;; Why is this not working?
+(setq-default mode-line-format
+              '("%e" mode-line-front-space
+                (:propertize
+                 ("" mode-line-client mode-line-window-dedicated)
+                 display (min-width (6.0)))
+                mode-line-frame-identification mode-line-buffer-identification "   "
+                mode-line-position (project-mode-line project-mode-line-format)
+                " " (vc-mode vc-mode) "  " mode-line-modes mode-line-misc-info
+                mode-line-end-spaces))
+(defvar mode-line-cleaner-alist
+  `((company-mode . " ⇝")
+    (corfu-mode . " ⇝")
+    (yas-minor-mode .  " ")
+    (smartparens-mode . " ()")
+    (evil-smartparens-mode . "")
+    (eldoc-mode . "")
+    (abbrev-mode . "")
+    (evil-snipe-local-mode . "")
+    (evil-owl-mode . "")
+    (evil-rsi-mode . "")
+    (evil-commentary-mode . "")
+    (ivy-mode . "")
+    (counsel-mode . "")
+    (wrap-region-mode . "")
+    (rainbow-mode . "")
+    (which-key-mode . "")
+    (undo-tree-mode . "")
+    ;; (undo-tree-mode . " ⎌")
+    (auto-revert-mode . "")
+    ;; Major modes
+    (lisp-interaction-mode . "λ")
+    (hi-lock-mode . "")
+    (python-mode . "Py")
+    (haskell-mode . "Hs")
+    (interactive-haskell-mode . "")
+    (haskell-doc-mode . "")
+    (haskell-collapse-mode . "")
+    (emacs-lisp-mode . "Eλ")
+    (nxhtml-mode . "nx")
+    (dot-mode . "")
+    (scheme-mode . " SCM")
+    (matlab-mode . "M")
+    (org-mode . " ORG" ;; "⦿"
+              )
+    (valign-mode . "")
+    (eldoc-mode . "")
+    (org-cdlatex-mode . "")
+    (cdlatex-mode . "")
+    (org-indent-mode . "")
+    (org-roam-mode . "")
+    (visual-line-mode . "")
+    (latex-mode . "TeX")
+    (outline-minor-mode . " ֍" ;; " [o]"
+                        )
+    (hs-minor-mode . "")
+    (matlab-functions-have-end-minor-mode . "")
+    (org-roam-ui-mode . " UI")
+    (abridge-diff-mode . "")
+    ;; Evil modes
+    (evil-traces-mode . "")
+    (latex-extra-mode . "")
+    (anzu-mode . "")
+    (goggles-mode . "")
+    (subword-mode . "")
+    (auto-dark-mode . "")
+    (ace-pinyin-mode . "")
+    (strokes-mode . "")
+    (flymake-mode . " fly")
+    (flycheck-mode . " Fly")
+    (flyover-mode . "")
+    (sideline-mode . "")
+    (god-mode . ,(propertize "God" 'face 'success))
+    (gcmh-mode . ""))
+  "Alist for `clean-mode-line'.
 
   ; ;; When you add a new element to the alist, keep in mind that you
   ; ;; must pass the correct minor/major mode symbol and a string you
   ; ;; want to use in the modeline *in lieu of* the original.")
 
-  (defun clean-mode-line ()
-    (cl-loop for cleaner in mode-line-cleaner-alist
-             do (let* ((mode (car cleaner))
-                       (mode-str (cdr cleaner))
-                       (old-mode-str (cdr (assq mode minor-mode-alist))))
-                  (when old-mode-str
-                    (setcar old-mode-str mode-str))
-                  ;; major mode
-                  (when (eq mode major-mode)
-                    (setq mode-name mode-str)))))
-  (add-hook 'change-major-mode-hook #'clean-mode-line))
+(defun clean-mode-line ()
+  (cl-loop for cleaner in mode-line-cleaner-alist
+           do (let* ((mode (car cleaner))
+                     (mode-str (cdr cleaner))
+                     (old-mode-str (cdr (assq mode minor-mode-alist))))
+                (when old-mode-str
+                  (setcar old-mode-str mode-str))
+                ;; major mode
+                (when (eq mode major-mode)
+                  (setq mode-name mode-str)))))
+(add-hook 'after-change-major-mode-hook #'clean-mode-line)
+(add-hook 'emacs-startup-hook #'clean-mode-line)
 
-(use-package hide-mode-line
-  :ensure t
-  :autoload turn-off-hide-mode-line-mode
-  :hook (((eat-mode
+(leaf hide-mode-line
+  :elpaca t
+  :leaf-autoload turn-off-hide-mode-line-mode
+  :hook (((eat-mode-hook
            eshell-mode shell-mode
            term-mode vterm-mode
            embark-collect-mode lsp-ui-imenu-mode
@@ -288,9 +289,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(use-package centaur-tabs
+(leaf centaur-tabs
   :disabled t
-  :ensure t
+  :elpaca t
   :config
   (centaur-tabs-mode t)
   (setq centaur-tabs-set-icons t
@@ -299,10 +300,9 @@
         centaur-tabs-show-new-tab-button nil
         centaur-tabs-set-modified-marker t))
 
-(use-package spacious-padding
-  :ensure t
-  :diminish
-  :hook elpaca-after-init
+(leaf spacious-padding
+  :elpaca t
+  :hook elpaca-after-init-hook
   :config
   (setq spacious-padding-subtle-frame-lines nil)
   (plist-put spacious-padding-widths :mode-line-width 4)
@@ -328,14 +328,14 @@
       mouse-wheel-scroll-amount-horizontal 1
       mouse-wheel-progressive-speed nil)
 
-(use-package nerd-icons
-  :ensure (nerd-icons
+(leaf nerd-icons
+  :elpaca (nerd-icons
            :type git
            :host github
            :repo "rainstormstudio/nerd-icons.el")
-  :defer
+  
   :custom
-  (nerd-icons-default-adjust 0.05))
+  (nerd-icons-default-adjust . 0.05))
 
 (with-no-warnings
   (when (featurep 'ns)
@@ -354,65 +354,60 @@
                                         ;            Coding related           ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package rainbow-delimiters
-  :ensure t
-  :diminish
-  :hook ((prog-mode . rainbow-delimiters-mode)
+(leaf rainbow-delimiters
+  :elpaca t
+  :hook ((prog-mode-hook . rainbow-delimiters-mode)
          (typst-ts-mode . rainbow-delimiters-mode)
          (python-ts-mode . rainbow-delimiters-mode)))
 
-(use-package rainbow-mode
-  :ensure t
-  :diminish
-  :hook text-mode
-  :hook prog-mode)
+(leaf rainbow-mode
+  :elpaca t
+  :hook text-mode-hook
+  :hook prog-mode-hook)
 
 ;; hl current line
-(use-package hl-line
+(leaf hl-line
   :disabled t
-  :hook ((elpaca-after-init . global-hl-line-mode)
+  :hook ((elpaca-after-init-hook . global-hl-line-mode)
          ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode eat-mode) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
-(use-package beacon
-  :ensure t
+(leaf beacon
+  :elpaca t
   :disabled t
-  :diminish
-  :hook elpaca-after-init)
+  :hook elpaca-after-init-hook)
 
-(use-package pulsar
-  :ensure t
+(leaf pulsar
+  :elpaca t
   :bind (([remap count-lines-page] . pulsar-pulse-line) ; overrides `count-lines-page'
          ("C-x L" . pulsar-highlight-permanently-dwim)) ; or use `pulsar-highlight-temporarily-dwim'
-  :hook (elpaca-after-init . pulsar-global-mode)
-  :custom-face (pulsar-generic ((t :inherit region :extend t)))
+  :hook (elpaca-after-init-hook . pulsar-global-mode)
+  :custom-face (pulsar-generic . '((t :inherit region :extend t)))
   :custom
-  (pulsar-delay pulse-delay)
-  (pulsar-iterations 5)
-  (pulsar-face 'pulsar-green)
-  (pulsar-region-face 'pulsar-yellow)
-  (pulsar-highlight-face 'pulsar-magenta)
+  (pulsar-delay . 0.03)
+  (pulsar-iterations . 5)
+  (pulsar-face . 'pulsar-green)
+  (pulsar-region-face . 'pulsar-yellow)
+  (pulsar-highlight-face . 'pulsar-magenta)
   :config
   (add-hook 'next-error-hook #'pulsar-pulse-line)
   (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line))
 
 ;; Eval result overlay
-(use-package eros
-  :ensure t
-  :defer
-  :hook emacs-lisp-mode lisp-interaction-mode
+(leaf eros
+  :elpaca t
+  
+  :hook emacs-lisp-mode-hook lisp-interaction-mode-hook
   :bind (([remap eval-defun] . eros-eval-defun)
          ([remap eval-last-sexp] . eros-eval-last-sexp)))
 
-(use-package goggles
-  :ensure t
-  :defer
-  :diminish
-  :hook (prog-mode text-mode conf-mode))
+(leaf goggles
+  :elpaca t
+  :hook (prog-mode-hook text-mode-hook conf-mode-hook))
 
-(use-package hl-todo
-  :ensure t
-  :hook (elpaca-after-init . global-hl-todo-mode)
+(leaf hl-todo
+  :elpaca t
+  :hook (elpaca-after-init-hook . global-hl-todo-mode)
   :config
   (setq hl-todo-highlight-punctuation ":"
         hl-todo-keyword-faces

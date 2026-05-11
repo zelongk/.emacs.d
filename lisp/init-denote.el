@@ -5,9 +5,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(use-package denote
-  :ensure t
-  :hook (dired-mode . denote-dired-mode)
+(leaf denote
+  :elpaca t
+  :hook (dired-mode-hook . denote-dired-mode)
   :bind
   (("C-c n n" . denote)
    ("C-c n N" . denote-type)
@@ -27,26 +27,26 @@
   ;; `denote-rename-buffer-format' for how to modify this.
   (denote-rename-buffer-mode 1))
 
-(use-package consult-denote :ensure t
+(leaf consult-denote :elpaca t
   :bind (("C-c n f" . consult-denote-find)
          ([remap denote-grep] . consult-denote-grep))
   :config
   (setq consult-denote-grep-command 'consult-ripgrep))
 
-(use-package denote-org :ensure t)
-(use-package denote-markdown :ensure t)
-(use-package denote-silo :ensure t)
-(use-package denote-journal :ensure t
+(leaf denote-org :elpaca t)
+(leaf denote-markdown :elpaca t)
+(leaf denote-silo :elpaca t)
+(leaf denote-journal :elpaca t
   :bind
   (("C-c n j" . denote-journal-new-or-existing-entry)
    ("C-c n J" . denote-journal-new-entry)))
-(use-package denote-sequence :ensure t)
-(use-package denote-merge
-  :ensure (:host github :repo "protesilaos/denote-merge")
+(leaf denote-sequence :elpaca t)
+(leaf denote-merge
+  :elpaca (denote-merge :host github :repo "protesilaos/denote-merge")
   :bind
   ("C-c n m f" . denote-merge-file)
   ("C-c n m r" . denote-merge-region))
-(use-package denote-explore :ensure t
+(leaf denote-explore :elpaca t
   :bind
   (;; Statistics
    ("C-c n e s n" . denote-explore-count-notes)

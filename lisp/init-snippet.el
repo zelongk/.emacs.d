@@ -1,13 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 
 ;; Yasnippet settings
-(use-package yasnippet
-  :ensure t
-  :defer 
-  :diminish
-  :hook (((prog-mode LaTeX-mode org-mode
-                     eval-expression-minibuffer-setup
-                     yaml-ts-mode)
+(leaf yasnippet
+  :elpaca t
+  :hook (((prog-mode-hook LaTeX-mode-hook org-mode-hook
+                          eval-expression-minibuffer-setup
+                          yaml-ts-mode)
           . yas-minor-mode-on)
          (yas-minor-mode . my/yas-auto-setup))
   :commands (yas-minor-mode-on
@@ -55,8 +53,8 @@
         (yas-abort-snippet)))
     (define-key yas-keymap (kbd "C-g") #'my/yas-corfu-cancel)))
 
-(use-package doom-snippets
-  :ensure (doom-snippets :type git :host github :repo "doomemacs/snippets" :files ("*.el" "*")
+(leaf doom-snippets
+  :elpaca (doom-snippets :type git :host github :repo "doomemacs/snippets" :files ("*.el" "*")
                          :post-build
                          (let ((default-directory
                                 (file-name-as-directory
@@ -70,8 +68,8 @@
                              (write-file ".yas-skip")))) ;; Ignore their latex-mode snippets
   :after yasnippet)
 
-(use-package consult-yasnippet
-  :ensure t
+(leaf consult-yasnippet
+  :elpaca t
   :after yasnippet
   :bind ("M-g y" . consult-yasnippet))
 

@@ -1,13 +1,13 @@
 ;; Rust  -*- lexical-binding: t; -*-
-(use-package rust-mode
-  :ensure t
-  :defer t
+(leaf rust-mode
+  :elpaca t
+ 
   :config
   (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode)))
 
-(use-package ron-mode
-  :ensure t
-  :defer t
+(leaf ron-mode
+  :elpaca t
+ 
   :mode ("\\.ron" . ron-mode))
 
 (provide 'init-rust)

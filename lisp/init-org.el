@@ -1,19 +1,20 @@
 ;; -*- lexical-binding: t -*-
 
-(use-package org
-  :defer
-  :ensure (org :repo "https://code.200568.top/mirrors/org-mode.git/"
+(leaf org
+  
+  :elpaca (org :repo "https://code.200568.top/mirrors/org-mode.git/"
                :branch "dev")
-  :hook ((org-mode . org-cdlatex-mode)
+  :hook ((org-mode-hook . org-cdlatex-mode)
          (org-mode . visual-line-mode)
          (org-mode . prettify-symbols-mode))
-  :bind (("C-c n t" . org-todo-list)
-         ("C-c n a" . org-agenda)
-         ("C-c n c" . org-capture)
-         :map org-mode-map
-         ("M-<return>" . org-insert-subheading)
-         ("C-'" . nil)
-         ("C-c C-M-l" . org-toggle-link-displayt))
+  :bind
+  (("C-c n t" . org-todo-list)
+   ("C-c n a" . org-agenda)
+   ("C-c n c" . org-capture))
+  (:org-mode-map
+   ("M-<return>" . org-insert-subheading)
+   ("C-'" . nil)
+   ("C-c C-M-l" . org-toggle-link-displayt))
   :config
   (setq org-element-use-cache t
         org-element-cache-persistent t)
@@ -64,9 +65,9 @@
     (eval `(lsp-org-babel-enable ,lang))))
 
 ;; org agenda-related
-(use-package org-super-agenda :ensure t
+(leaf org-super-agenda :elpaca t
   :after org
-  :hook elpaca-after-init
+  :hook elpaca-after-init-hook
   :config
   (setq org-agenda-prefix-format
         '((agenda . " %i %-12:c%?-12t% s")
@@ -122,7 +123,7 @@
           ;; match any of these groups, with the default order position of 99
           )))
 
-(use-package org
+(leaf org
   :after org
   :config
   (add-to-list 'org-modules 'org-habit)
@@ -179,14 +180,14 @@
               (when (bound-and-true-p org-capture-is-refiling)
                 (save-buffer)))))
 
-(use-package org-contrib
-  :ensure t
+(leaf org-contrib
+  :elpaca t
   :after org)
 
-(use-package org-modern
-  :ensure t
+(leaf org-modern
+  :elpaca t
   ;; :after org
-  :hook ((org-mode . org-modern-mode)
+  :hook ((org-mode-hook . org-modern-mode)
          (org-agenda-finalize . org-modern-agenda))
   :init
   (with-eval-after-load 'org
@@ -213,23 +214,23 @@
         org-modern-fold-stars
         '(("" . ""))))
 
-(use-package org-modern-indent
-  :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
+(leaf org-modern-indent
+  :elpaca (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
   :after org-modern org
-  :hook org-indent-mode)
+  :hook org-indent-mode-hook)
 
-(use-package org-appear
-  :ensure t
-  :defer t
-  :hook (org-mode . org-appear-mode)
-  :autoload org-appear--set-elements
+(leaf org-appear
+  :elpaca t
+  
+  :hook (org-mode-hook . org-appear-mode)
+  :leaf-autoload org-appear--set-elements
   :config
   (setq org-appear-autoemphasis t
 	    org-appear-autosubmarkers t
 	    org-appear-autolinks nil)
   (run-at-time nil nil #'org-appear--set-elements))
 
-(use-package org
+(leaf org
   :after org
   :config
   (setq org-latex-packages-alist
@@ -253,9 +254,9 @@
 \\usephysicsmodule{ab,ab.braket,diagmat,xmat}%
 "))
 
-(use-package org-latex-preview
+(leaf org-latex-preview
   :after org
-  :hook (org-mode . org-latex-preview-mode)
+  :hook (org-mode-hook . org-latex-preview-mode)
   :bind ("C-c C-x SPC" . org-latex-preview-clear-cache)
   :config
   ;; Add margin and rescale display math
@@ -294,42 +295,42 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(use-package org-download
-  :ensure t
+(leaf org-download
+  :elpaca t
   :after org
-  :autoload org-download-clipboard
-  :hook ((org-mode dired-mode) . org-download-enable)
-  :bind (:map org-mode-map
-              ("C-M-y" . org-download-clipboard))
+  :leaf-autoload org-download-clipboard
+  :hook ((org-mode-hook dired-mode-hook) . org-download-enable)
+  :bind (:org-mode-map
+         ("C-M-y" . org-download-clipboard))
   :config
   (setq-default org-download-heading-lvl 1)
   (defconst org-download-image-dir "./attachments/")
   (setq-default org-download-method 'directory))
 
-(use-package org-drawio :ensure t
+(leaf org-drawio :elpaca t
   :commands (org-drawio-add
              org-drawio-open)
   :after org)
 
-(use-package valign
-  :ensure t
-  :hook (org-mode . valign-mode))
+(leaf valign
+  :elpaca t
+  :hook (org-mode-hook . valign-mode))
 
-(use-package org-super-links
-  :ensure (org-super-links :type git :host github :repo "toshism/org-super-links" :branch "develop")
+(leaf org-super-links
+  :elpaca (org-super-links :type git :host github :repo "toshism/org-super-links" :branch "develop")
   :after org
-  :bind (:map org-mode-map
-              ("C-c C-M-s" . org-super-links-store-link)
-              ([remap org-insert-link] . org-super-links-insert-link)))
+  :bind (:org-mode-map
+         ("C-c C-M-s" . org-super-links-store-link)
+         ([remap org-insert-link] . org-super-links-insert-link)))
 
 ;;; Miscs
 
 ;; Org latex preview center
-(use-package org-latex-preview
+(leaf org-latex-preview
   :after org-latex-preview
-  :defer nil
-  :hook (text-scale-mode . my/text-scale-adjust-latex-previews)
-  :hook (org-latex-preview-mode . org-latex-preview-center-mode)
+  :leaf-defer nil
+  :hook (text-scale-mode-hook . my/text-scale-adjust-latex-previews)
+  :hook (org-latex-preview-mode-hook . org-latex-preview-center-mode)
   :config
   ;; Centre display maths
   (defun my/org-latex-preview-uncenter (ov)

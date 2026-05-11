@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package zig-ts-mode
-  :ensure t)
+(leaf zig-ts-mode
+  :elpaca t)
 
 (provide 'init-zig)

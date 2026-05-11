@@ -83,19 +83,14 @@
    '("'" . repeat)
    '("<escape>" . ignore))
   (meow-define-keys
-      'beacon
-    '("C-g" . meow-grab))
+   'beacon
+   '("C-g" . meow-grab))
   )
 
 
-(use-package meow :ensure t
-  :diminish meow-normal-mode
-  :diminish meow-insert-mode
-  :diminish meow-keypad-mode
-  :diminish meow-beacon-mode
-  :diminish meow-motion-mode
-  :demand t
-  :hook (elpaca-after-init . meow-global-mode)
+(leaf meow :elpaca t
+  :leaf-defer nil
+  :hook (elpaca-after-init-hook . meow-global-mode)
   :config
   (meow-setup)
   (meow-setup-indicator)
@@ -117,7 +112,7 @@
   (setq meow-cursor-type-normal 'bar))
 
 ;; Meow jk exit
-(use-package meow
+(leaf meow
   ;; :disabled t
   :after meow
   :config

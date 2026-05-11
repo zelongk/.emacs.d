@@ -2,12 +2,11 @@
 
 ;; Python Mode
 ;; Install: pip install pyflakes autopep8
-(use-package python
-  :defer
-  :functions exec-path-from-shell-copy-env
-  :hook (inferior-python-mode . (lambda ()
-                                  (process-query-on-exit-flag
-                                   (get-process "Python"))))
+(leaf python
+  :commands exec-path-from-shell-copy-env
+  :hook (inferior-python-mode-hook . (lambda ()
+                                       (process-query-on-exit-flag
+                                        (get-process "Python"))))
   :init
   ;; Disable readline based native completion
   (setq python-shell-completion-native-enable nil)

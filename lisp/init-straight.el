@@ -16,9 +16,9 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(setq straight-use-package-by-default t
-      use-package-expand-minimally t
-      use-package-always-defer t)
+(setq straight-leaf-by-default t
+      leaf-expand-minimally t
+      leaf-always-defer t)
 
 
 (provide 'init-straight)

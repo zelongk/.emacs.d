@@ -1,9 +1,9 @@
 ;; -*- lexical-binding: t; -*-
 
 (when (treesit-available-p)
-  (use-package c-ts-mode
-    :defer
-    :functions treesit-available-p
+  (leaf c-ts-mode
+    
+    :commands treesit-available-p
     :init
     (setq c-ts-mode-indent-offset 2)
     (setq-default c-basic-offset 2)

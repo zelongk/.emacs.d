@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package god-mode
-  :ensure t
+(leaf god-mode
+  :elpaca t
   :bind ("<escape>" . god-local-mode))
 
 (provide 'init-god)

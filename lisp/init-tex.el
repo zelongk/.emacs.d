@@ -1,46 +1,46 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package latex
+(leaf latex
   :after tex
-  :ensure (auctex :repo "https://code.200568.top/mirrors/auctex" :branch "master"
+  :elpaca (auctex :repo "https://code.200568.top/mirrors/auctex" :branch "master"
                   :pre-build (("./autogen.sh")
                               ("./configure" "--without-texmf-dir" "--with-lispdir=.")
                               ("make")))
-  ;; :ensure (auctex :type git :host nil :repo "https://git.savannah.gnu.org/git/auctex.git")
-  :defines (TeX-auto-save
-            TeX-parse-self
-            TeX-electric-escape
-            TeX-PDF-mode
-            TeX-DVI-via-PDFTeX
-            TeX-clean-confirm
-            TeX-source-correlate-mode
-            TeX-source-correlate-method
-            TeX-display-help
-            TeX-show-compilation
-            TeX-command-extra-options
-            TeX-view-program-selection)
+  ;; :elpaca (auctex :type git :host nil :repo "https://git.savannah.gnu.org/git/auctex.git")
+  :defvar (TeX-auto-save
+           TeX-parse-self
+           TeX-electric-escape
+           TeX-PDF-mode
+           TeX-DVI-via-PDFTeX
+           TeX-clean-confirm
+           TeX-source-correlate-mode
+           TeX-source-correlate-method
+           TeX-display-help
+           TeX-show-compilation
+           TeX-command-extra-options
+           TeX-view-program-selection)
   :mode (("\\.tex\\'" . LaTeX-mode))
-  :hook ((LaTeX-mode . prettify-symbols-mode)
+  :hook ((LaTeX-mode-hook . prettify-symbols-mode)
          (LaTeX-mode . visual-line-mode)
          (LaTeX-mode . lsp-deferred)
          (LaTeX-mode . (lambda () (lsp-ui-mode -1)))
          (LaTeX-mode . (lambda () (apheleia-mode -1))))
-  :bind (:map LaTeX-mode-map
-              ("C-S-e" . latex-math-from-calc)
-              ("C-c x" . TeX-clean))
+  :bind (:LaTeX-mode-map
+         ("C-S-e" . latex-math-from-calc)
+         ("C-c x" . TeX-clean))
   :custom
-  (TeX-auto-save t)
-  (TeX-parse-self t)
-  (TeX-PDF-mode t)
-  (TeX-DVI-via-PDFTeX t)
-  (TeX-clean-confirm nil)
-  (TeX-save-query nil)
-  (TeX-source-correlate-mode t)
-  (TeX-source-correlate-method 'synctex)
-  (TeX-display-help t)
-  (TeX-show-compilation nil)
-  (TeX-command-extra-options "-shell-escape")
-  (TeX-view-program-selection '((output-pdf "displayline")))
+  (TeX-auto-save . t)
+  (TeX-parse-self . t)
+  (TeX-PDF-mode . t)
+  (TeX-DVI-via-PDFTeX . t)
+  (TeX-clean-confirm . nil)
+  (TeX-save-query . nil)
+  (TeX-source-correlate-mode . t)
+  (TeX-source-correlate-method . 'synctex)
+  (TeX-display-help . t)
+  (TeX-show-compilation . nil)
+  (TeX-command-extra-options . "-shell-escape")
+  (TeX-view-program-selection . '((output-pdf "displayline")))
   :config
   (add-hook 'LaTeX-mode-hook '(lambda ()
                                 (setq TeX-command-default "LaTeXMk")))
@@ -67,21 +67,21 @@
   ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
   ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
 
-  (use-package texpresso
+  (leaf texpresso
     :commands texpresso 
-    :ensure (:host github :repo "let-def/texpresso" :files ("emacs/*.el"))
-    :hook (texpresso-mode . texpresso-sync-mode)
+    :elpaca (texpresso :host github :repo "let-def/texpresso" :files ("emacs/*.el"))
+    :hook (texpresso-mode-hook . texpresso-sync-mode)
     :custom
-    (texpresso-follow-cursor t)
-    :bind (:map LaTeX-mode-map
-                ("C-c C-p" . texpresso)
-                ("S-s-<mouse-1>" . texpresso-move-to-cursor))))
+    (texpresso-follow-cursor . t)
+    :bind (:LaTeX-mode-map
+           ("C-c C-p" . texpresso)
+           ("S-s-<mouse-1>" . texpresso-move-to-cursor))))
 
-(use-package reftex
+(leaf reftex
   :after latex
-  :defer 2
+ 
   :commands turn-on-reftex
-  :hook ((latex-mode LaTeX-mode) . turn-on-reftex)
+  :hook ((latex-mode-hook LaTeX-mode-hook) . turn-on-reftex)
   :config
   (setf (alist-get "\\*RefTex" display-buffer-alist nil t #'equal)
         '((display-buffer-in-side-window)
@@ -93,23 +93,24 @@
   (setq reftex-ref-style-default-list '("Default" "AMSmath" "Cleveref"))
   (setq reftex-use-multiple-selection-buffers t))
 
-(use-package consult-reftex
-  :ensure (:host github :repo "karthink/consult-reftex")
+(leaf consult-reftex
+  :elpaca (consult-reftex :host github :repo "karthink/consult-reftex")
   ;; :load-path "plugins/consult-reftex/"
   :after (reftex consult embark)
-  :bind (:map reftex-mode-map
-              ("C-c )"   . consult-reftex-insert-reference)
-              ("C-c M-." . consult-reftex-goto-label)
-              :map org-mode-map
-              ("C-c (" . consult-reftex-goto-label)
-              ("C-c )"   . consult-reftex-insert-reference)))
+  :bind
+  (:reftex-mode-map
+   ("C-c )"   . consult-reftex-insert-reference)
+   ("C-c M-." . consult-reftex-goto-label))
+  (:org-mode-map
+   ("C-c (" . consult-reftex-goto-label)
+   ("C-c )"   . consult-reftex-insert-reference)))
 
-(use-package cdlatex
-  :ensure t
+(leaf cdlatex
+  :elpaca t
   :after latex
-  :hook ((LaTeX-mode . turn-on-cdlatex)
+  :hook ((LaTeX-mode-hook . turn-on-cdlatex)
          (LaTeX-mode . cdlatex-electricindex-mode))
-  ;; :bind (:map cdlatex-mode-map
+  ;; :bind (:cdlatex-mode-map
   ;;             ("<tab>" . cdlatex-tab))
   :config
   (setq cdlatex-math-symbol-alist '((?f ("\\varphi" "\\phi"))
@@ -134,15 +135,15 @@ expansion, then cdlatex expansion."
   (add-hook 'cdlatex-tab-hook 'tjh/cdlatex-yas-expand)
   (cdlatex-reset-mode))
 
-(use-package lazytab
-  :ensure '(lazytab :type git :host github :repo "karthink/lazytab" :files ("*.el"))
-  :demand t
+(leaf lazytab
+  :elpaca '(lazytab :type git :host github :repo "karthink/lazytab" :files ("*.el"))
+  :leaf-defer nil
   :after cdlatex
-  :bind (:map org-mode-map
-              ("C-x |" . my/lazytab-orgtbl-edit))
-  :bind (:map orgtbl-mode-map
-              ("<tab>" . lazytab-org-table-next-field-maybe)
-              ("TAB" . lazytab-org-table-next-field-maybe))
+  :bind (:org-mode-map
+         ("C-x |" . my/lazytab-orgtbl-edit))
+  :bind (:orgtbl-mode-map
+         ("<tab>" . lazytab-org-table-next-field-maybe)
+         ("TAB" . lazytab-org-table-next-field-maybe))
   :config
   (defun my/lazytab-orgtbl-edit ()
     (interactive)
@@ -153,19 +154,20 @@ expansion, then cdlatex expansion."
       (insert "\n|")))
   (add-hook 'cdlatex-tab-hook #'lazytab-cdlatex-or-orgtbl-next-field 90))
 
-(use-package lazytab
+(leaf lazytab
   :after latex
-  :bind (:map LaTeX-mode-map
-              ("C-x |" . my/lazytab-orgtbl-edit)))
+  :bind (:LaTeX-mode-map
+         ("C-x |" . my/lazytab-orgtbl-edit)))
 
-(use-package citar
-  :ensure t
+(leaf citar
+  :elpaca t
   :after latex
-  :defer
-  :bind (:map LaTeX-mode-map
-              ("C-c ]" . citar-insert-citation)
-              :map org-mode-map
-              ("C-c C-x ]" . citar-insert-citation))
+ 
+  :bind
+  (:LaTeX-mode-map
+   ("C-c ]" . citar-insert-citation))
+  (:org-mode-map
+   ("C-c C-x ]" . citar-insert-citation))
   :config
   (delete citar-indicator-cited citar-indicators)
   (setq citar-bibliography ;; '("~/Documents/research/control_systems.bib")
@@ -173,7 +175,7 @@ expansion, then cdlatex expansion."
         citar-at-point-function 'embark-act
         citar-file-open-function #'consult-file-externally)
   
-  (use-package cdlatex
+  (leaf cdlatex
     :config
     (defun my/cdlatex-bibtex-action ()
       "Call `citar-insert-citation' interactively."
@@ -185,8 +187,8 @@ expansion, then cdlatex expansion."
           '("Make a citation interactively"
             "cite{" my/cdlatex-bibtex-action nil t nil))))
 
-(use-package citar-embark
-  :ensure t
+(leaf citar-embark
+  :elpaca t
   :after (citar embark)
   :config
   (citar-embark--enable))

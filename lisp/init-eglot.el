@@ -1,17 +1,17 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package eglot
+(leaf eglot
   :commands (eglot eglot-ensure)
-  :hook ((prog-mode . (lambda ()
-                        (unless (derived-mode-p
-                                 'emacs-lisp-mode 'lisp-mode
-                                 'makefile-mode 'snippet-mode
-                                 'lisp-interaction-mode
-                                 'ron-mode)
-                          (eglot-ensure))))
+  :hook ((prog-mode-hook . (lambda ()
+                             (unless (derived-mode-p
+                                      'emacs-lisp-mode 'lisp-mode
+                                      'makefile-mode 'snippet-mode
+                                      'lisp-interaction-mode
+                                      'ron-mode)
+                               (eglot-ensure))))
          ((markdown-mode yaml-mode yaml-ts-mode) . eglot-ensure))
-  :bind (:map eglot-mode-map
-	          ("C-c c a" . eglot-code-actions))
+  :bind (:eglot-mode-map
+	     ("C-c c a" . eglot-code-actions))
   :config
   (setq completion-category-defaults nil)
   (setq eglot-autoshutdown t
@@ -19,29 +19,28 @@
         eglot-send-changes-idle-time 0.5
         eglot-code-action-indications '(eldoc-hint)))
 
-(use-package eglot-booster
-  :ensure (eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")
+(leaf eglot-booster
+  :elpaca (eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")
   :after eglot
   :config (eglot-booster-mode))
 
-(use-package flycheck-eglot
+(leaf flycheck-eglot
   :after eglot
-  :hook (eglot-managed-mode . flycheck-eglot-mode))
+  :hook (eglot-managed-mode-hook . flycheck-eglot-mode))
 
-(use-package consult-eglot
+(leaf consult-eglot
   :after consult
   :after eglot
-  :bind (:map eglot-mode-map
-	          ([remap xref-find-apropos] . consult-eglot-symbols))
+  :bind (:eglot-mode-map
+	     ([remap xref-find-apropos] . consult-eglot-symbols))
   :config
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
 
-;; (use-package eldoc-box
-;;   :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
+;; (leaf eldoc-box
+;;   :hook (eglot-managed-mode-hook . eldoc-box-hover-at-point-mode))
 
-(use-package eldoc-mouse
+(leaf eldoc-mouse
   :after eldoc
-  :diminish
-  :hook eldoc-mode)
+  :hook eldoc-mode-hook)
 
 (provide 'init-eglot)

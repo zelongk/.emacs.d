@@ -1,37 +1,37 @@
 ;; -*- lexical-binding: t; -*-
 
 
-(use-package tuareg
-  :ensure t
-  :defer t
+(leaf tuareg
+  :elpaca t
+  
   :mode (("\\.ocamlinit\\'" . tuareg-mode))
   :config
   (setq tuareg-prettify-symbols-full t))
 
-;; (use-package dune)
+;; (leaf dune)
 
-(use-package opam-switch-mode
-  :ensure t
+(leaf opam-switch-mode
+  :elpaca t
   :after tuareg
-  :hook (tuareg-mode . opam-switch-mode)
+  :hook (tuareg-mode-hook . opam-switch-mode)
   :config
   (setq tuareg-opam-insinuate t))
 
-(use-package ocp-indent
-  :ensure t
+(leaf ocp-indent
+  :elpaca t
   :after tuareg
-  :hook (tuareg-mode . ocp-setup-indent))
+  :hook (tuareg-mode-hook . ocp-setup-indent))
 
-(use-package utop
-  :ensure t
+(leaf utop
+  :elpaca t
   :after tuareg)
 
-(use-package ocaml-eglot
+(leaf ocaml-eglot
   :disabled t
-  :ensure t
+  :elpaca t
   :after tuareg
-  :hook (tuareg-mode . ocaml-eglot)
-  :hook (ocaml-eglot . eglot-ensure)
+  :hook (tuareg-mode-hook . ocaml-eglot)
+  :hook (ocaml-eglot-hook . eglot-ensure)
   :config
   (setq ocaml-eglot-syntax-checker 'flycheck))
 

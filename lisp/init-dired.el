@@ -1,10 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
-(use-package dired
+(leaf dired
   :bind (("C-x x @" . tramp-revert-buffer-with-sudo)
-         :map dired-mode-map
-         ("C-c C-p" . wdired-change-to-wdired-mode)
-	     ("b" . dired-up-directory))
+         (:dired-mode-map
+          ("C-c C-p" . wdired-change-to-wdired-mode)
+	      ("b" . dired-up-directory)))
   :config
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always
@@ -17,20 +17,20 @@
         dired-use-ls-dired t))
 
 ;; Colorful dired
-(use-package diredfl
-  :ensure t
-  :hook (elpaca-after-init . diredfl-global-mode))
+(leaf diredfl
+  :elpaca t
+  :hook (elpaca-after-init-hook . diredfl-global-mode))
 
 ;; Extra Dired functionality
-(use-package dired-aux :ensure nil)
+(leaf dired-aux)
 
-(use-package nerd-icons-dired
-  :ensure t
-  :defer
+(leaf nerd-icons-dired
+  :elpaca t
+  
   :hook
   (dired-mode . nerd-icons-dired-mode))
 
-(use-package dirvish
+(leaf dirvish
   :disabled t
   :bind ("C-c o p" . dirvish-side)
   :config

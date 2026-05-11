@@ -1,17 +1,17 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package comint
+(leaf comint
   :init
   (setq ansi-color-for-comint-mode t
         ansi-color-for-compilation-mode t))
 
-(use-package ansi-color
-  :hook (compilation-filter . ansi-color-compilation-filter)) 
+(leaf ansi-color
+  :hook (compilation-filter-hook . ansi-color-compilation-filter)) 
 
 
-(use-package xterm-color
-  :ensure t
-  :defines (compilation-environment)
+(leaf xterm-color
+  :elpaca t
+  :defvar (compilation-environment)
   :init
   (setenv "TERM" "xterm-256color")
   (setq comint-output-filter-functions
@@ -27,30 +27,30 @@
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
   (advice-add 'gud-filter :around #'my/advice-compilation-filter))
 
-(use-package eat
+(leaf eat
   :bind (("C-`" . eat-toggle)
          ("C-<escape>" . eshell-toggle)
          ([remap project-shell] . eat-project))
-  :hook ((eshell-load . eat-eshell-mode)
+  :hook ((eshell-load-hook . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode))
-  :ensure `(eat :repo "https://codeberg.org/akib/emacs-eat"
+  :elpaca `(eat :repo "https://codeberg.org/akib/emacs-eat"
 		        :files ("*.el" ("term" "term/*.el") "*.texi"
 			            "*.ti" ("terminfo/e" "terminfo/e/*")
 			            ("terminfo/65" "terminfo/65/*")
 			            ("integration" "integration/*")
 			            (:exclude ".dir-locals.el" "*-tests.el")))
   :custom
-  (eat-kill-buffer-on-exit t)
-  (eat-shell "/opt/homebrew/bin/fish")
-  (eat-tramp-shells '(("docker" . "/bin/sh")
-                      ("ssh" . "/bin/bash")
-                      ("sshx" . "/bin/bash")
-                      ("rpc" . "/bin/bash")))
+  (eat-kill-buffer-on-exit . t)
+  (eat-shell . "/opt/homebrew/bin/fish")
+  (eat-tramp-shells . '(("docker" . "/bin/sh")
+                        ("ssh" . "/bin/bash")
+                        ("sshx" . "/bin/bash")
+                        ("rpc" . "/bin/bash")))
   ;; Clear commands eshell considers visual by default.
-  (eshell-visual-commands '())
-  (eat-minimum-latency 0.002)
-  (eat-enable-directory-tracking t)
-  (eat-enable-shell-prompt-annotation t)
+  (eshell-visual-commands . '())
+  (eat-minimum-latency . 0.002)
+  (eat-enable-directory-tracking . t)
+  (eat-enable-shell-prompt-annotation . t)
   
   :config
   (defun eshell-toggle () (interactive)
@@ -72,27 +72,24 @@
 
 
 ;;; Eshell related
-(use-package eshell
-  :defer
-  :defines eshell-prompt-function
-  :bind (:map eshell-mode-map
-              ([remap recenter-top-bottom] . eshell/clear))
+(leaf eshell  
+  :defvar eshell-prompt-function
   :config
   (setq eshell-banner-message ""))
 
-(use-package eshell-prompt-extras
-  :ensure t
+(leaf eshell-prompt-extras
+  :elpaca t
   :after esh-opt
-  :defines eshell-highlight-prompt
-  :autoload (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)
+  :defvar eshell-highlight-prompt
+  :leaf-autoload (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)
   :init
   (setq eshell-highlight-prompt t)
   (setq eshell-prompt-function #'epe-theme-lambda))
 
-(use-package eshell-syntax-highlighting
-  :ensure t
+(leaf eshell-syntax-highlighting
+  :elpaca t
   :after eshell
-  :hook (elpaca-after-init . eshell-syntax-highlighting-global-mode))
+  :hook (elpaca-after-init-hook . eshell-syntax-highlighting-global-mode))
 
 
 (provide 'init-shell)

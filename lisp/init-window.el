@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 ;; Restore old window configurations
 
-(use-package winner
+(leaf winner
   :commands (winner-undo winner-redo)
   :hook elpaca-after-init
   :init (setq winner-boring-buffers '("*Completions*"
@@ -35,9 +35,9 @@
     (when other-buffer
       (set-window-buffer (next-window) other-buffer))))
 
-(use-package ace-window
-  :ensure t
-  :hook (emacs-startup . ace-window-display-mode)
+(leaf ace-window
+  :elpaca t
+  :hook (emacs-startup-hook . ace-window-display-mode)
   :bind (([remap other-window] . ace-window)
          
          ;; ("C-c w" . ace-window-hydra/body)
@@ -46,10 +46,10 @@
          ("C-c 3" . split-window-horizontally-instead)
          ("C-x m" . maximize-window))
   :custom
-  (aw-scope 'frame)
-  (aw-background nil)
-  (aw-display-mode-overlay nil)
-  (aw-dispatch-always t)
+  (aw-scope . 'frame)
+  (aw-background . nil)
+  (aw-display-mode-overlay . nil)
+  (aw-dispatch-always . t)
   :config
   (defun my/aw-take-over-window (window)
     "Move from current window to WINDOW.
@@ -76,7 +76,7 @@ Delete current window in the process."
           (?? aw-show-dispatch-help)))
   )
 
-(use-package ace-window
+(leaf ace-window
   :after transient ace-window
   :bind ("C-c w" . ace-window-transient-menu) ; Bind as you prefer
   :config
@@ -119,16 +119,16 @@ Delete current window in the process."
       ("<left>" "undo" winner-undo)
       ("<right>" "redo" winner-redo)]]))
 
-(use-package popper
-  :ensure t
+(leaf popper
+  :elpaca t
   :custom
-  (popper-group-function #'popper-group-by-directory)
-  (popper-echo-dispatch-actions t)
-  :bind (:map popper-mode-map
-              ("C-h z"       . popper-toggle)
-              ("C-<tab>"     . popper-cycle)
-              ("C-M-<tab>"   . popper-toggle-type))
-  :hook (emacs-startup . popper-echo-mode)
+  (popper-group-function . #'popper-group-by-directory)
+  (popper-echo-dispatch-actions . t)
+  :bind (:popper-mode-map
+         ("C-h z"       . popper-toggle)
+         ("C-<tab>"     . popper-cycle)
+         ("C-M-<tab>"   . popper-toggle-type))
+  :hook (emacs-startup-hook . popper-echo-mode)
   :init
   (setq popper-mode-line ""
         popper-reference-buffers

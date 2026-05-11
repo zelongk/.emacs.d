@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(use-package xref
+(leaf xref
   :init
   ;; Use faster search tool
   (when (executable-find "rg")
@@ -13,21 +13,18 @@
 (setq blink-matching-paren-highlight-offscreen t
       show-paren-context-when-offscreen 'child-frame)
 
-(use-package apheleia
-  :ensure t
-  :defer t
-  :diminish
-  :hook prog-mode)
+(leaf apheleia
+  :elpaca t
+  :hook prog-mode-hook)
 
-(use-package editorconfig
-  :ensure t
-  :diminish)
+(leaf editorconfig
+  :elpaca t)
 
-(use-package treesit-auto
-  :ensure t
-  :hook (prog-mode . treesit-auto-mode)
+(leaf treesit-auto
+  :elpaca t
+  :hook (prog-mode-hook . treesit-auto-mode)
   :custom
-  (treesit-auto-install 'prompt)
+  (treesit-auto-install . 'prompt)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all))
 
@@ -44,37 +41,37 @@
 (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode))
 
 ;; Support for some lang
-(use-package elvish-mode
-  :ensure t
-  :defer t)
+(leaf elvish-mode
+  :elpaca t
+  )
 
-(use-package fish-mode
-  :ensure t
-  :defer t)
+(leaf fish-mode
+  :elpaca t
+  )
 
-(use-package docker-compose-mode
-  :ensure t
-  :defer t)
+(leaf docker-compose-mode
+  :elpaca t
+  )
 
-(use-package ansible
-  :ensure t
-  :defer t)
-(use-package ansible-doc
-  :ensure t
+(leaf ansible
+  :elpaca t
+  )
+(leaf ansible-doc
+  :elpaca t
   :after ansible)
 
-(use-package systemd
-  :ensure t
-  :defer t)
+(leaf systemd
+  :elpaca t
+  )
 
-(use-package caddyfile-mode
-  :ensure t
-  :defer t)
+(leaf caddyfile-mode
+  :elpaca t
+  )
 
-(use-package dotenv-mode
-  :ensure t
-  :defer t)
+(leaf dotenv-mode
+  :elpaca t
+  )
 
-(use-package envrc :ensure t :defer)
+(leaf envrc :elpaca t)
 
 (provide 'init-coding)

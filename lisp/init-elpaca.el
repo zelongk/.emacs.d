@@ -43,22 +43,67 @@
 (when (eq system-type 'windows-nt)
   (elpaca-no-symlink-mode))
 
-;; Install use-package support
-(elpaca elpaca-use-package
-  ;; Enable use-package :ensure support for Elpaca.
-  (elpaca-use-package-mode))
+;; Install leaf support
+;; (elpaca elpaca-use-package
+;;   ;; Enable leaf :elpaca support for Elpaca.
+;;   (elpaca-use-package-mode))
+
+;; (setq leaf-verbose nil
+;;       leaf-compute-statistics nil
+;;       ;; leaf-ignore-unknown-keywords t
+;;       leaf-minimum-reported-time 0.01
+;;       leaf-expand-minimally t
+;;       leaf-enable-imenu-support t)
+
+(defmacro elpaca-leaf (order &rest body)
+  "Execute BODY in `leaf' declaration after ORDER is finished.
+If the :disabled keyword is present in body, the package is completely ignored.
+This happens regardless of the value associated with :disabled.
+The expansion is a string indicating the package has been disabled."
+  (declare (indent 1))
+  (if (memq :disabled body)
+      (format "%S :disabled by elpaca-leaf" order)
+    (let ((o order))
+      (when-let ((ensure (seq-position body :elpaca)))
+	    (setq o (if (null (nth (1+ ensure) body)) nil order)
+	          body (append (seq-subseq body 0 ensure)
+			               (seq-subseq body (+ ensure 2)))))
+      `(elpaca ,o (leaf
+		            ,(if-let (((memq (car-safe order) '(quote \`)))
+			                  (feature (flatten-tree order)))
+			             (cadr feature)
+		               (elpaca--first order))
+		            ,@body)))))
+
+
+
+(elpaca-leaf leaf)
+(elpaca-leaf leaf-keywords
+  :init (leaf-keywords-init))
+
+(setq leaf-expand-minimally t
+      leaf-enable-imenu-support t)
+
+(elpaca-wait)
+
+(leaf leaf-convert :elpaca t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;When installing a package used in the init file itself,
-;;e.g. a package which adds a use-package key word,
+;;e.g. a package which adds a leaf key word,
 ;;use the :wait recipe keyword to block until that package is installed/configured.
 ;;For example:
-;;(use-package general :ensure (:wait t) :demand t)
+;;(leaf general :elpaca (:wait t) :leaf-defer nil)
 
-(use-package elpaca-ui
-  :bind (:map elpaca-ui-mode-map
-              ("p" . previous-line)
-              ("F" . elpaca-ui-mark-pull))
-  :hook (elpaca-log-mode . elpaca-log-update-mode)
+(leaf elpaca-ui
+  :bind
+  (:elpaca-ui-mode-map
+   ("p" . previous-line)
+   ("F" . elpaca-ui-mark-pull))
+  :hook (elpaca-log-mode-hook . elpaca-log-update-mode)
   :after popper
   :init
   (add-to-list 'popper-reference-buffers
@@ -79,12 +124,5 @@
           (side . right))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq use-package-verbose nil
-      use-package-compute-statistics nil
-      ;; use-package-ignore-unknown-keywords t
-      use-package-minimum-reported-time 0.01
-      use-package-expand-minimally t
-      use-package-enable-imenu-support t)
 
 (provide 'init-elpaca)

@@ -1,11 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package svg-lib
-  :ensure t)
+(leaf svg-lib
+  :elpaca t)
 
-(use-package svg-tag-mode
-  :ensure t
-  :hook (emacs-startup . global-svg-tag-mode)
+(leaf svg-tag-mode
+  :elpaca t
+  :hook (emacs-startup-hook . global-svg-tag-mode)
   :config
   (setq svg-tag-tags
         '(

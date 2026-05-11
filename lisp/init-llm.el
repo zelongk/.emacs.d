@@ -1,12 +1,13 @@
 ;;; -*- lexical-binding: t; -*-
 
-(use-package gptel
-  :ensure t
+(leaf gptel
+  :elpaca t
   :commands (gptel gptel-menu gptel-send)
-  :bind (("C-c l l" . gptel)
-         ("C-c l s" . gptel-send)
-	     ("C-c l m" . gptel-menu))
-  :hook (gptel-mode . gptel-highlight-mode)
+  :bind
+  ("C-c l l" . gptel)
+  ("C-c l s" . gptel-send)
+  ("C-c l m" . gptel-menu)
+  :hook (gptel-mode-hook . gptel-highlight-mode)
   :config
   (setq gptel-model 'gpt-5.3-codex
         gptel-backend (gptel-make-gh-copilot "Copilot")
@@ -22,13 +23,13 @@
               ~google/gemini-pro-latest
               openai/gpt-5.5)))
 
-(use-package gptel-magit
-  :ensure t
+(leaf gptel-magit
+  :elpaca t
   :after magit
-  :hook (magit-mode . gptel-magit-install))
+  :hook (magit-mode-hook . gptel-magit-install))
 
-(use-package gptel-agent
-  :ensure t
+(leaf gptel-agent
+  :elpaca t
   :after gptel
   :config (gptel-agent-update))  
 

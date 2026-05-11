@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package project
+(leaf project
   :bind-keymap ("s-p" . project-prefix-map)
   ;; :init
   ;; (setq frame-title-format '((:eval
@@ -12,38 +12,38 @@
   :config
   (setq project-list-file (expand-file-name "projects" user-cache-directory)))
 
-(use-package ibuffer
-  :defer t
+(leaf ibuffer
+  
   :bind ("C-x C-b" . ibuffer)
-  :bind (:map ibuffer-mode-map
-              ("M-o" . nil))
+  :bind (:ibuffer-mode-map
+         ("M-o" . nil))
   :config
   (add-to-list 'ibuffer-help-buffer-modes 'helpful-mode)
   (add-to-list 'ibuffer-help-buffer-modes 'Man-mode)
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
-(use-package nerd-icons-ibuffer
-  :ensure t
-  :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
+(leaf nerd-icons-ibuffer
+  :elpaca t
+  :hook (ibuffer-mode-hook-hook . nerd-icons-ibuffer-mode))
 
 ;; Group ibuffer's list by project
-(use-package ibuffer-project
-  :ensure t
+(leaf ibuffer-project
+  :elpaca t
   :after ibuffer project
-  :autoload (ibuffer-project-generate-filter-groups ibuffer-do-sort-by-project-file-relative)
-  :hook (ibuffer . (lambda ()
-                     "Group ibuffer's list by project."
-                     (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
-                     (unless (eq ibuffer-sorting-mode 'project-file-relative)
-                       (ibuffer-do-sort-by-project-file-relative))))
+  :leaf-autoload (ibuffer-project-generate-filter-groups ibuffer-do-sort-by-project-file-relative)
+  :hook (ibuffer-hook . (lambda ()
+                          "Group ibuffer's list by project."
+                          (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+                          (unless (eq ibuffer-sorting-mode 'project-file-relative)
+                            (ibuffer-do-sort-by-project-file-relative))))
   :init (setq ibuffer-project-use-cache t))
 
-(use-package tab-bar
-  :hook (window-setup . tab-bar-mode)
-  :bind (:map tab-bar-mode-map
-              ("s-t" . tab-new)
-              ("s-w" . tab-close)
-              ("s-W" . delete-frame))
+(leaf tab-bar
+  :hook (window-setup-hook . tab-bar-mode)
+  :bind (:tab-bar-mode-map
+         ("s-t" . tab-new)
+         ("s-w" . tab-close)
+         ("s-W" . delete-frame))
   :config
   (setq tab-bar-separator " "
         tab-bar-show nil
@@ -72,7 +72,7 @@
   (setq tab-bar-tab-name-format-function #'my/tab-bar-tab-name-format))
 
 ;; auto tab-bar
-(use-package tab-bar
+(leaf tab-bar
   :after tab-bar
   :disabled t
   :config
@@ -90,33 +90,33 @@
   ;; Pass an argument to disable e.g. (my/functions-in-new-tab t)
   (my/functions-in-new-tab))
 
-(use-package tabspaces
-  :ensure t
-  :functions tabspaces-mode
+(leaf tabspaces
+  :elpaca t
+  :commands tabspaces-mode
   :commands (tabspaces-switch-or-create-workspace
              tabspaces-open-or-create-project-and-workspace)
-  :hook ((elpaca-after-init . tabspaces-mode)
+  :hook ((elpaca-after-init-hook . tabspaces-mode)
          (tabspaces-mode . tab-bar-history-mode))
-  :bind (:map tabspaces-command-map
-              ("l" . tabspaces-restore-session)
-              ("s" . tabspaces-save-session)
-              ("TAB" . tabspaces-switch-or-create-workspace))
+  :bind (:tabspaces-command-map
+         ("l" . tabspaces-restore-session)
+         ("s" . tabspaces-save-session)
+         ("TAB" . tabspaces-switch-or-create-workspace))
   :custom
-  (tab-bar-history-limit 30)
+  (tab-bar-history-limit . 30)
   
-  (tabspaces-use-filtered-buffers-as-default t)
-  (tabspaces-default-tab "Default")
-  (tabspaces-remove-to-default t)
-  (tabspaces-include-buffers '("*scratch*" "*Messages*"))
-  (tabspaces-exclude-buffers '("*eat*" "*vterm*" "*shell*" "*eshell*"))
+  (tabspaces-use-filtered-buffers-as-default . t)
+  (tabspaces-default-tab . "Default")
+  (tabspaces-remove-to-default . t)
+  (tabspaces-include-buffers . '("*scratch*" "*Messages*"))
+  (tabspaces-exclude-buffers . '("*eat*" "*vterm*" "*shell*" "*eshell*"))
   
-  (tabspaces-session-file (expand-file-name "tabspaces/tabsession.el" user-cache-directory))
-  (tabspaces-session-project-session-store (expand-file-name "tabspaces/" user-cache-directory))
-  (tabspaces-initialize-project-with-todo t)
-  (tabspaces-todo-file-name "project-todo.org")
+  (tabspaces-session-file . '(expand-file-name "tabspaces/tabsession.el" user-cache-directory))
+  (tabspaces-session-project-session-store . '(expand-file-name "tabspaces/" user-cache-directory))
+  (tabspaces-initialize-project-with-todo . t)
+  (tabspaces-todo-file-name . "project-todo.org")
   ;; sessions
-  (tabspaces-session t)
-  (tabspaces-session-auto-restore nil)
+  (tabspaces-session . t)
+  (tabspaces-session-auto-restore . nil)
   :config
   (with-eval-after-load 'consult
     ;; hide full buffer list (still available with "b" prefix)
@@ -138,17 +138,17 @@
       "Set workspace buffer list for consult-buffer.")
     (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
 
-(use-package beframe
+(leaf beframe
   :disabled t
-  :hook elpaca-after-init
+  :hook elpaca-after-init-hook
   :bind-keymap ("C-c b" . beframe-prefix-map)
   :bind ("C-x f" . other-frame-prefix)
   :config
   (setq beframe-functions-in-frames '(project-switch-project)
         beframe-rename-function #'ignore
         beframe-global-buffers '("*scratch*" "*Messages*" "*Backtrace*"))
-  (use-package embark
-    :defer
+  (leaf embark
+    
     :config
     (define-key embark-buffer-map (kbd "fu")
                 (defun my/beframe-unassume-buffer (buf)

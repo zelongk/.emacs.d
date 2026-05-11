@@ -1,18 +1,18 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package lsp-mode
-  :ensure t
-  :defines (lsp-diagnostics-disabled-modes lsp-clients-python-library-directories)
-  :autoload lsp-enable-which-key-integration
+(leaf lsp-mode
+  :elpaca t
+  :defvar (lsp-diagnostics-disabled-modes lsp-clients-python-library-directories)
+  :leaf-autoload lsp-enable-which-key-integration
   :commands (lsp-format-buffer lsp-organize-imports lsp lsp-deferred)
-  :hook ((prog-mode . (lambda ()
-                        (unless (derived-mode-p
-                                 'dotenv-mode
-                                 'caddyfile-mode 'elvish-mode
-                                 'emacs-lisp-mode 'lisp-mode
-                                 'makefile-mode 'snippet-mode
-                                 'lisp-data-mode 'ron-mode)
-                          (lsp-deferred))))
+  :hook ((prog-mode-hook . (lambda ()
+                             (unless (derived-mode-p
+                                      'dotenv-mode
+                                      'caddyfile-mode 'elvish-mode
+                                      'emacs-lisp-mode 'lisp-mode
+                                      'makefile-mode 'snippet-mode
+                                      'lisp-data-mode 'ron-mode)
+                               (lsp-deferred))))
          ((markdown-mode yaml-mode yaml-ts-mode) . lsp-deferred)
          (lsp-mode . (lambda ()
                        ;; Integrate `which-key'
@@ -20,10 +20,11 @@
                        ;; (add-hook 'before-save-hook #'lsp-format-buffer t t)
                        (add-hook 'before-save-hook #'lsp-organize-imports t t)))
          (lsp-completion-mode . my/lsp-mode-setup-completion))
-  :bind (:map lsp-mode-map
-              ("C-c C-d" . lsp-describe-thing-at-point)
-              ([remap xref-find-definitions] . lsp-find-definition)
-              ([remap xref-find-references] . lsp-find-references))
+  :bind
+  (:lsp-mode-map
+   ("C-c C-d" . lsp-describe-thing-at-point)
+   ([remap xref-find-definitions] . lsp-find-definition)
+   ([remap xref-find-references] . lsp-find-references))
   :init
   (defun my/lsp-mode-setup-completion ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
@@ -109,23 +110,25 @@
         orig-result)))
   (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
 
-(use-package consult-lsp
-  :ensure t
+(leaf consult-lsp
+  :elpaca t
   :after lsp-mode
-  :bind (:map lsp-mode-map
-              ("C-M-." . consult-lsp-symbols)))
+  :bind
+  (:lsp-mode-map
+   ("C-M-." . consult-lsp-symbols)))
 
-(use-package lsp-ui
-  :ensure t
+(leaf lsp-ui
+  :elpaca t
   :after lsp-mode
   :custom-face
-  (lsp-ui-sideline-code-action ((t (:inherit warning))))
-  :bind (("C-c u" . lsp-ui-imenu)
-         :map lsp-ui-mode-map
-         ("s-<return>" . lsp-ui-sideline-apply-code-actions)
-         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ([remap xref-find-references] . lsp-ui-peek-find-references))
-  :hook ((lsp-mode . lsp-ui-mode)
+  (lsp-ui-sideline-code-action . '((t (:inherit warning))))
+  :bind
+  (("C-c u" . lsp-ui-imenu))
+  (:lsp-ui-mode-map
+   ("s-<return>" . lsp-ui-sideline-apply-code-actions)
+   ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+   ([remap xref-find-references] . lsp-ui-peek-find-references))
+  :hook ((lsp-mode-hook . lsp-ui-mode)
          (after-load-theme . lsp-ui-set-doc-border))
   :init
   (setq lsp-ui-sideline-show-diagnostics nil
@@ -138,10 +141,9 @@
                               ,(face-foreground 'font-lock-constant-face)
                               ,(face-foreground 'font-lock-variable-name-face))))
 
-(use-package lsp-ui
-  ;; :disabled t
-  :bind (:map lsp-ui-mode-map
-              ("M-<f6>" . lsp-ui-transient-menu))
+(leaf lsp-ui
+  :bind (:lsp-ui-mode-map
+         ("M-<f6>" . lsp-ui-transient-menu))
   :after transient lsp-ui
   :config
   ;; Define the group prefix
@@ -173,11 +175,11 @@
       ("C-f" "fwd char" forward-char)]])
   )
 
-(use-package lsp-haskell :ensure t
+(leaf lsp-haskell :elpaca t
   :after lsp-mode)
 
-(use-package lsp-ltex-plus
-  :ensure (lsp-ltex-plus :host github :repo "emacs-languagetool/lsp-ltex-plus")
+(leaf lsp-ltex-plus
+  :elpaca (lsp-ltex-plus :host github :repo "emacs-languagetool/lsp-ltex-plus")
   :after lsp-mode
   :init
   (setq lsp-ltex-plus-version "18.6.1"

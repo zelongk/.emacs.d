@@ -1,13 +1,13 @@
 ;; -*- lexical-binding: t; -*-
 
 
-(use-package haskell-mode
-  :ensure t
-  :defer t
-  :hook (haskell-mode . (lambda ()
-                          (haskell-collapse-mode)
-                          (interactive-haskell-mode)
-                          (turn-on-haskell-doc)))
+(leaf haskell-mode
+  :elpaca t
+  
+  :hook (haskell-mode-hook . (lambda ()
+                               (haskell-collapse-mode)
+                               (interactive-haskell-mode)
+                               (turn-on-haskell-doc)))
   :mode (("\\.hs\\'" . haskell-mode))
   :bind ("C-c C-z" . run-haskell)
   :config
@@ -15,11 +15,11 @@
         haskell-process-auto-import-loaded-modules t)
   (add-to-list 'completion-ignored-extensions ".hi"))
 
-;; (use-package haskell-ts-mode
-;;   :ensure t
-;;   :defer t
+;; (leaf haskell-ts-mode
+;;   :elpaca t
+;;   :leaf-defer t
 ;;   :custom
-;;   (haskell-ts-font-lock-level 4)
+;;   (haskell-ts-font-lock-level . 4)
 ;;   (haskell-ts-use-indent t)
 ;;   (haskell-ts-ghci "ghci")
 ;;   (haskell-ts-use-indent t)

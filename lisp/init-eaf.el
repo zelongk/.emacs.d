@@ -1,13 +1,13 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package eaf
-  :defer nil
+(leaf eaf
+  :leaf-defer nil
   :load-path "~/.emacs.d/site-lisp/emacs-application-framework/"
   :custom ; See https://github.com/emacs-eaf/emacs-application-framework/wiki/Customization
   (eaf-browser-continue-where-left-off t)
   (eaf-browser-enable-adblocker t)
   ;; (browse-url-browser-function 'eaf-open-browser)
-  :defines eaf-pdf-viewer-keybinding
+  :defvar eaf-pdf-viewer-keybinding
   :config
   (require 'eaf-pdf-viewer)
   (require 'eaf-music-player)

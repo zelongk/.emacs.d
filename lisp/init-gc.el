@@ -1,10 +1,9 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package gcmh
-  :diminish
-  :ensure t
-  :defer 2
-  :hook (emacs-startup . gcmh-mode)
+(leaf gcmh
+  :elpaca t
+  :require t
+  :hook (emacs-startup-hook . gcmh-mode)
   :config
   (defun gcmh-register-idle-gc ()
     "Register a timer to run `gcmh-idle-garbage-collect'.

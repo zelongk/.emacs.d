@@ -1,5 +1,13 @@
 ;;; init.el --- This is the  -*- lexical-binding: t -*-
 
+;; A helper to keep track of start-up time:
+(eval-when-compile (require 'cl-lib))
+(let ((emacs-start-time (current-time)))
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (let ((elapsed (float-time (time-subtract (current-time) emacs-start-time))))
+                (message "[Emacs initialized in %.3fs]" elapsed)))))
+
 ;; Optimize `auto-mode-alist`
 (setq auto-mode-case-fold nil)
 
@@ -48,15 +56,15 @@
 (require 'init-check)
 (require 'init-writing)
 
-;; (require 'init-eglot)
-
 (require 'init-pretty-latex)
+
 (require 'init-org)
 (require 'init-markdown)
 
 ;; (require 'init-roam)
 (require 'init-denote)
 
+;; (require 'init-eglot)
 (require 'init-lsp)
 (require 'init-tex)
 (require 'init-cc)

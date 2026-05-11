@@ -1,8 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package flyspell
+(leaf flyspell
   :commands flyspell-mode
-  :bind (:map flyspell-mode-map
+  :bind (:flyspell-mode-map
               ("C-M-i" . nil)
               ("C-;" . nil)
               ("C-," . nil)
@@ -10,8 +10,8 @@
               ;; ("C-; n" . 'flyspell-goto-next-error)
               ))
 
-(use-package jinx
-  :ensure t
+(leaf jinx
+  :elpaca t
   :commands jinx-mode
   :bind ([remap ispell-word] . jinx-correct))
 
