@@ -54,7 +54,6 @@
   :hook (elpaca-after-init-hook . global-auto-revert-mode))
 
 (leaf goto-addr
-  
   :hook (((text-mode-hook org-mode-hook) . goto-address-mode)
          (prog-mode . goto-address-prog-mode)))
 

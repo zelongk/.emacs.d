@@ -120,6 +120,7 @@
 (leaf lsp-ui
   :elpaca t
   :after lsp-mode
+  :blackout t
   :custom-face
   (lsp-ui-sideline-code-action . '((t (:inherit warning))))
   :bind
@@ -129,7 +130,7 @@
    ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
    ([remap xref-find-references] . lsp-ui-peek-find-references))
   :hook ((lsp-mode-hook . lsp-ui-mode)
-         (after-load-theme . lsp-ui-set-doc-border))
+         (after-load-theme-hook . lsp-ui-set-doc-border))
   :init
   (setq lsp-ui-sideline-show-diagnostics nil
         lsp-ui-sideline-ignore-duplicate t
@@ -145,35 +146,34 @@
   :bind (:lsp-ui-mode-map
          ("M-<f6>" . lsp-ui-transient-menu))
   :after transient lsp-ui
-  :config
-  ;; Define the group prefix
-  (transient-define-prefix lsp-ui-transient-menu ()
-    "LSP UI Configuration"
-    :transient-suffix 'transient--do-stay
-    [["Doc"
-      ("de" "enable" lsp-ui-doc-mode) ; Note: transient-infix-mode automatically handles toggle
-      ;; ("ds" "signature" lsp-ui-doc-include-signature)
-      ("dt" "top" (lambda () (interactive) (setq lsp-ui-doc-position 'top)))
-      ("db" "bottom" (lambda () (interactive) (setq lsp-ui-doc-position 'bottom)))
-      ("dp" "at point" (lambda () (interactive) (setq lsp-ui-doc-position 'at-point)))
-      ("df" "align frame" (lambda () (interactive) (setq lsp-ui-doc-alignment 'frame)))
-      ("dw" "align window" (lambda () (interactive) (setq lsp-ui-doc-alignment 'window)))]
-     
-     ["Navigation"
-      ("h" "←" backward-char)
-      ("j" "↓" next-line)
-      ("k" "↑" previous-line)
-      ("l" "→" forward-char)
-      ("C-a" "start code" mwim-beginning-of-code-or-line)
-      ("C-e" "end code" mwim-end-of-code-or-line)]
-     
-     ["Action"
-      ("c" "apply code" lsp-ui-sideline-apply-code-actions)
-      ("C-b" "back char" backward-char)
-      ("C-n" "next line" next-line)
-      ("C-p" "prev line" previous-line)
-      ("C-f" "fwd char" forward-char)]])
-  )
+  :transient
+  (lsp-ui-transient-menu
+   ()
+   "LSP UI Configuration"
+   :transient-suffix 'transient--do-stay
+   [["Doc"
+     ("de" "enable" lsp-ui-doc-mode) ; Note: transient-infix-mode automatically handles toggle
+     ;; ("ds" "signature" lsp-ui-doc-include-signature)
+     ("dt" "top" (lambda () (interactive) (setq lsp-ui-doc-position 'top)))
+     ("db" "bottom" (lambda () (interactive) (setq lsp-ui-doc-position 'bottom)))
+     ("dp" "at point" (lambda () (interactive) (setq lsp-ui-doc-position 'at-point)))
+     ("df" "align frame" (lambda () (interactive) (setq lsp-ui-doc-alignment 'frame)))
+     ("dw" "align window" (lambda () (interactive) (setq lsp-ui-doc-alignment 'window)))]
+    
+    ["Navigation"
+     ("h" "←" backward-char)
+     ("j" "↓" next-line)
+     ("k" "↑" previous-line)
+     ("l" "→" forward-char)
+     ("C-a" "start code" mwim-beginning-of-code-or-line)
+     ("C-e" "end code" mwim-end-of-code-or-line)]
+    
+    ["Action"
+     ("c" "apply code" lsp-ui-sideline-apply-code-actions)
+     ("C-b" "back char" backward-char)
+     ("C-n" "next line" next-line)
+     ("C-p" "prev line" previous-line)
+     ("C-f" "fwd char" forward-char)]]))
 
 (leaf lsp-haskell :elpaca t
   :after lsp-mode)

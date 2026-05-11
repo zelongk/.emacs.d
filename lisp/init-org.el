@@ -28,6 +28,18 @@
         org-agenda-tags-column 80
         org-startup-indented t
         org-indent-indentation-per-level 1)
+
+  (setq org-agenda-prefix-format
+        '((agenda . " %i %-12:c%?-12t% s")
+          (todo . " %i")
+          (tags . " %i %-12:c")
+          (search . " %i %-12:c")))
+  (setq org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-compact-blocks t
+        org-agenda-start-day "+0d"
+        org-agenda-span 3)
+  (setq org-agenda-remove-tags t)
   
   ;; Enable lsp in org-babel
   (cl-defmacro lsp-org-babel-enable (lang)
@@ -67,19 +79,8 @@
 ;; org agenda-related
 (leaf org-super-agenda :elpaca t
   :after org
-  :hook elpaca-after-init-hook
+  :hook (org-agenda-mode-hook . org-super-agenda-mode)
   :config
-  (setq org-agenda-prefix-format
-        '((agenda . " %i %-12:c%?-12t% s")
-          (todo . " %i")
-          (tags . " %i %-12:c")
-          (search . " %i %-12:c")))
-  (setq org-agenda-skip-scheduled-if-done t
-        org-agenda-skip-deadline-if-done t
-        org-agenda-compact-blocks t
-        org-agenda-start-day "+0d"
-        org-agenda-span 3)
-  (setq org-agenda-remove-tags t)
   (setq org-super-agenda-groups
         '(;; Each group has an implicit boolean OR operator between its selectors.
           (:name "Today"  ; Optionally specify section name
@@ -87,7 +88,7 @@
                  :todo "TODAY")  ; Items that have this TODO keyword
           (:name "Important"
                  ;; Single arguments given alone
-                 :tag "bills"
+                 :tag ("bills" "important")
                  :priority "A")
           (:name "Assignments"
                  ;; Single arguments given alone
@@ -182,7 +183,8 @@
 
 (leaf org-contrib
   :elpaca t
-  :after org)
+  :after org
+  :require t)
 
 (leaf org-modern
   :elpaca t
@@ -220,8 +222,7 @@
   :hook org-indent-mode-hook)
 
 (leaf org-appear
-  :elpaca t
-  
+  :elpaca t  
   :hook (org-mode-hook . org-appear-mode)
   :leaf-autoload org-appear--set-elements
   :config

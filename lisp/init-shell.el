@@ -28,6 +28,7 @@
   (advice-add 'gud-filter :around #'my/advice-compilation-filter))
 
 (leaf eat
+  :blackout t
   :bind (("C-`" . eat-toggle)
          ("C-<escape>" . eshell-toggle)
          ([remap project-shell] . eat-project))
@@ -79,6 +80,7 @@
 
 (leaf eshell-prompt-extras
   :elpaca t
+  :require t
   :after esh-opt
   :defvar eshell-highlight-prompt
   :leaf-autoload (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)

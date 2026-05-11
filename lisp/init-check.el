@@ -24,9 +24,7 @@
   :after flycheck)
 
 (leaf flyover :elpaca t
-  ;; :disabled t
-  :after flycheck
-  :hook flycheck-mode-hook
+  :hook (flycheck-mode-hook flyover-toggle)
   :config
   ;; Disable flyover-mode in emacs-lisp-mode
   (add-hook 'emacs-lisp-mode-hook (lambda () (flyover-mode -1)))

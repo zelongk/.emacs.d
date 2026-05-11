@@ -15,6 +15,7 @@
 
 (leaf apheleia
   :elpaca t
+  :blackout t
   :hook prog-mode-hook)
 
 (leaf editorconfig

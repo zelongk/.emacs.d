@@ -16,17 +16,14 @@
   (setq dired-listing-switches "-alh --group-directories-first"
         dired-use-ls-dired t))
 
-;; Colorful dired
-(leaf diredfl
-  :elpaca t
-  :hook (elpaca-after-init-hook . diredfl-global-mode))
-
-;; Extra Dired functionality
+(leaf diredfl :elpaca t)
 (leaf dired-aux)
+(leaf dired-filter :elpaca t
+  :after dired
+  :hook dired-mode-hook)
 
 (leaf nerd-icons-dired
-  :elpaca t
-  
+  :elpaca t  
   :hook
   (dired-mode . nerd-icons-dired-mode))
 

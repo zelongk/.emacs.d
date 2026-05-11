@@ -75,18 +75,18 @@ The expansion is a string indicating the package has been disabled."
 		               (elpaca--first order))
 		            ,@body)))))
 
-
-
-(elpaca-leaf leaf)
+(elpaca-leaf leaf
+  :init
+  (require 'leaf))
 (elpaca-leaf leaf-keywords
-  :init (leaf-keywords-init))
+    :init
+    (require 'leaf-keywords)
+    (leaf-keywords-init))
+
 
 (setq leaf-expand-minimally t
       leaf-enable-imenu-support t)
-
 (elpaca-wait)
-
-(leaf leaf-convert :elpaca t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

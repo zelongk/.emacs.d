@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(leaf diminish :elpaca t)
+(leaf blackout :elpaca t)
 
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
@@ -80,13 +80,13 @@
   :bind ("M-<f5>" . modus-themes-load-random-dark)
   :init
   (ef-themes-take-over-modus-themes-mode 1)
-  ;; (setq ef-themes-headings
-  ;;       '((0 . (1.30))
-  ;;         (1 . (1.25))
-  ;;         (2 . (1.20))
-  ;;         (3 . (1.15))
-  ;;         (4 . (1.10))
-  ;;         (t . (1.05))))
+  (setq ef-themes-headings
+        '((0 . (1.50))
+          (1 . (1.28))
+          (2 . (1.22))
+          (3 . (1.17))
+          (4 . (1.14))
+          (t . (1.1))))
 
   (defun my-set-faces (faces color)
     (dolist (face (if (listp faces) faces (list faces)))
@@ -279,10 +279,10 @@
   :elpaca t
   :leaf-autoload turn-off-hide-mode-line-mode
   :hook (((eat-mode-hook
-           eshell-mode shell-mode
-           term-mode vterm-mode
-           embark-collect-mode lsp-ui-imenu-mode
-           pdf-annot-list-mode) . turn-on-hide-mode-line-mode)))
+           eshell-mode-hook shell-mode-hook
+           term-mode-hook vterm-mode-hook
+           embark-collect-mode-hook lsp-ui-imenu-mode-hook
+           pdf-annot-list-mode-hook) . turn-on-hide-mode-line-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                                         ;              Interface              ;
@@ -356,9 +356,8 @@
 
 (leaf rainbow-delimiters
   :elpaca t
-  :hook ((prog-mode-hook . rainbow-delimiters-mode)
-         (typst-ts-mode . rainbow-delimiters-mode)
-         (python-ts-mode . rainbow-delimiters-mode)))
+  :hook ((prog-mode-hook typst-ts-mode-hook python-ts-mode-hook)
+         . rainbow-delimiters-mode))
 
 (leaf rainbow-mode
   :elpaca t
@@ -369,7 +368,7 @@
 (leaf hl-line
   :disabled t
   :hook ((elpaca-after-init-hook . global-hl-line-mode)
-         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode eat-mode) .
+         ((dashboard-mode-hook eshell-mode-hook shell-mode-hook term-mode-hook vterm-mode-hook eat-mode-hook) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
 (leaf beacon
@@ -384,7 +383,7 @@
   :hook (elpaca-after-init-hook . pulsar-global-mode)
   :custom-face (pulsar-generic . '((t :inherit region :extend t)))
   :custom
-  (pulsar-delay . 0.03)
+  (pulsar-delay . 0.05)
   (pulsar-iterations . 5)
   (pulsar-face . 'pulsar-green)
   (pulsar-region-face . 'pulsar-yellow)
@@ -396,7 +395,6 @@
 ;; Eval result overlay
 (leaf eros
   :elpaca t
-  
   :hook emacs-lisp-mode-hook lisp-interaction-mode-hook
   :bind (([remap eval-defun] . eros-eval-defun)
          ([remap eval-last-sexp] . eros-eval-last-sexp)))

@@ -3,9 +3,8 @@
 ;; Yasnippet settings
 (leaf yasnippet
   :elpaca t
-  :hook (((prog-mode-hook LaTeX-mode-hook org-mode-hook
-                          eval-expression-minibuffer-setup
-                          yaml-ts-mode)
+  :hook (((prog-mode-hook LaTeX-mode-hook
+                          org-mode-hook yaml-ts-mode)
           . yas-minor-mode-on)
          (yas-minor-mode . my/yas-auto-setup))
   :commands (yas-minor-mode-on

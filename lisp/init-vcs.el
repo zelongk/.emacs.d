@@ -23,7 +23,6 @@
 
 (leaf magit
   :elpaca (magit :repo "magit/magit" :tag "v4.5.0")
-  
   :bind (("C-c g" . magit-dispatch))
   :custom
   (magit-diff-refine-hunk . t)
@@ -49,12 +48,13 @@
 
 ;; Walk through git revisions of a file
 (leaf git-timemachine :elpaca t
-  :after vc
+  :require t
   :custom-face
   (git-timemachine-minibuffer-author-face . '((t (:inherit success :foreground unspecified))))
   (git-timemachine-minibuffer-detail-face . '((t (:inherit warning :foreground unspecified))))
-  :bind (:vc-prefix-map
-         ("t" . git-timemachine))
+  :bind
+  (:vc-prefix-map
+   ("t" . git-timemachine))
   :hook ((git-timemachine-mode-hook . (lambda ()
                                         "Improve `git-timemachine' buffers."
                                         ;; Highlight symbols in elisp
@@ -84,32 +84,33 @@
   :bind (:smerge-mode-map
          ("C-c m" . smerge-dispatch-menu))
   :after transient
-  :config
-  (transient-define-prefix smerge-dispatch-menu ()
-    "Smerge Conflict Resolution"
-    :transient-suffix 'transient--do-stay
-    [["Move"
-      ("n" "next" smerge-next)
-      ("p" "previous" smerge-prev)]
-     
-     ["Keep"
-      ("b" "base" smerge-keep-base)
-      ("u" "upper" smerge-keep-upper)
-      ("l" "lower" smerge-keep-lower)
-      ("a" "all"  smerge-keep-all)
-      ("RET" "current" smerge-keep-current)]
-     
-     ["Diff"
-      ("<" "upper/base" smerge-diff-base-upper)
-      ("=" "upper/lower" smerge-diff-upper-lower)
-      (">" "base/lower" smerge-diff-base-lower)
-      ("R" "refine" smerge-refine)
-      ("E" "ediff" smerge-ediff)]
-     
-     ["Other"
-      ("C" "combine" smerge-combine-with-next)
-      ("r" "resolve" smerge-resolve)
-      ("k" "kill" smerge-kill-current)
-      ("ZZ" "Save & bury" (lambda () (interactive) (save-buffer) (bury-buffer)) :transient nil)]]))
+  :transient
+  (smerge-dispatch-menu
+   ()
+   "Smerge Conflict Resolution"
+   :transient-suffix 'transient--do-stay
+   [["Move"
+     ("n" "next" smerge-next)
+     ("p" "previous" smerge-prev)]
+    
+    ["Keep"
+     ("b" "base" smerge-keep-base)
+     ("u" "upper" smerge-keep-upper)
+     ("l" "lower" smerge-keep-lower)
+     ("a" "all"  smerge-keep-all)
+     ("RET" "current" smerge-keep-current)]
+    
+    ["Diff"
+     ("<" "upper/base" smerge-diff-base-upper)
+     ("=" "upper/lower" smerge-diff-upper-lower)
+     (">" "base/lower" smerge-diff-base-lower)
+     ("R" "refine" smerge-refine)
+     ("E" "ediff" smerge-ediff)]
+    
+    ["Other"
+     ("C" "combine" smerge-combine-with-next)
+     ("r" "resolve" smerge-resolve)
+     ("k" "kill" smerge-kill-current)
+     ("ZZ" "Save & bury" (lambda () (interactive) (save-buffer) (bury-buffer)) :transient nil)]]))
 
 (provide 'init-vcs)

@@ -9,7 +9,7 @@
                                       'lisp-interaction-mode
                                       'ron-mode)
                                (eglot-ensure))))
-         ((markdown-mode yaml-mode yaml-ts-mode) . eglot-ensure))
+         ((markdown-mode-hook yaml-mode-hook yaml-ts-mode-hook) . eglot-ensure))
   :bind (:eglot-mode-map
 	     ("C-c c a" . eglot-code-actions))
   :config

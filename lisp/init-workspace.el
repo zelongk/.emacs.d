@@ -96,7 +96,7 @@
   :commands (tabspaces-switch-or-create-workspace
              tabspaces-open-or-create-project-and-workspace)
   :hook ((elpaca-after-init-hook . tabspaces-mode)
-         (tabspaces-mode . tab-bar-history-mode))
+         (tabspaces-mode-hook . tab-bar-history-mode))
   :bind (:tabspaces-command-map
          ("l" . tabspaces-restore-session)
          ("s" . tabspaces-save-session)

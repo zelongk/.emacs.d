@@ -12,11 +12,6 @@
       package-quickstart nil
       load-prefer-newer t)
 
-(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "site-lisp/" user-emacs-directory))
-(setq use-package-enable-imenu-support t)
-(setq load-prefer-newer noninteractive)
-
 (setenv "LSP_USE_PLISTS" "true") ;; Lsp-mode plists
 (setenv "LIBGS" "/opt/homebrew/lib/libgs.dylib")
 

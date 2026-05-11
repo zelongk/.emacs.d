@@ -10,7 +10,7 @@
                             (re-search-forward "ID=\\(?:guix\\|nixos\\)" nil t))))
 
 (leaf benchmark-init :elpaca t
-  :leaf-defer nil
+  :require t
   :hook (elpaca-after-init-hook . benchmark-init/deactivate))
 
 (defun native-compile-elpaca ()
@@ -35,15 +35,6 @@
           exec-path-from-shell-variables '("PATH" "MANPATH" "HOMEBREW_NO_AUTO_UPDATE"
                                            "HOMEBREW_NO_ENV_HINTS" "LIBGS" "PYTHONPATH"))
     (exec-path-from-shell-initialize)))
-
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'no-error 'no-message)))
-
-(setq secrets-file (expand-file-name "secrets.el" user-emacs-directory))
-(add-hook 'elpaca-after-init-hook (lambda () (when (file-exists-p secrets-file)
-                                               (load secrets-file 'no-error 'no-message))))
-
-(setq package-user-dir (expand-file-name "elpa" user-cache-directory))
 
 ;; Start server
 (leaf server
@@ -252,15 +243,5 @@
   :require t
   :config
   (tramp-hlo-setup))
-
-(leaf transient
-  :elpaca (transient :host github :repo "magit/transient")
-  :require t
-  :config
-  (transient-bind-q-to-quit)
-  (setq transient-history-file (expand-file-name "transient/history.el" user-cache-directory)
-        transient-levels-file (expand-file-name "transient/levels.el" user-cache-directory)
-        transient-values-file (expand-file-name "transient/values.el" user-cache-directory)
-        transient-show-popup t))
 
 (provide 'init-better-default)

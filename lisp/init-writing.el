@@ -3,12 +3,10 @@
 (leaf flyspell
   :commands flyspell-mode
   :bind (:flyspell-mode-map
-              ("C-M-i" . nil)
-              ("C-;" . nil)
-              ("C-," . nil)
-              ("C-; C-4" . 'flyspell-auto-correct-previous-word)
-              ;; ("C-; n" . 'flyspell-goto-next-error)
-              ))
+         ("C-M-i" . nil)
+         ("C-;" . nil)
+         ("C-," . nil)
+         ("C-; C-4" . 'flyspell-auto-correct-previous-word)))
 
 (leaf jinx
   :elpaca t
