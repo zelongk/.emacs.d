@@ -88,9 +88,9 @@
   )
 
 
-(leaf meow :elpaca t
+(leaf meow :ensure t
   :leaf-defer nil
-  :hook (elpaca-after-init-hook . meow-global-mode)
+  :hook (after-init-hook . meow-global-mode)
   :config
   (meow-setup)
   (meow-setup-indicator)

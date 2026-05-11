@@ -2,7 +2,7 @@
 
 
 (leaf haskell-mode
-  :elpaca t
+  :ensure t
   
   :hook (haskell-mode-hook . (lambda ()
                                (haskell-collapse-mode)
@@ -16,7 +16,7 @@
   (add-to-list 'completion-ignored-extensions ".hi"))
 
 ;; (leaf haskell-ts-mode
-;;   :elpaca t
+;;   :ensure t
 ;;   :leaf-defer t
 ;;   :custom
 ;;   (haskell-ts-font-lock-level . 4)

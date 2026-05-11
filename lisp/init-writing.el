@@ -9,7 +9,7 @@
          ("C-; C-4" . 'flyspell-auto-correct-previous-word)))
 
 (leaf jinx
-  :elpaca t
+  :ensure t
   :commands jinx-mode
   :bind ([remap ispell-word] . jinx-correct))
 

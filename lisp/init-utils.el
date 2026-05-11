@@ -1,10 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 
 (leaf which-key
-  :elpaca t
+  :ensure t
   :commands childframe-completion-workable-p
   :bind ("C-h M-m" . which-key-show-major-mode)
-  :hook (elpaca-after-init-hook . which-key-mode)
+  :hook (after-init-hook . which-key-mode)
   :hook (god-mode-hook . which-key--god-mode-support-enabled)
   :init (setq which-key-max-description-length 30
 	          which-key-idle-delay 0.5
@@ -31,7 +31,7 @@
 
 ;; Writable grep buffer
 (leaf wgrep
-  :elpaca t
+  :ensure t
   
   :init (setq wgrep-auto-save-buffer t
               wgrep-change-readonly-file t))
@@ -39,7 +39,7 @@
 ;; Fast search tool `ripgrep'
 (leaf rg
   :disabled t
-  :elpaca t
+  :ensure t
   :bind
   (("C-c s" . rg-menu))
   (:rg-global-map
@@ -52,6 +52,6 @@
   (rg-enable-default-bindings))
 
 (leaf elcord
-  :elpaca t)
+  :ensure t)
 
 (provide 'init-utils)

@@ -8,9 +8,12 @@
 
 (setq read-process-output-max (* 1024 1024))
 
-(setq package-enable-at-startup nil
+(setq package-enable-at-startup t
       package-quickstart nil
       load-prefer-newer t)
+
+(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "site-lisp/" user-emacs-directory))
 
 (setenv "LSP_USE_PLISTS" "true") ;; Lsp-mode plists
 (setenv "LIBGS" "/opt/homebrew/lib/libgs.dylib")
@@ -67,7 +70,8 @@
   (setcar native-comp-eln-load-path
           (expand-file-name "~/.cache/eln-cache/")))
 
-(setq native-comp-jit-compilation nil
-      native-comp-async-report-warnings-errors nil)
+(when (native-comp-available-p)
+  (setq native-comp-jit-compilation nil
+        native-comp-async-report-warnings-errors nil))
 
 (provide 'early-init)

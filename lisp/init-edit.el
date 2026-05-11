@@ -1,14 +1,14 @@
 ;; -*- lexical-binding: t -*-
 
 (leaf delsel
-  :hook (elpaca-after-init-hook . delete-selection-mode))
+  :hook (after-init-hook . delete-selection-mode))
 
 (leaf elec-pair
-  :hook (elpaca-after-init-hook . electric-pair-mode))
+  :hook (after-init-hook . electric-pair-mode))
 
 (leaf puni
-  :elpaca t
-  :hook (elpaca-after-init-hook . puni-global-mode)
+  :ensure t
+  :hook (after-init-hook . puni-global-mode)
   :custom
   (puni-confirm-when-delete-unbalanced-active-region . nil)
   :bind (:puni-mode-map
@@ -35,8 +35,8 @@
       (puni-backward-delete-char))))
 
 (leaf combobulate
-  :disabled
-  :elpaca (combobulate :host github :repo "mickeynp/combobulate")
+  :disabled t
+  :vc (:url "https://github.com/mickeynp/combobulate")
   :hook prog-mode-hook
   :config
   ;; You can customize Combobulate's key prefix here.
@@ -51,16 +51,16 @@
 
 
 (leaf autorevert
-  :hook (elpaca-after-init-hook . global-auto-revert-mode))
+  :hook (after-init-hook . global-auto-revert-mode))
 
 (leaf goto-addr
   :hook (((text-mode-hook org-mode-hook) . goto-address-mode)
          (prog-mode . goto-address-prog-mode)))
 
+(define-prefix-command 'macrursors-mark-map)
 (leaf macrursors
-  :elpaca (macrursors :host github :repo "karthink/macrursors"
-                      :branch "expand-region")
-  :hook elpaca-after-init-hook
+  :vc (:url "https://github.com/karthink/macrursors" :branch "expand-region")
+  :hook after-init-hook
   :bind-keymap ("C-;" . macrursors-mark-map)
   :bind
   (("C-<" . macrursors-mark-previous-line)
@@ -93,8 +93,6 @@
    (")" . macrursors-mark-all-sentences)
    ("M-e" . macrursors-mark-all-sentences)
    ("e" . macrursors-mark-all-lines))  
-  :preface
-  (define-prefix-command 'macrursors-mark-map)
   :init
   (leaf macrursors-select
     :bind (:macrursors-mark-map
@@ -102,12 +100,12 @@
 
 
 (leaf mwim
-  :elpaca t
+  :ensure t
   :bind (([remap move-beginning-of-line] . mwim-beginning)
          ([remap move-end-of-line] . mwim-end)))
 
 (leaf avy
-  :elpaca t
+  :ensure t
   :bind
   (("C-'" . avy-goto-char-timer))
   (:isearch-mode-map
@@ -120,40 +118,40 @@
 
 ;; Kill text between cursor and char
 (leaf avy-zap
-  :elpaca t
+  :ensure t
   :bind (("M-z" . avy-zap-to-char-dwim)
          ("M-Z" . avy-zap-up-to-char-dwim)))
 
 (leaf ace-pinyin
-  :elpaca t
-  :hook (elpaca-after-init-hook . ace-pinyin-global-mode))
+  :ensure t
+  :hook (after-init-hook . ace-pinyin-global-mode))
 
 ;; show number of matches
 (leaf anzu
-  :elpaca t
+  :ensure t
   :bind
   (([remap query-replace] . anzu-query-replace)
    ([remap query-replace-regexp] . anzu-query-replace-regexp))
   (:isearch-mode-map
    ([remap isearch-query-replace] . anzu-isearch-query-replace)
    ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
-  :hook (elpaca-after-init-hook . global-anzu-mode))
+  :hook (after-init-hook . global-anzu-mode))
 
 ;; Goto last change
 (leaf goto-chg
-  :elpaca t
+  :ensure t
   :bind ("C-," . goto-last-change))
 
 ;; Treat undo history as a tree
 (leaf vundo
-  :elpaca t
+  :ensure t
   :bind ("C-x u" . vundo)
   :config (setq vundo-glyph-alist vundo-unicode-symbols))
 
 ;; Remember undo history
 (leaf undo-fu-session
-  :elpaca t
-  :hook (elpaca-after-init-hook . undo-fu-session-global-mode)
+  :ensure t
+  :hook (after-init-hook . undo-fu-session-global-mode)
   :config
   (setq undo-fu-session-directory (expand-file-name "undo-fu-session" user-cache-directory)))
 
@@ -166,7 +164,7 @@
         proced-enable-color-flag t))
 
 (leaf olivetti
-  :elpaca t
+  :ensure t
   :hook org-mode-hook
   :bind (("<f7>" . olivetti-mode))
   :custom

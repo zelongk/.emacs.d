@@ -2,7 +2,7 @@
 
 ;; Yasnippet settings
 (leaf yasnippet
-  :elpaca t
+  :ensure t
   :hook (((prog-mode-hook LaTeX-mode-hook
                           org-mode-hook yaml-ts-mode)
           . yas-minor-mode-on)
@@ -53,22 +53,11 @@
     (define-key yas-keymap (kbd "C-g") #'my/yas-corfu-cancel)))
 
 (leaf doom-snippets
-  :elpaca (doom-snippets :type git :host github :repo "doomemacs/snippets" :files ("*.el" "*")
-                         :post-build
-                         (let ((default-directory
-                                (file-name-as-directory
-                                 (file-name-concat
-                                  elpaca-builds-directory
-                                  "doom-snippets"
-                                  "latex-mode"))))
-                           (unless (file-directory-p default-directory)
-                             (make-directory default-directory 'parents))
-                           (with-temp-buffer
-                             (write-file ".yas-skip")))) ;; Ignore their latex-mode snippets
+  :vc (:url "https://github.com/doomemacs/snippets")
   :after yasnippet)
 
 (leaf consult-yasnippet
-  :elpaca t
+  :ensure t
   :after yasnippet
   :bind ("M-g y" . consult-yasnippet))
 

@@ -2,7 +2,7 @@
 
 ;; Auto completion
 (leaf corfu
-  :elpaca t
+  :ensure t
   :custom
   (corfu-auto . t)
   (corfu-auto-prefix . 2)
@@ -36,7 +36,7 @@
   (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
 (leaf nerd-icons-corfu
-  :elpaca t
+  :ensure t
   :after corfu
   :init
   (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
@@ -61,7 +61,7 @@
   (read-extended-command-predicate . #'command-completion-default-include-p))
 
 (leaf cape
-  :elpaca t
+  :ensure t
   :commands (cape-file cape-elisp-block cape-keyword)
   :leaf-autoload (cape-wrap-noninterruptible cape-wrap-nonexclusive cape-wrap-buster)
   :leaf-autoload (cape-wrap-silent)

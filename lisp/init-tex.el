@@ -1,12 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (leaf latex
-  :after tex
-  :elpaca (auctex :repo "https://code.200568.top/mirrors/auctex" :branch "master"
-                  :pre-build (("./autogen.sh")
-                              ("./configure" "--without-texmf-dir" "--with-lispdir=.")
-                              ("make")))
-  ;; :elpaca (auctex :type git :host nil :repo "https://git.savannah.gnu.org/git/auctex.git")
+  :ensure auctex
   :defvar (TeX-auto-save
            TeX-parse-self
            TeX-electric-escape
@@ -25,9 +20,10 @@
          (LaTeX-mode . lsp-deferred)
          (LaTeX-mode . (lambda () (lsp-ui-mode -1)))
          (LaTeX-mode . (lambda () (apheleia-mode -1))))
-  :bind (:LaTeX-mode-map
-         ("C-S-e" . latex-math-from-calc)
-         ("C-c x" . TeX-clean))
+  :bind
+  (:LaTeX-mode-map
+   ("C-S-e" . latex-math-from-calc)
+   ("C-c x" . TeX-clean))
   :custom
   (TeX-auto-save . t)
   (TeX-parse-self . t)
@@ -66,20 +62,23 @@
                                     calc-angle-mode rad)))))))
   ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
   ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
-
   (leaf texpresso
-    :commands texpresso 
-    :elpaca (texpresso :host github :repo "let-def/texpresso" :files ("emacs/*.el"))
+    :require t
+    :vc (:url "https://github.com/let-def/texpresso"
+              :lisp-dir "emacs")
     :hook (texpresso-mode-hook . texpresso-sync-mode)
     :custom
     (texpresso-follow-cursor . t)
-    :bind (:LaTeX-mode-map
-           ("C-c C-p" . texpresso)
-           ("S-s-<mouse-1>" . texpresso-move-to-cursor))))
+    :bind
+    (:LaTeX-mode-map
+     ("C-c C-p" . texpresso)
+     ("S-s-<mouse-1>" . texpresso-move-to-cursor)))
+  )
+
 
 (leaf reftex
   :after latex
- 
+  
   :commands turn-on-reftex
   :hook ((latex-mode-hook LaTeX-mode-hook) . turn-on-reftex)
   :config
@@ -93,20 +92,8 @@
   (setq reftex-ref-style-default-list '("Default" "AMSmath" "Cleveref"))
   (setq reftex-use-multiple-selection-buffers t))
 
-(leaf consult-reftex
-  :elpaca (consult-reftex :host github :repo "karthink/consult-reftex")
-  ;; :load-path "plugins/consult-reftex/"
-  :after (reftex consult embark)
-  :bind
-  (:reftex-mode-map
-   ("C-c )"   . consult-reftex-insert-reference)
-   ("C-c M-." . consult-reftex-goto-label))
-  (:org-mode-map
-   ("C-c (" . consult-reftex-goto-label)
-   ("C-c )"   . consult-reftex-insert-reference)))
-
 (leaf cdlatex
-  :elpaca t
+  :ensure t
   :after latex
   :hook ((LaTeX-mode-hook . turn-on-cdlatex)
          (LaTeX-mode . cdlatex-electricindex-mode))
@@ -136,7 +123,7 @@ expansion, then cdlatex expansion."
   (cdlatex-reset-mode))
 
 (leaf lazytab
-  :elpaca '(lazytab :type git :host github :repo "karthink/lazytab" :files ("*.el"))
+  :vc (:url "https://github.com/karthink/lazytab")
   :leaf-defer nil
   :after cdlatex
   :bind (:org-mode-map
@@ -156,13 +143,13 @@ expansion, then cdlatex expansion."
 
 (leaf lazytab
   :after latex
-  :bind (:LaTeX-mode-map
-         ("C-x |" . my/lazytab-orgtbl-edit)))
+  :bind
+  (:LaTeX-mode-map
+   ("C-x |" . my/lazytab-orgtbl-edit)))
 
 (leaf citar
-  :elpaca t
+  :ensure t
   :after latex
- 
   :bind
   (:LaTeX-mode-map
    ("C-c ]" . citar-insert-citation))
@@ -188,7 +175,7 @@ expansion, then cdlatex expansion."
             "cite{" my/cdlatex-bibtex-action nil t nil))))
 
 (leaf citar-embark
-  :elpaca t
+  :ensure t
   :after (citar embark)
   :config
   (citar-embark--enable))

@@ -45,7 +45,7 @@
 
 ;; Install leaf support
 ;; (elpaca elpaca-use-package
-;;   ;; Enable leaf :elpaca support for Elpaca.
+;;   ;; Enable leaf :ensure support for Elpaca.
 ;;   (elpaca-use-package-mode))
 
 ;; (setq leaf-verbose nil
@@ -64,7 +64,7 @@ The expansion is a string indicating the package has been disabled."
   (if (memq :disabled body)
       (format "%S :disabled by elpaca-leaf" order)
     (let ((o order))
-      (when-let ((ensure (seq-position body :elpaca)))
+      (when-let ((ensure (seq-position body :ensure)))
 	    (setq o (if (null (nth (1+ ensure) body)) nil order)
 	          body (append (seq-subseq body 0 ensure)
 			               (seq-subseq body (+ ensure 2)))))
@@ -76,13 +76,12 @@ The expansion is a string indicating the package has been disabled."
 		            ,@body)))))
 
 (elpaca-leaf leaf
-  :init
-  (require 'leaf))
+             :init
+             (require 'leaf))
 (elpaca-leaf leaf-keywords
-    :init
-    (require 'leaf-keywords)
-    (leaf-keywords-init))
-
+             :init
+             (require 'leaf-keywords)
+             (leaf-keywords-init))
 
 (setq leaf-expand-minimally t
       leaf-enable-imenu-support t)
@@ -96,7 +95,7 @@ The expansion is a string indicating the package has been disabled."
 ;;e.g. a package which adds a leaf key word,
 ;;use the :wait recipe keyword to block until that package is installed/configured.
 ;;For example:
-;;(leaf general :elpaca (:wait t) :leaf-defer nil)
+;;(leaf general :ensure (:wait t) :leaf-defer nil)
 
 (leaf elpaca-ui
   :bind

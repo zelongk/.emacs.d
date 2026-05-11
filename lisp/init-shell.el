@@ -10,7 +10,7 @@
 
 
 (leaf xterm-color
-  :elpaca t
+  :ensure t
   :defvar (compilation-environment)
   :init
   (setenv "TERM" "xterm-256color")
@@ -27,50 +27,19 @@
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
   (advice-add 'gud-filter :around #'my/advice-compilation-filter))
 
-(leaf eat
-  :blackout t
-  :bind (("C-`" . eat-toggle)
-         ("C-<escape>" . eshell-toggle)
-         ([remap project-shell] . eat-project))
-  :hook ((eshell-load-hook . eat-eshell-mode)
-         (eshell-load . eat-eshell-visual-command-mode))
-  :elpaca `(eat :repo "https://codeberg.org/akib/emacs-eat"
-		        :files ("*.el" ("term" "term/*.el") "*.texi"
-			            "*.ti" ("terminfo/e" "terminfo/e/*")
-			            ("terminfo/65" "terminfo/65/*")
-			            ("integration" "integration/*")
-			            (:exclude ".dir-locals.el" "*-tests.el")))
+(leaf ghostel
+  :ensure t
+  :bind (("C-`" . ghostel-toggle))
+  :hook (eshell-load-hook . ghostel-eshell-visual-command-mode)
   :custom
-  (eat-kill-buffer-on-exit . t)
-  (eat-shell . "/opt/homebrew/bin/fish")
-  (eat-tramp-shells . '(("docker" . "/bin/sh")
-                        ("ssh" . "/bin/bash")
-                        ("sshx" . "/bin/bash")
-                        ("rpc" . "/bin/bash")))
-  ;; Clear commands eshell considers visual by default.
-  (eshell-visual-commands . '())
-  (eat-minimum-latency . 0.002)
-  (eat-enable-directory-tracking . t)
-  (eat-enable-shell-prompt-annotation . t)
-  
+  (ghostel-shell . "/opt/homebrew/bin/fish")
+  (ghostel-tramp-integration . t)
+  (ghostel-tramp-default-method . 'tramp-default-method)
   :config
-  (defun eshell-toggle () (interactive)
-         (if (string= (buffer-name) "*eshell*")
+  (defun ghostel-toggle () (interactive)
+         (if (string-match-p "ghostel" (buffer-name))
              (delete-window)
-           (eshell)))
-  (defun eat-toggle () (interactive)
-         (if (string= (buffer-name) "*eat*")
-             (delete-window)
-           (eat)))
-
-  ;; Improve latency
-  (setq process-adaptive-read-buffering t)  
-
-  (when (eq system-type 'darwin)
-    (define-key eat-semi-char-mode-map (kbd "C-h")  #'eat-self-input)
-    (define-key eat-semi-char-mode-map (kbd "<backspace>") (kbd "C-h"))))
-
-
+           (ghostel))))
 
 ;;; Eshell related
 (leaf eshell  
@@ -79,7 +48,7 @@
   (setq eshell-banner-message ""))
 
 (leaf eshell-prompt-extras
-  :elpaca t
+  :ensure t
   :require t
   :after esh-opt
   :defvar eshell-highlight-prompt
@@ -89,9 +58,9 @@
   (setq eshell-prompt-function #'epe-theme-lambda))
 
 (leaf eshell-syntax-highlighting
-  :elpaca t
+  :ensure t
   :after eshell
-  :hook (elpaca-after-init-hook . eshell-syntax-highlighting-global-mode))
+  :hook (after-init-hook . eshell-syntax-highlighting-global-mode))
 
 
 (provide 'init-shell)

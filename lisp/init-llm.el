@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
 (leaf gptel
-  :elpaca t
+  :ensure t
   :commands (gptel gptel-menu gptel-send)
   :bind
   ("C-c l l" . gptel)
@@ -24,12 +24,12 @@
               openai/gpt-5.5)))
 
 (leaf gptel-magit
-  :elpaca t
+  :ensure t
   :after magit
   :hook (magit-mode-hook . gptel-magit-install))
 
 (leaf gptel-agent
-  :elpaca t
+  :ensure t
   :after gptel
   :config (gptel-agent-update))  
 

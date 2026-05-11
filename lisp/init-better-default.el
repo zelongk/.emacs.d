@@ -9,15 +9,15 @@
                             (insert-file-contents "/etc/os-release")
                             (re-search-forward "ID=\\(?:guix\\|nixos\\)" nil t))))
 
-(leaf benchmark-init :elpaca t
+(leaf benchmark-init :ensure t
   :require t
-  :hook (elpaca-after-init-hook . benchmark-init/deactivate))
+  :hook (after-init-hook . benchmark-init/deactivate))
 
-(defun native-compile-elpaca ()
+(defun native-compile-elpa ()
   "Native-compile packages in elpa directory."
   (interactive)
   (if (fboundp 'native-compile-async)
-      (native-compile-async elpaca-builds-directory t)))
+      (native-compile-async package-user-dir t)))
 
 (defun native-compile-site-lisp ()
   "Native compile packages in site-lisp directory."
@@ -28,7 +28,7 @@
 
 (when (memq window-system '(ns x))
   (leaf exec-path-from-shell
-    :elpaca t
+    :ensure t
     :commands exec-path-from-shell-initialize
     :init
     (setq exec-path-from-shell-arguments '("-l")
@@ -45,7 +45,7 @@
 
 (leaf saveplace
   :require t
-  :hook (elpaca-after-init-hook . save-place-mode)
+  :hook (after-init-hook . save-place-mode)
   :config
   (setq save-place-file (expand-file-name "places" user-cache-directory)))
 
@@ -71,11 +71,11 @@
 
 (leaf paren
   :require t
-  :hook (elpaca-after-init-hook . show-paren-mode))
+  :hook (after-init-hook . show-paren-mode))
 
 (leaf recentf
   :require t
-  :hook (elpaca-after-init-hook . recentf-mode)
+  :hook (after-init-hook . recentf-mode)
   :init
   (setq recentf-max-saved-items 500
         recentf-exclude
@@ -93,7 +93,7 @@
 
 (leaf savehist
   :require t
-  :hook (elpaca-after-init-hook . savehist-mode)
+  :hook (after-init-hook . savehist-mode)
   :init
   (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
         history-length 1000
@@ -112,6 +112,8 @@
         make-backup-files nil
         use-short-answers t
         confirm-kill-processes nil)
+
+  (add-to-list 'warning-suppress-types '(obsolete))
 
   (if IS-MAC
       (setq mac-command-modifier 'super
@@ -143,19 +145,19 @@
 
   ;; Kill & Mark things easily
   (leaf easy-kill
-    :elpaca t
+    :ensure t
     :bind (([remap kill-ring-save] . easy-kill)
            ([remap mark-sexp] . easy-mark))))
 
 (leaf ultra-scroll
-  :elpaca t
+  :ensure t
   :init
   (setq scroll-conservatively 3
 	    scroll-margin 0)
-  :hook (elpaca-after-init-hook . ultra-scroll-mode))
+  :hook (after-init-hook . ultra-scroll-mode))
 
 (leaf helpful
-  :elpaca t
+  :ensure t
   :bind
   (([remap describe-function] . helpful-callable)
    ([remap describe-command]  . helpful-command)
@@ -198,7 +200,7 @@
   (setq create-lockfiles nil))
 
 (leaf tramp
-  :elpaca t
+  :ensure t
   :commands (sudo-find-file sudo-this-file)
   :bind ("C-x C-S-f" . sudo-find-file)
   :config
@@ -231,14 +233,7 @@
   (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)
         bookmark-fringe-mark nil))
 
-(leaf tramp-rpc
-  :disabled t
-  :elpaca (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc")
-  :config
-  (setq tramp-rpc-deploy-local-cache-directory (expand-file-name "tramp-rpc" user-cache-directory))
-  (tramp-rpc-magit-enable))
-
-(leaf tramp-hlo :elpaca t
+(leaf tramp-hlo :ensure t
   :after tramp
   :require t
   :config

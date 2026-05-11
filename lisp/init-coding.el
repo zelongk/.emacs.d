@@ -14,15 +14,15 @@
       show-paren-context-when-offscreen 'child-frame)
 
 (leaf apheleia
-  :elpaca t
+  :ensure t
   :blackout t
   :hook prog-mode-hook)
 
 (leaf editorconfig
-  :elpaca t)
+  :ensure t)
 
 (leaf treesit-auto
-  :elpaca t
+  :ensure t
   :hook (prog-mode-hook . treesit-auto-mode)
   :custom
   (treesit-auto-install . 'prompt)
@@ -43,36 +43,36 @@
 
 ;; Support for some lang
 (leaf elvish-mode
-  :elpaca t
+  :ensure t
   )
 
 (leaf fish-mode
-  :elpaca t
+  :ensure t
   )
 
 (leaf docker-compose-mode
-  :elpaca t
+  :ensure t
   )
 
 (leaf ansible
-  :elpaca t
+  :ensure t
   )
 (leaf ansible-doc
-  :elpaca t
+  :ensure t
   :after ansible)
 
 (leaf systemd
-  :elpaca t
+  :ensure t
   )
 
 (leaf caddyfile-mode
-  :elpaca t
+  :ensure t
   )
 
 (leaf dotenv-mode
-  :elpaca t
+  :ensure t
   )
 
-(leaf envrc :elpaca t)
+(leaf envrc :ensure t)
 
 (provide 'init-coding)

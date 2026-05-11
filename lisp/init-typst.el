@@ -2,8 +2,7 @@
 
 ;; (require 'compile)
 (leaf typst-ts-mode
-  :elpaca (typst-ts-mode :type git :host codeberg :repo "meow_king/typst-ts-mode")
-  
+  :vc (:url "https://codeberg.org/meow_king/typst-ts-mode")
   :hook (typst-ts-mode-hook . lsp-deferred)
   :config
   ;; (typst-ts-watch-options "--open")
@@ -13,7 +12,7 @@
   (setq typst-ts-preview-function 'find-file-other-window))
 
 (leaf typst-preview
-  :elpaca (typst-preview :type git :host github :repo "havarddj/typst-preview.el")
+  :vc (:url "https://github.com/havarddj/typst-preview.el")
   :after typst-ts-mode
   :custom
   (typst-preview-browser . "default") ; this is the default option; other options are `eaf-browser' or `xwidget'.

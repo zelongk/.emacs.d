@@ -16,14 +16,14 @@
   (setq dired-listing-switches "-alh --group-directories-first"
         dired-use-ls-dired t))
 
-(leaf diredfl :elpaca t)
+(leaf diredfl :ensure t)
 (leaf dired-aux)
-(leaf dired-filter :elpaca t
+(leaf dired-filter :ensure t
   :after dired
   :hook dired-mode-hook)
 
 (leaf nerd-icons-dired
-  :elpaca t  
+  :ensure t  
   :hook
   (dired-mode . nerd-icons-dired-mode))
 

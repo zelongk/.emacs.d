@@ -7,7 +7,7 @@
 (leaf ediff)
 
 (leaf diff-hl
-  :elpaca t
+  :ensure t
   :custom
   (diff-hl-draw-borders . nil)
   (diff-hl-update-async . 'thread)
@@ -22,7 +22,7 @@
     (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
 
 (leaf magit
-  :elpaca (magit :repo "magit/magit" :tag "v4.5.0")
+  :ensure t
   :bind (("C-c g" . magit-dispatch))
   :custom
   (magit-diff-refine-hunk . t)
@@ -39,7 +39,7 @@
   (setq magit-show-long-lines-warning nil))
 
 ;; Show TODOs in Magit
-(leaf magit-todos :elpaca t
+(leaf magit-todos :ensure t
   :after magit-status
   :hook magit
   :commands magit-todos-mode
@@ -47,7 +47,7 @@
   (setq magit-todos-nice (if (executable-find "nice") t nil)))
 
 ;; Walk through git revisions of a file
-(leaf git-timemachine :elpaca t
+(leaf git-timemachine :ensure t
   :require t
   :custom-face
   (git-timemachine-minibuffer-author-face . '((t (:inherit success :foreground unspecified))))

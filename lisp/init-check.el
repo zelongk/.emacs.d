@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-(leaf flycheck :elpaca t  
+(leaf flycheck :ensure t  
   :hook (prog-mode-hook . flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit)
@@ -20,10 +20,10 @@
         ;; Display errors a little quicker (default is 0.9s)
         flycheck-display-errors-delay 0.25))
 
-(leaf consult-flycheck :elpaca t
+(leaf consult-flycheck :ensure t
   :after flycheck)
 
-(leaf flyover :elpaca t
+(leaf flyover :ensure t
   :hook (flycheck-mode-hook flyover-toggle)
   :config
   ;; Disable flyover-mode in emacs-lisp-mode

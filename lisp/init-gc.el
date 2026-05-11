@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (leaf gcmh
-  :elpaca t
+  :ensure t
   :require t
   :hook (emacs-startup-hook . gcmh-mode)
   :config

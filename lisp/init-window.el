@@ -3,7 +3,7 @@
 
 (leaf winner
   :commands (winner-undo winner-redo)
-  :hook elpaca-after-init
+  :hook after-init
   :init (setq winner-boring-buffers '("*Completions*"
                                       "*Compile-Log*"
                                       "*inferior-lisp*"
@@ -36,7 +36,7 @@
       (set-window-buffer (next-window) other-buffer))))
 
 (leaf ace-window
-  :elpaca t
+  :ensure t
   :hook (emacs-startup-hook . ace-window-display-mode)
   :bind (([remap other-window] . ace-window)
          
@@ -121,7 +121,7 @@ Delete current window in the process."
      ("<right>" "redo" winner-redo)]]))
 
 (leaf popper
-  :elpaca t
+  :ensure t
   :custom
   (popper-group-function . #'popper-group-by-directory)
   (popper-echo-dispatch-actions . t)
@@ -165,6 +165,7 @@ Delete current window in the process."
           list-environment-mode cargo-process-mode
 
           "^\\*.*eat.*\\*.*$"
+          "^\\*ghostel\\*$" ghostel-mode
           "^\\*.*eshell.*\\*.*$"
           "^\\*.*shell.*\\*.*$"
           "^\\*.*terminal.*\\*.*$"
@@ -216,6 +217,7 @@ Delete current window in the process."
                      (not (with-current-buffer buffer
                             (derived-mode-p 'eshell-mode
                                             'shell-mode
+                                            'ghostel-mode
                                             'term-mode
                                             'vterm-mode))))
             (delete-window window)))))

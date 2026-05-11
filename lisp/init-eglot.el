@@ -20,7 +20,7 @@
         eglot-code-action-indications '(eldoc-hint)))
 
 (leaf eglot-booster
-  :elpaca (eglot-booster :type git :host nil :repo "https://github.com/jdtsmith/eglot-booster")
+  :vc (:url "https://github.com/jdtsmith/eglot-booster")
   :after eglot
   :config (eglot-booster-mode))
 

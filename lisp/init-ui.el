@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(leaf blackout :elpaca t)
+(leaf blackout :ensure t)
 
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
@@ -13,7 +13,7 @@
 
 ;;; FONTS
 (leaf show-font
-  :elpaca (show-font :host github :repo "protesilaos/show-font"))
+  :vc (:url "https://github.com/protesilaos/show-font"))
 
 (defvar my/font-size 220)
 (set-face-attribute 'default nil
@@ -34,14 +34,14 @@
 (add-to-list 'default-frame-alist '(width . 90))
 
 (leaf mixed-pitch
-  :elpaca t
+  :ensure t
   :hook org-mode-hook
   :hook LaTeX-mode-hook)
 
 ;; Easily adjust the font size in all frames
 (leaf default-text-scale
-  :elpaca t
-  :hook (elpaca-after-init-hook . default-text-scale-mode)
+  :ensure t
+  :hook (after-init-hook . default-text-scale-mode)
   :bind (:default-text-scale-mode-map
          ("C-s-=" . default-text-scale-increase)
          ("C-s--" . default-text-scale-decrease)
@@ -49,11 +49,11 @@
 
 ;; UI settings
 (leaf solaire-mode
-  :elpaca t
-  :hook (elpaca-after-init-hook . solaire-global-mode))
+  :ensure t
+  :hook (after-init-hook . solaire-global-mode))
 
 (leaf modus-themes
-  :elpaca t
+  :ensure t
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
@@ -65,7 +65,7 @@
              modus-themes-load-random))
 
 (leaf doric-themes
-  :elpaca t
+  :ensure t
   :disabled t
   ;; :bind ("<f5>" . doric-themes-load-random)
   ;; :bind ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
@@ -73,7 +73,7 @@
   :commands doric-themes-load-random)
 
 (leaf ef-themes
-  :elpaca t
+  :ensure t
   
   :bind ("<f5>" . modus-themes-load-random)
   :bind ("C-<f5>" . modus-themes-load-random-light)
@@ -139,7 +139,7 @@
 
 (leaf auto-dark
   :when (and (eq system-type 'darwin) (display-graphic-p))
-  :elpaca t
+  :ensure t
   :hook
   (auto-dark-dark-mode-hook
    . (lambda ()
@@ -151,7 +151,7 @@
        ;; something to execute when light mode is detected
        (ef-themes-load-random-light)
        ))
-  :hook elpaca-after-init-hook)
+  :hook after-init-hook)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                                         ; Modeline                            ;
@@ -165,8 +165,8 @@
 
 (leaf doom-modeline
   :disabled t
-  :elpaca t
-  :hook (elpaca-after-init-hook . doom-modeline-mode)
+  :ensure t
+  :hook (after-init-hook . doom-modeline-mode)
   :config
   (setq doom-modeline-support-imenu t
         ;; doom-modeline-icons nil
@@ -276,13 +276,13 @@
 (add-hook 'emacs-startup-hook #'clean-mode-line)
 
 (leaf hide-mode-line
-  :elpaca t
+  :ensure t
   :leaf-autoload turn-off-hide-mode-line-mode
-  :hook (((eat-mode-hook
-           eshell-mode-hook shell-mode-hook
-           term-mode-hook vterm-mode-hook
-           embark-collect-mode-hook lsp-ui-imenu-mode-hook
-           pdf-annot-list-mode-hook) . turn-on-hide-mode-line-mode)))
+  :hook ((eat-mode-hook ghostel-mode-hook
+                        eshell-mode-hook shell-mode-hook
+                        term-mode-hook vterm-mode-hook
+                        embark-collect-mode-hook lsp-ui-imenu-mode-hook
+                        pdf-annot-list-mode-hook) . turn-on-hide-mode-line-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                                         ;              Interface              ;
@@ -291,7 +291,7 @@
 
 (leaf centaur-tabs
   :disabled t
-  :elpaca t
+  :ensure t
   :config
   (centaur-tabs-mode t)
   (setq centaur-tabs-set-icons t
@@ -301,8 +301,8 @@
         centaur-tabs-set-modified-marker t))
 
 (leaf spacious-padding
-  :elpaca t
-  :hook elpaca-after-init-hook
+  :ensure t
+  :hook after-init-hook
   :config
   (setq spacious-padding-subtle-frame-lines nil)
   (plist-put spacious-padding-widths :mode-line-width 4)
@@ -329,10 +329,7 @@
       mouse-wheel-progressive-speed nil)
 
 (leaf nerd-icons
-  :elpaca (nerd-icons
-           :type git
-           :host github
-           :repo "rainstormstudio/nerd-icons.el")
+  :vc (:url "https://github.com/rainstormstudio/nerd-icons.el")
   
   :custom
   (nerd-icons-default-adjust . 0.05))
@@ -355,32 +352,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (leaf rainbow-delimiters
-  :elpaca t
+  :ensure t
   :hook ((prog-mode-hook typst-ts-mode-hook python-ts-mode-hook)
          . rainbow-delimiters-mode))
 
 (leaf rainbow-mode
-  :elpaca t
+  :ensure t
   :hook text-mode-hook
   :hook prog-mode-hook)
 
 ;; hl current line
 (leaf hl-line
   :disabled t
-  :hook ((elpaca-after-init-hook . global-hl-line-mode)
+  :hook ((after-init-hook . global-hl-line-mode)
          ((dashboard-mode-hook eshell-mode-hook shell-mode-hook term-mode-hook vterm-mode-hook eat-mode-hook) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
 (leaf beacon
-  :elpaca t
+  :ensure t
   :disabled t
-  :hook elpaca-after-init-hook)
+  :hook after-init-hook)
 
 (leaf pulsar
-  :elpaca t
+  :ensure t
   :bind (([remap count-lines-page] . pulsar-pulse-line) ; overrides `count-lines-page'
          ("C-x L" . pulsar-highlight-permanently-dwim)) ; or use `pulsar-highlight-temporarily-dwim'
-  :hook (elpaca-after-init-hook . pulsar-global-mode)
+  :hook (after-init-hook . pulsar-global-mode)
   :custom-face (pulsar-generic . '((t :inherit region :extend t)))
   :custom
   (pulsar-delay . 0.05)
@@ -394,18 +391,18 @@
 
 ;; Eval result overlay
 (leaf eros
-  :elpaca t
+  :ensure t
   :hook emacs-lisp-mode-hook lisp-interaction-mode-hook
   :bind (([remap eval-defun] . eros-eval-defun)
          ([remap eval-last-sexp] . eros-eval-last-sexp)))
 
 (leaf goggles
-  :elpaca t
+  :ensure t
   :hook (prog-mode-hook text-mode-hook conf-mode-hook))
 
 (leaf hl-todo
-  :elpaca t
-  :hook (elpaca-after-init-hook . global-hl-todo-mode)
+  :ensure t
+  :hook (after-init-hook . global-hl-todo-mode)
   :config
   (setq hl-todo-highlight-punctuation ":"
         hl-todo-keyword-faces

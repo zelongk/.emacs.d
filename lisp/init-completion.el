@@ -2,7 +2,7 @@
 
 ;; Optionally use the `orderless' completion style.
 (leaf orderless
-  :elpaca t
+  :ensure t
   :require t
   :config
   (defun orderless-fast-dispatch (word index total)
@@ -19,7 +19,7 @@
 
 ;; Support Pinyin
 (leaf pinyinlib
-  :elpaca t
+  :ensure t
   :after orderless
   :commands orderless-regexp
   :leaf-autoload pinyinlib-build-regexp-string
@@ -31,14 +31,14 @@
 
 ;; VERTical Interactive COmpletion
 (leaf vertico
-  :elpaca t
+  :ensure t
   :custom (vertico-count . 15)
   :bind
   ((:vertico-map
     ("RET" . vertico-directory-enter)
     ("DEL" . vertico-directory-delete-char)
     ("M-DEL" . vertico-directory-delete-word)))
-  :hook (elpaca-after-init-hook . vertico-mode)
+  :hook (after-init-hook . vertico-mode)
   :hook (rfn-eshadow-update-overlay-hook . vertico-directory-tidy)
   :config
   (leaf vertico-multiform
@@ -81,18 +81,18 @@
 
 ;; Enrich existing commands with completion annotations
 (leaf marginalia
-  :elpaca t
-  :hook (elpaca-after-init-hook . marginalia-mode))
+  :ensure t
+  :hook (after-init-hook . marginalia-mode))
 
 
 ;; Add icons to completion candidates
 (leaf nerd-icons-completion
-  :elpaca t
+  :ensure t
   :hook (marginalia-mode-hook . nerd-icons-completion-marginalia-setup))
 
 ;; Consulting completing-read
 (leaf consult
-  :elpaca t
+  :ensure t
   :commands consult-customize
   :bind
   (([remap Info-search]        . consult-info)
@@ -152,7 +152,7 @@
         xref-show-definitions-function #'consult-xref))
 
 (leaf consult-dir
-  :elpaca t
+  :ensure t
   :bind
   (("C-x C-d" . consult-dir))
   (:minibuffer-local-map
@@ -160,7 +160,7 @@
    ("C-x C-j" . consult-dir-jump-file)))
 
 (leaf embark
-  :elpaca t
+  :ensure t
   :commands embark-prefix-help-command
   :bind
   (("M-SPC"   . embark-act)
@@ -222,7 +222,7 @@
   (define-key embark-bookmark-map (kbd "3") (my/embark-split-action bookmark-jump split-window-right)))
 
 (leaf embark-consult
-  :elpaca t
+  :ensure t
   :after embark consult
   :bind (:minibuffer-local-map
          ("C-c C-o" . embark-export)

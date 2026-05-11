@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t;-*-
 
 (leaf rime
-  :elpaca t
+  :ensure t
   :custom
   (default-input-method . "rime")
   (rime-librime-root . "/opt/homebrew")

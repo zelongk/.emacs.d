@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
 (leaf zig-ts-mode
-  :elpaca t)
+  :ensure t)
 
 (provide 'init-zig)

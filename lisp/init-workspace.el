@@ -23,12 +23,12 @@
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
 (leaf nerd-icons-ibuffer
-  :elpaca t
+  :ensure t
   :hook (ibuffer-mode-hook-hook . nerd-icons-ibuffer-mode))
 
 ;; Group ibuffer's list by project
 (leaf ibuffer-project
-  :elpaca t
+  :ensure t
   :after ibuffer project
   :leaf-autoload (ibuffer-project-generate-filter-groups ibuffer-do-sort-by-project-file-relative)
   :hook (ibuffer-hook . (lambda ()
@@ -91,11 +91,11 @@
   (my/functions-in-new-tab))
 
 (leaf tabspaces
-  :elpaca t
+  :ensure t
   :commands tabspaces-mode
   :commands (tabspaces-switch-or-create-workspace
              tabspaces-open-or-create-project-and-workspace)
-  :hook ((elpaca-after-init-hook . tabspaces-mode)
+  :hook ((after-init-hook . tabspaces-mode)
          (tabspaces-mode-hook . tab-bar-history-mode))
   :bind (:tabspaces-command-map
          ("l" . tabspaces-restore-session)
@@ -108,7 +108,7 @@
   (tabspaces-default-tab . "Default")
   (tabspaces-remove-to-default . t)
   (tabspaces-include-buffers . '("*scratch*" "*Messages*"))
-  (tabspaces-exclude-buffers . '("*eat*" "*vterm*" "*shell*" "*eshell*"))
+  (tabspaces-exclude-buffers . '("*eat*" "*ghostel*" "*vterm*" "*shell*" "*eshell*"))
   
   (tabspaces-session-file . '(expand-file-name "tabspaces/tabsession.el" user-cache-directory))
   (tabspaces-session-project-session-store . '(expand-file-name "tabspaces/" user-cache-directory))
@@ -140,7 +140,7 @@
 
 (leaf beframe
   :disabled t
-  :hook elpaca-after-init-hook
+  :hook after-init-hook
   :bind-keymap ("C-c b" . beframe-prefix-map)
   :bind ("C-x f" . other-frame-prefix)
   :config

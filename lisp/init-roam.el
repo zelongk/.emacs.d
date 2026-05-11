@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t;-*-
 
 (leaf org-roam
-  :elpaca t
+  :ensure t
   ;; :disabled t
   
   :custom
@@ -35,12 +35,12 @@
 
 (leaf org-roam-ui
   ;; :disabled t
-  :elpaca t
+  :ensure t
   :after org-roam)
 
-(leaf consult-org-roam :elpaca t
+(leaf consult-org-roam :ensure t
   :after org-roam
-  :hook elpaca-after-init-hook
+  :hook after-init-hook
   :custom
   ;; Use `ripgrep' for searching with `consult-org-roam-search'
   (consult-org-roam-grep-func . #'consult-ripgrep)

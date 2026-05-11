@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (leaf grip-mode
-  :elpaca t
+  :ensure t
   
   :config (setq grip-command 'auto)) ;; auto, grip, go-grip or mdopen
 

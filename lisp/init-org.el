@@ -1,9 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (leaf org
-  
-  :elpaca (org :repo "https://code.200568.top/mirrors/org-mode.git/"
-               :branch "dev")
+  :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev")
   :hook ((org-mode-hook . org-cdlatex-mode)
          (org-mode . visual-line-mode)
          (org-mode . prettify-symbols-mode))
@@ -77,7 +75,7 @@
     (eval `(lsp-org-babel-enable ,lang))))
 
 ;; org agenda-related
-(leaf org-super-agenda :elpaca t
+(leaf org-super-agenda :ensure t
   :after org
   :hook (org-agenda-mode-hook . org-super-agenda-mode)
   :config
@@ -182,12 +180,12 @@
                 (save-buffer)))))
 
 (leaf org-contrib
-  :elpaca t
+  :ensure t
   :after org
   :require t)
 
 (leaf org-modern
-  :elpaca t
+  :ensure t
   ;; :after org
   :hook ((org-mode-hook . org-modern-mode)
          (org-agenda-finalize . org-modern-agenda))
@@ -217,12 +215,12 @@
         '(("" . ""))))
 
 (leaf org-modern-indent
-  :elpaca (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
+  :vc (:url "https://github.com/jdtsmith/org-modern-indent")
   :after org-modern org
   :hook org-indent-mode-hook)
 
 (leaf org-appear
-  :elpaca t  
+  :ensure t  
   :hook (org-mode-hook . org-appear-mode)
   :leaf-autoload org-appear--set-elements
   :config
@@ -297,7 +295,7 @@
 
 
 (leaf org-download
-  :elpaca t
+  :ensure t
   :after org
   :leaf-autoload org-download-clipboard
   :hook ((org-mode-hook dired-mode-hook) . org-download-enable)
@@ -308,17 +306,17 @@
   (defconst org-download-image-dir "./attachments/")
   (setq-default org-download-method 'directory))
 
-(leaf org-drawio :elpaca t
+(leaf org-drawio :ensure t
   :commands (org-drawio-add
              org-drawio-open)
   :after org)
 
 (leaf valign
-  :elpaca t
+  :ensure t
   :hook (org-mode-hook . valign-mode))
 
 (leaf org-super-links
-  :elpaca (org-super-links :type git :host github :repo "toshism/org-super-links" :branch "develop")
+  :vc (:url "https://github.com/toshism/org-super-links" :branch "develop")
   :after org
   :bind (:org-mode-map
          ("C-c C-M-s" . org-super-links-store-link)
