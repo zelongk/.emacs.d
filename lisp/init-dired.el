@@ -19,13 +19,14 @@
 (leaf diredfl :ensure t)
 (leaf dired-aux)
 (leaf dired-filter :ensure t
+  :blackout t
   :after dired
   :hook dired-mode-hook)
 
 (leaf nerd-icons-dired
-  :ensure t  
-  :hook
-  (dired-mode . nerd-icons-dired-mode))
+  :ensure t
+  :blackout t
+  :hook (dired-mode-hook . nerd-icons-dired-mode))
 
 (leaf dirvish
   :disabled t

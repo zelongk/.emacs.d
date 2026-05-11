@@ -21,6 +21,7 @@
 (leaf pinyinlib
   :ensure t
   :after orderless
+  :require t
   :commands orderless-regexp
   :leaf-autoload pinyinlib-build-regexp-string
   :init

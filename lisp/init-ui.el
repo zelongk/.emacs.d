@@ -33,8 +33,8 @@
 (add-to-list 'default-frame-alist '(height . 53))
 (add-to-list 'default-frame-alist '(width . 90))
 
-(leaf mixed-pitch
-  :ensure t
+(leaf mixed-pitch :ensure t
+  :blackout t
   :hook org-mode-hook
   :hook LaTeX-mode-hook)
 
