@@ -4,12 +4,12 @@
 (eval-and-compile
   (customize-set-variable
    'package-archives '(("melpa" . "https://melpa.org/packages/")
-                       ("gnu" . "https://elpa.gnu.org/packages/")
-                       ("gnu-devel" . "https://elpa.gnu.org/devel/")
+                       ("gnu-elpa" . "https://elpa.gnu.org/packages/")
+                       ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
                        ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
   (customize-set-variable
-   'package-archive-priorities '(("melpa" . 3)
-                                 ("gnu" . 2)
+   'package-archive-priorities '(("gnu-elpa" . 3)
+                                 ("melpa" . 2)
                                  ("nongnu" . 1)))
   (setq package-install-upgrade-built-in t
         package-quickstart-file (expand-file-name "quickstart.el" user-cache-directory))

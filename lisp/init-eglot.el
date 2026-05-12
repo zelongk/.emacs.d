@@ -2,10 +2,19 @@
 
 (leaf eglot
   :commands (eglot eglot-ensure)
-  :hook ((markdown-mode-hook yaml-mode-hook
-                             yaml-ts-mode-hook prog-mode-hook
-                             LaTeX-mode-hook typst-ts-mode-hook)
-         . eglot-ensure)
+  :hook
+  (prog-mode
+   . (lambda ()
+       (unless (derived-mode-p
+                'dotenv-mode 'fish-mode
+                'caddyfile-mode 'elvish-mode
+                'emacs-lisp-mode 'lisp-mode
+                'makefile-mode 'snippet-mode
+                'lisp-data-mode 'ron-mode))
+       (eglot-ensure)))
+  ((markdown-mode-hook yaml-mode-hook yaml-ts-mode-hook
+                       LaTeX-mode-hook typst-ts-mode-hook)
+   . eglot-ensure)
   :defvar eglot-server-programs
   :bind (:eglot-mode-map
 	     ("C-c c a" . eglot-code-actions))
