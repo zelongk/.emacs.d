@@ -4,6 +4,7 @@
 (define-key global-map (kbd "C-<wheel-down>")  nil)
 (global-set-key (kbd "s-a") 'mark-whole-buffer)
 (global-set-key (kbd "s-c") 'kill-ring-save)
+(global-set-key (kbd "s-n") 'make-frame-command)
 (global-set-key (kbd "s-s") 'save-buffer)
 (global-set-key (kbd "s-v") 'yank)
 (global-set-key (kbd "s-x") 'execute-extended-command)

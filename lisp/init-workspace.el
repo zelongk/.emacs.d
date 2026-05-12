@@ -46,7 +46,7 @@
          ("s-W" . delete-frame))
   :config
   (setq tab-bar-separator " "
-        tab-bar-show nil
+        ;; tab-bar-show t
         tab-bar-new-tab-choice "*scratch*"
         tab-bar-auto-width nil
         tab-bar-tab-name-truncated-max 20
@@ -55,6 +55,9 @@
         tab-bar-format '(tab-bar-format-tabs tab-bar-separator)
         tab-bar-tab-hints t
         tab-bar-select-tab-modifiers '(super))
+
+  (when (featurep 'mac)
+    (setq mac-frame-tabbing t))
   
   (defun my/tab-bar-name ()
     (if-let* ((p (project-current nil)))

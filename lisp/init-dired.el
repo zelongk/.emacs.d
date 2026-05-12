@@ -21,7 +21,7 @@
 (leaf dired-filter :ensure t
   :blackout t
   :after dired
-  :hook dired-mode-hook)
+  :require t)
 
 (leaf nerd-icons-dired
   :ensure t
