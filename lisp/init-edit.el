@@ -171,13 +171,14 @@
   (olivetti-style . 'fancy)
   (olivetti-margin-width . 5)
   (olivetti-body-width . 90)
-  (olivetti-minimum-body-width . 76))
+  (olivetti-minimum-body-width . 40)
+  :config
+  (add-to-list 'face-remapping-alist '(olivetti-fringe . fringe)))
 
 (setq-default bidi-display-reordering 'left-to-right
               bidi-paragraph-direction 'left-to-right
               bidi-display-reordering nil)
-(setq bidi-inhibit-bpa t
-      long-line-threshold 1000
+(setq long-line-threshold 1000
       large-hscroll-threshold 1000
       syntax-wholeline-max 1000)
 

@@ -50,7 +50,6 @@
   :global-minor-mode solaire-global-mode)
 
 (leaf modus-themes :ensure t
-  :require t
   :setq
   ((modus-themes-italic-constructs . t)
    (modus-themes-bold-constructs . t)
@@ -70,46 +69,22 @@
           (4 . (1.14))
           (t . (1.1))))
 
-  (defun my/set-faces (faces color)
-    (dolist (face (if (listp faces) faces (list faces)))
-      (custom-set-faces `(,face ((t :background ,color))))))
-  (defun my/themes-custom-faces ()
-    (modus-themes-with-colors
-      (my/set-faces '(org-block
-                      org-block-begin-line
-                      org-block-end-line)
-                    bg-main)
-      (my/set-faces 'olivetti-fringe bg-dim)))
-  (add-hook 'modus-themes-after-load-theme-hook #'my/themes-custom-faces)
+  ;; (defun my/set-faces (faces color)
+  ;;   (dolist (face (if (listp faces) faces (list faces)))
+  ;;     (custom-set-faces `(,face ((t :background ,color))))))
+  ;; (defun my/themes-custom-faces ()
+  ;;   (modus-themes-with-colors
+  ;;     (my/set-faces '(org-block
+  ;;                     org-block-begin-line
+  ;;                     org-block-end-line)
+  ;;                   bg-main)
+  ;;     (my/set-faces 'olivetti-fringe bg-dim)))
+  ;; (add-hook 'modus-themes-after-load-theme-hook #'my/themes-custom-faces)
   
   (setq modus-themes-common-palette-overrides
         '((bg-tab-bar bg-main)
           (bg-tab-current bg-hover)
-          (bg-tab-other bg-main)
-          (org-block bg-main)
-          (date-common cyan)           ; default value (for timestamps and more)
-          (date-deadline red-warmer)
-          (date-event magenta-warmer)
-          (date-holiday blue)           ; for M-x calendar
-          (date-now yellow-warmer)
-          (date-scheduled magenta-cooler)
-          (date-weekday cyan-cooler)
-          (date-weekend blue-faint)
-          (mail-recipient fg-main)
-          ;; (fg-heading-1 blue-warmer)
-          ;; (fg-heading-2 yellow-cooler)
-          ;; (fg-heading-3 cyan-cooler)
-          ;; (fg-line-number-inactive "gray50")
-          (fg-line-number-active fg-main)
-          (bg-line-number-inactive unspecified)
-          (bg-line-number-active unspecified)
-          (bg-region bg-sage)
-          (fg-region unspecified)
-          ;; (comment yellow-cooler)
-          ;; (string green-cooler)
-          (fringe unspecified) ;; bg-blue-nuanced
-          (border-mode-line-active unspecified)
-          (border-mode-line-inactive unspecified))))
+          (bg-tab-other bg-main))))
 
 (leaf doric-themes :ensure t
   :commands doric-themes-load-random)
@@ -118,10 +93,10 @@
   :global-minor-mode
   ef-themes-take-over-modus-themes-mode
   :bind
-  (("<f5>" . ef-themes-load-random)
-   ("C-<f5>" . ef-themes-load-random-light)
-   ("M-<f5>" . ef-themes-load-random-dark))
-  :init
+  ("<f5>" . ef-themes-load-random)
+  ("C-<f5>" . ef-themes-load-random-light)
+  ("M-<f5>" . ef-themes-load-random-dark)
+  :config
   (ef-themes-load-random))
 
 (leaf auto-dark :ensure t
@@ -336,12 +311,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (leaf rainbow-delimiters :ensure t
+  :blackout t
   :hook ((prog-mode-hook typst-ts-mode-hook python-ts-mode-hook)
          . rainbow-delimiters-mode))
 
 (leaf rainbow-mode :ensure t
-  :hook text-mode-hook
-  :hook prog-mode-hook)
+  :blackout t
+  :hook (text-mode-hook prog-mode-hook))
 
 ;; hl current line
 (leaf hl-line

@@ -46,12 +46,12 @@
 
 ;; Walk through git revisions of a file
 (leaf git-timemachine :ensure t
-  :require t
   :custom-face
   (git-timemachine-minibuffer-author-face . '((t (:inherit success :foreground unspecified))))
   (git-timemachine-minibuffer-detail-face . '((t (:inherit warning :foreground unspecified))))
   :bind
   (:vc-prefix-map
+   :package vc
    ("t" . git-timemachine-toggle))
   :hook ((git-timemachine-mode-hook . (lambda ()
                                         "Improve `git-timemachine' buffers."

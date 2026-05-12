@@ -25,7 +25,7 @@
   :ensure t
   :hook (prog-mode-hook . treesit-auto-mode)
   :custom
-  (treesit-auto-install . 'prompt)
+  (treesit-auto-install . t)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all))
 

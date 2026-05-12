@@ -2,45 +2,30 @@
 
 (leaf eglot
   :commands (eglot eglot-ensure)
-  :hook ((prog-mode-hook . (lambda ()
-                             (unless (derived-mode-p
-                                      'emacs-lisp-mode 'lisp-mode
-                                      'makefile-mode 'snippet-mode
-                                      'lisp-interaction-mode
-                                      'ron-mode)
-                               (eglot-ensure))))
-         ((markdown-mode-hook yaml-mode-hook yaml-ts-mode-hook) . eglot-ensure))
+  :hook ((markdown-mode-hook yaml-mode-hook
+                             yaml-ts-mode-hook prog-mode-hook
+                             LaTeX-mode-hook typst-ts-mode-hook)
+         . eglot-ensure)
+  :defvar eglot-server-programs
   :bind (:eglot-mode-map
 	     ("C-c c a" . eglot-code-actions))
   :config
-  (setq completion-category-defaults nil)
   (setq eglot-autoshutdown t
-        eglot-events-buffer-config 0
+        eglot-events-buffer-config '(:size 0 :format 'short)
         eglot-send-changes-idle-time 0.5
-        eglot-code-action-indications '(eldoc-hint)))
+        eglot-code-action-indications '(eldoc-hint))
 
-(leaf eglot-booster
-  :vc (:url "https://github.com/jdtsmith/eglot-booster")
-  :after eglot
-  :config (eglot-booster-mode))
+  (add-to-list 'eglot-server-programs '((typst-ts-mode) "tinymist")))
 
-(leaf flycheck-eglot
-  :after eglot
-  :hook (eglot-managed-mode-hook . flycheck-eglot-mode))
-
-(leaf consult-eglot
-  :after consult
-  :after eglot
+(leaf consult-eglot :ensure t
+  :after eglot consult
   :bind (:eglot-mode-map
 	     ([remap xref-find-apropos] . consult-eglot-symbols))
   :config
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
 
-;; (leaf eldoc-box
-;;   :hook (eglot-managed-mode-hook . eldoc-box-hover-at-point-mode))
-
-(leaf eldoc-mouse
-  :after eldoc
-  :hook eldoc-mode-hook)
+(leaf eldoc-mouse :ensure t
+  :blackout t
+  :hook eglot-managed-mode-hook)
 
 (provide 'init-eglot)

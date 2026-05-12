@@ -21,6 +21,7 @@
   ;; Share snippets with LaTeX-mode
   (setq org-highlight-latex-and-related '(native latex entities))
   (setq org-pretty-entities t
+        org-hide-emphasis-markers t
         org-pretty-entities-include-sub-superscripts nil)
   
   (setq org-tags-column 0
@@ -38,42 +39,7 @@
         org-agenda-compact-blocks t
         org-agenda-start-day "+0d"
         org-agenda-span 3)
-  (setq org-agenda-remove-tags t)
-  
-  ;; Enable lsp in org-babel
-  (cl-defmacro lsp-org-babel-enable (lang)
-    "Support LANG in org source code block."
-    (cl-check-type lang string)
-    (let* ((edit-pre (intern (format "org-babel-edit-prep:%s" lang)))
-           (intern-pre (intern (format "lsp--%s" (symbol-name edit-pre)))))
-      `(progn
-         (defun ,intern-pre (info)
-           (setq buffer-file-name (or (->> info caddr (alist-get :file))
-                                      "org-src-babel.tmp"))
-           (when (fboundp 'lsp-deferred)
-             ;; Avoid headerline conflicts
-             (setq-local lsp-headerline-breadcrumb-enable nil)
-             (lsp-deferred)
-             (_
-              (user-error "LSP:: invalid type"))))
-         (put ',intern-pre 'function-documentation
-              (format "Enable lsp-mode in the buffer of org source block (%s)."
-                      (upcase ,lang)))
-
-         (if (fboundp ',edit-pre)
-             (advice-add ',edit-pre :after ',intern-pre)
-           (progn
-             (defun ,edit-pre (info)
-               (,intern-pre info))
-             (put ',edit-pre 'function-documentation
-                  (format "Prepare local buffer environment for org source block (%s)."
-                          (upcase ,lang))))))))
-
-  (defconst org-babel-lang-list
-    '("go" "python" "ipython" "ruby" "js" "css" "sass" "c" "rust" "java" "cpp" "c++" "shell" "haskell")
-    "The supported programming languages for interactive Babel.")
-  (dolist (lang org-babel-lang-list)
-    (eval `(lsp-org-babel-enable ,lang))))
+  (setq org-agenda-remove-tags t))
 
 ;; org agenda-related
 (leaf org-super-agenda :ensure t
@@ -187,14 +153,10 @@
 (leaf org-modern :ensure t
   :hook ((org-mode-hook . org-modern-mode)
          (org-agenda-finalize . org-modern-agenda))
-  :init
-  (with-eval-after-load 'org
-    (setq org-hide-emphasis-markers t
-	      org-pretty-entities t
-          org-modern-block-name t
-          org-modern-block-fringe nil))
   :config
-  (setq org-modern-table nil
+  (setq org-modern-block-name t
+        org-modern-block-fringe nil
+        org-modern-table nil
         org-modern-hide-stars nil
 	    org-modern-todo-faces
         '(("TODO" :inverse-video t :inherit org-todo)

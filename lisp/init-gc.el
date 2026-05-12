@@ -1,8 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (leaf gcmh :ensure t
-  :require t
-  :hook (emacs-startup-hook . gcmh-mode)
+  :global-minor-mode gcmh-mode
   :config
   (defun gcmh-register-idle-gc ()
     "Register a timer to run `gcmh-idle-garbage-collect'.
@@ -18,8 +17,8 @@ Cancel the previous one if present."
   (setq gcmh-idle-delay 'auto       ; default is 15s
         gcmh-high-cons-threshold (* 32 1024 1024)
         gcmh-verbose nil
-        gc-cons-percentage 0.2)
-  (gcmh-mode 1))
+        gc-cons-percentage 0.2))
+
 (setq gc-cons-threshold (* 16 1024 1024)
       gc-cons-percentage 0.2)
 

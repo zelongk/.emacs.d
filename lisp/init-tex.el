@@ -16,10 +16,7 @@
            TeX-view-program-selection)
   :mode (("\\.tex\\'" . LaTeX-mode))
   :hook ((LaTeX-mode-hook . prettify-symbols-mode)
-         (LaTeX-mode . visual-line-mode)
-         (LaTeX-mode . lsp-deferred)
-         (LaTeX-mode . (lambda () (lsp-ui-mode -1)))
-         (LaTeX-mode . (lambda () (apheleia-mode -1))))
+         (LaTeX-mode . visual-line-mode))
   :bind
   (:LaTeX-mode-map
    ("C-S-e" . latex-math-from-calc)
@@ -126,10 +123,8 @@ expansion, then cdlatex expansion."
   :vc (:url "https://github.com/karthink/lazytab")
   :after cdlatex
   :bind
-  (:org-mode-map
-   ("C-x |" . my/lazytab-orgtbl-edit))
-  (:LaTeX-mode-map
-   ("C-x |" . my/lazytab-orgtbl-edit))
+  ;; (:LaTeX-mode-map
+  ;;  ("C-x |" . my/lazytab-orgtbl-edit))
   (:orgtbl-mode-map
    ("<tab>" . lazytab-org-table-next-field-maybe)
    ("TAB" . lazytab-org-table-next-field-maybe))

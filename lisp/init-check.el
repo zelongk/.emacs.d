@@ -1,34 +1,30 @@
 ;; -*- lexical-binding: t; -*-
 
-(leaf flycheck :ensure t  
-  :hook (prog-mode-hook . flycheck-mode)
+(leaf flymake
+  :blackout t
+  :bind ("C-c f" . flymake-show-buffer-diagnostics)
+  :defun my/elisp-flymake-byte-compile
+  :hook prog-mode-hook
+  :custom
+  (flymake-no-changes-timeout . nil)
+  (flymake-fringe-indicator-position . 'right-fringe)
+  (flymake-margin-indicator-position . 'right-margin)
   :config
-  (setq flycheck-emacs-lisp-load-path 'inherit)
-
-  ;; Rerunning checks on every newline is a mote excessive.
-  (delq 'new-line flycheck-check-syntax-automatically)
-
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-  ;; And don't recheck on idle as often
-  (setq flycheck-idle-change-delay 1.0
-
-        ;; For the above functionality, check syntax in a buffer that you switched to
-        ;; only briefly. This allows "refreshing" the syntax check state for several
-        ;; buffers quickly after e.g. changing a config file.
-        flycheck-buffer-switch-check-intermediate-buffers t
-
-        ;; Display errors a little quicker (default is 0.9s)
-        flycheck-display-errors-delay 0.25))
-
-(leaf consult-flycheck :ensure t
-  :after flycheck)
+  :config
+  ;; Check elisp with `load-path'
+  (defun my/elisp-flymake-byte-compile (fn &rest args)
+    "Wrapper for `elisp-flymake-byte-compile'."
+    (let ((elisp-flymake-byte-compile-load-path
+           (append elisp-flymake-byte-compile-load-path load-path)))
+      (apply fn args)))
+  (advice-add 'elisp-flymake-byte-compile :around #'my/elisp-flymake-byte-compile))
 
 (leaf flyover :ensure t
   :hook (flycheck-mode-hook flyover-toggle)
   :config
   ;; Disable flyover-mode in emacs-lisp-mode
   (add-hook 'emacs-lisp-mode-hook (lambda () (flyover-mode -1)))
-  (setq flyover-checkers '(flycheck)
+  (setq flyover-checkers '(make)
         flyover-display-mode 'hide-on-same-line
         flyover-background-lightness 60
         flyover-icon-background-tint-percent 50))

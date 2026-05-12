@@ -3,27 +3,27 @@
 ;; (require 'compile)
 (leaf typst-ts-mode
   :vc (:url "https://codeberg.org/meow_king/typst-ts-mode")
-  :hook (typst-ts-mode-hook . lsp-deferred)
+  :bind
+  (:typst-ts-mode-map
+   ("C-c C-c" . typst-ts-tmenu))
   :config
-  ;; (typst-ts-watch-options "--open")
-  (setq typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory))
-  (setq typst-ts-mode-enable-raw-blocks-highlight t)
-  (keymap-set typst-ts-mode-map "C-c C-c" #'typst-ts-tmenu)
-  (setq typst-ts-preview-function 'find-file-other-window))
+  (setq typst-ts-mode-enable-raw-blocks-highlight t
+        typst-ts-preview-function 'find-file-other-window))
 
 (leaf typst-preview
   :vc (:url "https://github.com/havarddj/typst-preview.el")
-  :after typst-ts-mode
+  :bind
+  (:typst-ts-mode-map
+   ("C-c C-j" . typst-preview-send-position)
+   ("C-c C-l" . typst-preview-mode))
   :custom
-  (typst-preview-browser . "default") ; this is the default option; other options are `eaf-browser' or `xwidget'.
-  (typst-preview-invert-colors . "auto") ; invert colors depending on system theme
-  (typst-preview-executable . "tinymist") ; path to tinymist binary (relative or absolute)
-  (typst-preview-partial-rendering . t)   ; enable partial rendering
+  (typst-preview-browser . "default")
+  (typst-preview-invert-colors . "auto")
+  (typst-preview-executable . "tinymist")
+  (typst-preview-partial-rendering . t)
 
   :config
-  (setq typst-preview-autostart t) ; start preview automatically when typst-preview-mode is activated
-  (setq typst-preview-open-browser-automatically t) ; open browser automatically when typst-preview-start is run
-  (define-key typst-ts-mode-map (kbd "C-c C-j") 'typst-preview-send-position)
-  (define-key typst-ts-mode-map (kbd "C-c C-l") #'typst-preview-mode))
+  (setq typst-preview-autostart t)
+  (setq typst-preview-open-browser-automatically t))
 
 (provide 'init-typst)

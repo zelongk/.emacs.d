@@ -73,8 +73,8 @@
 ;; (require 'init-roam)
 (require 'init-denote)
 
-;; (require 'init-eglot)
-(require 'init-lsp)
+(require 'init-eglot)
+;; (require 'init-lsp)
 (require 'init-tex)
 (require 'init-cc)
 (require 'init-python)
@@ -82,8 +82,7 @@
 (require 'init-rust)
 (require 'init-ocaml)
 (require 'init-zig)
-;; (require 'init-typst)
-
+(require 'init-typst)
 
 (provide 'init)
 ;;; init.el ends here

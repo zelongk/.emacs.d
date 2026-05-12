@@ -35,6 +35,7 @@
   (ghostel-shell . "/opt/homebrew/bin/fish")
   (ghostel-tramp-integration . t)
   (ghostel-tramp-default-method . 'tramp-default-method)
+  (ghostel-module-auto-install . 'download)
   :config
   (defun ghostel-toggle () (interactive)
          (if (string-match-p "ghostel" (buffer-name))

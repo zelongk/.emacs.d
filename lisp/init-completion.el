@@ -105,14 +105,6 @@
      (funcall #',split-type)
      (call-interactively #',fn)))
 
-(leaf embark-consult :ensure t
-  :bind
-  (:minibuffer-local-map
-   ("C-c C-o" . embark-export)
-   ("C->" . embark-become)
-   ("M-*" . embark-act-all))
-  :hook (embark-collect-mode-hook . consult-preview-at-point-mode))
-
 (leaf embark :ensure t
   :leaf-defer nil
   :commands embark-prefix-help-command
@@ -122,8 +114,6 @@
    ("M-S-SPC"   . embark-select)
    ("S-<return>"   . embark-dwim)        ; overrides `xref-find-definitions'
    ([remap describe-bindings] . embark-bindings))
-  (:minibuffer-local-map
-   ("M-." . my-embark-preview))
   (:embark-file-map
    ("S"        . sudo-find-file)
    ("2"        . (my/embark-split-action find-file split-window-below))
@@ -154,6 +144,14 @@
                  nil
                  (window-parameters (mode-line-format . none)))))
 
+(leaf embark-consult :ensure t
+  :bind
+  ((:minibuffer-local-map
+    :package minibuffer
+    ("C-c C-o" . embark-export)
+    ("C->" . embark-become)
+    ("M-*" . embark-act-all)))
+  :hook (embark-collect-mode-hook . consult-preview-at-point-mode))
 
 ;; Consulting completing-read
 (leaf consult :ensure t
