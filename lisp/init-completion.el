@@ -40,10 +40,10 @@
     ("DEL" . vertico-directory-delete-char)
     ("M-DEL" . vertico-directory-delete-word)))
   :global-minor-mode vertico-mode
-  :hook (rfn-eshadow-update-overlay-hook . vertico-directory-tidy)
+  :hook ((rfn-eshadow-update-overlay-hook . vertico-directory-tidy)
+         (vertico-mode-hook . vertico-multiform-mode))
   :config
   (leaf vertico-multiform
-    :hook (vertico-mode-hook . vertico-multiform-mode)
     :config
     (defvar +vertico-transform-functions nil)
 
@@ -83,9 +83,9 @@
 (leaf marginalia :ensure t
   :global-minor-mode marginalia-mode
   :config
-  ;; Add icons to completion candidates
   (leaf nerd-icons-completion :ensure t
     :init (nerd-icons-completion-marginalia-setup)))
+
 
 (defmacro my/embark-ace-action ()
   `(defun ,(intern (concat "my/embark-ace-" (symbol-name fn))) ()
