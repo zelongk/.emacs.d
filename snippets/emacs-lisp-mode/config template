@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: config template
+# key: config
+# --
+;; ${1:`(file-name-sans-extension (file-name-nondirectory (buffer-file-name)))`} --- ${2: Summary} -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;; ${3: Blablabla}
+
+;;; Code:
+
+$0
+
+(provide '${1:`(file-name-sans-extension (file-name-nondirectory (buffer-file-name)))`})
+;;; ${1:`(file-name-sans-extension (file-name-nondirectory (buffer-file-name)))`}.el ends here
