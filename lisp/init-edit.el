@@ -1,14 +1,14 @@
 ;; -*- lexical-binding: t -*-
 
 (leaf delsel
-  :hook (after-init-hook . delete-selection-mode))
+  :global-minor-mode delete-selection-mode)
 
 (leaf elec-pair
-  :hook (after-init-hook . electric-pair-mode))
+  :global-minor-mode electric-pair-mode)
 
 (leaf puni
   :ensure t
-  :hook (after-init-hook . puni-global-mode)
+  :global-minor-mode puni-global-mode
   :custom
   (puni-confirm-when-delete-unbalanced-active-region . nil)
   :bind (:puni-mode-map
@@ -51,7 +51,7 @@
 
 
 (leaf autorevert
-  :hook (after-init-hook . global-auto-revert-mode))
+  :global-minor-mode global-auto-revert-mode)
 
 (leaf goto-addr
   :hook (((text-mode-hook org-mode-hook) . goto-address-mode)
@@ -60,11 +60,11 @@
 (define-prefix-command 'macrursors-mark-map)
 (leaf macrursors
   :vc (:url "https://github.com/karthink/macrursors" :branch "expand-region")
-  :hook after-init-hook
+  :global-minor-mode macrursors-mode
   :bind-keymap ("C-;" . macrursors-mark-map)
   :bind
-  (("C-<" . macrursors-mark-previous-line)
-   ("C->" . macrursors-mark-next-line)
+  (("C-c C-<" . macrursors-mark-previous-line)
+   ("C-c C->" . macrursors-mark-next-line)
    ("M-P" . macrursors-mark-previous-instance-of)
    ("M-N" . macrursors-mark-next-instance-of)
    ("C-M-;" . macrursors-mark-all-instances-of)
@@ -124,7 +124,7 @@
 
 (leaf ace-pinyin
   :ensure t
-  :hook (after-init-hook . ace-pinyin-global-mode))
+  :global-minor-mode ace-pinyin-global-mode)
 
 ;; show number of matches
 (leaf anzu
@@ -135,7 +135,7 @@
   (:isearch-mode-map
    ([remap isearch-query-replace] . anzu-isearch-query-replace)
    ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
-  :hook (after-init-hook . global-anzu-mode))
+  :global-minor-mode global-anzu-mode)
 
 ;; Goto last change
 (leaf goto-chg
@@ -151,7 +151,7 @@
 ;; Remember undo history
 (leaf undo-fu-session
   :ensure t
-  :hook (after-init-hook . undo-fu-session-global-mode)
+  :global-minor-mode undo-fu-session-global-mode
   :config
   (setq undo-fu-session-directory (expand-file-name "undo-fu-session" user-cache-directory)))
 

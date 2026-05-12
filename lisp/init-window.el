@@ -3,7 +3,7 @@
 
 (leaf winner
   :commands (winner-undo winner-redo)
-  :hook after-init-hook
+  :global-minor-mode winner-mode
   :init (setq winner-boring-buffers '("*Completions*"
                                       "*Compile-Log*"
                                       "*inferior-lisp*"

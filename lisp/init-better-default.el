@@ -45,7 +45,7 @@
 
 (leaf saveplace
   :require t
-  :hook (after-init-hook . save-place-mode)
+  :global-minor-mode save-place-mode
   :config
   (setq save-place-file (expand-file-name "places" user-cache-directory)))
 
@@ -71,11 +71,11 @@
 
 (leaf paren
   :require t
-  :hook (after-init-hook . show-paren-mode))
+  :global-minor-mode show-paren-mode)
 
 (leaf recentf
   :require t
-  :hook (after-init-hook . recentf-mode)
+  :global-minor-mode recentf-mode
   :init
   (setq recentf-max-saved-items 500
         recentf-exclude
@@ -93,7 +93,7 @@
 
 (leaf savehist
   :require t
-  :hook (after-init-hook . savehist-mode)
+  :global-minor-mode savehist-mode
   :init
   (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
         history-length 1000
@@ -147,12 +147,11 @@
     :bind (([remap kill-ring-save] . easy-kill)
            ([remap mark-sexp] . easy-mark))))
 
-(leaf ultra-scroll
-  :ensure t
+(leaf ultra-scroll :ensure t
   :init
   (setq scroll-conservatively 3
 	    scroll-margin 0)
-  :hook (after-init-hook . ultra-scroll-mode))
+  :global-minor-mode ultra-scroll-mode)
 
 (leaf helpful
   :ensure t

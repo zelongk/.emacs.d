@@ -40,7 +40,6 @@
 
 (leaf consult-org-roam :ensure t
   :after org-roam
-  :hook after-init-hook
   :custom
   ;; Use `ripgrep' for searching with `consult-org-roam-search'
   (consult-org-roam-grep-func . #'consult-ripgrep)

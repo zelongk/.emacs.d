@@ -60,7 +60,7 @@
 (leaf eshell-syntax-highlighting
   :ensure t
   :after eshell
-  :hook (after-init-hook . eshell-syntax-highlighting-global-mode))
+  :global-minor-mode eshell-syntax-highlighting-global-mode)
 
 
 (provide 'init-shell)

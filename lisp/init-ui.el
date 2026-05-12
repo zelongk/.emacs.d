@@ -38,7 +38,7 @@
 ;; Easily adjust the font size in all frames
 (leaf default-text-scale :ensure t
   :blackout t
-  :hook (after-init-hook . default-text-scale-mode)
+  :global-minor-mode default-text-scale-mode
   :bind (:default-text-scale-mode-map
          ("C-s-=" . default-text-scale-increase)
          ("C-s--" . default-text-scale-decrease)
@@ -47,7 +47,7 @@
 ;; UI settings
 (leaf solaire-mode :ensure t
   :blackout t
-  :hook (after-init-hook . solaire-global-mode))
+  :global-minor-mode solaire-global-mode)
 
 (leaf modus-themes :ensure t
   :require t
@@ -109,21 +109,26 @@
           ;; (string green-cooler)
           (fringe unspecified) ;; bg-blue-nuanced
           (border-mode-line-active unspecified)
-          (border-mode-line-inactive unspecified)))
-  (modus-themes-load-theme 'modus-operandi-tinted))
+          (border-mode-line-inactive unspecified))))
 
 (leaf doric-themes :ensure t
-  ;; :bind
-  ;; (("<f5>" . doric-themes-load-random)
-  ;;  ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
-  ;;  ("M-<f5>" . (lambda () (interactive) (doric-themes-load-random 'dark))))
   :commands doric-themes-load-random)
 
-(leaf ef-themes :ensure t)
+(leaf ef-themes :ensure t
+  :global-minor-mode
+  ef-themes-take-over-modus-themes-mode
+  :bind
+  (("<f5>" . ef-themes-load-random)
+   ("C-<f5>" . ef-themes-load-random-light)
+   ("M-<f5>" . ef-themes-load-random-dark))
+  :init
+  (ef-themes-load-random))
 
 (leaf auto-dark :ensure t
   :disabled t
   :when (and (eq system-type 'darwin) (display-graphic-p))
+  :custom
+  (auto-dark-allow-osascript . nil)
   :hook
   (auto-dark-dark-mode-hook
    . (lambda ()
@@ -149,7 +154,7 @@
 
 (leaf doom-modeline :ensure t
   :disabled t
-  :hook (after-init-hook . doom-modeline-mode)
+  :global-minor-mode doom-modeline-mode
   :config
   (setq doom-modeline-support-imenu t
         ;; doom-modeline-icons nil
@@ -260,7 +265,7 @@
 
 (leaf hide-mode-line :ensure t
   :leaf-autoload turn-off-hide-mode-line-mode
-  :hook ((eat-mode-hook ghostel-mode-hook
+  :hook ((eat-mode-hook ghostel-mode-hook magit-mode-hook
                         eshell-mode-hook shell-mode-hook
                         term-mode-hook vterm-mode-hook
                         embark-collect-mode-hook lsp-ui-imenu-mode-hook
@@ -282,10 +287,10 @@
         centaur-tabs-set-modified-marker t))
 
 (leaf spacious-padding :ensure t
-  :hook after-init-hook
+  :global-minor-mode spacious-padding-mode
   :config
   (setq spacious-padding-subtle-frame-lines nil)
-  (plist-put spacious-padding-widths :mode-line-width 4)
+  (plist-put spacious-padding-widths :mode-line-width 6)
   (plist-put spacious-padding-widths :header-line-width 4))
 
 (unless (daemonp)
@@ -341,18 +346,16 @@
 ;; hl current line
 (leaf hl-line
   :disabled t
-  :hook ((after-init-hook . global-hl-line-mode)
-         ((dashboard-mode-hook eshell-mode-hook shell-mode-hook term-mode-hook vterm-mode-hook eat-mode-hook) .
-          (lambda () (setq-local global-hl-line-mode nil)))))
+  :hook (package-menu-mode-hook . hl-line-mode))
 
 (leaf beacon :ensure t
   :disabled t
-  :hook after-init-hook)
+  :global-minor-mode beacon-mode)
 
 (leaf pulsar :ensure t
   :bind (([remap count-lines-page] . pulsar-pulse-line) ; overrides `count-lines-page'
          ("C-x L" . pulsar-highlight-permanently-dwim)) ; or use `pulsar-highlight-temporarily-dwim'
-  :hook (after-init-hook . pulsar-global-mode)
+  :global-minor-mode pulsar-global-mode
   :custom-face (pulsar-generic . '((t :inherit region :extend t)))
   :custom
   (pulsar-delay . 0.05)
@@ -374,7 +377,7 @@
   :hook (prog-mode-hook text-mode-hook conf-mode-hook))
 
 (leaf hl-todo :ensure t
-  :hook (after-init-hook . global-hl-todo-mode)
+  :global-minor-mode global-hl-todo-mode
   :config
   (setq hl-todo-highlight-punctuation ":"
         hl-todo-keyword-faces

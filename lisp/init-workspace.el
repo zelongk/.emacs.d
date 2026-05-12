@@ -93,13 +93,11 @@
   ;; Pass an argument to disable e.g. (my/functions-in-new-tab t)
   (my/functions-in-new-tab))
 
-(leaf tabspaces
-  :ensure t
-  :commands tabspaces-mode
+(leaf tabspaces :ensure t
   :commands (tabspaces-switch-or-create-workspace
              tabspaces-open-or-create-project-and-workspace)
-  :hook ((after-init-hook . tabspaces-mode)
-         (tabspaces-mode-hook . tab-bar-history-mode))
+  :global-minor-mode tabspaces-mode
+  :hook (tabspaces-mode-hook . tab-bar-history-mode)
   :bind (:tabspaces-command-map
          ("l" . tabspaces-restore-session)
          ("s" . tabspaces-save-session)
@@ -143,7 +141,7 @@
 
 (leaf beframe
   :disabled t
-  :hook after-init-hook
+  :global-minor-mode beframe-mode
   :bind-keymap ("C-c b" . beframe-prefix-map)
   :bind ("C-x f" . other-frame-prefix)
   :config

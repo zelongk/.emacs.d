@@ -4,7 +4,7 @@
   :ensure t
   :commands childframe-completion-workable-p
   :bind ("C-h M-m" . which-key-show-major-mode)
-  :hook (after-init-hook . which-key-mode)
+  :global-minor-mode which-key-mode
   :hook (god-mode-hook . which-key--god-mode-support-enabled)
   :init (setq which-key-max-description-length 30
 	          which-key-idle-delay 0.5

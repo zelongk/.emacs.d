@@ -1,8 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 ;; Auto completion
-(leaf corfu
-  :ensure t
+(leaf corfu :ensure t
   :custom
   (corfu-auto . t)
   (corfu-auto-prefix . 2)
@@ -16,16 +15,17 @@
                                help-mode
                                gud-mode
                                eat-mode
+                               ghostel-mode
                                vterm-mode)
                           t))
   
   ;; :custom-face
   ;; (corfu-border . ((t (:inherit region :background unspecified))))
   :bind (("M-/" . completion-at-point))
-  :init
-  (global-corfu-mode)
-  (corfu-history-mode)
-  (corfu-popupinfo-mode)
+  :global-minor-mode
+  global-corfu-mode
+  corfu-history-mode
+  corfu-popupinfo-mode
   :config
   ;; Let corfu child frame be empty, ask wm to toggle float for empty frame from emacs.
   (setf (alist-get 'name  corfu--frame-parameters nil nil #'eq)  ""

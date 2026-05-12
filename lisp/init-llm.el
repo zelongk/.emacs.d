@@ -8,6 +8,7 @@
   ("C-c l l" . gptel)
   ("C-c l s" . gptel-send)
   ("C-c l m" . gptel-menu)
+  ("C-c l C-g" . gptel-abort)
   :hook (gptel-mode-hook . gptel-highlight-mode)
   :config
   (setq gptel-model 'gpt-5.3-codex

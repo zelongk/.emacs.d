@@ -39,7 +39,7 @@
     ("RET" . vertico-directory-enter)
     ("DEL" . vertico-directory-delete-char)
     ("M-DEL" . vertico-directory-delete-word)))
-  :hook (after-init-hook . vertico-mode)
+  :global-minor-mode vertico-mode
   :hook (rfn-eshadow-update-overlay-hook . vertico-directory-tidy)
   :config
   (leaf vertico-multiform
@@ -76,24 +76,87 @@
                    (+vertico-transform-functions . +vertico-highlight-directory)))
     (add-to-list 'vertico-multiform-commands
                  '(execute-extended-command
-                   (+vertico-transform-functions . +vertico-highlight-enabled-mode))))
-  )
+                   (+vertico-transform-functions . +vertico-highlight-enabled-mode)))))
 
 
 ;; Enrich existing commands with completion annotations
-(leaf marginalia
-  :ensure t
-  :hook (after-init-hook . marginalia-mode))
+(leaf marginalia :ensure t
+  :global-minor-mode marginalia-mode
+  :config
+  ;; Add icons to completion candidates
+  (leaf nerd-icons-completion :ensure t
+    :init (nerd-icons-completion-marginalia-setup)))
 
+(defmacro my/embark-ace-action ()
+  `(defun ,(intern (concat "my/embark-ace-" (symbol-name fn))) ()
+     (interactive)
+     (with-demoted-errors "%s"
+       (require 'ace-window)
+       (let ((aw-dispatch-always t))
+         (aw-switch-to-window (aw-select nil))
+         (call-interactively (symbol-function ',fn))))))
+(defmacro my/embark-split-action (fn split-type)
+  `(defun ,(intern (concat "my/embark-"
+                           (symbol-name fn)
+                           "-"
+                           (car (last  (split-string
+                                        (symbol-name split-type) "-"))))) ()
+     (interactive)
+     (funcall #',split-type)
+     (call-interactively #',fn)))
 
-;; Add icons to completion candidates
-(leaf nerd-icons-completion
-  :ensure t
-  :hook (marginalia-mode-hook . nerd-icons-completion-marginalia-setup))
+(leaf embark-consult :ensure t
+  :bind
+  (:minibuffer-local-map
+   ("C-c C-o" . embark-export)
+   ("C->" . embark-become)
+   ("M-*" . embark-act-all))
+  :hook (embark-collect-mode-hook . consult-preview-at-point-mode))
+
+(leaf embark :ensure t
+  :leaf-defer nil
+  :commands embark-prefix-help-command
+  :bind
+  (("M-SPC"   . embark-act)
+   ("M-*"   . embark-act-all)
+   ("M-S-SPC"   . embark-select)
+   ("S-<return>"   . embark-dwim)        ; overrides `xref-find-definitions'
+   ([remap describe-bindings] . embark-bindings))
+  (:minibuffer-local-map
+   ("M-." . my-embark-preview))
+  (:embark-file-map
+   ("S"        . sudo-find-file)
+   ("2"        . (my/embark-split-action find-file split-window-below))
+   ("3"        . (my/embark-split-action find-file split-window-right))
+   ("4"        . find-file-other-window)
+   ("5"        . find-file-other-frame)
+   ("C-="      . diff))
+  (:embark-buffer-map
+   ("d"        . diff-buffer-with-file)
+   ("l"        . eval-buffer)
+   ("2"        . (my/embark-split-action switch-to-buffer split-window-below))
+   ("3"        . (my/embark-split-action switch-to-buffer split-window-right))
+   ("4"        . switch-to-buffer-other-window)
+   ("5"        . switch-to-buffer-other-frame)
+   ("C-="      . diff-buffers))
+  (:embark-bookmark-map
+   ("2"        . (my/embark-split-action bookmark-jump split-window-below))
+   ("3"        . (my/embark-split-action bookmark-jump split-window-right))
+   ("4"        . bookmark-jump-other-window)
+   ("5"        . bookmark-jump-other-frame))
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
 
 ;; Consulting completing-read
-(leaf consult
-  :ensure t
+(leaf consult :ensure t
   :commands consult-customize
   :bind
   (([remap Info-search]        . consult-info)
@@ -159,78 +222,6 @@
   (:minibuffer-local-map
    ("C-x C-d" . consult-dir)
    ("C-x C-j" . consult-dir-jump-file)))
-
-(leaf embark
-  :ensure t
-  :commands embark-prefix-help-command
-  :bind
-  (("M-SPC"   . embark-act)
-   ("M-*"   . embark-act-all)
-   ("M-S-SPC"   . embark-select)
-   ("S-<return>"   . embark-dwim)        ; overrides `xref-find-definitions'
-   ([remap describe-bindings] . embark-bindings))
-  (:minibuffer-local-map
-   ("M-." . my-embark-preview))
-  (:embark-file-map
-   ("S"        . sudo-find-file)
-   ("4"        . find-file-other-window)
-   ("5"        . find-file-other-frame)
-   ("C-="      . diff))
-  (:embark-buffer-map
-   ("d"        . diff-buffer-with-file)
-   ("l"        . eval-buffer)
-   ("4"        . switch-to-buffer-other-window)
-   ("5"        . switch-to-buffer-other-frame)
-   ("C-="      . diff-buffers))
-  (:embark-bookmark-map
-   ("4"        . bookmark-jump-other-window)
-   ("5"        . bookmark-jump-other-frame))
-
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-  :config
-  (eval-when-compile
-    (defmacro my/embark-ace-action (fn)
-      `(defun ,(intern (concat "my/embark-ace-" (symbol-name fn))) ()
-         (interactive)
-         (with-demoted-errors "%s"
-           (require 'ace-window)
-           (let ((aw-dispatch-always t))
-             (aw-switch-to-window (aw-select nil))
-             (call-interactively (symbol-function ',fn)))))))
-
-  (define-key embark-file-map     (kbd "o") (my/embark-ace-action find-file))
-  (define-key embark-buffer-map   (kbd "o") (my/embark-ace-action switch-to-buffer))
-  (define-key embark-bookmark-map (kbd "o") (my/embark-ace-action bookmark-jump))
-  (eval-when-compile
-    (defmacro my/embark-split-action (fn split-type)
-      `(defun ,(intern (concat "my/embark-"
-                               (symbol-name fn)
-                               "-"
-                               (car (last  (split-string
-                                            (symbol-name split-type) "-"))))) ()
-         (interactive)
-         (funcall #',split-type)
-         (call-interactively #',fn))))
-
-  (define-key embark-file-map     (kbd "2") (my/embark-split-action find-file split-window-below))
-  (define-key embark-buffer-map   (kbd "2") (my/embark-split-action switch-to-buffer split-window-below))
-  (define-key embark-bookmark-map (kbd "2") (my/embark-split-action bookmark-jump split-window-below))
-
-  (define-key embark-file-map     (kbd "3") (my/embark-split-action find-file split-window-right))
-  (define-key embark-buffer-map   (kbd "3") (my/embark-split-action switch-to-buffer split-window-right))
-  (define-key embark-bookmark-map (kbd "3") (my/embark-split-action bookmark-jump split-window-right)))
-
-(leaf embark-consult
-  :ensure t
-  :after (embark consult)
-  :require t
-  :bind (:minibuffer-local-map
-         ("C-c C-o" . embark-export)
-         ("C->" . embark-become)
-         ("M-*" . embark-act-all))
-  :hook (embark-collect-mode-hook . consult-preview-at-point-mode))
 
 (provide 'init-completion)
 
