@@ -1,9 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-denote --- Lightweight "orgroam" -*- lexical-binding: t; -*-
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                        ;                Denote               ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+;;  Blablabla
 
+;;; Code:
 
 (leaf denote
   :ensure t
@@ -75,3 +75,4 @@
    ("C-c n e b" . denote-explore-barchart-backlinks)))
 
 (provide 'init-denote)
+;;; init-denote.el ends here

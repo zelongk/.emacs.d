@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-shell --- Terminal inside emacs -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf comint
   :init
@@ -6,7 +11,7 @@
         ansi-color-for-compilation-mode t))
 
 (leaf ansi-color
-  :hook (compilation-filter-hook . ansi-color-compilation-filter)) 
+  :hook (compilation-filter-hook . ansi-color-compilation-filter))
 
 
 (leaf xterm-color
@@ -65,3 +70,4 @@
 
 
 (provide 'init-shell)
+;;; init-shell.el ends here

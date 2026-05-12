@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-tex --- Latex -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf latex
   :ensure auctex
@@ -207,3 +212,4 @@ expansion, then cdlatex expansion."
 
 
 (provide 'init-tex)
+;;; init-tex.el ends here

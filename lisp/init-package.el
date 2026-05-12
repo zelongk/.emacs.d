@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-package --- Setup package.el and leaf.el -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 ;; <leaf-install-code>
 (eval-and-compile
@@ -34,3 +39,4 @@
 (setq package-vc-register-as-project nil)
 
 (provide 'init-package)
+;;; init-package.el ends here

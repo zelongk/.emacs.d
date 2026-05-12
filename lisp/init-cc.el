@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-cc --- C/CPP -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (when (treesit-available-p)
   (leaf c-ts-mode
@@ -21,3 +26,4 @@
 
 
 (provide 'init-cc)
+;;; init-cc.el ends here

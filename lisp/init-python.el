@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-python --- Python -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 ;; Python Mode
 ;; Install: pip install pyflakes autopep8
@@ -19,3 +24,4 @@
     (setq python-shell-interpreter "python3")))
 
 (provide 'init-python)
+;;; init-python.el ends here

@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-writing --- Writing tools -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Basically spell checkers
+
+;;; Code:
 
 (leaf flyspell
   :commands flyspell-mode
@@ -14,3 +19,4 @@
   :bind ([remap ispell-word] . jinx-correct))
 
 (provide 'init-writing)
+;;; init-writing.el ends here

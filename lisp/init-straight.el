@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-straight --- A package manager -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -22,3 +27,4 @@
 
 
 (provide 'init-straight)
+;;; init-straight.el ends here

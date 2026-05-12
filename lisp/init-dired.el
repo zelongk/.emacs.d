@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t -*-
+;; init-dired --- Best file manager -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf dired
   :bind (("C-x x @" . tramp-revert-buffer-with-sudo)
@@ -37,3 +42,4 @@
 	    dirvish-use-mode-line nil))
 
 (provide 'init-dired)
+;;; init-dired.el ends here

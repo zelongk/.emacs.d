@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t;-*-
+;; init-roam ---  org roam note system -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf org-roam
   :ensure t
@@ -52,3 +57,4 @@
    ("C-c n g" . consult-org-roam-search)))
 
 (provide 'init-roam)
+;;; init-roam.el ends here

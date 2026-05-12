@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-snippet --- snippet -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 ;; Yasnippet settings
 (leaf yasnippet
@@ -61,3 +66,4 @@
   :bind ("M-g y" . consult-yasnippet))
 
 (provide 'init-snippet)
+;;; init-snippet.el ends here

@@ -1,4 +1,9 @@
 ;;; init.el --- This is the  -*- lexical-binding: t -*-
+;;; Commentary:
+;; Personal Emacs config
+;; Greatly referred to Centaur Emacs
+
+;;; Code:
 
 ;; A helper to keep track of start-up time:
 (eval-when-compile (require 'cl-lib))
@@ -28,14 +33,15 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (add-hook 'after-init-hook (lambda () (load custom-file t t)))
 
-(setq secrets-file (expand-file-name "secrets.el" user-emacs-directory))
+(defvar secrets-file (expand-file-name "secrets.el" user-emacs-directory))
 (eval-and-compile
   (when (boundp 'secrets-file)
     (load secrets-file t t)))
 
+(require 'init-package)
 ;; (require 'init-elpaca)
 ;; (require 'init-straight)
-(require 'init-package)
+
 (require 'init-gc)
 (require 'init-better-default)
 

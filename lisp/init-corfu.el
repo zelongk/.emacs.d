@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-corfu --- Completion interface -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 ;; Auto completion
 (leaf corfu :ensure t
@@ -80,3 +85,4 @@
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 
 (provide 'init-corfu)
+;;; init-corfu.el ends here

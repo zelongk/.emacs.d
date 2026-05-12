@@ -23,6 +23,4 @@
 
 
 
-
-
 (provide 'init-eaf)

@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t -*-
+;; init-coding --- Utilities for coding -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf xref
   :init
@@ -76,3 +81,4 @@
 (leaf envrc :ensure t)
 
 (provide 'init-coding)
+;;; init-coding.el ends here

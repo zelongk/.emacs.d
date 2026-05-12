@@ -1,5 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-ocaml --- Ocaml -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf tuareg
   :ensure t  
@@ -26,3 +30,4 @@
   )
 
 (provide 'init-ocaml)
+;;; init-ocaml.el ends here

@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-vcs --- version control system -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf diff-mode)
 
@@ -112,3 +117,4 @@
      ("ZZ" "Save & bury" (lambda () (interactive) (save-buffer) (bury-buffer)) :transient nil)]]))
 
 (provide 'init-vcs)
+;;; init-vcs.el ends here

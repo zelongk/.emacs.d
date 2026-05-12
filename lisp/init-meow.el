@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t -*-
+;; init-meow --- A vim alternative -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (defun meow-setup()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
@@ -148,3 +153,4 @@ S is string of the two-key sequence."
               #'meow-two-char-exit-insert-state))
 
 (provide 'init-meow)
+;;; init-meow.el ends here

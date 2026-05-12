@@ -1,6 +1,11 @@
-;; -*- lexical-binding: t; -*-
-;; Restore old window configurations
+;; init-window --- Window managements -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
+
+;; Restore old window configurations
 (leaf winner
   :commands (winner-undo winner-redo)
   :global-minor-mode winner-mode

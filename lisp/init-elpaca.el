@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-elpaca --- A modern package manager -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 ;;;;;;;;;;;; elpaca initialise ;;;;;;;;;;;;;;;;;;
 (defvar elpaca-installer-version 0.12)
@@ -125,3 +130,4 @@ The expansion is a string indicating the package has been disabled."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (provide 'init-elpaca)
+;;; init-elpaca.el ends here

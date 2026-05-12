@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t -*-
+;; init-edit --- Better editing experience -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf delsel
   :global-minor-mode delete-selection-mode)
@@ -183,3 +188,4 @@
       syntax-wholeline-max 1000)
 
 (provide 'init-edit)
+;;; init-edit.el ends here

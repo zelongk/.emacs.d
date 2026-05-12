@@ -1,5 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-haskell --- Haskell -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf haskell-mode
   :ensure t
@@ -27,3 +31,4 @@
 ;;   (add-to-list 'major-mode-remap-alist '(haskell-mode . haskell-ts-mode)))
 
 (provide 'init-haskell)
+;;; init-haskell.el ends here

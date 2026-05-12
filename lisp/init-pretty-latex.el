@@ -1,4 +1,10 @@
-;; -*- lexical-binding: t; -*-
+;; init-pretty-latex --- Latex symbol prettify -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
+
 (add-hook 'prettify-symbols-mode-hook
           (defun prettify-symbols-latex-symbols ()
             "List of pretty symbols for latex-mode"
@@ -456,3 +462,4 @@
                                                  ("\\textreferencemark" . 8251)))))
 
 (provide 'init-pretty-latex)
+;;; init-pretty-latex.el ends here

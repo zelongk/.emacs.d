@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-lsp --- Powerful lsp client -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf lsp-mode
   :ensure t
@@ -159,3 +164,4 @@
         lsp-ltex-plus-user-rules-path (expand-file-name "lsp-ltex-plus" user-cache-directory)))
 
 (provide 'init-lsp)
+;;; init-lsp.el ends here

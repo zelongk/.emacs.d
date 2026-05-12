@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-gc --- Automatic smart gc -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf gcmh :ensure t
   :global-minor-mode gcmh-mode
@@ -23,3 +28,4 @@ Cancel the previous one if present."
       gc-cons-percentage 0.2)
 
 (provide 'init-gc)
+;;; init-gc.el ends here

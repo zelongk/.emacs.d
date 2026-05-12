@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t -*-
+;; init-org ---  org-mode -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf org
   :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev")
@@ -336,3 +341,4 @@
             :scale (+ 1.0 (* 0.25 text-scale-mode-amount)))))))
 
 (provide 'init-org)
+;;; init-org.el ends here

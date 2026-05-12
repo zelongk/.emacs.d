@@ -1,4 +1,8 @@
-;; -*- lexical-binding: t; -*-
+;;; init-eglot.el --- Code for eglot setting -*- lexical-binding: t; -*-
+;;; Commentary:
+;; blablabla
+
+;;; Code:
 
 (leaf eglot
   :commands (eglot eglot-ensure)
@@ -38,3 +42,4 @@
   :hook eglot-managed-mode-hook)
 
 (provide 'init-eglot)
+;;; init-eglot.el ends here

@@ -1,4 +1,9 @@
-;;; -*- lexical-binding: t; -*-
+;; init-llm --- LLM frontend -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf gptel
   :ensure t
@@ -36,3 +41,4 @@
   :config (gptel-agent-update))  
 
 (provide 'init-llm)
+;;; init-llm.el ends here

@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t -*-
+;; init-bindings --- Several intuitive binding -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (define-key global-map (kbd "C-<wheel-up>")  nil)
 (define-key global-map (kbd "C-<wheel-down>")  nil)
@@ -39,3 +44,4 @@
            ("C-c C-w 0" . desktop-clear))
 
 (provide 'init-bindings)
+;;; init-bindings.el ends here

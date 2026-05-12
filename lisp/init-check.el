@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-check --- Diagnostic -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf flymake
   :blackout t

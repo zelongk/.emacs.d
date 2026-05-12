@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t -*-
+;; init-better-default --- Tweak emacs default behaviours -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (defconst IS-MAC     (eq system-type 'darwin))
 (defconst IS-LINUX   (eq system-type 'gnu/linux))
@@ -244,3 +249,4 @@
         transient-show-popup t))
 
 (provide 'init-better-default)
+;;; init-better-default.el ends here

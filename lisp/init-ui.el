@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t -*-
+;; init-ui ---  Almost everything about how emacs looks like -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
@@ -366,3 +371,4 @@
           ("XXX" font-lock-constant-face bold))))
 
 (provide 'init-ui)
+;;; init-ui.el ends here

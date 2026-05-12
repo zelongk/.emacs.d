@@ -1,5 +1,9 @@
-;;; init-completion.el --- Initialize completion configurations.	-*- lexical-binding: t -*-
+;;; init-completion.el --- Initialize completion configurations. -*- lexical-binding: t -*-
 
+;;; Commentary:
+;; Blablabla
+
+;;; Code:
 ;; Optionally use the `orderless' completion style.
 (leaf orderless
   :ensure t

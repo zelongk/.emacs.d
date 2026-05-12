@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-utils --- Utilities that makes life better -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf which-key
   :ensure t
@@ -55,3 +60,4 @@
   :ensure t)
 
 (provide 'init-utils)
+;;; init-utils.el ends here

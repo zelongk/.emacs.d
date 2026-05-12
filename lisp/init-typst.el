@@ -1,6 +1,10 @@
-;; -*- lexical-binding: t;-*-
+;; init-typst ---  typst -*- lexical-binding: t; -*-
 
-;; (require 'compile)
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
+
 (leaf typst-ts-mode
   :vc (:url "https://codeberg.org/meow_king/typst-ts-mode")
   :bind
@@ -27,3 +31,4 @@
   (setq typst-preview-open-browser-automatically t))
 
 (provide 'init-typst)
+;;; init-typst.el ends here

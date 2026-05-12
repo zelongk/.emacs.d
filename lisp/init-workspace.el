@@ -1,4 +1,9 @@
-;; -*- lexical-binding: t; -*-
+;; init-workspace --- Workspace managements -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (leaf project
   :bind-keymap ("s-p" . project-prefix-map)
@@ -171,3 +176,4 @@ With optional argument FRAME, return the list of buffers of FRAME."
     (setq consult-buffer-list-function #'consult-beframe-buffer-list)))
 
 (provide 'init-workspace)
+;;; init-workspace.el ends here
