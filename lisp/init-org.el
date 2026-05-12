@@ -125,8 +125,7 @@
           )))
 
 (leaf org
-  :after org
-  :config
+  :defer-config
   (add-to-list 'org-modules 'org-habit)
   (setq org-directory "~/org/")
   (add-to-list 'org-agenda-files "~/org")
@@ -181,14 +180,11 @@
               (when (bound-and-true-p org-capture-is-refiling)
                 (save-buffer)))))
 
-(leaf org-contrib
-  :ensure t
+(leaf org-contrib :ensure t
   :after org
   :require t)
 
-(leaf org-modern
-  :ensure t
-  ;; :after org
+(leaf org-modern :ensure t
   :hook ((org-mode-hook . org-modern-mode)
          (org-agenda-finalize . org-modern-agenda))
   :init
@@ -217,12 +213,12 @@
         '(("" . ""))))
 
 (leaf org-modern-indent
+  :require t
   :vc (:url "https://github.com/jdtsmith/org-modern-indent")
   :after org-modern org
   :hook org-indent-mode-hook)
 
-(leaf org-appear
-  :ensure t  
+(leaf org-appear :ensure t  
   :hook (org-mode-hook . org-appear-mode)
   :leaf-autoload org-appear--set-elements
   :config
@@ -232,8 +228,7 @@
   (run-at-time nil nil #'org-appear--set-elements))
 
 (leaf org
-  :after org
-  :config
+  :defer-config
   (setq org-latex-packages-alist
         '(("T1" "fontenc" t)
           ("" "amsmath" t)
@@ -256,12 +251,11 @@
 "))
 
 (leaf org-latex-preview
-  :after org
   :hook (org-mode-hook . org-latex-preview-mode)
   :bind ("C-c C-x SPC" . org-latex-preview-clear-cache)
   :custom
   (org-latex-preview-numbered . nil)
-  :config
+  :defer-config
   (plist-put org-latex-preview-appearance-options :page-width 0.4)
   ;; Add margin and rescale display math
   (defvar my/org-latex-display-math-scale 1)
@@ -299,8 +293,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(leaf org-download
-  :ensure t
+(leaf org-download :ensure t
   :after org
   :leaf-autoload org-download-clipboard
   :hook ((org-mode-hook dired-mode-hook) . org-download-enable)
@@ -313,21 +306,18 @@
 
 (leaf org-drawio :ensure t
   :commands (org-drawio-add
-             org-drawio-open)
-  :after org)
+             org-drawio-open))
 
-(leaf valign
-  :ensure t
+(leaf valign :ensure t
+  :blackout t
   :hook (org-mode-hook . valign-mode))
 
 ;;; Miscs
 ;; Org latex preview center
 (leaf org-latex-preview
-  :after org-latex-preview
-  :leaf-defer nil
   :hook (text-scale-mode-hook . my/text-scale-adjust-latex-previews)
   :hook (org-latex-preview-mode-hook . org-latex-preview-center-mode)
-  :config
+  :defer-config
   ;; Centre display maths
   (defun my/org-latex-preview-uncenter (ov)
     (overlay-put ov 'before-string nil))

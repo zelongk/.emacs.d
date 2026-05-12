@@ -33,8 +33,7 @@
 
 (leaf mixed-pitch :ensure t
   :blackout t
-  :hook org-mode-hook
-  :hook LaTeX-mode-hook)
+  :hook (org-mode-hook LaTeX-mode-hook))
 
 ;; Easily adjust the font size in all frames
 (leaf default-text-scale :ensure t
@@ -51,33 +50,19 @@
   :hook (after-init-hook . solaire-global-mode))
 
 (leaf modus-themes :ensure t
-  :init
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-mixed-fonts t
-        modus-themes-prompts '(bold background)
-        modus-themes-variable-pitch-ui nil)
-  :commands (modus-themes-load-random-dark
-             modus-themes-load-random-light
-             modus-themes-load-random))
-
-(leaf doric-themes
-  :ensure t
-  :disabled t
-  ;; :bind ("<f5>" . doric-themes-load-random)
-  ;; :bind ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
-  ;; :bind ("M-<f5>" . (lambda () (interactive) (doric-themes-load-random 'dark)))
-  :commands doric-themes-load-random)
-
-(leaf ef-themes
-  :ensure t
-  
-  :bind ("<f5>" . modus-themes-load-random)
-  :bind ("C-<f5>" . modus-themes-load-random-light)
-  :bind ("M-<f5>" . modus-themes-load-random-dark)
-  :init
-  (ef-themes-take-over-modus-themes-mode 1)
-  (setq ef-themes-headings
+  :require t
+  :setq
+  ((modus-themes-italic-constructs . t)
+   (modus-themes-bold-constructs . t)
+   (modus-themes-mixed-fonts . t)
+   (modus-themes-prompts . '(bold background))
+   (modus-themes-variable-pitch-ui . nil))
+  :commands
+  (modus-themes-load-random-dark
+   modus-themes-load-random-light
+   modus-themes-load-random)
+  :config
+  (setq modus-themes-headings
         '((0 . (1.50))
           (1 . (1.28))
           (2 . (1.22))
@@ -85,19 +70,19 @@
           (4 . (1.14))
           (t . (1.1))))
 
-  (defun my-set-faces (faces color)
+  (defun my/set-faces (faces color)
     (dolist (face (if (listp faces) faces (list faces)))
       (custom-set-faces `(,face ((t :background ,color))))))
-  (defun my-ef-themes-custom-faces ()
-    (ef-themes-with-colors
-      (my-set-faces '(org-block
+  (defun my/themes-custom-faces ()
+    (modus-themes-with-colors
+      (my/set-faces '(org-block
                       org-block-begin-line
                       org-block-end-line)
                     bg-main)
-      (my-set-faces 'olivetti-fringe bg-dim)))
-  (add-hook 'ef-themes-after-load-theme-hook #'my-ef-themes-custom-faces)
+      (my/set-faces 'olivetti-fringe bg-dim)))
+  (add-hook 'modus-themes-after-load-theme-hook #'my/themes-custom-faces)
   
-  (setq ef-themes-common-palette-overrides
+  (setq modus-themes-common-palette-overrides
         '((bg-tab-bar bg-main)
           (bg-tab-current bg-hover)
           (bg-tab-other bg-main)
@@ -125,16 +110,19 @@
           (fringe unspecified) ;; bg-blue-nuanced
           (border-mode-line-active unspecified)
           (border-mode-line-inactive unspecified)))
-  (setq ef-themes-light-themes '(ef-arbutus ef-cyprus ef-day ef-duo-light ef-eagle ef-elea-light
-                                            ef-kassio  ef-melissa-light ef-orange ef-reverie
-                                            ef-spring ef-summer ef-trio-light ef-tritanopia-light))
+  (modus-themes-load-theme 'modus-operandi-tinted))
 
-  (setq ef-themes-dark-themes '(ef-autumn ef-bio ef-cherie ef-dark ef-deuteranopia-dark ef-dream
-                                          ef-duo-dark ef-elea-dark ef-fig ef-maris-dark
-                                          ef-melissa-dark ef-night ef-owl ef-rosa ef-symbiosis
-                                          ef-trio-dark ef-tritanopia-dark ef-winter)))
+(leaf doric-themes :ensure t
+  ;; :bind
+  ;; (("<f5>" . doric-themes-load-random)
+  ;;  ("C-<f5>" . (lambda () (interactive) (doric-themes-load-random 'light)))
+  ;;  ("M-<f5>" . (lambda () (interactive) (doric-themes-load-random 'dark))))
+  :commands doric-themes-load-random)
+
+(leaf ef-themes :ensure t)
 
 (leaf auto-dark :ensure t
+  :disabled t
   :when (and (eq system-type 'darwin) (display-graphic-p))
   :hook
   (auto-dark-dark-mode-hook

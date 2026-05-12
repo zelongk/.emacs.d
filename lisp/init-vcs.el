@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(leaf vc)
-
 (leaf diff-mode)
 
 (leaf ediff)
@@ -41,7 +39,7 @@
 ;; Show TODOs in Magit
 (leaf magit-todos :ensure t
   :after magit-status
-  :hook magit
+  :hook magit-mode-hook
   :commands magit-todos-mode
   :init
   (setq magit-todos-nice (if (executable-find "nice") t nil)))
@@ -54,7 +52,7 @@
   (git-timemachine-minibuffer-detail-face . '((t (:inherit warning :foreground unspecified))))
   :bind
   (:vc-prefix-map
-   ("t" . git-timemachine))
+   ("t" . git-timemachine-toggle))
   :hook ((git-timemachine-mode-hook . (lambda ()
                                         "Improve `git-timemachine' buffers."
                                         ;; Highlight symbols in elisp

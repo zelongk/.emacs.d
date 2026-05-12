@@ -13,7 +13,6 @@
                                  ("nongnu" . 1)))
   (setq package-install-upgrade-built-in t
         package-quickstart-file (expand-file-name "quickstart.el" user-cache-directory))
-  ;; (package-initialize)
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
@@ -25,7 +24,8 @@
     :ensure t
     :init
     ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-    (leaf blackout :ensure t)
+    (leaf blackout :ensure t
+      :require t)
     :config
     ;; initialize leaf-keywords.el
     (leaf-keywords-init)))

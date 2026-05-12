@@ -17,7 +17,8 @@
         dired-use-ls-dired t))
 
 (leaf diredfl :ensure t)
-(leaf dired-aux)
+(leaf dired-aux
+  :require t)
 (leaf dired-filter :ensure t
   :blackout t
   :after dired
