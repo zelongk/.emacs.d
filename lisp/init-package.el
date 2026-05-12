@@ -11,10 +11,9 @@
    'package-archive-priorities '(("melpa" . 3)
                                  ("gnu" . 2)
                                  ("nongnu" . 1)))
-  (setq package-quickstart nil
-        package-install-upgrade-built-in t
+  (setq package-install-upgrade-built-in t
         package-quickstart-file (expand-file-name "quickstart.el" user-cache-directory))
-  (package-initialize)
+  ;; (package-initialize)
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))

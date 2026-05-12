@@ -12,7 +12,8 @@
   (:org-mode-map
    ("M-<return>" . org-insert-subheading)
    ("C-'" . nil)
-   ("C-c C-M-l" . org-toggle-link-displayt))
+   ("C-c C-M-l" . org-toggle-link-display)
+   ("C-c C-M-s" . org-store-link))
   :config
   (setq org-element-use-cache t
         org-element-cache-persistent t)
@@ -103,9 +104,10 @@
                                   :tag "personal")
                            ))
           ;; Groups supply their own section names when none are given
-          (:name "NAS-related" :tag "NAS" :order 9)
+          (:tag "questions" :order 7)
           (:todo "WAIT" :order 8)  ; Set order of this section
           (:todo "HOLD" :order 8)  ; Set order of this section
+          (:name "NAS-related" :tag "NAS" :order 9)
           (:todo ("IDEA")
                  ;; Show this group at the end of the agenda (since it has the
                  ;; highest number). If you specified this group last, items
@@ -257,7 +259,10 @@
   :after org
   :hook (org-mode-hook . org-latex-preview-mode)
   :bind ("C-c C-x SPC" . org-latex-preview-clear-cache)
+  :custom
+  (org-latex-preview-numbered . nil)
   :config
+  (plist-put org-latex-preview-appearance-options :page-width 0.4)
   ;; Add margin and rescale display math
   (defvar my/org-latex-display-math-scale 1)
   (defvar my/org-latex-display-math-margin 5)

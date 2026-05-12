@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-(leaf blackout :ensure t)
-
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
 
@@ -39,8 +37,8 @@
   :hook LaTeX-mode-hook)
 
 ;; Easily adjust the font size in all frames
-(leaf default-text-scale
-  :ensure t
+(leaf default-text-scale :ensure t
+  :blackout t
   :hook (after-init-hook . default-text-scale-mode)
   :bind (:default-text-scale-mode-map
          ("C-s-=" . default-text-scale-increase)
@@ -48,12 +46,11 @@
          ("C-s-0" . default-text-scale-reset)))
 
 ;; UI settings
-(leaf solaire-mode
-  :ensure t
+(leaf solaire-mode :ensure t
+  :blackout t
   :hook (after-init-hook . solaire-global-mode))
 
-(leaf modus-themes
-  :ensure t
+(leaf modus-themes :ensure t
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
@@ -137,9 +134,8 @@
                                           ef-melissa-dark ef-night ef-owl ef-rosa ef-symbiosis
                                           ef-trio-dark ef-tritanopia-dark ef-winter)))
 
-(leaf auto-dark
+(leaf auto-dark :ensure t
   :when (and (eq system-type 'darwin) (display-graphic-p))
-  :ensure t
   :hook
   (auto-dark-dark-mode-hook
    . (lambda ()
@@ -158,14 +154,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(leaf mood-line
+(leaf mood-line :ensure t
   :disabled t
   :hook emacs-startup-hook
   :custom (mood-line-glyph-alist . mood-line-glyphs-fira-code))
 
-(leaf doom-modeline
+(leaf doom-modeline :ensure t
   :disabled t
-  :ensure t
   :hook (after-init-hook . doom-modeline-mode)
   :config
   (setq doom-modeline-support-imenu t
@@ -275,8 +270,7 @@
 (add-hook 'after-change-major-mode-hook #'clean-mode-line)
 (add-hook 'emacs-startup-hook #'clean-mode-line)
 
-(leaf hide-mode-line
-  :ensure t
+(leaf hide-mode-line :ensure t
   :leaf-autoload turn-off-hide-mode-line-mode
   :hook ((eat-mode-hook ghostel-mode-hook
                         eshell-mode-hook shell-mode-hook
@@ -289,9 +283,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(leaf centaur-tabs
+(leaf centaur-tabs :ensure t
   :disabled t
-  :ensure t
   :config
   (centaur-tabs-mode t)
   (setq centaur-tabs-set-icons t
@@ -300,8 +293,7 @@
         centaur-tabs-show-new-tab-button nil
         centaur-tabs-set-modified-marker t))
 
-(leaf spacious-padding
-  :ensure t
+(leaf spacious-padding :ensure t
   :hook after-init-hook
   :config
   (setq spacious-padding-subtle-frame-lines nil)
@@ -330,7 +322,6 @@
 
 (leaf nerd-icons
   :vc (:url "https://github.com/rainstormstudio/nerd-icons.el")
-  
   :custom
   (nerd-icons-default-adjust . 0.05))
 
@@ -351,13 +342,11 @@
                                         ;            Coding related           ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(leaf rainbow-delimiters
-  :ensure t
+(leaf rainbow-delimiters :ensure t
   :hook ((prog-mode-hook typst-ts-mode-hook python-ts-mode-hook)
          . rainbow-delimiters-mode))
 
-(leaf rainbow-mode
-  :ensure t
+(leaf rainbow-mode :ensure t
   :hook text-mode-hook
   :hook prog-mode-hook)
 
@@ -368,13 +357,11 @@
          ((dashboard-mode-hook eshell-mode-hook shell-mode-hook term-mode-hook vterm-mode-hook eat-mode-hook) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
-(leaf beacon
-  :ensure t
+(leaf beacon :ensure t
   :disabled t
   :hook after-init-hook)
 
-(leaf pulsar
-  :ensure t
+(leaf pulsar :ensure t
   :bind (([remap count-lines-page] . pulsar-pulse-line) ; overrides `count-lines-page'
          ("C-x L" . pulsar-highlight-permanently-dwim)) ; or use `pulsar-highlight-temporarily-dwim'
   :hook (after-init-hook . pulsar-global-mode)
@@ -390,18 +377,15 @@
   (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line))
 
 ;; Eval result overlay
-(leaf eros
-  :ensure t
+(leaf eros :ensure t
   :hook emacs-lisp-mode-hook lisp-interaction-mode-hook
   :bind (([remap eval-defun] . eros-eval-defun)
          ([remap eval-last-sexp] . eros-eval-last-sexp)))
 
-(leaf goggles
-  :ensure t
+(leaf goggles :ensure t
   :hook (prog-mode-hook text-mode-hook conf-mode-hook))
 
-(leaf hl-todo
-  :ensure t
+(leaf hl-todo :ensure t
   :hook (after-init-hook . global-hl-todo-mode)
   :config
   (setq hl-todo-highlight-punctuation ":"
