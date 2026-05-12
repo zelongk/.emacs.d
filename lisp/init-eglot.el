@@ -14,8 +14,8 @@
                 'caddyfile-mode 'elvish-mode
                 'emacs-lisp-mode 'lisp-mode
                 'makefile-mode 'snippet-mode
-                'lisp-data-mode 'ron-mode))
-       (eglot-ensure)))
+                'lisp-data-mode 'ron-mode)
+         (eglot-ensure))))
   ((markdown-mode-hook yaml-mode-hook yaml-ts-mode-hook
                        LaTeX-mode-hook typst-ts-mode-hook)
    . eglot-ensure)

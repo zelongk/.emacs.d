@@ -18,17 +18,14 @@
 (setq blink-matching-paren-highlight-offscreen t
       show-paren-context-when-offscreen 'child-frame)
 
-(leaf apheleia
-  :ensure t
+(leaf apheleia :ensure t
   :blackout t
   :hook prog-mode-hook)
 
-(leaf editorconfig
-  :ensure t)
+(leaf editorconfig :ensure t)
 
-(leaf treesit-auto
-  :ensure t
-  :hook (prog-mode-hook . treesit-auto-mode)
+(leaf treesit-auto :ensure t
+  :global-minor-mode global-treesit-auto-mode
   :custom
   (treesit-auto-install . t)
   :config
@@ -47,36 +44,21 @@
 (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode))
 
 ;; Support for some lang
-(leaf elvish-mode
-  :ensure t
-  )
+(leaf elvish-mode :ensure t)
 
-(leaf fish-mode
-  :ensure t
-  )
+(leaf fish-mode :ensure t)
 
-(leaf docker-compose-mode
-  :ensure t
-  )
+(leaf docker-compose-mode :ensure t)
 
-(leaf ansible
-  :ensure t
-  )
-(leaf ansible-doc
-  :ensure t
+(leaf ansible :ensure t)
+(leaf ansible-doc :ensure t
   :after ansible)
 
-(leaf systemd
-  :ensure t
-  )
+(leaf systemd :ensure t)
 
-(leaf caddyfile-mode
-  :ensure t
-  )
+(leaf caddyfile-mode :ensure t)
 
-(leaf dotenv-mode
-  :ensure t
-  )
+(leaf dot-env :ensure t)
 
 (leaf envrc :ensure t)
 
