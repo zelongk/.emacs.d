@@ -7,7 +7,7 @@
 (leaf eglot
   :commands (eglot eglot-ensure)
   :hook
-  (prog-mode
+  (prog-mode-hook
    . (lambda ()
        (unless (derived-mode-p
                 'dotenv-mode 'fish-mode
