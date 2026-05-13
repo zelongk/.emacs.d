@@ -7,16 +7,14 @@
 
 ;; <leaf-install-code>
 (eval-and-compile
-  (customize-set-variable
-   'package-archives '(("melpa" . "https://melpa.org/packages/")
-                       ("gnu-elpa" . "https://elpa.gnu.org/packages/")
-                       ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
-                       ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-  (customize-set-variable
-   'package-archive-priorities '(("gnu-elpa" . 3)
-                                 ("melpa" . 2)
-                                 ("nongnu" . 1)))
-  (setq package-install-upgrade-built-in t
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("gnu-elpa" . "https://elpa.gnu.org/packages/")
+                           ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
+                           ("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+        package-archive-priorities '(("gnu-elpa" . 3)
+                                     ("melpa" . 2)
+                                     ("nongnu" . 1))
+        package-install-upgrade-built-in t
         package-quickstart-file (expand-file-name "quickstart.el" user-cache-directory))
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
@@ -29,14 +27,13 @@
     :ensure t
     :init
     ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-    (leaf blackout :ensure t
-      :require t)
+    (leaf blackout :ensure t)
     :config
     ;; initialize leaf-keywords.el
-    (leaf-keywords-init)))
-;; </leaf-install-code>
+    (leaf-keywords-init))
+  ;; </leaf-install-code>
 
-(setq package-vc-register-as-project nil)
+  (setq package-vc-register-as-project nil))
 
 (provide 'init-package)
 ;;; init-package.el ends here

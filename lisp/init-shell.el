@@ -48,25 +48,19 @@
            (ghostel))))
 
 ;;; Eshell related
-(leaf eshell  
+(leaf eshell
   :defvar eshell-prompt-function
   :config
-  (setq eshell-banner-message ""))
-
-(leaf eshell-prompt-extras
-  :ensure t
-  :require t
-  :after esh-opt
-  :defvar eshell-highlight-prompt
-  :leaf-autoload (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)
-  :init
-  (setq eshell-highlight-prompt t)
-  (setq eshell-prompt-function #'epe-theme-lambda))
-
-(leaf eshell-syntax-highlighting
-  :ensure t
-  :after eshell
-  :global-minor-mode eshell-syntax-highlighting-global-mode)
+  (setq eshell-banner-message "")
+  :defer-config
+  (leaf eshell-prompt-extras :ensure t
+    :defvar eshell-highlight-prompt
+    :leaf-autoload (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)
+    :init
+    (setq eshell-highlight-prompt t
+          eshell-prompt-function #'epe-theme-lambda))
+  (leaf eshell-syntax-highlighting :ensure t
+    :global-minor-mode eshell-syntax-highlighting-global-mode))
 
 
 (provide 'init-shell)

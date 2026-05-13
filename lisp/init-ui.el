@@ -18,20 +18,36 @@
 (leaf show-font
   :vc (:url "https://github.com/protesilaos/show-font"))
 
-(defvar my/font-size 220)
-(set-face-attribute 'default nil
-                    :font "Sarasa Term SC"
-                    :height my/font-size) ; 20 * 1.5
-(set-face-attribute 'variable-pitch nil
-                    :font "Bookerly"
-                    :height (- my/font-size 20)
-                    :weight 'light)
-(set-face-attribute 'fixed-pitch nil
-                    :font "Sarasa Term SC"
-                    :height my/font-size)
+(leaf fontaine :ensure t
+  :global-minor-mode fontaine-mode
+  :setq
+  `(fontaine-latest-state-file . ,(expand-file-name "fontaine-latest.eld" user-cache-directory))
+  (fontaine-presets
+   . '((small
+        :default-family "Sarasa Term SC"
+        :default-height 180
+        :variable-pitch-family "Bookerly")
+       (regular)
+       (medium
+        :default-weight semilight
+        :default-height 235
+        :bold-weight extrabold)
+       (large
+        :inherit medium
+        :default-height 250)
+       (presentation
+        :default-height 280)
+       (t
+        :default-family "Sarasa Term SC"
+        :default-weight regular
+        :default-height 220
+        
+        :variable-pitch-family "Bookerly")))
+  :config
+  (fontaine-set-preset 'regular))
 
 ;; Use Symbols Nerd Font as fallback for private-use icons
-(set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size (/ my/font-size 10)) nil 'prepend)
+(set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size 22 nil 'prepend))
 
 (leaf mixed-pitch :ensure t
   :blackout t

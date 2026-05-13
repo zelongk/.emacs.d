@@ -55,7 +55,6 @@
   (setq save-place-file (expand-file-name "places" user-cache-directory)))
 
 (leaf display-line-numbers
-  :require t
   :hook (text-mode-hook . display-line-numbers-mode)
   :hook (prog-mode-hook . display-line-numbers-mode)
   :config
@@ -71,7 +70,6 @@
   (setq display-line-numbers-width-start 4))
 
 (leaf subword
-  :require t
   :hook (prog-mode-hook minibuffer-setup-hook))
 
 (leaf paren
@@ -79,7 +77,6 @@
   :global-minor-mode show-paren-mode)
 
 (leaf recentf
-  :require t
   :global-minor-mode recentf-mode
   :init
   (setq recentf-max-saved-items 500
@@ -97,7 +94,6 @@
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
 
 (leaf savehist
-  :require t
   :global-minor-mode savehist-mode
   :init
   (setq enable-recursive-minibuffers t ; Allow commands in minibuffers

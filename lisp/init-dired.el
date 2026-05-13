@@ -19,15 +19,10 @@
 
   ;; Show directory first
   (setq dired-listing-switches "-alh --group-directories-first"
-        dired-use-ls-dired t))
-
-(leaf diredfl :ensure t)
-(leaf dired-aux
-  :require t)
-(leaf dired-filter :ensure t
-  :blackout t
-  :after dired
-  :require t)
+        dired-use-ls-dired t)
+  (leaf dired-aux)
+  (leaf dired-filter :ensure t
+    :blackout t))
 
 (leaf nerd-icons-dired
   :ensure t

@@ -37,12 +37,10 @@
    :package eglot
    ([remap xref-find-apropos] . consult-eglot-symbols))
   :config
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
-
-(leaf consult-eglot-embark :ensure t
-  :require t
-  :after eglot consult
-  :global-minor-mode consult-eglot-embark-mode)
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  (leaf consult-eglot-embark :ensure t
+    :after eglot consult
+    :global-minor-mode consult-eglot-embark-mode))
 
 (leaf eldoc-mouse :ensure t
   :blackout t

@@ -51,7 +51,7 @@
          ("s-W" . delete-frame))
   :config
   (setq tab-bar-separator " "
-        ;; tab-bar-show t
+        tab-bar-show t
         tab-bar-new-tab-choice "*scratch*"
         tab-bar-auto-width nil
         tab-bar-tab-name-truncated-max 20
@@ -78,25 +78,6 @@
               s
               (propertize " " 'face face))))
   (setq tab-bar-tab-name-format-function #'my/tab-bar-tab-name-format))
-
-;; auto tab-bar
-(leaf tab-bar
-  :after tab-bar
-  :disabled t
-  :config
-  (defun my/with-other-tab (&rest app)
-    (project-other-tab-command)
-    (apply app))
-
-  (setq +functions-in-new-tab '(project-switch-project))
-
-  (defun my/functions-in-new-tab (&optional disable)
-    (dolist (cmd +functions-in-new-tab)
-      (if disable
-          (advice-remove cmd #'my/with-other-tab)
-        (advice-add cmd :around #'my/with-other-tab))))
-  ;; Pass an argument to disable e.g. (my/functions-in-new-tab t)
-  (my/functions-in-new-tab))
 
 (leaf tabspaces :ensure t
   :commands (tabspaces-switch-or-create-workspace

@@ -12,6 +12,7 @@
 ;;   :global-minor-mode electric-pair-mode)
 
 (leaf smartparens :ensure t
+  :blackout t
   :global-minor-mode smartparens-global-mode)
 
 (leaf puni :ensure t

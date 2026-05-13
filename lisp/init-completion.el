@@ -5,8 +5,7 @@
 
 ;;; Code:
 ;; Optionally use the `orderless' completion style.
-(leaf orderless
-  :ensure t
+(leaf orderless :ensure t
   :require t
   :config
   (defun orderless-fast-dispatch (word index total)
@@ -22,10 +21,7 @@
         (alist-get ?` orderless-affix-dispatch-alist) #'orderless-flex))
 
 ;; Support Pinyin
-(leaf pinyinlib
-  :ensure t
-  :after orderless
-  :require t
+(leaf pinyinlib :ensure t
   :commands orderless-regexp
   :leaf-autoload pinyinlib-build-regexp-string
   :init

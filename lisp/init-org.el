@@ -22,6 +22,8 @@
    ("C-c C-M-l" . org-toggle-link-display)
    ("C-c C-M-s" . org-store-link))
   :config
+  (leaf org-contrib :ensure t)
+  
   (setq org-element-use-cache t
         org-element-cache-persistent t)
 
@@ -152,10 +154,6 @@
             (defun save-buffer-after-capture ()
               (when (bound-and-true-p org-capture-is-refiling)
                 (save-buffer)))))
-
-(leaf org-contrib :ensure t
-  :after org
-  :require t)
 
 (leaf org-modern :ensure t
   :hook
