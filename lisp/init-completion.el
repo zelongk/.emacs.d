@@ -44,8 +44,9 @@
     ("DEL" . vertico-directory-delete-char)
     ("M-DEL" . vertico-directory-delete-word)))
   :global-minor-mode vertico-mode
-  :hook ((rfn-eshadow-update-overlay-hook . vertico-directory-tidy)
-         (vertico-mode-hook . vertico-multiform-mode))
+  :hook
+  (rfn-eshadow-update-overlay-hook . vertico-directory-tidy)
+  (vertico-mode-hook . vertico-multiform-mode)
   :config
   (leaf vertico-multiform
     :config

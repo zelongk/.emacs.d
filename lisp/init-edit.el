@@ -8,30 +8,29 @@
 (leaf delsel
   :global-minor-mode delete-selection-mode)
 
-(leaf elec-pair
-  :global-minor-mode electric-pair-mode)
+;; (leaf elec-pair
+;;   :global-minor-mode electric-pair-mode)
 
-(leaf puni
-  :ensure t
+(leaf smartparens :ensure t
+  :global-minor-mode smartparens-global-mode)
+
+(leaf puni :ensure t
   :global-minor-mode puni-global-mode
   :custom
   (puni-confirm-when-delete-unbalanced-active-region . nil)
-  :bind (:puni-mode-map
-         ("DEL" . my-backspace)
-         ("M-r" . puni-raise)
-         ("M-s" . puni-splice)
-         ("M-S" . puni-split)
-         ("C-=" . puni-expand-region)
-         ("M-[" . puni-slurp-backward)
-         ("M-]" . puni-slurp-forward)
-         ;; ("M-<left>" . puni-slurp-bac[]kward)
-         ;; ("M-<right>" . puni-slurp-forward)
-         ("s-[" . puni-barf-backward)
-         ("s-]" . puni-barf-forward)
-         ;; ("C-M-<left>" . puni-barf-backward)
-         ;; ("C-M-<right>" . puni-barf-forward)
-         ([remap backward-kill-word] . puni-backward-kill-word)
-         )
+  :bind
+  (:puni-mode-map
+   :package emacs
+   ("DEL" . my-backspace)
+   ("M-r" . puni-raise)
+   ("M-s" . puni-splice)
+   ("M-S" . puni-split)
+   ("C-=" . puni-expand-region)
+   ("M-[" . puni-slurp-backward)
+   ("M-]" . puni-slurp-forward)
+   ("s-[" . puni-barf-backward)
+   ("s-]" . puni-barf-forward))
+  ([remap backward-kill-word] . puni-backward-kill-word)
   :init
   (defun my-backspace ()
     (interactive)
@@ -42,12 +41,10 @@
 (leaf combobulate
   :disabled t
   :vc (:url "https://github.com/mickeynp/combobulate")
-  :hook prog-mode-hook
   :config
   ;; You can customize Combobulate's key prefix here.
   ;; Note that you may have to restart Emacs for this to take effect!
-  (setq combobulate-key-prefix "C-c o")
-  )
+  (setq combobulate-key-prefix "C-c o"))
 
 (leaf abbrev
   :init
@@ -68,18 +65,17 @@
   :global-minor-mode macrursors-mode
   :bind-keymap ("C-;" . macrursors-mark-map)
   :bind
-  (("C-c C-<" . macrursors-mark-previous-line)
-   ("C-c C->" . macrursors-mark-next-line)
-   ("M-P" . macrursors-mark-previous-instance-of)
-   ("M-N" . macrursors-mark-next-instance-of)
-   ("C-M-;" . macrursors-mark-all-instances-of)
-   ("C-c SPC" . macrursors-select))
+  ("C-c C-<" . macrursors-mark-previous-line)
+  ("C-c C->" . macrursors-mark-next-line)
+  ("M-P" . macrursors-mark-previous-instance-of)
+  ("M-N" . macrursors-mark-next-instance-of)
+  ("C-M-;" . macrursors-mark-all-instances-of)
+  ("C-c SPC" . macrursors-select)
   (:isearch-mode-map
    ("C-;" . macrursors-mark-from-isearch)
    ("M-s n" . macrursors-mark-next-from-isearch)
    ("M-s p" . macrursors-mark-previous-from-isearch))
   (:macrursors-mode-map
-   ("C-'" . macrursors-hideshow)
    ("C-;" . nil)
    ("C-; C-;" . macrursors-end)
    ("C-; C-j" . macrursors-end))
@@ -97,22 +93,22 @@
    ("n" . macrursors-mark-all-numbers)
    (")" . macrursors-mark-all-sentences)
    ("M-e" . macrursors-mark-all-sentences)
-   ("e" . macrursors-mark-all-lines))  
+   ("e" . macrursors-mark-all-lines))
   :init
   (leaf macrursors-select
     :bind (:macrursors-mark-map
            ("C-g" . macrursors-select-clear))))
 
-
 (leaf mwim
   :ensure t
-  :bind (([remap move-beginning-of-line] . mwim-beginning)
-         ([remap move-end-of-line] . mwim-end)))
+  :bind
+  ([remap move-beginning-of-line] . mwim-beginning)
+  ([remap move-end-of-line] . mwim-end))
 
 (leaf avy
   :ensure t
   :bind
-  (("C-'" . avy-goto-char-timer))
+  ("C-'" . avy-goto-char-timer)
   (:isearch-mode-map
    ("C-'" . avy-isearch))
   :config
@@ -124,8 +120,9 @@
 ;; Kill text between cursor and char
 (leaf avy-zap
   :ensure t
-  :bind (("M-z" . avy-zap-to-char-dwim)
-         ("M-Z" . avy-zap-up-to-char-dwim)))
+  :bind
+  ("M-z" . avy-zap-to-char-dwim)
+  ("M-Z" . avy-zap-up-to-char-dwim))
 
 (leaf ace-pinyin
   :ensure t
@@ -135,8 +132,8 @@
 (leaf anzu
   :ensure t
   :bind
-  (([remap query-replace] . anzu-query-replace)
-   ([remap query-replace-regexp] . anzu-query-replace-regexp))
+  ([remap query-replace] . anzu-query-replace)
+  ([remap query-replace-regexp] . anzu-query-replace-regexp)
   (:isearch-mode-map
    ([remap isearch-query-replace] . anzu-isearch-query-replace)
    ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
@@ -168,17 +165,14 @@
         proced-auto-update-interval 3
         proced-enable-color-flag t))
 
-(leaf olivetti
-  :ensure t
+(leaf olivetti :ensure t
   :hook org-mode-hook
   :bind (("<f7>" . olivetti-mode))
   :custom
   (olivetti-style . 'fancy)
   (olivetti-margin-width . 5)
   (olivetti-body-width . 90)
-  (olivetti-minimum-body-width . 40)
-  :config
-  (add-to-list 'face-remapping-alist '(olivetti-fringe . fringe)))
+  (olivetti-minimum-body-width . 40))
 
 (setq-default bidi-display-reordering 'left-to-right
               bidi-paragraph-direction 'left-to-right

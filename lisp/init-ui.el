@@ -33,9 +33,6 @@
 ;; Use Symbols Nerd Font as fallback for private-use icons
 (set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size (/ my/font-size 10)) nil 'prepend)
 
-(add-to-list 'default-frame-alist '(height . 53))
-(add-to-list 'default-frame-alist '(width . 90))
-
 (leaf mixed-pitch :ensure t
   :blackout t
   :hook (org-mode-hook LaTeX-mode-hook))
@@ -44,10 +41,11 @@
 (leaf default-text-scale :ensure t
   :blackout t
   :global-minor-mode default-text-scale-mode
-  :bind (:default-text-scale-mode-map
-         ("C-s-=" . default-text-scale-increase)
-         ("C-s--" . default-text-scale-decrease)
-         ("C-s-0" . default-text-scale-reset)))
+  :bind
+  (:default-text-scale-mode-map
+   ("C-s-=" . default-text-scale-increase)
+   ("C-s--" . default-text-scale-decrease)
+   ("C-s-0" . default-text-scale-reset)))
 
 ;; UI settings
 (leaf solaire-mode :ensure t
@@ -55,12 +53,12 @@
   :global-minor-mode solaire-global-mode)
 
 (leaf modus-themes :ensure t
-  :setq
-  ((modus-themes-italic-constructs . t)
-   (modus-themes-bold-constructs . t)
-   (modus-themes-mixed-fonts . t)
-   (modus-themes-prompts . '(bold background))
-   (modus-themes-variable-pitch-ui . nil))
+  :custom
+  (modus-themes-italic-constructs . t)
+  (modus-themes-bold-constructs . t)
+  (modus-themes-mixed-fonts . t)
+  (modus-themes-prompts . '(bold background))
+  (modus-themes-variable-pitch-ui . nil)
   :commands
   (modus-themes-load-random-dark
    modus-themes-load-random-light
@@ -241,7 +239,6 @@
                 (when (eq mode major-mode)
                   (setq mode-name mode-str)))))
 (add-hook 'after-change-major-mode-hook #'clean-mode-line)
-(add-hook 'emacs-startup-hook #'clean-mode-line)
 
 (leaf hide-mode-line :ensure t
   :leaf-autoload turn-off-hide-mode-line-mode
@@ -308,8 +305,7 @@
     ;; Render thinner fonts
     (setq mac-use-thin-smoothing t)
     ;; Don't open a file in a new frame
-    (setq mac-pop-up-frames nil))
-  )
+    (setq mac-pop-up-frames nil)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                                         ;            Coding related           ;
@@ -326,7 +322,6 @@
 
 ;; hl current line
 (leaf hl-line
-  :disabled t
   :hook (package-menu-mode-hook . hl-line-mode))
 
 (leaf beacon :ensure t
@@ -334,19 +329,16 @@
   :global-minor-mode beacon-mode)
 
 (leaf pulsar :ensure t
-  :bind (([remap count-lines-page] . pulsar-pulse-line) ; overrides `count-lines-page'
-         ("C-x L" . pulsar-highlight-permanently-dwim)) ; or use `pulsar-highlight-temporarily-dwim'
+  :bind
+  ([remap count-lines-page] . pulsar-pulse-line) ; overrides `count-lines-page'
+  ("C-x L" . pulsar-highlight-temporarily) ; or use `pulsar-highlight-temporarily-dwim'
   :global-minor-mode pulsar-global-mode
-  :custom-face (pulsar-generic . '((t :inherit region :extend t)))
+  :hook
+  (next-error-hook . pulsar-pulse-line)
+  (minibuffer-setup-hook . pulsar-pulse-line)
   :custom
   (pulsar-delay . 0.05)
-  (pulsar-iterations . 5)
-  (pulsar-face . 'pulsar-green)
-  (pulsar-region-face . 'pulsar-yellow)
-  (pulsar-highlight-face . 'pulsar-magenta)
-  :config
-  (add-hook 'next-error-hook #'pulsar-pulse-line)
-  (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line))
+  (pulsar-iterations . 5))
 
 ;; Eval result overlay
 (leaf eros :ensure t

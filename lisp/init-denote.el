@@ -10,6 +10,7 @@
   :hook (dired-mode-hook . denote-dired-mode)
   :bind
   (("C-c n n" . denote)
+   ("C-c n f" . denote-open-or-create)
    ("C-c n N" . denote-type)
    ("C-c n r" . denote-rename-file)
    ("C-c n l" . denote-link)
@@ -28,7 +29,8 @@
   (denote-rename-buffer-mode 1))
 
 (leaf consult-denote :ensure t
-  :bind (("C-c n f" . consult-denote-find)
+  :global-minor-mode consult-denote-mode
+  :bind (("C-c n s" . consult-denote-find)
          ([remap denote-grep] . consult-denote-grep))
   :config
   (setq consult-denote-grep-command 'consult-ripgrep))

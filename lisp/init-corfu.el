@@ -77,11 +77,11 @@
   (add-to-list 'completion-at-point-functions #'cape-elisp-block)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   ;; Make these capfs composable.
+  (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add 'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
   (advice-add 'lsp-completion-at-point :around #'cape-wrap-nonexclusive)
-  (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
-  ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-  ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 
 (provide 'init-corfu)

@@ -7,13 +7,15 @@
 
 (leaf org
   :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev")
-  :hook ((org-mode-hook . org-cdlatex-mode)
-         (org-mode . visual-line-mode)
-         (org-mode . prettify-symbols-mode))
+  :hook
+  (org-mode-hook . org-cdlatex-mode)
+  (org-mode-hook . visual-line-mode)
+  (org-mode-hook . prettify-symbols-mode)
+  (org-mode-hook . turn-on-reftex)
   :bind
-  (("C-c n t" . org-todo-list)
-   ("C-c n a" . org-agenda)
-   ("C-c n c" . org-capture))
+  ("C-c n t" . org-todo-list)
+  ("C-c n a" . org-agenda)
+  ("C-c n c" . org-capture)
   (:org-mode-map
    ("M-<return>" . org-insert-subheading)
    ("C-'" . nil)
@@ -49,7 +51,7 @@
 ;; org agenda-related
 (leaf org-super-agenda :ensure t
   :after org
-  :hook (org-agenda-mode-hook . org-super-agenda-mode)
+  :hook org-agenda-mode-hook
   :config
   (setq org-super-agenda-groups
         '(;; Each group has an implicit boolean OR operator between its selectors.
@@ -156,8 +158,9 @@
   :require t)
 
 (leaf org-modern :ensure t
-  :hook ((org-mode-hook . org-modern-mode)
-         (org-agenda-finalize . org-modern-agenda))
+  :hook
+  (org-mode-hook . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
   :config
   (setq org-modern-block-name t
         org-modern-block-fringe nil
@@ -185,8 +188,8 @@
   :after org-modern org
   :hook org-indent-mode-hook)
 
-(leaf org-appear :ensure t  
-  :hook (org-mode-hook . org-appear-mode)
+(leaf org-appear :ensure t
+  :hook org-mode-hook
   :leaf-autoload org-appear--set-elements
   :config
   (setq org-appear-autoemphasis t
@@ -218,7 +221,7 @@
 "))
 
 (leaf org-latex-preview
-  :hook (org-mode-hook . org-latex-preview-mode)
+  :hook org-mode-hook
   :bind ("C-c C-x SPC" . org-latex-preview-clear-cache)
   :custom
   (org-latex-preview-numbered . nil)
@@ -277,13 +280,14 @@
 
 (leaf valign :ensure t
   :blackout t
-  :hook (org-mode-hook . valign-mode))
+  :hook org-mode-hook)
 
 ;;; Miscs
 ;; Org latex preview center
 (leaf org-latex-preview
-  :hook (text-scale-mode-hook . my/text-scale-adjust-latex-previews)
-  :hook (org-latex-preview-mode-hook . org-latex-preview-center-mode)
+  :hook
+  (text-scale-mode-hook . my/text-scale-adjust-latex-previews)
+  (org-latex-preview-mode-hook . org-latex-preview-center-mode)
   :defer-config
   ;; Centre display maths
   (defun my/org-latex-preview-uncenter (ov)
