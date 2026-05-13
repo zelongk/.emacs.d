@@ -33,9 +33,6 @@
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (add-hook 'after-init-hook (lambda () (load custom-file t t)))
 
-  (defvar secrets-file (expand-file-name "secrets.el" user-emacs-directory))
-  (add-hook 'after-init-hook (lambda () (load secrets-file t t)))
-
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                            ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
                            ("nongnu-elpa" . "https://elpa.nongnu.org/nongnu/"))

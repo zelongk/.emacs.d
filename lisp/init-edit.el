@@ -8,9 +8,6 @@
 (leaf delsel
   :global-minor-mode delete-selection-mode)
 
-;; (leaf elec-pair
-;;   :global-minor-mode electric-pair-mode)
-
 (leaf smartparens :ensure t
   :blackout t
   :global-minor-mode smartparens-global-mode)

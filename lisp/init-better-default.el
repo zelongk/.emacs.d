@@ -185,6 +185,11 @@
          (lambda (button)
            (helpful-variable (button-get button 'apropos-symbol))))))))
 
+(leaf bookmark
+  :config
+  (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)
+        bookmark-fringe-mark nil))
+
 ;; file related
 (leaf emacs
   :init
@@ -197,39 +202,19 @@
 
   (setq create-lockfiles nil))
 
-(leaf tramp
-  :ensure t
-  :commands (sudo-find-file sudo-this-file)
-  :bind ("C-x C-S-f" . sudo-find-file)
+(leaf epa
+  :custom
+  (epa-pinentry-mode . 'loopback)
   :config
-  (setq tramp-default-method "sshx")
-  (defun sudo-find-file (file)
-    "Open FILE as root."
-    (interactive "FOpen file as root: ")
-    (when (file-writable-p file)
-      (user-error "File is user writeable, aborting sudo"))
-    (find-file (if (file-remote-p file)
-                   (concat "/" (file-remote-p file 'method) ":"
-                           (file-remote-p file 'user) "@" (file-remote-p file 'host)
-                           "|sudo:root@"
-                           (file-remote-p file 'host) ":" (file-remote-p file 'localname))
-                 (concat "/sudo:root@localhost:" file))))
-  (defun sudo-this-file ()
-    "Open the current file as root."
-    (interactive)
-    (sudo-find-file (file-truename buffer-file-name)))
+  (epa-file-enable))
 
-  (setq tramp-verbose 1
-        tramp-persistency-file-name (expand-file-name "tramp" user-cache-directory)
-        tramp-allow-unsafe-temporary-files t)
-  (setq remote-file-name-inhibit-locks t
-        remote-file-name-inhibit-auto-save-visited t
-        tramp-copy-size-limit (* 1024 1024)))
-
-(leaf bookmark
-  :config
-  (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)
-        bookmark-fringe-mark nil))
+(setq tramp-default-method "sshx"
+      tramp-verbose 1
+      tramp-persistency-file-name (expand-file-name "tramp" user-cache-directory)
+      tramp-allow-unsafe-temporary-files t)
+(setq remote-file-name-inhibit-locks t
+      remote-file-name-inhibit-auto-save-visited t
+      tramp-copy-size-limit (* 1024 1024))
 
 (leaf tramp-hlo :ensure t
   :after tramp

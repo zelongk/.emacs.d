@@ -8,7 +8,6 @@
 (leaf gptel
   :ensure t
   :commands (gptel gptel-menu gptel-send)
-  :leaf-defvar my-openrouter-api-key
   :bind
   ("C-c l l" . gptel)
   ("C-c l s" . gptel-send)
@@ -25,20 +24,20 @@
     :host "openrouter.ai"
     :endpoint "/api/v1/chat/completions"
     :stream t
-    :key my-openrouter-api-key
+    :key (auth-source-pick-first-password :host "openrouter.ai"
+                                          :user "apikey")
     :models '(~google/gemini-flash-latest
               ~google/gemini-pro-latest
               openai/gpt-5.5)))
 
-(leaf gptel-magit
-  :ensure t
+(leaf gptel-magit :ensure t
   :after magit
   :hook (magit-mode-hook . gptel-magit-install))
 
-(leaf gptel-agent
-  :ensure t
-  :after gptel
-  :config (gptel-agent-update))  
+(leaf gptel-agent :ensure t
+  :bind
+  ("C-c l a" . gptel-agent)
+  :config (gptel-agent-update))
 
 (provide 'init-llm)
 ;;; init-llm.el ends here
