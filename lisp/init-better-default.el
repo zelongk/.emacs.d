@@ -70,6 +70,7 @@
   (setq display-line-numbers-width-start 4))
 
 (leaf subword
+  :blackout t
   :hook (prog-mode-hook minibuffer-setup-hook))
 
 (leaf paren

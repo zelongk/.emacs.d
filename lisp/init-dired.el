@@ -24,17 +24,9 @@
   (leaf dired-filter :ensure t
     :blackout t))
 
-(leaf nerd-icons-dired
-  :ensure t
+(leaf nerd-icons-dired :ensure t
   :blackout t
   :hook (dired-mode-hook . nerd-icons-dired-mode))
-
-(leaf dirvish
-  :disabled t
-  :bind ("C-c o p" . dirvish-side)
-  :config
-  (setq dirvish-use-header-line nil
-	    dirvish-use-mode-line nil))
 
 (provide 'init-dired)
 ;;; init-dired.el ends here

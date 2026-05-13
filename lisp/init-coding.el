@@ -18,6 +18,9 @@
 (setq blink-matching-paren-highlight-offscreen t
       show-paren-context-when-offscreen 'child-frame)
 
+(leaf eldoc
+  :blackout t)
+
 (leaf apheleia :ensure t
   :blackout t
   :hook prog-mode-hook)
@@ -30,14 +33,6 @@
   (treesit-auto-install . t)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all))
-
-
-;; Keep focus in the current window when starting compilation
-;; (defun my/compile-keep-focus (orig &rest args)
-;;   (save-selected-window
-;;     (apply orig args)))
-;; (advice-add 'compile   :around #'my/compile-keep-focus)
-;; (advice-add 'recompile :around #'my/compile-keep-focus)
 
 (add-hook 'prog-mode-hook #'toggle-truncate-lines)
 

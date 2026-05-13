@@ -6,6 +6,7 @@
 ;;; Code:
 
 (leaf gcmh :ensure t
+  :blackout t
   :global-minor-mode gcmh-mode
   :config
   (defun gcmh-register-idle-gc ()

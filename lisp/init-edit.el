@@ -9,6 +9,7 @@
   :global-minor-mode delete-selection-mode)
 
 (leaf smartparens :ensure t
+  :blackout t
   :global-minor-mode smartparens-global-mode)
 
 (leaf puni :ensure t
@@ -43,6 +44,7 @@
   (setq combobulate-key-prefix "C-c o"))
 
 (leaf abbrev
+  :blackout t
   :init
   (setq-default abbrev-mode t)
   (setq abbrev-file-name (expand-file-name "abbrev.el" user-emacs-directory)))
@@ -119,10 +121,12 @@
   ("M-Z" . avy-zap-up-to-char-dwim))
 
 (leaf ace-pinyin :ensure t
+  :blackout t
   :global-minor-mode ace-pinyin-global-mode)
 
 ;; show number of matches
 (leaf anzu :ensure t
+  :blackout t
   :bind
   ([remap query-replace] . anzu-query-replace)
   ([remap query-replace-regexp] . anzu-query-replace-regexp)

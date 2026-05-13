@@ -6,8 +6,8 @@
 ;;; Code:
 
 ;; Yasnippet settings
-(leaf yasnippet
-  :ensure t
+(leaf yasnippet :ensure t
+  :blackout yas-minor-mode
   :hook (((prog-mode-hook LaTeX-mode-hook
                           org-mode-hook yaml-ts-mode)
           . yas-minor-mode-on)
