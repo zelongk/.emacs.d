@@ -1,5 +1,6 @@
 ;; init-ocaml --- Ocaml -*- lexical-binding: t; -*-
 
+
 ;;; Commentary:
 ;;  Blablabla
 
@@ -9,25 +10,24 @@
   :ensure t  
   :mode (("\\.ocamlinit\\'" . tuareg-mode))
   :config
-  (setq tuareg-prettify-symbols-full t)
-  
-  (leaf opam-switch-mode :ensure t
-    :hook (tuareg-mode-hook . opam-switch-mode)
-    :config
-    (setq tuareg-opam-insinuate t))
+  (setq tuareg-prettify-symbols-full t))
 
-  (leaf ocp-indent
-    :ensure t
-    :hook (tuareg-mode-hook . ocp-setup-indent))
+(leaf opam-switch-mode :ensure t
+  :hook (tuareg-mode-hook . opam-switch-mode)
+  :config
+  (setq tuareg-opam-insinuate t))
 
-  (leaf utop
-    :ensure t)
+(leaf ocp-indent
+  :ensure t
+  :hook (tuareg-mode-hook . ocp-setup-indent))
 
-  (leaf ocaml-eglot :ensure t
-    :hook
-    (tuareg-mode-hook . ocaml-eglot)
-    (ocaml-eglot-hook . eglot-ensure))
-  )
+(leaf utop
+  :ensure t)
+
+(leaf ocaml-eglot :ensure t
+  :hook
+  (tuareg-mode-hook . ocaml-eglot)
+  (ocaml-eglot-hook . eglot-ensure))
 
 (provide 'init-ocaml)
 ;;; init-ocaml.el ends here

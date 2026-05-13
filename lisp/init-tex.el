@@ -64,17 +64,20 @@
                                     calc-angle-mode rad)))))))
   ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
   ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
-  (leaf texpresso
-    :require t
-    :vc (:url "https://github.com/let-def/texpresso"
-              :lisp-dir "emacs")
-    :hook (texpresso-mode-hook . texpresso-sync-mode)
-    :custom
-    (texpresso-follow-cursor . t)
-    :bind
-    (:LaTeX-mode-map
-     ("C-c C-p" . texpresso)
-     ("S-s-<mouse-1>" . texpresso-move-to-cursor))))
+  )
+
+(leaf texpresso
+  :require t
+  :after latex
+  :vc (:url "https://github.com/let-def/texpresso"
+            :lisp-dir "emacs")
+  :hook (texpresso-mode-hook . texpresso-sync-mode)
+  :custom
+  (texpresso-follow-cursor . t)
+  :bind
+  (:LaTeX-mode-map
+   ("C-c C-p" . texpresso)
+   ("S-s-<mouse-1>" . texpresso-move-to-cursor)))
 
 
 (leaf reftex

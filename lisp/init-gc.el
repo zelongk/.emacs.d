@@ -24,8 +24,5 @@ Cancel the previous one if present."
         gcmh-verbose nil
         gc-cons-percentage 0.2))
 
-(setq gc-cons-threshold (* 16 1024 1024)
-      gc-cons-percentage 0.2)
-
 (provide 'init-gc)
 ;;; init-gc.el ends here

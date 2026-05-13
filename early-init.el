@@ -1,15 +1,21 @@
-;; -*- lexical-binding: t -*-
+;; early-init --- Setup before init.el -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;  Blablabla
+
+;;; Code:
 
 (if noninteractive  ; in CLI sessions
-    (setq-default gc-cons-threshold 100000000   ; 128MB
+    (setq-default gc-cons-threshold (* 128 1024 1024)   ; 128MB
                   ;; Backport from 29 (see emacs-mirror/emacs@73a384a98698)
                   gc-cons-percentage 1.0)
-  (setq-default gc-cons-threshold most-positive-fixnum))
+  (setq-default gc-cons-threshold most-positive-fixnum
+                gc-cons-percentage 1.0))
 
 (setq read-process-output-max (* 1024 1024))
 
 (setq package-enable-at-startup t
-      package-quickstart t
+      package-quickstart nil
       load-prefer-newer t)
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
@@ -78,3 +84,4 @@
 (setq warning-suppress-log-types '((comp) (bytecomp)))
 
 (provide 'early-init)
+;;; early-init.el ends here

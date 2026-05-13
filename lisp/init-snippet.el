@@ -55,15 +55,15 @@
       (if corfu--candidates
           (corfu-quit)
         (yas-abort-snippet)))
-    (define-key yas-keymap (kbd "C-g") #'my/yas-corfu-cancel))
-  
-  (leaf doom-snippets
-    :vc (:url "https://github.com/doomemacs/snippets")))
+    (define-key yas-keymap (kbd "C-g") #'my/yas-corfu-cancel)))
 
 (leaf consult-yasnippet
   :ensure t
   :after yasnippet
   :bind ("M-g y" . consult-yasnippet))
+
+(leaf doom-snippets
+  :vc (:url "https://github.com/doomemacs/snippets"))
 
 (provide 'init-snippet)
 ;;; init-snippet.el ends here

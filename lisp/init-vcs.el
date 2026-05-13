@@ -42,12 +42,12 @@
   (setq magit-show-long-lines-warning nil))
 
 ;; Show TODOs in Magit
-(leaf magit-todos :ensure t
-  :after magit-status
-  :hook magit-mode-hook
-  :commands magit-todos-mode
-  :init
-  (setq magit-todos-nice (if (executable-find "nice") t nil)))
+;; (leaf magit-todos :ensure t
+;;   :after magit-status
+;;   :hook magit-mode-hook
+;;   :commands magit-todos-mode
+;;   :init
+;;   (setq magit-todos-nice (if (executable-find "nice") t nil)))
 
 ;; Walk through git revisions of a file
 (leaf git-timemachine :ensure t

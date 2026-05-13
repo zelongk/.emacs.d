@@ -4,31 +4,23 @@
 ;; Blablabla
 
 ;;; Code:
-;; Optionally use the `orderless' completion style.
-(leaf orderless :ensure t
-  :require t
-  :config
-  (defun orderless-fast-dispatch (word index total)
-    (and (= index 0) (= total 1) (length< word 5)
-         ;; `(orderless-regexp . ,(concat "^" (regexp-quote word)))
-         (cons 'orderless-literal-prefix word)))
-  (orderless-define-completion-style orderless-fast
-    (orderless-style-dispatchers '(orderless-fast-dispatch
-                                   orderless-affix-dispatch))
-    (orderless-matching-styles '(orderless-literal orderless-regexp)))
-  (setq completion-styles '(orderless partial-completion basic))
-  (setf (alist-get ?~ orderless-affix-dispatch-alist nil 'remove) nil
-        (alist-get ?` orderless-affix-dispatch-alist) #'orderless-flex))
 
-;; Support Pinyin
-(leaf pinyinlib :ensure t
-  :commands orderless-regexp
-  :leaf-autoload pinyinlib-build-regexp-string
-  :init
-  (defun orderless-regexp-pinyin (str)
-    "Match COMPONENT as a pinyin regex."
-    (orderless-regexp (pinyinlib-build-regexp-string str)))
-  (add-to-list 'orderless-matching-styles 'orderless-regexp-pinyin))
+(leaf orderless :ensure t
+  :custom
+  (completion-styles . '(orderless partial-completion basic))
+  (completion-category-overrides . '((file (styles partial-completion))))
+  (completion-pcm-leading-wildcard . t)
+  :defer-config
+  ;; Support Pinyin
+  (leaf pinyinlib :ensure t
+    :commands orderless-regexp
+    :leaf-autoload pinyinlib-build-regexp-string
+    :init
+    (defun orderless-regexp-pinyin (str)
+      "Match COMPONENT as a pinyin regex."
+      (orderless-regexp (pinyinlib-build-regexp-string str)))
+    (add-to-list 'orderless-matching-styles 'orderless-regexp-pinyin)))
+
 
 ;; VERTical Interactive COmpletion
 (leaf vertico
@@ -110,11 +102,11 @@
   :leaf-defer nil
   :commands embark-prefix-help-command
   :bind
-  (("M-SPC"   . embark-act)
-   ("M-*"   . embark-act-all)
-   ("M-S-SPC"   . embark-select)
-   ("S-<return>"   . embark-dwim)        ; overrides `xref-find-definitions'
-   ([remap describe-bindings] . embark-bindings))
+  ("M-SPC"   . embark-act)
+  ("M-*"   . embark-act-all)
+  ("M-S-SPC"   . embark-select)
+  ("S-<return>"   . embark-dwim)        ; overrides `xref-find-definitions'
+  ([remap describe-bindings] . embark-bindings)
   (:embark-file-map
    ("S"        . sudo-find-file)
    ("2"        . (my/embark-split-action find-file split-window-below))

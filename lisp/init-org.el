@@ -42,13 +42,13 @@
         '((agenda . " %i %-12:c%?-12t% s")
           (todo . " %i")
           (tags . " %i %-12:c")
-          (search . " %i %-12:c")))
-  (setq org-agenda-skip-scheduled-if-done t
+          (search . " %i %-12:c"))
+        org-agenda-skip-scheduled-if-done t
         org-agenda-skip-deadline-if-done t
         org-agenda-compact-blocks t
         org-agenda-start-day "+0d"
-        org-agenda-span 3)
-  (setq org-agenda-remove-tags t))
+        org-agenda-span 3
+        org-agenda-remove-tags t))
 
 ;; org agenda-related
 (leaf org-super-agenda :ensure t
