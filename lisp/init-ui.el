@@ -338,7 +338,9 @@
 
 ;; hl current line
 (leaf hl-line
-  :hook (package-menu-mode-hook . hl-line-mode))
+  :hook
+  package-menu-mode-hook
+  dired-mode-hook)
 
 (leaf beacon :ensure t
   :disabled t

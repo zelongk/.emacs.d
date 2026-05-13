@@ -9,26 +9,24 @@
   :global-minor-mode delete-selection-mode)
 
 (leaf smartparens :ensure t
-  :blackout t
   :global-minor-mode smartparens-global-mode)
 
 (leaf puni :ensure t
-  :global-minor-mode puni-global-mode
+  :hook prog-mode-hook
   :custom
   (puni-confirm-when-delete-unbalanced-active-region . nil)
   :bind
-  (:puni-mode-map
-   :package emacs
-   ("DEL" . my-backspace)
-   ("M-r" . puni-raise)
-   ("M-s" . puni-splice)
-   ("M-S" . puni-split)
-   ("C-=" . puni-expand-region)
-   ("M-[" . puni-slurp-backward)
-   ("M-]" . puni-slurp-forward)
-   ("s-[" . puni-barf-backward)
-   ("s-]" . puni-barf-forward))
+  ("M-r" . puni-raise)
+  ("M-s" . puni-splice)
+  ("M-S" . puni-split)
+  ("C-=" . puni-expand-region)
+  ("M-[" . puni-slurp-backward)
+  ("M-]" . puni-slurp-forward)
+  ("s-[" . puni-barf-backward)
+  ("s-]" . puni-barf-forward)
   ([remap backward-kill-word] . puni-backward-kill-word)
+  (:puni-mode-map
+   ("DEL" . my-backspace))
   :init
   (defun my-backspace ()
     (interactive)
@@ -59,6 +57,7 @@
 
 (define-prefix-command 'macrursors-mark-map)
 (leaf macrursors
+  :blackout t
   :vc (:url "https://github.com/karthink/macrursors" :branch "expand-region")
   :global-minor-mode macrursors-mode
   :bind-keymap ("C-;" . macrursors-mark-map)
@@ -97,14 +96,12 @@
     :bind (:macrursors-mark-map
            ("C-g" . macrursors-select-clear))))
 
-(leaf mwim
-  :ensure t
+(leaf mwim :ensure t
   :bind
   ([remap move-beginning-of-line] . mwim-beginning)
   ([remap move-end-of-line] . mwim-end))
 
-(leaf avy
-  :ensure t
+(leaf avy :ensure t
   :bind
   ("C-'" . avy-goto-char-timer)
   (:isearch-mode-map
@@ -116,19 +113,16 @@
         avy-style 'at-full))
 
 ;; Kill text between cursor and char
-(leaf avy-zap
-  :ensure t
+(leaf avy-zap :ensure t
   :bind
   ("M-z" . avy-zap-to-char-dwim)
   ("M-Z" . avy-zap-up-to-char-dwim))
 
-(leaf ace-pinyin
-  :ensure t
+(leaf ace-pinyin :ensure t
   :global-minor-mode ace-pinyin-global-mode)
 
 ;; show number of matches
-(leaf anzu
-  :ensure t
+(leaf anzu :ensure t
   :bind
   ([remap query-replace] . anzu-query-replace)
   ([remap query-replace-regexp] . anzu-query-replace-regexp)
@@ -138,19 +132,16 @@
   :global-minor-mode global-anzu-mode)
 
 ;; Goto last change
-(leaf goto-chg
-  :ensure t
+(leaf goto-chg :ensure t
   :bind ("C-," . goto-last-change))
 
 ;; Treat undo history as a tree
-(leaf vundo
-  :ensure t
+(leaf vundo :ensure t
   :bind ("C-x u" . vundo)
   :config (setq vundo-glyph-alist vundo-unicode-symbols))
 
 ;; Remember undo history
-(leaf undo-fu-session
-  :ensure t
+(leaf undo-fu-session :ensure t
   :global-minor-mode undo-fu-session-global-mode
   :config
   (setq undo-fu-session-directory (expand-file-name "undo-fu-session" user-cache-directory)))

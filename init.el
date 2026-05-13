@@ -27,40 +27,13 @@
                       (delete-dups (append file-name-handler-alist default-handlers))))
               101)))
 
-(eval-and-compile
-  (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory))
 
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (add-hook 'after-init-hook (lambda () (load custom-file t t)))
+(defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory))
 
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                           ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
-                           ("nongnu-elpa" . "https://elpa.nongnu.org/nongnu/"))
-        package-archive-priorities '(("gnu-elpa-devel" . 3)
-                                     ("nongnu-elpa" . 2)
-                                     ("melpa" . 1))
-        package-install-upgrade-built-in t
-        package-quickstart-file (expand-file-name "quickstart.el" user-cache-directory)
-        package-vc-register-as-project nil)
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(add-hook 'after-init-hook (lambda () (load custom-file t t)))
 
-  ;; <leaf-install-code>
-  (unless (package-installed-p 'leaf)
-    (package-refresh-contents)
-    (package-install 'leaf))
-
-  (setq leaf-expand-minimally t
-        leaf-enable-imenu-support t)
-
-  (leaf leaf-keywords :ensure t
-    :init
-    ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-    (leaf blackout :ensure t)
-    :config
-    ;; initialize leaf-keywords.el
-    (leaf-keywords-init))
-  ;; </leaf-install-code>
-  )
-
+(require 'init-package)
 ;; (require 'init-elpaca)
 ;; (require 'init-straight)
 

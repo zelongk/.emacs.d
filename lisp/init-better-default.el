@@ -198,13 +198,13 @@
   (setq-default auto-save-default nil)
   (setq delete-by-moving-to-trash t
         inhibit-compacting-font-caches t
-        make-backup-files nil)
+        make-backup-files nil
+        create-lockfiles nil))
 
-  (setq create-lockfiles nil))
-
-(leaf epa
+(leaf epa :require t
   :custom
   (epa-pinentry-mode . 'loopback)
+  (epa-keys-select-method . 'minibuffer)
   :config
   (epa-file-enable))
 
