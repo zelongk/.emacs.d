@@ -18,6 +18,21 @@
   :require t
   :hook (after-init-hook . benchmark-init/deactivate))
 
+(defun byte-compile-elpa ()
+  "Compile packages in elpa directory.  Useful if you switch Emacs versions."
+  (interactive)
+  (if (fboundp 'async-byte-recompile-directory)
+      (async-byte-recompile-directory package-user-dir)
+    (byte-recompile-directory package-user-dir 0 t)))
+
+(defun byte-compile-site-lisp ()
+  "Compile packages in site-lisp directory."
+  (interactive)
+  (let ((dir (locate-user-emacs-file "site-lisp")))
+    (if (fboundp 'async-byte-recompile-directory)
+        (async-byte-recompile-directory dir)
+      (byte-recompile-directory dir 0 t))))
+
 (defun native-compile-elpa ()
   "Native-compile packages in elpa directory."
   (interactive)

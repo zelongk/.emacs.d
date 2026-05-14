@@ -9,22 +9,20 @@
   :custom
   (completion-styles . '(orderless partial-completion basic))
   (completion-category-overrides . '((file (styles partial-completion))))
-  (completion-pcm-leading-wildcard . t)
-  :defer-config
-  ;; Support Pinyin
-  (leaf pinyinlib :ensure t
-    :commands orderless-regexp
-    :leaf-autoload pinyinlib-build-regexp-string
-    :init
-    (defun orderless-regexp-pinyin (str)
-      "Match COMPONENT as a pinyin regex."
-      (orderless-regexp (pinyinlib-build-regexp-string str)))
-    (add-to-list 'orderless-matching-styles 'orderless-regexp-pinyin)))
+  (completion-pcm-leading-wildcard . t))
 
+(leaf pinyinlib :ensure t
+  :after orderless
+  :commands orderless-regexp
+  :leaf-autoload pinyinlib-build-regexp-string
+  :config
+  (defun orderless-regexp-pinyin (str)
+    "Match COMPONENT as a pinyin regex."
+    (orderless-regexp (pinyinlib-build-regexp-string str)))
+  (add-to-list 'orderless-matching-styles 'orderless-regexp-pinyin))
 
 ;; VERTical Interactive COmpletion
-(leaf vertico
-  :ensure t
+(leaf vertico :ensure t
   :custom (vertico-count . 15)
   :bind
   ((:vertico-map

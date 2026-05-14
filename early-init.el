@@ -15,7 +15,7 @@
 (setq read-process-output-max (* 1024 1024))
 
 (setq package-enable-at-startup nil
-      package-quickstart nil
+      package-quickstart t
       load-prefer-newer t)
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))

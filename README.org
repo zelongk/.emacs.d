@@ -1,5 +1,4 @@
 * Installation
-
 It is normal to have several error/warning on the fresh install. It will disappear on the next time.
 
 ** Native compilation

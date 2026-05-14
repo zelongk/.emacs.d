@@ -51,7 +51,7 @@
 
 (leaf mixed-pitch :ensure t
   :blackout t
-  :hook (org-mode-hook LaTeX-mode-hook))
+  :hook (org-mode-hook LaTeX-mode-hook markdown-mode-hook))
 
 ;; Easily adjust the font size in all frames
 (leaf default-text-scale :ensure t
@@ -87,18 +87,6 @@
           (3 . (1.17))
           (4 . (1.14))
           (t . (1.1))))
-
-  ;; (defun my/set-faces (faces color)
-  ;;   (dolist (face (if (listp faces) faces (list faces)))
-  ;;     (custom-set-faces `(,face ((t :background ,color))))))
-  ;; (defun my/themes-custom-faces ()
-  ;;   (modus-themes-with-colors
-  ;;     (my/set-faces '(org-block
-  ;;                     org-block-begin-line
-  ;;                     org-block-end-line)
-  ;;                   bg-main)
-  ;;     (my/set-faces 'olivetti-fringe bg-dim)))
-  ;; (add-hook 'modus-themes-after-load-theme-hook #'my/themes-custom-faces)
   
   (setq modus-themes-common-palette-overrides
         '((bg-tab-bar bg-main)
@@ -116,7 +104,7 @@
   ("C-<f5>" . ef-themes-load-random-light)
   ("M-<f5>" . ef-themes-load-random-dark)
   :config
-  (ef-themes-load-random))
+  (ef-themes-load-theme 'ef-dream))
 
 (leaf auto-dark :ensure t
   :disabled t

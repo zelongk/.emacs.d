@@ -26,8 +26,6 @@
   ("s-[" . puni-barf-backward)
   ("s-]" . puni-barf-forward)
   ([remap backward-kill-word] . puni-backward-kill-word)
-  (:puni-mode-map
-   ("DEL" . my-backspace))
   :init
   (defun my-backspace ()
     (interactive)
