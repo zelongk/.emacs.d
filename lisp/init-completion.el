@@ -169,7 +169,7 @@
    ;; M-g bindings in `goto-map'
    ("M-g e" . consult-compile-error)
    ("M-g r" . consult-grep-match)
-   ("M-g f" . consult-flycheck)               ;; Alternative: consult-flycheck
+   ("M-g f" . consult-flymake)
    ("M-g g" . consult-goto-line)             ;; orig. goto-line
    ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
    ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
@@ -199,6 +199,28 @@
    ("M-g L" . consult-line-multi))
   :hook (completion-list-mode-hook . consult-preview-at-point-mode)
   :init
+  (setq consult-preview-key '("M-."))
+  (consult-customize
+   consult-goto-line :preview-key 'any
+   consult-line consult-line-multi
+   consult-ripgrep consult-git-grep consult-grep
+   :initial (selected-region-or-symbol-at-point)
+   :preview-key 'any)
+  
+  (setq read-file-name-function #'consult-find-file-with-preview)
+
+  (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
+    (interactive)
+    (let ((default-directory (or dir default-directory))
+          (minibuffer-completing-file-name t))
+      (substitute-in-file-name
+       (consult--read #'read-file-name-internal
+                      :state (consult--file-preview)
+                      :prompt prompt
+                      :initial (abbreviate-file-name default-directory)
+                      :require-match mustmatch
+                      :predicate pred))))
+  
   (setq register-preview-delay 0.5
         register-preview-function #'consult-register-format)
   (setq xref-show-xrefs-function #'consult-xref
