@@ -73,13 +73,14 @@
 
 (require 'init-gc)
 (require 'init-better-default)
+(require 'init-bindings)
 
+(require 'init-modeline)
 (require 'init-ui)
 (require 'init-edit)
 (require 'init-completion)
 (require 'init-corfu)
 
-(require 'init-bindings)
 (require 'init-dired)
 (require 'init-window)
 (require 'init-shell)
