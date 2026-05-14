@@ -24,6 +24,8 @@
   ("M-]" . puni-slurp-forward)
   ("s-[" . puni-barf-backward)
   ("s-]" . puni-barf-forward)
+  ("C-(" . puni-wrap-round)
+  ("C-{" . puni-wrap-curly)
   ([remap backward-kill-word] . puni-backward-kill-word)
   :bind* ("DEL" . my/backspace)
   :init

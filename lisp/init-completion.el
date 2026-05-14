@@ -204,7 +204,6 @@
    consult-goto-line :preview-key 'any
    consult-line consult-line-multi
    consult-ripgrep consult-git-grep consult-grep
-   :initial (selected-region-or-symbol-at-point)
    :preview-key 'any)
   
   (setq read-file-name-function #'consult-find-file-with-preview)
