@@ -8,9 +8,8 @@
 (leaf delsel
   :global-minor-mode delete-selection-mode)
 
-(leaf smartparens :ensure t
-  :blackout t
-  :global-minor-mode smartparens-global-mode)
+(leaf elec-pair
+  :global-minor-mode electric-pair-mode)
 
 (leaf puni :ensure t
   :hook prog-mode-hook
@@ -26,8 +25,9 @@
   ("s-[" . puni-barf-backward)
   ("s-]" . puni-barf-forward)
   ([remap backward-kill-word] . puni-backward-kill-word)
+  :bind* ("DEL" . my/backspace)
   :init
-  (defun my-backspace ()
+  (defun my/backspace ()
     (interactive)
     (if (looking-back (rx line-start (+ blank)))
         (delete-region (line-beginning-position) (point))
