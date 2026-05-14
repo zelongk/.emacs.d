@@ -217,20 +217,14 @@
         make-backup-files nil
         create-lockfiles nil))
 
-(leaf epa :require t
-  :custom
-  (epa-pinentry-mode . 'loopback)
-  (epa-keys-select-method . 'minibuffer)
-  :config
-  (epa-file-enable))
-
-(setq tramp-default-method "sshx"
-      tramp-verbose 1
-      tramp-persistency-file-name (expand-file-name "tramp" user-cache-directory)
-      tramp-allow-unsafe-temporary-files t)
-(setq remote-file-name-inhibit-locks t
-      remote-file-name-inhibit-auto-save-visited t
-      tramp-copy-size-limit (* 1024 1024))
+(leaf tramp :require t
+  :setq (tramp-default-method . "sshx")
+  (tramp-verbose . 1)
+  `(tramp-persistency-file-name . ,(expand-file-name "tramp" user-cache-directory))
+  (tramp-allow-unsafe-temporary-files . t)
+  (remote-file-name-inhibit-locks . t)
+  (remote-file-name-inhibit-auto-save-visited . t)
+  `(tramp-copy-size-limit . ,(* 1024 1024)))
 
 (leaf tramp-hlo :ensure t
   :after tramp

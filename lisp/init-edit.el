@@ -5,6 +5,10 @@
 
 ;;; Code:
 
+(setq long-line-threshold 1000
+      large-hscroll-threshold 1000
+      syntax-wholeline-max 1000)
+
 (leaf delsel
   :global-minor-mode delete-selection-mode)
 
@@ -150,14 +154,6 @@
   :config
   (setq undo-fu-session-directory (expand-file-name "undo-fu-session" user-cache-directory)))
 
-;; Process
-(leaf proced
-  :init
-  (setq-default proced-format 'verbose)
-  (setq proced-auto-update-flag t
-        proced-auto-update-interval 3
-        proced-enable-color-flag t))
-
 (leaf olivetti :ensure t
   :hook org-mode-hook
   :bind (("<f7>" . olivetti-mode))
@@ -166,13 +162,6 @@
   (olivetti-margin-width . 5)
   (olivetti-body-width . 90)
   (olivetti-minimum-body-width . 40))
-
-(setq-default bidi-display-reordering 'left-to-right
-              bidi-paragraph-direction 'left-to-right
-              bidi-display-reordering nil)
-(setq long-line-threshold 1000
-      large-hscroll-threshold 1000
-      syntax-wholeline-max 1000)
 
 (provide 'init-edit)
 ;;; init-edit.el ends here

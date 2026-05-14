@@ -59,5 +59,19 @@
 (leaf elcord
   :ensure t)
 
+(leaf auth-source-pass
+  :config
+  (auth-source-pass-enable))
+
+(leaf pass :ensure t)
+
+;; Process
+(leaf proced
+  :init
+  (setq-default proced-format 'verbose)
+  (setq proced-auto-update-flag t
+        proced-auto-update-interval 3
+        proced-enable-color-flag t))
+
 (provide 'init-utils)
 ;;; init-utils.el ends here

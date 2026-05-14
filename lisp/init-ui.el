@@ -40,14 +40,14 @@
        (t
         :default-family "Sarasa Term SC"
         :default-weight regular
-        :default-height 220
+        :default-height 200
         
         :variable-pitch-family "Bookerly")))
   :config
   (fontaine-set-preset 'regular))
 
 ;; Use Symbols Nerd Font as fallback for private-use icons
-(set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size 22 nil 'prepend))
+;; (set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size 22 nil 'prepend))
 
 (leaf mixed-pitch :ensure t
   :blackout t

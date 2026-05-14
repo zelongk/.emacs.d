@@ -24,8 +24,7 @@
     :host "openrouter.ai"
     :endpoint "/api/v1/chat/completions"
     :stream t
-    :key (lambda () (auth-source-pick-first-password :host "openrouter.ai"
-                                                     :user "apikey"))
+    :key (lambda () (gptel-api-key-from-auth-source "openrouter.ai" "apikey")) ;; Lazy load
     :models '(~google/gemini-flash-latest
               ~google/gemini-pro-latest
               openai/gpt-5.5)))

@@ -161,26 +161,24 @@
    ("M-#" . consult-register-load)
    ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
    ("C-M-#" . consult-register)
-
    
    ;; Other custom bindings
    ("M-y" . consult-yank-pop)                ;; orig. yank-pop
    
    ;; M-g bindings in `goto-map'
    ("M-g e" . consult-compile-error)
-   ("M-g r" . consult-grep-match)
+   ("M-g g" . consult-grep-match)
    ("M-g f" . consult-flymake)
-   ("M-g g" . consult-goto-line)             ;; orig. goto-line
    ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
    ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
    ("M-g m" . consult-mark)
    ("M-g k" . consult-global-mark)
    ("M-g i" . consult-imenu)
    ("M-g I" . consult-imenu-multi)
-
+   
    ;; M-g bindings in `search-map'
    ("s-f" . consult-line)
-   ("M-g d" . consult-find)                  ;; Alternative: consult-fd
+   ("M-g d" . consult-fd)                  ;; Alternative: consult-fd
    ("M-g c" . consult-locate)
    ("M-g G" . consult-git-grep)
    ("M-g r" . consult-ripgrep)

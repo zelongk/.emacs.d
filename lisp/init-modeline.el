@@ -175,7 +175,7 @@ Specific to the current window's mode line.")
     (nxhtml-mode . "nx")
     (scheme-mode . " SCM")
     (matlab-mode . "M")
-    (org-mode . " ⦿") ;; "⦿"
+    (org-mode . "⦿") ;; "⦿"
     (latex-mode . "TeX")
     (outline-minor-mode . " ֍") ;; " [o]"
     (hs-minor-mode . "")
