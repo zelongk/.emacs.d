@@ -6,12 +6,15 @@
 ;;; Code:
 
 (leaf org
-  :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev")
   :hook
   (org-mode-hook . org-cdlatex-mode)
   (org-mode-hook . visual-line-mode)
   (org-mode-hook . prettify-symbols-mode)
   (org-mode-hook . turn-on-reftex)
+  :custom-face
+  (org-block . '((t (:background unspecified))))
+  (org-block-begin-line . '((t (:background unspecified))))
+  (org-block-end-line . '((t (:background unspecified))))
   :bind
   ("C-c n t" . org-todo-list)
   ("C-c n a" . org-agenda)
@@ -21,12 +24,7 @@
    ("C-'" . nil)
    ("C-c C-M-l" . org-toggle-link-display)
    ("C-c C-M-s" . org-store-link))
-  :config
-  (leaf org-contrib :ensure t)
-  
-  (setq org-element-use-cache t
-        org-element-cache-persistent t)
-
+  :defer-config
   ;; Share snippets with LaTeX-mode
   (setq org-highlight-latex-and-related '(native latex entities))
   (setq org-pretty-entities t
@@ -52,9 +50,8 @@
 
 ;; org agenda-related
 (leaf org-super-agenda :ensure t
-  :after org
   :hook org-agenda-mode-hook
-  :config
+  :defer-config
   (setq org-super-agenda-groups
         '(;; Each group has an implicit boolean OR operator between its selectors.
           (:name "Today"  ; Optionally specify section name
@@ -156,6 +153,8 @@
                 (save-buffer)))))
 
 (leaf org-modern :ensure t
+  :after org
+  :require t
   :hook
   (org-mode-hook . org-modern-mode)
   (org-agenda-finalize . org-modern-agenda)
@@ -181,15 +180,15 @@
         '(("" . ""))))
 
 (leaf org-modern-indent
-  :require t
   :vc (:url "https://github.com/jdtsmith/org-modern-indent")
+  :require t
   :after org-modern org
   :hook org-indent-mode-hook)
 
 (leaf org-appear :ensure t
   :hook org-mode-hook
   :leaf-autoload org-appear--set-elements
-  :config
+  :defer-config
   (setq org-appear-autoemphasis t
 	    org-appear-autosubmarkers t
 	    org-appear-autolinks nil)
@@ -262,7 +261,6 @@
 
 
 (leaf org-download :ensure t
-  :after org
   :leaf-autoload org-download-clipboard
   :hook ((org-mode-hook dired-mode-hook) . org-download-enable)
   :bind (:org-mode-map

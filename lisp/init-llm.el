@@ -14,7 +14,7 @@
   ("C-c l m" . gptel-menu)
   ("C-c l C-g" . gptel-abort)
   :hook (gptel-mode-hook . gptel-highlight-mode)
-  :config
+  :defer-config
   (setq gptel-model 'gpt-5.3-codex
         gptel-backend (gptel-make-gh-copilot "Copilot")
         gptel-cache t
@@ -24,8 +24,8 @@
     :host "openrouter.ai"
     :endpoint "/api/v1/chat/completions"
     :stream t
-    :key (auth-source-pick-first-password :host "openrouter.ai"
-                                          :user "apikey")
+    :key (lambda () (auth-source-pick-first-password :host "openrouter.ai"
+                                                     :user "apikey"))
     :models '(~google/gemini-flash-latest
               ~google/gemini-pro-latest
               openai/gpt-5.5)))

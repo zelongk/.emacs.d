@@ -32,8 +32,7 @@
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
   (advice-add 'gud-filter :around #'my/advice-compilation-filter))
 
-(leaf ghostel
-  :ensure t
+(leaf ghostel :ensure t
   :bind (("C-`" . ghostel-toggle))
   :hook (eshell-load-hook . ghostel-eshell-visual-command-mode)
   :custom

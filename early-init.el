@@ -14,7 +14,7 @@
 
 (setq read-process-output-max (* 1024 1024))
 
-(setq package-enable-at-startup t
+(setq package-enable-at-startup nil
       package-quickstart nil
       load-prefer-newer t)
 

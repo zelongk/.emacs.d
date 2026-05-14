@@ -14,6 +14,7 @@
       package-install-upgrade-built-in t
       package-vc-register-as-project nil)
 
+(package-initialize)
 (unless (package-installed-p 'leaf)
   (package-refresh-contents)
   (package-install 'leaf))
@@ -29,6 +30,13 @@
   ;; initialize leaf-keywords.el
   (leaf-keywords-init))
 
+;; This has to be installed/loaded ahead.
+(leaf org
+  :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev"))
+
+(leaf org-contrib :ensure t)
+
+(leaf gnu-elpa-keyring-update)
 
 (provide 'init-package)
 ;;; init-package.el ends here

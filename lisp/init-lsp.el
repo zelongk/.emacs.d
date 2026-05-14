@@ -152,16 +152,5 @@
 (leaf lsp-haskell :ensure t
   :after lsp-mode)
 
-(leaf lsp-ltex-plus
-  :vc (:url "https://github.com/emacs-languagetool/lsp-ltex-plus")
-  :after lsp-mode
-  :init
-  (setq lsp-ltex-plus-version "18.6.1"
-        lsp-ltex-plus-active-modes '(text-mode bibtex-mode context-mode
-                                               latex-mode LaTeX-mode markdown-mode
-                                               gfm-mode rst-mode message-mode
-                                               mu4e-compose-mode)
-        lsp-ltex-plus-user-rules-path (expand-file-name "lsp-ltex-plus" user-cache-directory)))
-
 (provide 'init-lsp)
 ;;; init-lsp.el ends here

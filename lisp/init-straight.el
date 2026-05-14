@@ -21,9 +21,23 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(setq straight-leaf-by-default t
-      leaf-expand-minimally t
-      leaf-always-defer t)
+(straight-use-package 'leaf)
+(straight-use-package 'leaf-keywords)
+(require 'leaf)
+(require 'leaf-keywords)
+(leaf-keywords-init)
+(setq leaf-expand-minimally t
+      leaf-enable-imenu-support t
+      leaf-alias-keyword-alist '((:ensure . :straight)))
+
+(leaf leaf-keywords
+  :init
+  ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
+  (leaf blackout :ensure t)
+  :config
+  ;; initialize leaf-keywords.el
+  )
+  
 
 
 (provide 'init-straight)

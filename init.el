@@ -1,7 +1,8 @@
 ;;; init.el --- This is the  -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; Personal Emacs config
-;; Greatly referred to Centaur Emacs
+;; Based largely on Centaur Emacs
 
 ;;; Code:
 
@@ -44,7 +45,6 @@
 (require 'init-edit)
 (require 'init-completion)
 (require 'init-corfu)
-(require 'init-snippet)
 
 (require 'init-bindings)
 (require 'init-dired)
@@ -57,25 +57,25 @@
 
 (require 'init-input)
 (require 'init-utils)
-;; (require 'init-svg)
-;; (require 'init-eaf)
 
 (require 'init-coding)
+(require 'init-snippet)
 (require 'init-vcs)
 (require 'init-llm)
 (require 'init-check)
 (require 'init-writing)
 
-(require 'init-pretty-latex)
-
 (require 'init-org)
 (require 'init-markdown)
+
+(require 'init-pretty-latex)
 
 ;; (require 'init-roam)
 (require 'init-denote)
 
 (require 'init-eglot)
 ;; (require 'init-lsp)
+
 (require 'init-tex)
 (require 'init-cc)
 (require 'init-python)
