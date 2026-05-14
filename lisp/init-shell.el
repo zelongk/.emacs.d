@@ -37,8 +37,7 @@
   :hook (eshell-load-hook . ghostel-eshell-visual-command-mode)
   :custom
   (ghostel-shell . "/opt/homebrew/bin/fish")
-  (ghostel-tramp-integration . t)
-  (ghostel-tramp-default-method . 'tramp-default-method)
+  ;; (ghostel-tramp-default-method . 'tramp-default-method)
   (ghostel-module-auto-install . 'download)
   :config
   (defun ghostel-toggle () (interactive)

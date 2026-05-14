@@ -9,16 +9,17 @@
 
 (leaf ediff)
 
-(leaf diff-hl
-  :ensure t
+(leaf diff-hl :ensure t
+  :global-minor-mode
+  global-diff-hl-mode
+  diff-hl-flydiff-mode
   :custom
   (diff-hl-draw-borders . nil)
   (diff-hl-update-async . 'thread)
   (diff-hl-flydiff-delay . 0.5)
-  :hook ((vc-responsible-backend-hook diff-hl-mode)
-         (dlff-hl-mode-hook diff-hl-flydiff-mode)
-         (magit-post-refresh-hook . diff-hl-magit-post-refresh)
-         (dired-mode-hook . diff-hl-dired-mode))
+  :hook
+  (magit-post-refresh-hook . diff-hl-magit-post-refresh)
+  (dired-mode-hook . diff-hl-dired-mode)
   :config
   ;; (setq-default fringes-outside-margins t)
   (with-eval-after-load 'magit

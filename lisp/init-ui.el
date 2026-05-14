@@ -47,7 +47,7 @@
   (fontaine-set-preset 'regular))
 
 ;; Use Symbols Nerd Font as fallback for private-use icons
-;; (set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size 22 nil 'prepend))
+(set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size 22 nil 'prepend))
 
 (leaf mixed-pitch :ensure t
   :blackout t
@@ -175,9 +175,7 @@
       mouse-wheel-progressive-speed nil)
 
 (leaf nerd-icons
-  :vc (:url "https://github.com/rainstormstudio/nerd-icons.el")
-  :custom
-  (nerd-icons-default-adjust . 0.05))
+  :vc (:url "https://github.com/rainstormstudio/nerd-icons.el"))
 
 (with-no-warnings
   (when (featurep 'ns)

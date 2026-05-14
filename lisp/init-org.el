@@ -27,17 +27,19 @@
    ("C-c C-M-s" . org-store-link))
   :defer-config
   ;; Share snippets with LaTeX-mode
-  (setq org-highlight-latex-and-related '(native latex entities))
-  (setq org-pretty-entities t
-        org-hide-emphasis-markers t
-        org-pretty-entities-include-sub-superscripts nil)
-  
-  (setq org-tags-column 0
-        org-agenda-tags-column 80
-        org-startup-indented t
-        org-indent-indentation-per-level 1)
+  (setq org-id-method 'ts
 
-  (setq org-agenda-prefix-format
+        org-highlight-latex-and-related '(native latex entities)
+        org-pretty-entities t
+        org-hide-emphasis-markers t
+        org-pretty-entities-include-sub-superscripts nil
+        
+        org-tags-column 0
+        
+        org-startup-indented t
+        org-indent-indentation-per-level 1
+
+        org-agenda-prefix-format
         '((agenda . " %i %-12:c%?-12t% s")
           (todo . " %i")
           (tags . " %i %-12:c")
@@ -220,7 +222,9 @@
 
 (leaf org-latex-preview
   :hook org-mode-hook
-  :bind ("C-c C-x SPC" . org-latex-preview-clear-cache)
+  :bind
+  (:org-mode-map
+   ("C-c C-x SPC" . org-latex-preview-clear-cache))
   :custom
   (org-latex-preview-numbered . nil)
   :defer-config

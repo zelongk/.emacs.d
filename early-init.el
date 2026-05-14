@@ -5,23 +5,15 @@
 
 ;;; Code:
 
-(if noninteractive  ; in CLI sessions
-    (setq-default gc-cons-threshold (* 128 1024 1024)   ; 128MB
-                  ;; Backport from 29 (see emacs-mirror/emacs@73a384a98698)
-                  gc-cons-percentage 1.0)
-  (setq-default gc-cons-threshold most-positive-fixnum
-                gc-cons-percentage 1.0))
+
+(setq-default gc-cons-threshold most-positive-fixnum
+              gc-cons-percentage 1.0)
 
 (setq read-process-output-max (* 1024 1024))
 
 (setq package-enable-at-startup nil
+      package-quickstart t
       load-prefer-newer t)
-
-(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "site-lisp/" user-emacs-directory))
-
-(setenv "LSP_USE_PLISTS" "true") ;; Lsp-mode plists
-(setenv "LIBGS" "/opt/homebrew/lib/libgs.dylib")
 
 ;; PERF: Many elisp file API calls consult `file-name-handler-alist'.
 ;; Setting it to nil speeds up startup significantly.
@@ -33,6 +25,10 @@
 ;; Also skip .gz to avoid decompression checks.
 (setq load-suffixes '(".elc" ".el")
       load-file-rep-suffixes '(""))
+
+(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+
+(setenv "LIBGS" "/opt/homebrew/lib/libgs.dylib")
 
 (prefer-coding-system 'utf-8)
 ;; Inhibit resizing frame

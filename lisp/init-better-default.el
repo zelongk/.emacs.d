@@ -89,7 +89,6 @@
   :hook (prog-mode-hook minibuffer-setup-hook))
 
 (leaf paren
-  :require t
   :global-minor-mode show-paren-mode)
 
 (leaf recentf
@@ -170,8 +169,7 @@
 	    scroll-margin 0)
   :global-minor-mode ultra-scroll-mode)
 
-(leaf helpful
-  :ensure t
+(leaf helpful :ensure t
   :bind
   (([remap describe-function] . helpful-callable)
    ([remap describe-command]  . helpful-command)
@@ -218,7 +216,7 @@
         create-lockfiles nil))
 
 (leaf tramp :require t
-  :setq (tramp-default-method . "sshx")
+  :setq (tramp-default-method . "ssh")
   (tramp-verbose . 1)
   `(tramp-persistency-file-name . ,(expand-file-name "tramp" user-cache-directory))
   (tramp-allow-unsafe-temporary-files . t)
@@ -227,12 +225,19 @@
   `(tramp-copy-size-limit . ,(* 1024 1024)))
 
 (leaf tramp-hlo :ensure t
+  :disabled t
   :after tramp
   :require t
   :config
   (tramp-hlo-setup))
 
-(leaf transient
+(leaf tramp-rpc
+  :disabled t
+  :vc (:url "https://github.com/ArthurHeymans/emacs-tramp-rpc"
+            :rev newest
+            :lisp-dir "lisp"))
+
+(leaf transient :require t
   :config
   (setq transient-history-file (expand-file-name "transient/history.el" user-cache-directory)
         transient-levels-file (expand-file-name "transient/levels.el" user-cache-directory)

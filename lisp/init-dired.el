@@ -6,10 +6,10 @@
 ;;; Code:
 
 (leaf dired
-  :bind (("C-x x @" . tramp-revert-buffer-with-sudo)
-         (:dired-mode-map
-          ("C-c C-p" . wdired-change-to-wdired-mode)
-	      ("b" . dired-up-directory)))
+  :bind
+  (:dired-mode-map
+   ("C-c C-p" . wdired-change-to-wdired-mode)
+   ("b" . dired-up-directory))
   :config
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always

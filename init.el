@@ -6,18 +6,6 @@
 
 ;;; Code:
 
-;; A helper to keep track of start-up time:
-
-(eval-when-compile (require 'cl-lib))
-(let ((emacs-start-time (current-time)))
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (let ((elapsed (float-time (time-subtract (current-time) emacs-start-time))))
-                (message "[Emacs initialized in %.3fs]" elapsed)))))
-
-;; Optimize `auto-mode-alist`
-(setq auto-mode-case-fold nil)
-
 ;; Restore file-name-handler-alist after startup.
 (unless (or (daemonp) noninteractive init-file-debug)
   ;; Temporarily suppress file-handler processing to speed up startup
@@ -34,16 +22,21 @@
 ;; (load custom-file 'no-error 'no-message)
 
 (eval-and-compile
+  (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory))
+  
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                            ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
+                           ("gnu-elpa" . "https://elpa.gnu.org/packages/")
                            ("nongnu-elpa" . "https://elpa.nongnu.org/nongnu/"))
-        package-archive-priorities '(("gnu-elpa-devel" . 3)
+        package-archive-priorities '(("gnu-elpa" . 3)
                                      ("nongnu-elpa" . 2)
                                      ("melpa" . 1))
         package-install-upgrade-built-in t
+        ;; package-quickstart-file (expand-file-name "quickstart.el" user-cache-directory)
         package-vc-register-as-project nil)
 
-  (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory))
+  (setq package-pinned-packages
+        '((leaf . "gnu-elpa-devel")))
   
   (package-initialize)
   (when (not package-archive-contents)
@@ -57,15 +50,13 @@
     :init
     ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
     (leaf blackout :ensure t)
-    :config
-    ;; initialize leaf-keywords.el
-    (leaf-keywords-init)))
+    :config (leaf-keywords-init)))
 
+(leaf gnu-elpa-keyring-update)
 ;; This has to be installed/loaded ahead.
 (leaf org
   :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev"))
 (leaf org-contrib :ensure t)
-(leaf gnu-elpa-keyring-update)
 
 ;; (require 'init-elpaca)
 ;; (require 'init-straight)
@@ -120,4 +111,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-

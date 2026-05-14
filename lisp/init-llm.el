@@ -30,7 +30,6 @@
               openai/gpt-5.5)))
 
 (leaf gptel-magit :ensure t
-  :disabled t
   :after magit
   :hook (magit-mode-hook . gptel-magit-install))
 

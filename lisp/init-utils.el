@@ -59,6 +59,12 @@
 (leaf elcord
   :ensure t)
 
+(leaf epa :require t
+  :config (epa-file-enable)
+  :custom
+  (epa-pinentry-mode . 'loopback)
+  (epa-keys-select-method . 'minibuffer))
+
 (leaf auth-source-pass
   :config
   (auth-source-pass-enable))

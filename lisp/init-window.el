@@ -44,8 +44,6 @@
   :ensure t
   :hook (emacs-startup-hook . ace-window-display-mode)
   :bind (([remap other-window] . ace-window)
-         
-         ;; ("C-c w" . ace-window-hydra/body)
          ("M-o" . ace-window)
          ("C-c 2" . split-window-vertically-instead)
          ("C-c 3" . split-window-horizontally-instead)
@@ -82,7 +80,7 @@ Delete current window in the process."
   )
 
 (leaf ace-window
-  :after transient ace-window
+  :after transient
   :bind ("C-c w" . ace-window-transient-menu) ; Bind as you prefer
   :transient
   (ace-window-transient-menu
