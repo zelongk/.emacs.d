@@ -67,7 +67,6 @@
 (leaf org-contrib :ensure t)
 (leaf gnu-elpa-keyring-update)
 
-;; (require 'init-package)
 ;; (require 'init-elpaca)
 ;; (require 'init-straight)
 

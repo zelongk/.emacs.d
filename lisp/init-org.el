@@ -6,6 +6,7 @@
 ;;; Code:
 
 (leaf org
+  :blackout org-indent-mode org-cdlatex-mode
   :hook
   (org-mode-hook . org-cdlatex-mode)
   (org-mode-hook . visual-line-mode)
