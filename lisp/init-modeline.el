@@ -12,6 +12,58 @@
                                         ;       Copied from prots emacs       ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defvar my-modeline-vc-map
+  (let ((map (make-sparse-keymap)))
+    ;; Left click shows diff for the current file
+    (define-key map [mode-line down-mouse-1] #'vc-diff)
+    ;; Right click shows diff for the entire project/repo
+    (define-key map [mode-line down-mouse-3] #'vc-root-diff)
+    map)
+  "Keymap for the VC branch mode-line indicator.")
+;; 2. Helper to map VC states to built-in Emacs VC faces
+(defun my-modeline-vc-face (file backend)
+  "Return an appropriate face based on the exact VC state of FILE."
+  (let ((state (vc-state file backend)))
+    (pcase state
+      ('up-to-date 'vc-up-to-date-state)
+      ('edited     'vc-edited-state)
+      ('added      'vc-locally-added-state)
+      ('conflict   'vc-conflict-state)
+      ('removed    'vc-removed-state)
+      ('missing    'vc-missing-state)
+      ('locked     'vc-locked-state)
+      (_           'shadow))))
+;; 3. Helper to reliably get just the branch name
+(defun my-modeline-vc-branch-name (file backend)
+  "Return the VC branch name or short hash for FILE with BACKEND."
+  (when-let ((rev (vc-working-revision file backend)))
+    (if (eq backend 'Git)
+        ;; For Git, try to get the actual branch name, fallback to short hash
+        (or (vc-git--symbolic-ref file)
+            (substring rev 0 7))
+      ;; For other backends (SVN, Hg, etc.), just use the revision number
+      rev)))
+;; 4. Core function to generate the propertized string
+(defun my-modeline-vc-string ()
+  "Generate the string for the VC mode-line indicator."
+  ;; Only render if the current window is focused
+  (when-let* (((mode-line-window-selected-p))
+              ;; Works for both file buffers and Dired buffers
+              (file (or buffer-file-name default-directory))
+              (backend (vc-backend file))
+              (branch (my-modeline-vc-branch-name file backend))
+              (face (my-modeline-vc-face file backend)))
+    (propertize (format " ⎇ %s " branch) ; Customize the symbol (e.g., Nerd Font )
+                'face face
+                'mouse-face 'mode-line-highlight
+                'help-echo (format "Revision: %s\nmouse-1: `vc-diff'\nmouse-3: `vc-root-diff'"
+                                   (vc-working-revision file backend))
+                'local-map my-modeline-vc-map)))
+;; 5. Define the mode-line variable
+(defvar-local my-modeline-vc-branch
+  '(:eval (my-modeline-vc-string))
+  "Mode line construct to display propertized VC branch.")
+
 (defvar my-modeline-flymake-map
   (let ((map (make-sparse-keymap)))
     ;; Left click shows diagnostics for the current buffer
@@ -72,9 +124,6 @@
 (defvar-local my-modeline-flymake
   '(:eval (my-modeline-flymake-string))
   "Mode line construct displaying Flymake diagnostic counts.")
-;; IMPORTANT: Emacs requires custom mode-line variables that contain
-;; properties (like colors or clickable areas) to be marked as risky!
-
 
 (with-eval-after-load 'eglot
   (setq mode-line-misc-info
@@ -87,7 +136,8 @@
   "Mode line construct displaying Eglot information.
 Specific to the current window's mode line.")
 
-(dolist (construct '(my-modeline-flymake
+(dolist (construct '(my-modeline-vc-branch
+                     my-modeline-flymake
                      prot-modeline-eglot))
   (put construct 'risky-local-variable t))
 
@@ -105,7 +155,7 @@ Specific to the current window's mode line.")
 
                 mode-line-format-right-align
                 
-                (vc-mode vc-mode)
+                my-modeline-vc-branch
                 "   "
                 my-modeline-flymake
                 prot-modeline-eglot
@@ -115,65 +165,23 @@ Specific to the current window's mode line.")
 (defvar mode-line-cleaner-alist
   `((company-mode . " ⇝")
     (corfu-mode . " ⇝")
-    (yas-minor-mode .  " ")
     (smartparens-mode . " ()")
-    (evil-smartparens-mode . "")
-    (eldoc-mode . "")
-    (abbrev-mode . "")
-    (evil-snipe-local-mode . "")
-    (evil-owl-mode . "")
-    (evil-rsi-mode . "")
-    (evil-commentary-mode . "")
-    (ivy-mode . "")
-    (counsel-mode . "")
-    (wrap-region-mode . "")
-    (rainbow-mode . "")
-    (which-key-mode . "")
-    (undo-tree-mode . "")
     ;; (undo-tree-mode . " ⎌")
-    (auto-revert-mode . "")
     ;; Major modes
     (lisp-interaction-mode . "λ")
-    (hi-lock-mode . "")
     (python-mode . "Py")
     (haskell-mode . "Hs")
-    (interactive-haskell-mode . "")
-    (haskell-doc-mode . "")
-    (haskell-collapse-mode . "")
     (emacs-lisp-mode . "Eλ")
     (nxhtml-mode . "nx")
-    (dot-mode . "")
     (scheme-mode . " SCM")
     (matlab-mode . "M")
     (org-mode . " ⦿") ;; "⦿"
-    (valign-mode . "")
-    (eldoc-mode . "")
-    (org-cdlatex-mode . "")
-    (cdlatex-mode . "")
-    (org-indent-mode . "")
-    (org-roam-mode . "")
-    (visual-line-mode . "")
     (latex-mode . "TeX")
     (outline-minor-mode . " ֍") ;; " [o]"
     (hs-minor-mode . "")
     (matlab-functions-have-end-minor-mode . "")
     (org-roam-ui-mode . " UI")
-    (abridge-diff-mode . "")
-    ;; Evil modes
-    (evil-traces-mode . "")
-    (latex-extra-mode . "")
-    (anzu-mode . "")
-    (goggles-mode . "")
-    (subword-mode . "")
-    (auto-dark-mode . "")
-    (ace-pinyin-mode . "")
-    (strokes-mode . "")
-    (flymake-mode . " fly")
-    (flycheck-mode . " Fly")
-    (flyover-mode . "")
-    (sideline-mode . "")
-    (god-mode . ,(propertize "God" 'face 'success))
-    (gcmh-mode . ""))
+    (god-mode . ,(propertize "God" 'face 'success)))
   "Alist for `clean-mode-line'.
 
   ; ;; When you add a new element to the alist, keep in mind that you
