@@ -63,7 +63,20 @@
   :bind ("M-g y" . consult-yasnippet))
 
 (leaf doom-snippets
-  :vc (:url "https://github.com/doomemacs/snippets"))
+  :vc (:url "https://github.com/doomemacs/snippets")
+  :config
+  ;; Disable snippets for certain modes
+  (defun my/yas-write-skip-file (dir)
+    "Create DIR/.yas-skip if DIR exists."
+    (let ((f (expand-file-name ".yas-skip" dir)))
+      (when (file-directory-p dir)
+        (unless (file-exists-p f)
+          (with-temp-file f)))))
+
+  (dolist (mode '(latex-mode emacs-lisp-mode))
+    (let ((dir (expand-file-name (symbol-name mode) doom-snippets-dir)))
+      (my/yas-write-skip-file dir)))
+  :after yasnippet)
 
 (provide 'init-snippet)
 ;;; init-snippet.el ends here

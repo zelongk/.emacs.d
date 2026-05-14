@@ -78,7 +78,8 @@
 
 (when (native-comp-available-p)
   (setq native-comp-jit-compilation nil
-        native-comp-async-report-warnings-errors nil))
+        native-comp-async-jobs-number 10
+        native-comp-async-report-warnings-errors 'silent))
 
 (setq byte-compile-warnings '(not obsolete))
 (setq warning-suppress-log-types '((comp) (bytecomp)))

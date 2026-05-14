@@ -27,7 +27,7 @@
 (leaf ocaml-eglot :ensure t
   :hook
   (tuareg-mode-hook . ocaml-eglot)
-  (ocaml-eglot-hook . eglot-ensure))
+  (ocaml-eglot-mode-hook . eglot-ensure))
 
 (provide 'init-ocaml)
 ;;; init-ocaml.el ends here
