@@ -12,58 +12,84 @@
                                         ;       Copied from prots emacs       ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;; Flymake errors, warnings, notes
-(declare-function flymake--severity "flymake" (type))
-(declare-function flymake-diagnostic-type "flymake" (diag))
-
-;; Based on `flymake--mode-line-counter'.
-(defun prot-modeline-flymake-counter (type)
-  "Compute number of diagnostics in buffer with TYPE's severity.
-TYPE is usually keyword `:error', `:warning' or `:note'."
+(defvar my-modeline-flymake-map
+  (let ((map (make-sparse-keymap)))
+    ;; Left click shows diagnostics for the current buffer
+    (define-key map [mode-line down-mouse-1] #'flymake-show-buffer-diagnostics)
+    ;; Right click shows project-wide diagnostics
+    (define-key map [mode-line down-mouse-3] #'flymake-show-project-diagnostics)
+    map)
+  "Keymap for the Flymake mode-line indicator.")
+;; 2. Helper function to count diagnostics by severity
+(defun my-modeline-flymake-count (type)
+  "Count flymake diagnostics of a specific TYPE (:error, :warning, :note)."
   (let ((count 0))
     (dolist (d (flymake-diagnostics))
       (when (= (flymake--severity type)
                (flymake--severity (flymake-diagnostic-type d)))
         (cl-incf count)))
-    (when (cl-plusp count)
-      (number-to-string count))))
+    count))
+;; 3. Function to generate the propertized string
+(defun my-modeline-flymake-string ()
+  "Generate the string for the Flymake mode-line indicator."
+  ;; Only render if Flymake is active AND the current window is focused
+  (when (and (bound-and-true-p flymake-mode)
+             (mode-line-window-selected-p))
+    (let ((err (my-modeline-flymake-count :error))
+          (warn (my-modeline-flymake-count :warning))
+          (note (my-modeline-flymake-count :note))
+          (segments nil))
+      ;; Build the Note string
+      (push (propertize (format "[I] %d" note)
+                        'face 'success
+                        'help-echo "Notes\nmouse-1: buffer diagnostics\nmouse-3: project diagnostics"
+                        'local-map my-modeline-flymake-map
+                        'mouse-face 'mode-line-highlight)
+            segments)
+      (push " " segments)
 
-(defvar prot-modeline-flymake-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map [mode-line down-mouse-1] 'flymake-show-buffer-diagnostics)
-    (define-key map [mode-line down-mouse-3] 'flymake-show-project-diagnostics)
-    map)
-  "Keymap to display on Flymake indicator.")
+      ;; Build the Warning string
+      (push (propertize (format "[P] %d" warn)
+                        'face 'warning
+                        'help-echo "Warnings\nmouse-1: buffer diagnostics\nmouse-3: project diagnostics"
+                        'local-map my-modeline-flymake-map
+                        'mouse-face 'mode-line-highlight)
+            segments)
+      (push " " segments)
+      ;; Build the Error string
+      (push (propertize (format "[C] %d" err)
+                        'face 'error
+                        'help-echo "Errors\nmouse-1: buffer diagnostics\nmouse-3: project diagnostics"
+                        'local-map my-modeline-flymake-map
+                        'mouse-face 'mode-line-highlight)
+            segments)
+      
+      ;; Combine them and return. (Using nreverse because `push` prepends items)
+      (if segments
+          (apply #'concat (nreverse segments))
+        ""))))
+;; 4. Define the mode-line variable
+(defvar-local my-modeline-flymake
+  '(:eval (my-modeline-flymake-string))
+  "Mode line construct displaying Flymake diagnostic counts.")
+;; IMPORTANT: Emacs requires custom mode-line variables that contain
+;; properties (like colors or clickable areas) to be marked as risky!
 
-(defmacro prot-modeline-flymake-type (type indicator &optional face)
-  "Return function that handles Flymake TYPE with stylistic INDICATOR and FACE."
-  `(defun ,(intern (format "prot-modeline-flymake-%s" type)) ()
-     (when-let* ((count (prot-modeline-flymake-counter
-                         ,(intern (format ":%s" type)))))
-       (concat
-        (propertize ,indicator 'face 'prot-modeline-indicator-gray)
-        (propertize count
-                    'face ',(or face type)
-                    'mouse-face 'mode-line-highlight
-                    ;; FIXME 2023-07-03: Clicking on the text with
-                    ;; this buffer and a single warning present, the
-                    ;; diagnostics take up the entire frame.  Why?
-                    'local-map prot-modeline-flymake-map
-                    'help-echo "mouse-1: buffer diagnostics\nmouse-3: project diagnostics")))))
 
-(prot-modeline-flymake-type error "☣")
-(prot-modeline-flymake-type warning "!")
-(prot-modeline-flymake-type note "·" success)
+(with-eval-after-load 'eglot
+  (setq mode-line-misc-info
+        (delete '(eglot--managed-mode (" [" eglot--mode-line-format "] ")) mode-line-misc-info)))
 
-(defvar-local prot-modeline-flymake
-  '(:eval
-    (when (and (bound-and-true-p flymake-mode)
-               (mode-line-window-selected-p))
-      (list
-       '(:eval (prot-modeline-flymake-error))
-       '(:eval (prot-modeline-flymake-warning))
-       '(:eval (prot-modeline-flymake-note))))))
+(defvar-local prot-modeline-eglot
+  `(:eval
+    (when (and (featurep 'eglot) (mode-line-window-selected-p))
+      '(eglot--managed-mode eglot--mode-line-format)))
+  "Mode line construct displaying Eglot information.
+Specific to the current window's mode line.")
 
+(dolist (construct '(my-modeline-flymake
+                     prot-modeline-eglot))
+  (put construct 'risky-local-variable t))
 
 ;; Why is this not working?
 (setq-default mode-line-format
@@ -71,16 +97,21 @@ TYPE is usually keyword `:error', `:warning' or `:note'."
                 (:propertize
                  ("" mode-line-client mode-line-window-dedicated)
                  display (min-width (6.0)))
-                mode-line-frame-identification mode-line-buffer-identification "   "
-                mode-line-position (project-mode-line project-mode-line-format)
-                "  " mode-line-modes mode-line-misc-info
+                mode-line-frame-identification
+                mode-line-buffer-identification
+                "   "
+                mode-line-position
+                "  " mode-line-modes
 
                 mode-line-format-right-align
                 
                 (vc-mode vc-mode)
-                prot-modeline-flymake
-                
+                "   "
+                my-modeline-flymake
+                prot-modeline-eglot
+                ;; mode-line-misc-info
                 mode-line-end-spaces))
+
 (defvar mode-line-cleaner-alist
   `((company-mode . " ⇝")
     (corfu-mode . " ⇝")
@@ -114,8 +145,7 @@ TYPE is usually keyword `:error', `:warning' or `:note'."
     (dot-mode . "")
     (scheme-mode . " SCM")
     (matlab-mode . "M")
-    (org-mode . " ORG" ;; "⦿"
-              )
+    (org-mode . " ⦿") ;; "⦿"
     (valign-mode . "")
     (eldoc-mode . "")
     (org-cdlatex-mode . "")
@@ -124,8 +154,7 @@ TYPE is usually keyword `:error', `:warning' or `:note'."
     (org-roam-mode . "")
     (visual-line-mode . "")
     (latex-mode . "TeX")
-    (outline-minor-mode . " ֍" ;; " [o]"
-                        )
+    (outline-minor-mode . " ֍") ;; " [o]"
     (hs-minor-mode . "")
     (matlab-functions-have-end-minor-mode . "")
     (org-roam-ui-mode . " UI")
