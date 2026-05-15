@@ -19,6 +19,7 @@
   :vc (:url "https://github.com/protesilaos/show-font"))
 
 (leaf fontaine :ensure t
+  :when (display-graphic-p)
   :global-minor-mode fontaine-mode
   :setq
   `(fontaine-latest-state-file . ,(expand-file-name "fontaine-latest.eld" user-cache-directory))

@@ -97,8 +97,8 @@
   (tabspaces-include-buffers . '("*scratch*" "*Messages*"))
   (tabspaces-exclude-buffers . '("*eat*" "*ghostel*" "*vterm*" "*shell*" "*eshell*"))
   
-  (tabspaces-session-file . '(expand-file-name "tabspaces/tabsession.el" user-cache-directory))
-  (tabspaces-session-project-session-store . '(expand-file-name "tabspaces/" user-cache-directory))
+  `(tabspaces-session-file . ,(expand-file-name "tabspaces/tabsession.el" user-cache-directory))
+  `(tabspaces-session-project-session-store . ,(expand-file-name "tabspaces/" user-cache-directory))
   (tabspaces-initialize-project-with-todo . t)
   (tabspaces-todo-file-name . "project-todo.org")
   ;; sessions

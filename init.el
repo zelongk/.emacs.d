@@ -51,12 +51,12 @@
     ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
     (leaf blackout :ensure t)
     :config (leaf-keywords-init)))
-
 (leaf gnu-elpa-keyring-update)
-;; This has to be installed/loaded ahead.
-(leaf org
-  :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev"))
-(leaf org-contrib :ensure t)
+
+(leaf benchmark-init :ensure t
+  :disabled t
+  :require t
+  :hook (after-init-hook . benchmark-init/deactivate))
 
 ;; (require 'init-elpaca)
 ;; (require 'init-straight)

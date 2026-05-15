@@ -23,7 +23,7 @@
 ;; PERF: Reduce file-name operations on `load-path'.
 ;; No dynamic modules are loaded this early, so we skip .so/.dll search.
 ;; Also skip .gz to avoid decompression checks.
-(setq load-suffixes '(".elc" ".el")
+(setq load-suffixes '(".elc" ".el" ".eln")
       load-file-rep-suffixes '(""))
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))

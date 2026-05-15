@@ -31,7 +31,6 @@
   ("C-(" . puni-wrap-round)
   ("C-{" . puni-wrap-curly)
   ([remap backward-kill-word] . puni-backward-kill-word)
-  :bind* ("DEL" . my/backspace)
   :init
   (defun my/backspace ()
     (interactive)
@@ -68,8 +67,8 @@
   :global-minor-mode macrursors-mode
   :bind-keymap ("C-;" . macrursors-mark-map)
   :bind
-  ("C-c C-<" . macrursors-mark-previous-line)
-  ("C-c C->" . macrursors-mark-next-line)
+  ("C-<" . macrursors-mark-previous-line)
+  ("C->" . macrursors-mark-next-line)
   ("M-P" . macrursors-mark-previous-instance-of)
   ("M-N" . macrursors-mark-next-instance-of)
   ("C-M-;" . macrursors-mark-all-instances-of)

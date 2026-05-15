@@ -6,6 +6,7 @@
 ;;; Code:
 
 (leaf org
+  :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev")
   :blackout org-indent-mode org-cdlatex-mode
   :hook
   (org-mode-hook . org-cdlatex-mode)
@@ -25,16 +26,18 @@
    ("C-'" . nil)
    ("C-c C-M-l" . org-toggle-link-display)
    ("C-c C-M-s" . org-store-link))
-  :defer-config
+  :config
   ;; Share snippets with LaTeX-mode
   (setq org-id-method 'ts
 
+        org-modules '(org-bibtex)
+        
         org-highlight-latex-and-related '(native latex entities)
         org-pretty-entities t
         org-hide-emphasis-markers t
         org-pretty-entities-include-sub-superscripts nil
         
-        org-tags-column 0
+        org-tags-column 5
         
         org-startup-indented t
         org-indent-indentation-per-level 1
@@ -50,6 +53,8 @@
         org-agenda-start-day "+0d"
         org-agenda-span 3
         org-agenda-remove-tags t))
+
+(leaf org-contrib :ensure t)
 
 ;; org agenda-related
 (leaf org-super-agenda :ensure t

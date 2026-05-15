@@ -14,10 +14,6 @@
                             (insert-file-contents "/etc/os-release")
                             (re-search-forward "ID=\\(?:guix\\|nixos\\)" nil t))))
 
-(leaf benchmark-init :ensure t
-  :require t
-  :hook (after-init-hook . benchmark-init/deactivate))
-
 (defun byte-compile-elpa ()
   "Compile packages in elpa directory.  Useful if you switch Emacs versions."
   (interactive)
@@ -223,19 +219,6 @@
   (remote-file-name-inhibit-locks . t)
   (remote-file-name-inhibit-auto-save-visited . t)
   `(tramp-copy-size-limit . ,(* 1024 1024)))
-
-(leaf tramp-hlo :ensure t
-  :disabled t
-  :after tramp
-  :require t
-  :config
-  (tramp-hlo-setup))
-
-(leaf tramp-rpc
-  :disabled t
-  :vc (:url "https://github.com/ArthurHeymans/emacs-tramp-rpc"
-            :rev newest
-            :lisp-dir "lisp"))
 
 (leaf transient :require t
   :config
