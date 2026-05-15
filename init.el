@@ -1,4 +1,4 @@
-;;; init.el --- This is the  -*- lexical-binding: t -*-
+;;; init.el --- This is the  -*- lexical-binding: t no-byte-compile: t -*-
 
 ;;; Commentary:
 ;; Personal Emacs config
@@ -39,9 +39,8 @@
         '((leaf . "gnu-elpa-devel")))
   
   (package-initialize)
-  (when (not package-archive-contents)
-    (package-refresh-contents))
   (unless (package-installed-p 'leaf)
+    (package-refresh-contents)
     (package-install 'leaf))
 
   (setq leaf-enable-imenu-support t)
@@ -52,6 +51,9 @@
     (leaf blackout :ensure t)
     :config (leaf-keywords-init)))
 (leaf gnu-elpa-keyring-update)
+
+(leaf org
+  :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev"))
 
 (leaf benchmark-init :ensure t
   :disabled t

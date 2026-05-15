@@ -6,7 +6,7 @@
 ;;; Code:
 
 (leaf org
-  :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev")
+  ;; :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev")
   :blackout org-indent-mode org-cdlatex-mode
   :hook
   (org-mode-hook . org-cdlatex-mode)
@@ -30,7 +30,8 @@
   ;; Share snippets with LaTeX-mode
   (setq org-id-method 'ts
 
-        org-modules '(org-bibtex)
+        ;; org-modules '(org-bibtex)
+        org-modules nil
         
         org-highlight-latex-and-related '(native latex entities)
         org-pretty-entities t

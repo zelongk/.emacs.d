@@ -5,9 +5,10 @@
 
 ;;; Code:
 
-(leaf denote
-  :ensure t
-  :hook (dired-mode-hook . denote-dired-mode)
+(leaf denote :ensure t
+  :hook
+  (dired-mode-hook . denote-dired-mode)
+  (text-mode . denote-fontify-links-mode)
   :bind
   (("C-c n n" . denote)
    ("C-c n f" . denote-open-or-create)

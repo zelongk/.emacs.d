@@ -70,6 +70,22 @@
 
 (leaf pass :ensure t)
 
+(leaf tramp :require t
+  :setq (tramp-default-method . "ssh")
+  (tramp-verbose . 1)
+  `(tramp-persistency-file-name . ,(expand-file-name "tramp" user-cache-directory))
+  (tramp-allow-unsafe-temporary-files . t)
+  (remote-file-name-inhibit-locks . t)
+  (remote-file-name-inhibit-auto-save-visited . t)
+  `(tramp-copy-size-limit . ,(* 1024 1024)))
+
+(leaf transient :require t
+  :config
+  (setq transient-history-file (expand-file-name "transient/history.el" user-cache-directory)
+        transient-levels-file (expand-file-name "transient/levels.el" user-cache-directory)
+        transient-values-file (expand-file-name "transient/values.el" user-cache-directory)
+        transient-show-popup t))
+
 ;; Process
 (leaf proced
   :init

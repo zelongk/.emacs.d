@@ -92,29 +92,32 @@
           (note (my-modeline-flymake-count :note))
           (segments nil))
       ;; Build the Note string
-      (push (propertize (format "[I] %d" note)
-                        'face 'success
-                        'help-echo "Notes\nmouse-1: buffer diagnostics\nmouse-3: project diagnostics"
-                        'local-map my-modeline-flymake-map
-                        'mouse-face 'mode-line-highlight)
-            segments)
+      (when (> note 0)
+        (push (propertize (format " [I] %d " note)
+                          'face 'success
+                          'help-echo "Notes\nmouse-1: buffer diagnostics\nmouse-3: project diagnostics"
+                          'local-map my-modeline-flymake-map
+                          'mouse-face 'mode-line-highlight)
+              segments))
       (push " " segments)
 
       ;; Build the Warning string
-      (push (propertize (format "[P] %d" warn)
-                        'face 'warning
-                        'help-echo "Warnings\nmouse-1: buffer diagnostics\nmouse-3: project diagnostics"
-                        'local-map my-modeline-flymake-map
-                        'mouse-face 'mode-line-highlight)
-            segments)
+      (when (> warn 0)
+        (push (propertize (format " [P] %d " warn)
+                          'face 'warning
+                          'help-echo "Warnings\nmouse-1: buffer diagnostics\nmouse-3: project diagnostics"
+                          'local-map my-modeline-flymake-map
+                          'mouse-face 'mode-line-highlight)
+              segments))
       (push " " segments)
       ;; Build the Error string
-      (push (propertize (format "[C] %d" err)
-                        'face 'error
-                        'help-echo "Errors\nmouse-1: buffer diagnostics\nmouse-3: project diagnostics"
-                        'local-map my-modeline-flymake-map
-                        'mouse-face 'mode-line-highlight)
-            segments)
+      (when (> err 0)
+        (push (propertize (format " [C] %d " err)
+                          'face 'error
+                          'help-echo "Errors\nmouse-1: buffer diagnostics\nmouse-3: project diagnostics"
+                          'local-map my-modeline-flymake-map
+                          'mouse-face 'mode-line-highlight)
+              segments))
       
       ;; Combine them and return. (Using nreverse because `push` prepends items)
       (if segments
@@ -140,27 +143,6 @@ Specific to the current window's mode line.")
                      my-modeline-flymake
                      prot-modeline-eglot))
   (put construct 'risky-local-variable t))
-
-;; Why is this not working?
-(setq-default mode-line-format
-              '("%e" mode-line-front-space
-                (:propertize
-                 ("" mode-line-client mode-line-window-dedicated)
-                 display (min-width (6.0)))
-                mode-line-frame-identification
-                mode-line-buffer-identification
-                "   "
-                mode-line-position
-                "  " mode-line-modes
-
-                mode-line-format-right-align
-                
-                my-modeline-vc-branch
-                "   "
-                my-modeline-flymake
-                prot-modeline-eglot
-                ;; mode-line-misc-info
-                mode-line-end-spaces))
 
 (defvar mode-line-cleaner-alist
   `((company-mode . " ⇝")
@@ -200,6 +182,27 @@ Specific to the current window's mode line.")
                   (setq mode-name mode-str)))))
 (add-hook 'after-change-major-mode-hook #'clean-mode-line)
 
+(setq-default mode-line-format
+              '("%e" mode-line-front-space
+                (:propertize
+                 ("" mode-line-client mode-line-window-dedicated)
+                 display (min-width (6.0)))
+                mode-line-frame-identification
+                mode-line-buffer-identification
+                "   "
+                mode-line-position
+                "  "
+                mode-line-modes
+
+                mode-line-format-right-align
+                
+                
+                prot-modeline-eglot
+                mode-line-misc-info
+                my-modeline-flymake
+                "   "
+                my-modeline-vc-branch
+                mode-line-end-spaces))
 
 (provide 'init-modeline)
 ;;; init-modeline.el ends here
