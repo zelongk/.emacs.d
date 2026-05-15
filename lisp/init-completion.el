@@ -166,7 +166,7 @@
    ("M-y" . consult-yank-pop)                ;; orig. yank-pop
    
    ;; M-g bindings in `goto-map'
-   ("M-g e" . consult-compile-error)
+   ("M-s e" . consult-compile-error)
    ("M-g g" . consult-grep-match)
    ("M-g f" . consult-flymake)
    ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
@@ -178,23 +178,24 @@
    
    ;; M-g bindings in `search-map'
    ("s-f" . consult-line)
-   ("M-g d" . consult-fd)                  ;; Alternative: consult-fd
-   ("M-g c" . consult-locate)
-   ("M-g G" . consult-git-grep)
-   ("M-g r" . consult-ripgrep)
-   ("M-g l" . consult-line)
-   ("M-g L" . consult-line-multi)
-   ("M-g k" . consult-keep-lines)
-   ("M-g u" . consult-focus-lines)
+   ("M-s d" . consult-fd)                  ;; Alternative: consult-fd
+   ("M-s c" . consult-locate)
+   ("M-s G" . consult-git-grep)
+   ("M-s r" . consult-ripgrep)
+   ("M-s l" . consult-line)
+   
+   ("M-s L" . consult-line-multi)
+   ("M-s k" . consult-keep-lines)
+   ("M-s u" . consult-focus-lines)
    ("C-x C-r" . consult-recent-file)
    ("C-x b" . consult-buffer)
 
-   ("M-g e" . consult-isearch-history))
+   ("M-s e" . consult-isearch-history))
   (:isearch-mode-map
    ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-   ("M-g e" . consult-isearch-history)       ;; orig. isearch-edit-string
-   ("M-g l" . consult-line)                  ;; needed by consult-line to detect isearch
-   ("M-g L" . consult-line-multi))
+   ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+   ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+   ("M-s L" . consult-line-multi))
   :hook (completion-list-mode-hook . consult-preview-at-point-mode)
   :init
   (setq consult-preview-key '("M-."))

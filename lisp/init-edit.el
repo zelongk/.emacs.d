@@ -5,7 +5,10 @@
 
 ;;; Code:
 
-(setq long-line-threshold 1000
+;; Useless unless arabic
+(setq-default bidi-display-reordering nil)
+(setq bidi-inhibit-bpa t
+      long-line-threshold 1000
       large-hscroll-threshold 1000
       syntax-wholeline-max 1000)
 
@@ -13,7 +16,8 @@
   :global-minor-mode delete-selection-mode)
 
 (leaf elec-pair
-  :global-minor-mode electric-pair-mode)
+  :hook
+  (prog-mode-hook . electric-pair-mode))
 
 (leaf puni :ensure t
   :hook prog-mode-hook
@@ -21,8 +25,7 @@
   (puni-confirm-when-delete-unbalanced-active-region . nil)
   :bind
   ("M-r" . puni-raise)
-  ("M-s" . puni-splice)
-  ("M-S" . puni-split)
+  ("C-M-s" . puni-splice)
   ("C-=" . puni-expand-region)
   ("M-[" . puni-slurp-backward)
   ("M-]" . puni-slurp-forward)
@@ -67,8 +70,6 @@
   :global-minor-mode macrursors-mode
   :bind-keymap ("C-;" . macrursors-mark-map)
   :bind
-  ("C-<" . macrursors-mark-previous-line)
-  ("C->" . macrursors-mark-next-line)
   ("M-P" . macrursors-mark-previous-instance-of)
   ("M-N" . macrursors-mark-next-instance-of)
   ("C-M-;" . macrursors-mark-all-instances-of)

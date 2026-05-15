@@ -6,25 +6,25 @@
 
 ;;; Code:
 
-(leaf tuareg
-  :ensure t  
-  :mode (("\\.ocamlinit\\'" . tuareg-mode))
+(leaf tuareg :ensure t
   :config
   (setq tuareg-prettify-symbols-full t))
 
 (leaf opam-switch-mode :ensure t
+  :blackout t
   :hook (tuareg-mode-hook . opam-switch-mode)
   :config
   (setq tuareg-opam-insinuate t))
 
-(leaf ocp-indent
-  :ensure t
+(leaf ocp-indent :ensure t
+  :blackout t
   :hook (tuareg-mode-hook . ocp-setup-indent))
 
 (leaf utop
   :ensure t)
 
 (leaf ocaml-eglot :ensure t
+  :blackout t
   :hook
   (tuareg-mode-hook . ocaml-eglot)
   (ocaml-eglot-mode-hook . eglot-ensure))

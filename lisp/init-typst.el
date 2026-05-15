@@ -21,7 +21,7 @@
    ("C-c C-j" . typst-preview-send-position)
    ("C-c C-l" . typst-preview-mode))
   :custom
-  (typst-preview-browser . "default")
+  (typst-preview-browser . "xwidget")
   (typst-preview-invert-colors . "auto")
   (typst-preview-executable . "tinymist")
   (typst-preview-partial-rendering . t)

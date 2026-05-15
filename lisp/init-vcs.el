@@ -10,14 +10,13 @@
 (leaf ediff)
 
 (leaf diff-hl :ensure t
-  :global-minor-mode
-  global-diff-hl-mode
-  diff-hl-flydiff-mode
   :custom
   (diff-hl-draw-borders . nil)
   (diff-hl-update-async . 'thread)
   (diff-hl-flydiff-delay . 0.5)
   :hook
+  (vc-responsible-backend . diff-hl-mode)
+  (diff-hl-mode-hook . diff-hl-flydiff-mode)
   (magit-post-refresh-hook . diff-hl-magit-post-refresh)
   (dired-mode-hook . diff-hl-dired-mode)
   :config

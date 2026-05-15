@@ -148,7 +148,7 @@ Specific to the current window's mode line.")
   `((company-mode . " ⇝")
     (corfu-mode . " ⇝")
     (smartparens-mode . " ()")
-    ;; (undo-tree-mode . " ⎌")
+    (vundo-mode . " ⎌")
     ;; Major modes
     (lisp-interaction-mode . "λ")
     (python-mode . "Py")
@@ -157,6 +157,7 @@ Specific to the current window's mode line.")
     (nxhtml-mode . "nx")
     (scheme-mode . " SCM")
     (matlab-mode . "M")
+    (tuareg-mode . "Oc")
     (org-mode . "⦿") ;; "⦿"
     (latex-mode . "TeX")
     (outline-minor-mode . " ֍") ;; " [o]"

@@ -94,5 +94,35 @@
         proced-auto-update-interval 3
         proced-enable-color-flag t))
 
+(leaf notmuch :ensure t
+  :bind
+  ("C-c m m" . notmuch)
+  ("C-c m n" . notmuch-mua-new-mail)
+  :custom
+  (notmuch-search-oldest-first . nil)
+  (notmuch-show-logo . nil)
+  (notmuch-hello-auto-refresh . t)
+  (notmuch-hello-recent-searches-max . 20)
+  (notmuch-hello-thousands-separator . "")
+  (notmuch-hello-sections . '(notmuch-hello-insert-saved-searches))
+  (notmuch-show-all-tags-list . t)
+  (notmuch-search-result-format
+   . '(("date" . "%12s  ")
+       ("count" . "%-7s  ")
+       ("authors" . "%-20s  ")
+       ("subject" . "%-80s  ")
+       ("tags" . "(%s)")))
+  (notmuch-tree-result-format
+   . '(("date" . "%12s  ")
+       ("authors" . "%-20s  ")
+       ((("tree" . "%s")
+         ("subject" . "%s"))
+        . " %-80s  ")
+       ("tags" . "(%s)")))
+  (notmuch-show-empty-saved-searches . t))
+(leaf consult-notmuch :ensure t
+  :bind
+  ("M-s m" . consult-notmuch))
+
 (provide 'init-utils)
 ;;; init-utils.el ends here

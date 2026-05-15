@@ -4,3 +4,11 @@ It is normal to have several error/warning on the fresh install. It will disappe
 ** Native compilation
 
 If you have enabled =native-comp= feature, I disabled native-comp JIT. Use =M-x native-comp-elpa= to native compile packages asynchronously.
+
+
+* Dependencies
+
+** Mailing
+#+begin_src bash
+brew install isync notmuch
+#+end_src
