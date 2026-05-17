@@ -14,7 +14,7 @@
 (leaf pinyinlib :ensure t
   :after orderless
   :commands orderless-regexp
-  :leaf-autoload pinyinlib-build-regexp-string
+  :commands pinyinlib-build-regexp-string
   :config
   (defun orderless-regexp-pinyin (str)
     "Match COMPONENT as a pinyin regex."
@@ -97,7 +97,6 @@
      (call-interactively #',fn)))
 
 (leaf embark :ensure t
-  :leaf-defer nil
   :commands embark-prefix-help-command
   :bind
   ("M-SPC"   . embark-act)
@@ -152,7 +151,7 @@
    ;; ([remap isearch-forward]    . consult-line)
    ([remap recentf-open-files] . consult-recent-file)
    ([remap bookmark-jump] . consult-bookmark)
-   ("C-." . consult-imenu)
+   ("M-s i" . consult-imenu)
    ("C-c T" . consult-theme)
    
    ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
@@ -176,7 +175,7 @@
    ("M-g i" . consult-imenu)
    ("M-g I" . consult-imenu-multi)
    
-   ;; M-g bindings in `search-map'
+   ;; M-s bindings in `search-map'
    ("s-f" . consult-line)
    ("M-s d" . consult-fd)                  ;; Alternative: consult-fd
    ("M-s c" . consult-locate)

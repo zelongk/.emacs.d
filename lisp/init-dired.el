@@ -10,6 +10,8 @@
   (:dired-mode-map
    ("C-c C-p" . wdired-change-to-wdired-mode)
    ("b" . dired-up-directory))
+  :hook
+  (dired-mode-hook . toggle-truncate-lines)
   :config
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always

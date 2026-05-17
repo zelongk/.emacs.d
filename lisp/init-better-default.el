@@ -52,13 +52,6 @@
                                            "HOMEBREW_NO_ENV_HINTS" "LIBGS" "PYTHONPATH"))
     (exec-path-from-shell-initialize)))
 
-;; Start server
-(leaf server
-  :require t
-  :hook (emacs-startup-hook . (lambda ()
-			                    (unless (server-running-p)
-                                  (server-mode 1)))))
-
 (leaf saveplace
   :require t
   :global-minor-mode save-place-mode

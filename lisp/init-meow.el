@@ -94,7 +94,6 @@
 
 
 (leaf meow :ensure t
-  :leaf-defer nil
   :hook (after-init-hook . meow-global-mode)
   :config
   (meow-setup)

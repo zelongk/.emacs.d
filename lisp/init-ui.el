@@ -126,7 +126,7 @@
   :hook after-init-hook)
 
 (leaf hide-mode-line :ensure t
-  :leaf-autoload turn-off-hide-mode-line-mode
+  :commands turn-off-hide-mode-line-mode
   :hook ((eat-mode-hook ghostel-mode-hook magit-mode-hook
                         eshell-mode-hook shell-mode-hook
                         term-mode-hook vterm-mode-hook

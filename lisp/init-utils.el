@@ -62,7 +62,9 @@
 (leaf epa :require t
   :custom
   (epa-pinentry-mode . 'loopback)
-  (epa-keys-select-method . 'minibuffer))
+  (epa-keys-select-method . 'minibuffer)
+  :config
+  (epa-file-enable))
 
 (leaf auth-source-pass
   :config
@@ -96,8 +98,29 @@
 
 (leaf notmuch :ensure t
   :bind
-  ("C-c m m" . notmuch)
-  ("C-c m n" . notmuch-mua-new-mail)
+  ("C-c m" . notmuch)
+  ([remap compose-mail] . notmuch-mua-new-mail)
+  (:notmuch-show-mode-map
+   ("S" . (lambda ()
+            "mark message as spam"
+            (interactive)
+            (notmuch-show-tag (list "+spam" "-inbox"))))
+   ("D" . (lambda ()
+            "toggle deleted tag for message"
+            (interactive)
+            (if (member "deleted" (notmuch-show-get-tags))
+                (notmuch-show-tag (list "-deleted"))
+              (notmuch-show-tag (list "+deleted"))))))
+  (:notmuch-search-mode-map
+   ("D" . (lambda (&optional beg end)
+            "toggle deleted tag for message"
+            (interactive)
+            (if (member "deleted" (notmuch-search-get-tags))
+                (notmuch-search-tag (list "-deleted") beg end)
+              (notmuch-search-tag (list "+deleted") beg end))))
+   ("S" . (lambda (&optional beg end)
+            (interactive (notmuch-interactive-region))
+            (notmuch-search-tag (list "+spam" "-inbox") beg end))))
   :custom
   (notmuch-search-oldest-first . nil)
   (notmuch-show-logo . nil)
@@ -119,7 +142,14 @@
          ("subject" . "%s"))
         . " %-80s  ")
        ("tags" . "(%s)")))
-  (notmuch-show-empty-saved-searches . t))
+  (notmuch-show-empty-saved-searches . t)
+  :config
+  (setq send-mail-function 'sendmail-send-it
+        sendmail-program "/opt/homebrew/bin/msmtp"
+        mail-specify-envelope-from t
+        message-sendmail-envelope-from 'header
+        mail-envelope-from 'header))
+
 (leaf consult-notmuch :ensure t
   :bind
   ("M-s m" . consult-notmuch))

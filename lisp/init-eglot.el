@@ -1,4 +1,5 @@
 ;;; init-eglot.el --- Code for eglot setting -*- lexical-binding: t; -*-
+
 ;;; Commentary:
 ;; blablabla
 
@@ -41,10 +42,6 @@
   (leaf consult-eglot-embark :ensure t
     :after eglot consult
     :global-minor-mode consult-eglot-embark-mode))
-
-(leaf eldoc-mouse :ensure t
-  :blackout t
-  :hook eglot-managed-mode-hook)
 
 (provide 'init-eglot)
 ;;; init-eglot.el ends here

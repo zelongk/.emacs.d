@@ -108,6 +108,7 @@
 (require 'init-haskell)
 (require 'init-rust)
 (require 'init-ocaml)
+(require 'init-racket)
 (require 'init-zig)
 (require 'init-typst)
 

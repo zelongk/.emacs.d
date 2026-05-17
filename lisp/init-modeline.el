@@ -99,8 +99,6 @@
                           'local-map my-modeline-flymake-map
                           'mouse-face 'mode-line-highlight)
               segments))
-      (push " " segments)
-
       ;; Build the Warning string
       (when (> warn 0)
         (push (propertize (format " [P] %d " warn)
@@ -109,7 +107,6 @@
                           'local-map my-modeline-flymake-map
                           'mouse-face 'mode-line-highlight)
               segments))
-      (push " " segments)
       ;; Build the Error string
       (when (> err 0)
         (push (propertize (format " [C] %d " err)

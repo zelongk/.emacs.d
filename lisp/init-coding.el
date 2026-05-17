@@ -19,7 +19,9 @@
       show-paren-context-when-offscreen 'child-frame)
 
 (leaf eldoc
-  :blackout t)
+  :blackout t
+  :custom
+  (eldoc-documentation-strategy . 'eldoc-documentation-compose-eagerly))
 
 (leaf apheleia :ensure t
   :blackout t
@@ -55,7 +57,12 @@
 
 (leaf dot-env :ensure t)
 
-(leaf envrc :ensure t)
+(leaf envrc :ensure t
+  :blackout t
+  :global-minor-mode
+  envrc-global-mode)
+
+(leaf inputrc-mode :ensure t)
 
 (provide 'init-coding)
 ;;; init-coding.el ends here

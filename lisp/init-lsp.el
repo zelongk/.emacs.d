@@ -8,7 +8,7 @@
 (leaf lsp-mode
   :ensure t
   :defvar (lsp-diagnostics-disabled-modes lsp-clients-python-library-directories)
-  :leaf-autoload lsp-enable-which-key-integration
+  :commands lsp-enable-which-key-integration
   :commands (lsp-format-buffer lsp-organize-imports lsp lsp-deferred)
   :hook ((prog-mode-hook . (lambda ()
                              (unless (derived-mode-p

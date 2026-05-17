@@ -66,8 +66,8 @@
 
 (leaf cape :ensure t
   :commands (cape-file cape-elisp-block cape-keyword)
-  :leaf-autoload (cape-wrap-noninterruptible cape-wrap-nonexclusive cape-wrap-buster)
-  :leaf-autoload (cape-wrap-silent)
+  :commands (cape-wrap-noninterruptible cape-wrap-nonexclusive cape-wrap-buster)
+  :commands (cape-wrap-silent)
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)

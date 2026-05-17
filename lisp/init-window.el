@@ -46,8 +46,7 @@
   :bind (([remap other-window] . ace-window)
          ("M-o" . ace-window)
          ("C-c 2" . split-window-vertically-instead)
-         ("C-c 3" . split-window-horizontally-instead)
-         ("C-x m" . maximize-window))
+         ("C-c 3" . split-window-horizontally-instead))
   :custom
   (aw-scope . 'frame)
   (aw-background . nil)

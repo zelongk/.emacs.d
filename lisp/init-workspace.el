@@ -35,7 +35,7 @@
 (leaf ibuffer-project
   :ensure t
   :after ibuffer project
-  :leaf-autoload (ibuffer-project-generate-filter-groups ibuffer-do-sort-by-project-file-relative)
+  :commands (ibuffer-project-generate-filter-groups ibuffer-do-sort-by-project-file-relative)
   :hook (ibuffer-hook . (lambda ()
                           "Group ibuffer's list by project."
                           (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))

@@ -36,7 +36,6 @@
   :bind (("C-`" . ghostel-toggle))
   :hook (eshell-load-hook . ghostel-eshell-visual-command-mode)
   :custom
-  (ghostel-shell . "/opt/homebrew/bin/fish")
   ;; (ghostel-tramp-default-method . 'tramp-default-method)
   (ghostel-module-auto-install . 'download)
   :config
@@ -53,7 +52,7 @@
 
 (leaf eshell-prompt-extras :ensure t
   :defvar eshell-highlight-prompt
-  :leaf-autoload (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)
+  :commands (epe-theme-lambda epe-theme-dakrone epe-theme-pipeline)
   :custom
   (eshell-highlight-prompt . t)
   (eshell-prompt-function . #'epe-theme-lambda))

@@ -5,6 +5,8 @@
 
 ;;; Code:
 
+(defvar org-directory "~/org")
+
 (leaf org
   ;; :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev")
   :blackout org-indent-mode org-cdlatex-mode
@@ -105,6 +107,24 @@
           ;; match any of these groups, with the default order position of 99
           )))
 
+(leaf org-caldav :ensure t
+  :custom
+  (org-caldav-url . "https://radicale.200568.top/zelongk/")
+  (org-caldav-calendar-id . "c435d207-e889-72f5-2dcc-821653766a08")
+  `(org-caldav-inbox . ,(expand-file-name "radicale.org" org-directory))
+  (org-caldav-files . `(,(expand-file-name "todo.org" org-directory)))
+  `(org-caldav-save-directory . user-cache-directory)
+  (org-icalendar-timezone . "Australia/Melbourne")
+  (org-caldav-show-sync-results . nil)
+  (org-caldav-sync-todo . t)
+  (org-icalendar-include-todo . 'all)
+  (org-caldav-todo-percent-states
+   . '((0 "TODO")
+       (0 "IDEA")
+       (0 "TODAY")
+       (0 "WAIT")
+       (100 "DONE"))))
+
 (leaf org
   :defer-config
   (add-to-list 'org-modules 'org-habit)
@@ -196,7 +216,7 @@
 
 (leaf org-appear :ensure t
   :hook org-mode-hook
-  :leaf-autoload org-appear--set-elements
+  :commands org-appear--set-elements
   :defer-config
   (setq org-appear-autoemphasis t
 	    org-appear-autosubmarkers t
@@ -272,7 +292,7 @@
 
 
 (leaf org-download :ensure t
-  :leaf-autoload org-download-clipboard
+  :commands org-download-clipboard
   :hook ((org-mode-hook dired-mode-hook) . org-download-enable)
   :bind (:org-mode-map
          ("C-M-y" . org-download-clipboard))

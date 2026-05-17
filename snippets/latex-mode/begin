@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
-# name: begin.environment
 # key: beg
+# group: math
+# name: begin
 # --
 \begin{$1}
 $0
