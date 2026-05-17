@@ -5,6 +5,10 @@
 
 ;;; Code:
 
+(leaf vc
+  :custom
+  (vc-follow-symlinks . t))
+
 (leaf diff-mode)
 
 (leaf ediff)

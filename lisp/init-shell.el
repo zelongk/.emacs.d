@@ -36,7 +36,8 @@
   :bind (("C-`" . ghostel-toggle))
   :hook (eshell-load-hook . ghostel-eshell-visual-command-mode)
   :custom
-  ;; (ghostel-tramp-default-method . 'tramp-default-method)
+  (ghostel-tramp-default-method . 'tramp-default-method)
+  (ghostel-tramp-shell-integration . t)
   (ghostel-module-auto-install . 'download)
   :config
   (defun ghostel-toggle () (interactive)
