@@ -14,19 +14,40 @@
 (leaf ediff)
 
 (leaf diff-hl :ensure t
+  :blackout
+  diff-hl-mode
+  diff-hl-amend-mode
+  diff-hl-show-hunk-mouse-mode
+  :global-minor-mode
+  global-diff-hl-mode
+  global-diff-hl-amend-mode
+  global-diff-hl-show-hunk-mouse-mode
+  :custom-face
+  (diff-hl-change . '((t (:inherit custom-changed :foreground unspecified :background unspecified))))
+  (diff-hl-insert . '((t (:inherit diff-added :background unspecified))))
+  (diff-hl-delete . '((t (:inherit diff-removed :background unspecified))))
   :custom
   (diff-hl-draw-borders . nil)
   (diff-hl-update-async . 'thread)
   (diff-hl-flydiff-delay . 0.5)
+  (diff-hl-global-modes . '(not olivetti-mode image-mode))
   :hook
-  (vc-responsible-backend . diff-hl-mode)
   (diff-hl-mode-hook . diff-hl-flydiff-mode)
   (magit-post-refresh-hook . diff-hl-magit-post-refresh)
   (dired-mode-hook . diff-hl-dired-mode)
+  (olivetti-mode-hook . (lambda () (diff-hl-mode -1)))
   :config
   ;; (setq-default fringes-outside-margins t)
   (with-eval-after-load 'magit
-    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
+  
+  (defun my/diff-hl-fringe-bmp-function (_type _pos)
+    "Fringe bitmap function for use as `diff-hl-fringe-bmp-function'."
+    (define-fringe-bitmap 'my/diff-hl-bmp
+      (vector (if IS-MAC #b11111100 #b11100000))
+      1 8
+      '(center t)))
+  (setq diff-hl-fringe-bmp-function 'my/diff-hl-fringe-bmp-function))
 
 (leaf magit
   :ensure t

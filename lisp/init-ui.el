@@ -175,6 +175,8 @@
       mouse-wheel-scroll-amount-horizontal 1
       mouse-wheel-progressive-speed nil)
 
+(setq-default fringes-outside-margins t)
+
 (leaf nerd-icons
   :vc (:url "https://github.com/rainstormstudio/nerd-icons.el"))
 
