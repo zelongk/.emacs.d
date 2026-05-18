@@ -207,8 +207,7 @@
 (leaf hl-line
   :hook
   package-menu-mode-hook
-  dired-mode-hook
-  hl-line-mode)
+  dired-mode-hook)
 
 (leaf beacon :ensure t
   :disabled t

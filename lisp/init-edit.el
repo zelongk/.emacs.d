@@ -17,7 +17,7 @@
 
 (leaf elec-pair
   :hook
-  (prog-mode-hook . electric-pair-mode))
+  (prog-mode-hook . electric-pair-local-mode))
 
 (leaf puni :ensure t
   :hook prog-mode-hook
