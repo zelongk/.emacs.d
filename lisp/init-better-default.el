@@ -42,16 +42,6 @@
     (if (fboundp 'native-compile-async)
         (native-compile-async dir t))))
 
-(when (memq window-system '(ns x))
-  (leaf exec-path-from-shell
-    :ensure t
-    :commands exec-path-from-shell-initialize
-    :init
-    (setq exec-path-from-shell-arguments '("-l")
-          exec-path-from-shell-variables '("PATH" "MANPATH" "HOMEBREW_NO_AUTO_UPDATE"
-                                           "HOMEBREW_NO_ENV_HINTS" "LIBGS" "PYTHONPATH"))
-    (exec-path-from-shell-initialize)))
-
 (leaf saveplace
   :require t
   :global-minor-mode save-place-mode

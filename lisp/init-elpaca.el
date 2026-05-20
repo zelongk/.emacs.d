@@ -89,7 +89,9 @@ The expansion is a string indicating the package has been disabled."
              (leaf-keywords-init))
 
 (setq leaf-expand-minimally t
-      leaf-enable-imenu-support t)
+      leaf-enable-imenu-support t
+      leaf-alias-keyword-alist '((:ensure . :elpaca)))
+
 (elpaca-wait)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -101,6 +103,8 @@ The expansion is a string indicating the package has been disabled."
 ;;use the :wait recipe keyword to block until that package is installed/configured.
 ;;For example:
 ;;(leaf general :ensure (:wait t) :leaf-defer nil)
+
+(leaf blackout :ensure t)
 
 (leaf elpaca-ui
   :bind

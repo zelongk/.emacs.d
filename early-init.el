@@ -12,7 +12,7 @@
 (setq read-process-output-max (* 1024 1024))
 
 (setq package-enable-at-startup nil
-      package-quickstart t
+      package-quickstart nil
       load-prefer-newer t)
 
 ;; PERF: Many elisp file API calls consult `file-name-handler-alist'.
@@ -23,12 +23,22 @@
 ;; PERF: Reduce file-name operations on `load-path'.
 ;; No dynamic modules are loaded this early, so we skip .so/.dll search.
 ;; Also skip .gz to avoid decompression checks.
-(setq load-suffixes '(".eln" ".elc" ".el")
+(setq load-suffixes '(".elc" ".el")
       load-file-rep-suffixes '(""))
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 
-(setenv "LIBGS" "/opt/homebrew/lib/libgs.dylib")
+
+(setq exec-path '("/Users/zelongk/Library/Application Support/carapace/bin"
+                  "/Users/zelongk/Library/pnpm" "/opt/homebrew/sbin"
+                  "/opt/homebrew/bin" "/opt/local/sbin" "/opt/local/bin"
+                  "/Applications/MacPorts/Emacs.app/Contents/MacOS/bin"
+                  "/Users/zelongk/.local/bin" "/Users/zelongk/bin" "/usr/local/sbin"
+                  "/usr/local/bin" "/usr/sbin" "/usr/bin" "/bin" "/sbin"
+                  "/opt/local/libexec/emacs/31.0.50/aarch64-apple-darwin24.6.0"))
+
+;; (setenv "LIBGS" "/opt/homebrew/lib/libgs.dylib")
+(setenv "LIBRARY_PATH" "/opt/local/lib/gcc15:/opt/local/lib/libgcc:/opt/local/lib/gcc15/gcc/aarch64-apple-darwin24/15.2.0/")
 
 (prefer-coding-system 'utf-8)
 ;; Inhibit resizing frame
@@ -70,10 +80,9 @@
   (setcar native-comp-eln-load-path
           (expand-file-name "~/.cache/eln-cache/")))
 
-(when (native-comp-available-p)
-  (setq native-comp-jit-compilation nil
-        native-comp-async-jobs-number 10
-        native-comp-async-report-warnings-errors 'silent))
+(setq native-comp-jit-compilation t
+      native-comp-async-jobs-number 10
+      native-comp-async-report-warnings-errors 'silent)
 
 (setq byte-compile-warnings '(not obsolete))
 (setq warning-suppress-log-types '((comp) (bytecomp)))

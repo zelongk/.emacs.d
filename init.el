@@ -21,19 +21,19 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 ;; (load custom-file 'no-error 'no-message)
 
-(eval-and-compile
+(eval-and-compile  
   (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory))
-  
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                            ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
                            ("gnu-elpa" . "https://elpa.gnu.org/packages/")
                            ("nongnu-elpa" . "https://elpa.nongnu.org/nongnu/"))
         package-archive-priorities '(("gnu-elpa" . 3)
-                                     ("nongnu-elpa" . 2)
-                                     ("melpa" . 1))
+                                     ("melpa" . 2)
+                                     ("nongnu-elpa" . 1))
         package-install-upgrade-built-in t
         ;; package-quickstart-file (expand-file-name "quickstart.el" user-cache-directory)
         package-vc-register-as-project nil)
+
 
   (setq package-pinned-packages
         '((leaf . "gnu-elpa-devel")))
@@ -52,18 +52,16 @@
     :config (leaf-keywords-init)))
 (leaf gnu-elpa-keyring-update)
 
-(leaf org
-  :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev"))
+
+;; (require 'init-elpaca)
+;; (require 'init-straight)
+(require 'init-gc)
 
 (leaf benchmark-init :ensure t
   :disabled t
   :require t
   :hook (after-init-hook . benchmark-init/deactivate))
 
-;; (require 'init-elpaca)
-;; (require 'init-straight)
-
-(require 'init-gc)
 (require 'init-better-default)
 (require 'init-bindings)
 
