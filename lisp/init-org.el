@@ -8,7 +8,6 @@
 (defvar org-directory "~/org")
 
 (leaf org
-  ;; :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev")
   :blackout org-indent-mode org-cdlatex-mode
   :hook
   (org-mode-hook . org-cdlatex-mode)
