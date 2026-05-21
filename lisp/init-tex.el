@@ -66,9 +66,9 @@
   ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
   )
 
-(leaf texpresso
-  :require t
+(leaf texpresso :require t
   :after latex
+  :blackout texpresso-mode texpresso-sync-mode
   :vc (:url "https://github.com/let-def/texpresso"
             :lisp-dir "emacs")
   :hook (texpresso-mode-hook . texpresso-sync-mode)
@@ -76,13 +76,12 @@
   (texpresso-follow-cursor . t)
   :bind
   (:LaTeX-mode-map
-   ("C-c C-p" . texpresso)
+   :package auctex
+   ("C-c C-x C-p" . texpresso)
    ("S-s-<mouse-1>" . texpresso-move-to-cursor)))
-
 
 (leaf reftex
   :after latex
-  
   :commands turn-on-reftex
   :hook ((latex-mode-hook LaTeX-mode-hook) . turn-on-reftex)
   :config
@@ -131,8 +130,8 @@ expansion, then cdlatex expansion."
   :vc (:url "https://github.com/karthink/lazytab")
   :after cdlatex
   :bind
-  ;; (:LaTeX-mode-map
-  ;;  ("C-x |" . my/lazytab-orgtbl-edit))
+  (:LaTeX-mode-map
+   ("C-x |" . my/lazytab-orgtbl-edit))
   (:orgtbl-mode-map
    ("<tab>" . lazytab-org-table-next-field-maybe)
    ("TAB" . lazytab-org-table-next-field-maybe))

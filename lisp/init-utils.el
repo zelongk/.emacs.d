@@ -96,6 +96,16 @@
         proced-auto-update-interval 3
         proced-enable-color-flag t))
 
+(leaf olivetti :ensure t
+  :blackout t
+  :hook org-mode-hook
+  :bind (("<f7>" . olivetti-mode))
+  :custom
+  (olivetti-style . 'fancy)
+  (olivetti-margin-width . 5)
+  (olivetti-body-width . 90)
+  (olivetti-minimum-body-width . 40))
+
 (leaf notmuch :ensure t
   :bind
   ("C-c m" . notmuch)

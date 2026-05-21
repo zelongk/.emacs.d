@@ -66,38 +66,40 @@
 
 (require 'init-better-default)
 (require 'init-bindings)
-
-(require 'init-modeline)
-(require 'init-ui)
-(require 'init-edit)
-(require 'init-completion)
 (require 'init-corfu)
+(require 'init-completion)
 
-(require 'init-dired)
-(require 'init-window)
-(require 'init-shell)
-(require 'init-workspace)
+(require 'init-utils)
+(require 'init-edit)
 
 ;; (require 'init-god)
 ;; (require 'init-meow)
 
+(require 'init-ui)
+(require 'init-modeline)
+
+(require 'init-window)
+(require 'init-workspace)
+(require 'init-dired)
+(require 'init-shell)
+(require 'init-vcs)
+
+;; (require 'init-roam)
+(require 'init-denote)
+
+;; INPUT METHOD
 (require 'init-input)
-(require 'init-utils)
 
 (require 'init-coding)
-(require 'init-snippet)
-(require 'init-vcs)
-(require 'init-llm)
 (require 'init-check)
+(require 'init-snippet)
+(require 'init-llm)
 (require 'init-writing)
 
 (require 'init-org)
 (require 'init-markdown)
 
 (require 'init-pretty-latex)
-
-;; (require 'init-roam)
-(require 'init-denote)
 
 (require 'init-eglot)
 ;; (require 'init-lsp)

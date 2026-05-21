@@ -25,9 +25,7 @@
   `(fontaine-latest-state-file . ,(expand-file-name "fontaine-latest.eld" user-cache-directory))
   (fontaine-presets
    . '((small
-        :default-family "Sarasa Term SC"
-        :default-height 180
-        :variable-pitch-family "Bookerly")
+        :default-height 180)
        (regular)
        (medium
         :default-weight semilight
@@ -43,7 +41,7 @@
         :default-weight regular
         :default-height 200
         
-        :variable-pitch-family "Bookerly")))
+        :variable-pitch-family "Source Sans 3")))
   :config
   (fontaine-set-preset 'regular))
 

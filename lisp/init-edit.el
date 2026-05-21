@@ -154,14 +154,5 @@
   :config
   (setq undo-fu-session-directory (expand-file-name "undo-fu-session" user-cache-directory)))
 
-(leaf olivetti :ensure t
-  :hook org-mode-hook
-  :bind (("<f7>" . olivetti-mode))
-  :custom
-  (olivetti-style . 'fancy)
-  (olivetti-margin-width . 5)
-  (olivetti-body-width . 90)
-  (olivetti-minimum-body-width . 40))
-
 (provide 'init-edit)
 ;;; init-edit.el ends here
