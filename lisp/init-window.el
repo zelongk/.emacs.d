@@ -40,9 +40,7 @@
     (when other-buffer
       (set-window-buffer (next-window) other-buffer))))
 
-(leaf ace-window
-  :ensure t
-  :hook (emacs-startup-hook . ace-window-display-mode)
+(leaf ace-window :ensure t
   :bind (([remap other-window] . ace-window)
          ("M-o" . ace-window)
          ("C-c 2" . split-window-vertically-instead)

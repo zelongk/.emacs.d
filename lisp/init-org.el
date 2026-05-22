@@ -64,6 +64,9 @@
   :defer-config
   (setq org-super-agenda-groups
         '(;; Each group has an implicit boolean OR operator between its selectors.
+          (:name "Pin"
+                 ;; Single arguments given alone
+                 :tag ("pin"))
           (:name "Today"  ; Optionally specify section name
                  :time-grid t  ; Items that appear on the time grid
                  :todo "TODAY")  ; Items that have this TODO keyword

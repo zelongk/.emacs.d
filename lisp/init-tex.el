@@ -81,7 +81,6 @@
    ("S-s-<mouse-1>" . texpresso-move-to-cursor)))
 
 (leaf reftex
-  :after latex
   :commands turn-on-reftex
   :hook ((latex-mode-hook LaTeX-mode-hook) . turn-on-reftex)
   :config
@@ -95,9 +94,7 @@
   (setq reftex-ref-style-default-list '("Default" "AMSmath" "Cleveref"))
   (setq reftex-use-multiple-selection-buffers t))
 
-(leaf cdlatex
-  :ensure t
-  :after latex
+(leaf cdlatex :ensure t
   :hook ((LaTeX-mode-hook . turn-on-cdlatex)
          (LaTeX-mode . cdlatex-electricindex-mode))
   ;; :bind (:cdlatex-mode-map
@@ -125,10 +122,9 @@ expansion, then cdlatex expansion."
   (add-hook 'cdlatex-tab-hook 'tjh/cdlatex-yas-expand)
   (cdlatex-reset-mode))
 
-(leaf lazytab
-  :require t
+(leaf lazytab :require t
   :vc (:url "https://github.com/karthink/lazytab")
-  :after cdlatex
+  :after latex
   :bind
   (:LaTeX-mode-map
    ("C-x |" . my/lazytab-orgtbl-edit))
@@ -180,7 +176,7 @@ expansion, then cdlatex expansion."
 
 ;; Edit quiver generated tikzcd using the link given.
 (defun replace-quiver-diagram ()
-  "Extracts the quiver URL from the diagram under cursor and runs it in browser. Selects the diagram."
+  "Extracts the quiver URL from the diagram under cursor and runs it in browser.  Selects the diagram."
   (interactive)
   (let ((start 0)
 	    (end 0)

@@ -65,12 +65,11 @@
   :hook (after-init-hook . benchmark-init/deactivate))
 
 (require 'init-better-default)
-(require 'init-bindings)
 (require 'init-corfu)
 (require 'init-completion)
 
-(require 'init-utils)
 (require 'init-edit)
+(require 'init-utils)
 
 ;; (require 'init-god)
 ;; (require 'init-meow)

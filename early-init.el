@@ -45,9 +45,6 @@
   (setenv "PATH" (string-join my-path path-separator))
   (setq exec-path my-path))
 
-;; (setenv "LIBGS" "/opt/homebrew/lib/libgs.dylib")
-(setenv "LIBRARY_PATH" "/opt/local/lib/gcc15:/opt/local/lib/libgcc:/opt/local/lib/gcc15/gcc/aarch64-apple-darwin24/15.2.0/")
-
 (prefer-coding-system 'utf-8)
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize t)
