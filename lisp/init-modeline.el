@@ -36,7 +36,7 @@
 ;; 3. Helper to reliably get just the branch name
 (defun my-modeline-vc-branch-name (file backend)
   "Return the VC branch name or short hash for FILE with BACKEND."
-  (when-let ((rev (vc-working-revision file backend)))
+  (when-let* ((rev (vc-working-revision file backend)))
     (if (eq backend 'Git)
         ;; For Git, try to get the actual branch name, fallback to short hash
         (or (vc-git--symbolic-ref file)

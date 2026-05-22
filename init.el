@@ -21,7 +21,7 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 ;; (load custom-file 'no-error 'no-message)
 
-(eval-and-compile  
+(eval-and-compile
   (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory))
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                            ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
