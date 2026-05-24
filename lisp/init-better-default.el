@@ -49,14 +49,15 @@
   (setq save-place-file (expand-file-name "places" user-cache-directory)))
 
 (leaf display-line-numbers
-  :hook (text-mode-hook . display-line-numbers-mode)
-  :hook (prog-mode-hook . display-line-numbers-mode)
+  :hook
+  prog-mode-hook
   :config
   (dolist (mode '(erc-mode-hook
                   circe-mode-hook
                   help-mode-hook
                   gud-mode-hook
 		          treemacs-mode-hook
+                  ghostel-mode-hook
                   org-mode-hook
                   vterm-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode -1))))

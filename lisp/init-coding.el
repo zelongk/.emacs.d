@@ -25,7 +25,7 @@
 
 (leaf apheleia :ensure t
   :blackout t
-  :hook prog-mode-hook)
+  :hook prog-mode-hook LaTeX-mode-hook)
 
 (leaf editorconfig :ensure t)
 
@@ -35,8 +35,6 @@
   (treesit-auto-install . t)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all))
-
-(add-hook 'prog-mode-hook #'toggle-truncate-lines)
 
 (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode))
 

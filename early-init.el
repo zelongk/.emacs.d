@@ -26,8 +26,6 @@
 (setq load-suffixes '(".elc" ".el")
       load-file-rep-suffixes '(""))
 
-(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
-
 (let ((my-path
        '("/Users/zelongk/Library/Application Support/carapace/bin"
          "/opt/local/sbin"
@@ -44,6 +42,9 @@
          "/opt/local/libexec/emacs/31.0.50/aarch64-apple-darwin24.6.0")))
   (setenv "PATH" (string-join my-path path-separator))
   (setq exec-path my-path))
+(setenv "PKG_CONFIG_PATH" "/opt/local/lib/pkgconfig/")
+
+(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 
 (prefer-coding-system 'utf-8)
 ;; Inhibit resizing frame

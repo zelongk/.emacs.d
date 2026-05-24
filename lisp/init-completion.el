@@ -106,6 +106,7 @@
   ([remap describe-bindings] . embark-bindings)
   (:embark-file-map
    ("S"        . sudo-find-file)
+   ("R"        . rename-file)
    ("2"        . (my/embark-split-action find-file split-window-below))
    ("3"        . (my/embark-split-action find-file split-window-right))
    ("4"        . find-file-other-window)

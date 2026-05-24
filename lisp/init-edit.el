@@ -29,7 +29,7 @@
   (load user-init-file))
 
 (define-key input-decode-map (kbd "C-i") (kbd "H-i"))
-(leaf emacs
+(leaf emacs :ensure nil
   :bind
   ("H-i" . join-line)
   ("s-r"     . revert-buffer-quick)
@@ -45,14 +45,16 @@
   ("s-s" . save-buffer)
   ("s-x" . execute-extended-command)
   ("s-z" . undo)
-  ("M-p" . duplicate-dwin)
+  ("M-p" . duplicate-dwim)
   ("C-c y" . copy-from-above-command)
   ("s-k" . kill-current-buffer)
   ("C-x k" . kill-current-buffer)
   (:prog-mode-map
    ("C-c k" . compile))
   :custom
-  (duplicate-line-final-position . 1))
+  (duplicate-line-final-position . 1)
+  :setq-default
+  (truncate-lines . t))
 
 (leaf delsel
   :global-minor-mode delete-selection-mode)

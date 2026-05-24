@@ -29,7 +29,16 @@
         eglot-send-changes-idle-time 0.5
         eglot-code-action-indications '(eldoc-hint))
 
-  (add-to-list 'eglot-server-programs '((typst-ts-mode) "tinymist")))
+  (dolist (mode '(((typst-ts-mode) "tinymist")
+                  ((LaTeX-mode) "texlab")))
+    (add-to-list 'eglot-server-programs mode)))
+
+(leaf eldoc-box :ensure t
+  :commands eldoc-box-mouse-mode
+  :blackout eldoc-box-mouse-mode
+  :hook
+  ((eglot-managed-mode-hook prog-mode-hook)
+   . eldoc-box-hover-mouse-mode))
 
 (leaf consult-eglot :ensure t
   :after eglot consult

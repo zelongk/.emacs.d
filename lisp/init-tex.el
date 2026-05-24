@@ -5,23 +5,10 @@
 
 ;;; Code:
 
-(leaf latex
-  :ensure auctex
-  :defvar (TeX-auto-save
-           TeX-parse-self
-           TeX-electric-escape
-           TeX-PDF-mode
-           TeX-DVI-via-PDFTeX
-           TeX-clean-confirm
-           TeX-source-correlate-mode
-           TeX-source-correlate-method
-           TeX-display-help
-           TeX-show-compilation
-           TeX-command-extra-options
-           TeX-view-program-selection)
+(leaf latex :ensure auctex
   :mode (("\\.tex\\'" . LaTeX-mode))
-  :hook ((LaTeX-mode-hook . prettify-symbols-mode)
-         (LaTeX-mode . visual-line-mode))
+  :hook
+  (LaTeX-mode-hook . prettify-symbols-mode)
   :bind
   (:LaTeX-mode-map
    ("C-S-e" . latex-math-from-calc)
@@ -39,11 +26,19 @@
   (TeX-show-compilation . nil)
   (TeX-command-extra-options . "-shell-escape")
   (TeX-view-program-selection . '((output-pdf "displayline")))
+  ;; :setq-default
+  ;; (LaTeX-indent-environment-list . nil)
+  ;; (LaTeX-indent-environment-check . nil)
+  ;; (LaTeX-indent-level . 0)
+  ;; (LaTeX-item-indent . 0)
+  ;; (tex-indent-item . 0)
+  ;; (tex-indent-basic . 0)
+  ;; (LaTeX-indent-environment-list . '())
+  ;; (LaTeX-left-right-indent-level . 0)
+  ;; (TeX-brace-indent-level . 0)
   :config
   (add-hook 'LaTeX-mode-hook '(lambda ()
                                 (setq TeX-command-default "LaTeXMk")))
-
-  (setq-default LaTeX-indent-environment-list nil)
 
   (defun latex-math-from-calc ()
     "Evaluate `calc' on the contents of line at point."
