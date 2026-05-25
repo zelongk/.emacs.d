@@ -18,8 +18,7 @@
                       (delete-dups (append file-name-handler-alist default-handlers))))
               101)))
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-;; (load custom-file 'no-error 'no-message)
+(setq custom-file (make-temp-file "emacs-custom-"))
 
 (eval-and-compile
   (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory))
@@ -34,23 +33,44 @@
         ;; package-quickstart-file (expand-file-name "quickstart.el" user-cache-directory)
         package-vc-register-as-project nil)
 
+  (setq package-review-policy
+        (delq nil
+              (append
+               (mapcar
+                (lambda (archive)
+                  (let ((archive-name (car archive)))
+                    (unless (string= archive-name "gnu-elpa-devel")
+                      (cons 'archive archive-name))))
+                package-archives))))
+
+  (setq package-review-diff-command
+        (cons diff-command
+              '("-u"
+                "-x" "'*.elc'"
+                "-x" "'*-autoloads.el'"
+                "-x" "'*-pkg.el'"
+                "-x" "'*.info'"
+                "-x" "'*.texi'"
+                "-x" "'*.txt'"
+                "-x" "'*.md'"
+                "-x" "'*.org'")))
 
   (setq package-pinned-packages
         '((leaf . "gnu-elpa-devel")))
   
-  (package-initialize)
+  ;; (package-initialize)
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
 
   (setq leaf-enable-imenu-support t)
-
+  (leaf gnu-elpa-keyring-update)
+  
   (leaf leaf-keywords :ensure t
     :init
     ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
     (leaf blackout :ensure t)
     :config (leaf-keywords-init)))
-(leaf gnu-elpa-keyring-update)
 
 (leaf org
   :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev"))
@@ -64,7 +84,10 @@
   :require t
   :hook (after-init-hook . benchmark-init/deactivate))
 
+(require 'init-ui)
 (require 'init-better-default)
+(require 'init-modeline)
+
 (require 'init-corfu)
 (require 'init-completion)
 
@@ -73,9 +96,6 @@
 
 ;; (require 'init-god)
 ;; (require 'init-meow)
-
-(require 'init-ui)
-(require 'init-modeline)
 
 (require 'init-window)
 (require 'init-workspace)
@@ -113,5 +133,9 @@
 (require 'init-zig)
 (require 'init-typst)
 
+(require 'init-icons)
+
 (provide 'init)
 ;;; init.el ends here
+
+

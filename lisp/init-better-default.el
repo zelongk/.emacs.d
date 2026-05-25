@@ -111,7 +111,8 @@
 
   (if IS-MAC
       (setq mac-command-modifier 'super
-            mac-option-modifier 'meta))
+            mac-option-modifier 'meta
+            mac-pass-control-to-system nil))
   
   (add-to-list 'default-frame-alist '(drag-internal-border . 1))
   (add-to-list 'default-frame-alist '(internal-border-width . 5))

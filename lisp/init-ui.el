@@ -136,16 +136,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(leaf centaur-tabs :ensure t
-  :disabled t
-  :config
-  (centaur-tabs-mode t)
-  (setq centaur-tabs-set-icons t
-        centaur-tabs-icon-type 'nerd-icons
-        centaur-tabs-set-close-button nil
-        centaur-tabs-show-new-tab-button nil
-        centaur-tabs-set-modified-marker t))
-
 (leaf spacious-padding :ensure t
   :global-minor-mode spacious-padding-mode
   :config
@@ -174,9 +164,6 @@
       mouse-wheel-progressive-speed nil)
 
 (setq-default fringes-outside-margins t)
-
-(leaf nerd-icons
-  :vc (:url "https://github.com/rainstormstudio/nerd-icons.el"))
 
 (with-no-warnings
   (when (featurep 'ns)

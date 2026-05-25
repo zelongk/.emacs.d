@@ -164,5 +164,8 @@
   :bind
   ("M-s m" . consult-notmuch))
 
+(leaf chezmoi :ensure t
+  :require t)
+
 (provide 'init-utils)
 ;;; init-utils.el ends here

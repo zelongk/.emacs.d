@@ -11,7 +11,7 @@
 
 (setq read-process-output-max (* 1024 1024))
 
-(setq package-enable-at-startup nil
+(setq package-enable-at-startup t
       package-quickstart nil
       load-prefer-newer t)
 
@@ -25,24 +25,6 @@
 ;; Also skip .gz to avoid decompression checks.
 (setq load-suffixes '(".elc" ".el")
       load-file-rep-suffixes '(""))
-
-(let ((my-path
-       '("/Users/zelongk/Library/Application Support/carapace/bin"
-         "/opt/local/sbin"
-         "/opt/local/bin"
-         "/Applications/MacPorts/Emacs.app/Contents/MacOS/bin"
-         "/Users/zelongk/.local/bin"
-         "/Users/zelongk/bin"
-         "/usr/local/sbin"
-         "/usr/local/bin"
-         "/usr/sbin"
-         "/usr/bin"
-         "/bin"
-         "/sbin"
-         "/opt/local/libexec/emacs/31.0.50/aarch64-apple-darwin24.6.0")))
-  (setenv "PATH" (string-join my-path path-separator))
-  (setq exec-path my-path))
-(setenv "PKG_CONFIG_PATH" "/opt/local/lib/pkgconfig/")
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 
@@ -62,8 +44,7 @@
       inhibit-startup-message t
       inhibit-startup-echo-area-message user-login-name
       inhibit-default-init t
-      initial-major-mode 'fundamental-mode
-      initial-scratch-message nil)
+      initial-major-mode 'lisp-interaction-mode)
 (advice-add #'display-startup-screen :override #'ignore)
 (fset #'display-startup-echo-area-message #'ignore)
 

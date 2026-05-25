@@ -26,9 +26,5 @@
   (leaf dired-filter :ensure t
     :blackout t))
 
-(leaf nerd-icons-dired :ensure t
-  :blackout t
-  :hook (dired-mode-hook . nerd-icons-dired-mode))
-
 (provide 'init-dired)
 ;;; init-dired.el ends here

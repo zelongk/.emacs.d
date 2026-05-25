@@ -72,10 +72,7 @@
 
 ;; Enrich existing commands with completion annotations
 (leaf marginalia :ensure t
-  :global-minor-mode marginalia-mode
-  :config
-  (leaf nerd-icons-completion :ensure t
-    :init (nerd-icons-completion-marginalia-setup)))
+  :global-minor-mode marginalia-mode)
 
 
 (defmacro my/embark-ace-action ()

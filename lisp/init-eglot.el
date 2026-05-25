@@ -34,11 +34,15 @@
     (add-to-list 'eglot-server-programs mode)))
 
 (leaf eldoc-box :ensure t
-  :commands eldoc-box-mouse-mode
-  :blackout eldoc-box-mouse-mode
+  :blackout eldoc-box-hover-mode
   :hook
   ((eglot-managed-mode-hook prog-mode-hook)
-   . eldoc-box-hover-mouse-mode))
+   . eldoc-box-hover-mode))
+
+;; (leaf eldoc-mouse :ensure t
+;;   :hook
+;;   eglot-managed-mode-hook
+;;   prog-mode-hook)
 
 (leaf consult-eglot :ensure t
   :after eglot consult

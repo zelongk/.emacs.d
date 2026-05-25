@@ -40,11 +40,6 @@
   (advice-add #'persistent-scratch-save :before #'corfu-quit)
   (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer))
 
-(leaf nerd-icons-corfu :ensure t
-  :after corfu
-  :init
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-
 ;; A few more useful configurations...
 (leaf emacs
   :custom
