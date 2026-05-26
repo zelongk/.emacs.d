@@ -1,17 +1,10 @@
-;; early-init --- Setup before init.el -*- lexical-binding: t; -*-
-
-;;; Commentary:
-;;  Blablabla
-
-;;; Code:
-
-
+;; -*- lexical-binding: t; -*-
 (setq-default gc-cons-threshold most-positive-fixnum
               gc-cons-percentage 1.0)
 
 (setq read-process-output-max (* 1024 1024))
 
-(setq package-enable-at-startup t
+(setq package-enable-at-startup nil
       package-quickstart nil
       load-prefer-newer t)
 
@@ -73,7 +66,4 @@
       native-comp-enable-subr-trampolines nil)
 
 (setq byte-compile-warnings '(not obsolete))
-(setq warning-suppress-log-types '((comp) (bytecomp)))
-
-(provide 'early-init)
-;;; early-init.el ends here
+(add-to-list 'warning-suppress-types '(bytecomp))
