@@ -90,8 +90,7 @@
               101)))
 #+end_src
 
-** Core setup
-*** Helpers
+* Core setup
 #+begin_src emacs-lisp
   (defconst IS-MAC     (eq system-type 'darwin))
   (defconst IS-LINUX   (eq system-type 'gnu/linux))
@@ -126,49 +125,49 @@
       (if (fboundp 'native-compile-async)
           (native-compile-async dir t))))
 #+end_src
-*** Package manager
-**** Straight.el
+** Package manager
+*** Straight.el
 #+begin_src emacs-lisp
+    (eval-and-compile
+    (setq custom-file (make-temp-file "emacs-custom-"))
+    (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory)))
+
   (eval-and-compile
-  (setq custom-file (make-temp-file "emacs-custom-"))
-  (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory)))
-
-(eval-and-compile
-  (with-no-warnings
     (with-no-warnings
-      (setq straight-vc-git-default-clone-depth     1
-	        straight-repository-branch              "develop"
-	        straight-enable-use-package-integration nil
-	        straight-check-for-modifications        nil)))
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name
-          "straight/repos/straight.el/bootstrap.el"
-          (or (bound-and-true-p straight-base-dir)
-              user-emacs-directory)))
-        (bootstrap-version 7))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
+      (with-no-warnings
+        (setq straight-vc-git-default-clone-depth     1
+  	    straight-repository-branch              "develop"
+  	    straight-enable-use-package-integration nil
+  	    straight-check-for-modifications        nil
+  	    straight-disable-native-compile         t)))
+    (defvar bootstrap-version)
+    (let ((bootstrap-file
+           (expand-file-name
+            "straight/repos/straight.el/bootstrap.el"
+            (or (bound-and-true-p straight-base-dir)
+                user-emacs-directory)))
+          (bootstrap-version 7))
+      (unless (file-exists-p bootstrap-file)
+        (with-current-buffer
+            (url-retrieve-synchronously
+             "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+             'silent 'inhibit-cookies)
+          (goto-char (point-max))
+          (eval-print-last-sexp)))
+      (load bootstrap-file nil 'nomessage))
 
-  (straight-use-package 'leaf)
-  (straight-use-package 'leaf-keywords)
-  (require 'leaf)
-  (require 'leaf-keywords)
-  (leaf-keywords-init)
-  (setq leaf-expand-minimally t
-        leaf-enable-imenu-support t
-        leaf-alias-keyword-alist '((:ensure . :straight)))
+    (straight-use-package 'leaf)
+    (straight-use-package 'leaf-keywords)
+    (require 'leaf)
+    (require 'leaf-keywords)
+    (leaf-keywords-init)
+    (setq leaf-expand-minimally t
+          leaf-enable-imenu-support t
+          leaf-alias-keyword-alist '((:ensure . :straight)))
 
-  (leaf blackout :ensure t))
+    (leaf blackout :ensure t))
 #+end_src
 ** GCMH - garbage collection
-
 #+begin_src emacs-lisp
   (leaf gcmh :ensure t
     :blackout t
@@ -190,7 +189,6 @@
           gcmh-verbose nil
           gc-cons-percentage 0.2))
 #+end_src
-
 ** Benchmark
 #+begin_src emacs-lisp
   (leaf benchmark-init :ensure t
@@ -1277,9 +1275,10 @@ Most of it was from prot's config
 
   ;; Remember undo history
   (leaf undo-fu-session :ensure t
-    :global-minor-mode undo-fu-session-global-mode
-    :config
-    (setq undo-fu-session-directory (expand-file-name "undo-fu-session" user-cache-directory)))
+    :hook
+    (emacs-startup-hook . undo-fu-session-global-mode)
+    :custom
+    `(undo-fu-session-directory . ,(expand-file-name "undo-fu-session" user-cache-directory)))
 #+end_src
 ** Make-life-easier utils
 #+begin_src emacs-lisp
@@ -2436,11 +2435,10 @@ Pop window
   (leaf org
     :straight `(org
                 :fork (:host nil
-                       :repo "https://git.tecosaur.net/tec/org-mode.git"
-                       :branch "dev"
-                       :remote "tecosaur")
+                       :repo "https://code.200568.top/zelongk/org-mode.git"
+                       :branch "dev")
                 :files (:defaults "etc")
-                :build t
+                :build (:not native-compile)
                 :pre-build
                 (with-temp-file "org-version.el"
                  (require 'lisp-mnt)
@@ -2970,7 +2968,7 @@ LaTeX live preview (incremental)
     :after latex
     :blackout texpresso-mode texpresso-sync-mode
     :ensure (texpresso :host github :repo "let-def/texpresso"
-                       :lisp-dir "emacs")
+                       :files ("emacs/*.el"))
     :hook (texpresso-mode-hook . texpresso-sync-mode)
     :custom
     (texpresso-follow-cursor . t)
@@ -3251,16 +3249,13 @@ LaTeX live preview (incremental)
     :hook (dired-mode-hook . nerd-icons-dired-mode))
 
   (leaf nerd-icons-completion :ensure t
-    :after marginalia
-    :init (nerd-icons-completion-marginalia-setup))
+    :config (nerd-icons-completion-marginalia-setup))
 
   (leaf nerd-icons-ibuffer
     :ensure t
     :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
 
   (leaf nerd-icons-corfu :ensure t
-    :after corfu
-    :init
+    :config
     (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 #+end_src
-

@@ -51,9 +51,10 @@
   (with-no-warnings
     (with-no-warnings
       (setq straight-vc-git-default-clone-depth     1
-	        straight-repository-branch              "develop"
-	        straight-enable-use-package-integration nil
-	        straight-check-for-modifications        nil)))
+	    straight-repository-branch              "develop"
+	    straight-enable-use-package-integration nil
+	    straight-check-for-modifications        nil
+	    straight-disable-native-compile         t)))
   (defvar bootstrap-version)
   (let ((bootstrap-file
          (expand-file-name
@@ -1109,9 +1110,10 @@ Specific to the current window's mode line.")
 
 ;; Remember undo history
 (leaf undo-fu-session :ensure t
-  :global-minor-mode undo-fu-session-global-mode
-  :config
-  (setq undo-fu-session-directory (expand-file-name "undo-fu-session" user-cache-directory)))
+  :hook
+  (emacs-startup-hook . undo-fu-session-global-mode)
+  :custom
+  `(undo-fu-session-directory . ,(expand-file-name "undo-fu-session" user-cache-directory)))
 
 (leaf mwim :ensure t
   :bind
@@ -2164,11 +2166,10 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (leaf org
   :straight `(org
               :fork (:host nil
-                     :repo "https://git.tecosaur.net/tec/org-mode.git"
-                     :branch "dev"
-                     :remote "tecosaur")
+                     :repo "https://code.200568.top/zelongk/org-mode.git"
+                     :branch "dev")
               :files (:defaults "etc")
-              :build t
+              :build (:not native-compile)
               :pre-build
               (with-temp-file "org-version.el"
                (require 'lisp-mnt)
@@ -2655,7 +2656,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
   :after latex
   :blackout texpresso-mode texpresso-sync-mode
   :ensure (texpresso :host github :repo "let-def/texpresso"
-                     :lisp-dir "emacs")
+                     :files ("emacs/*.el"))
   :hook (texpresso-mode-hook . texpresso-sync-mode)
   :custom
   (texpresso-follow-cursor . t)
@@ -2904,14 +2905,12 @@ expansion, then cdlatex expansion."
   :hook (dired-mode-hook . nerd-icons-dired-mode))
 
 (leaf nerd-icons-completion :ensure t
-  :after marginalia
-  :init (nerd-icons-completion-marginalia-setup))
+  :config (nerd-icons-completion-marginalia-setup))
 
 (leaf nerd-icons-ibuffer
   :ensure t
   :hook (ibuffer-mode-hook . nerd-icons-ibuffer-mode))
 
 (leaf nerd-icons-corfu :ensure t
-  :after corfu
-  :init
+  :config
   (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
