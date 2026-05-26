@@ -24,8 +24,6 @@
   (setq load-suffixes '(".elc" ".el")
         load-file-rep-suffixes '(""))
 
-  (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
-
   (prefer-coding-system 'utf-8)
   ;; Inhibit resizing frame
   (setq frame-inhibit-implied-resize t)
@@ -75,7 +73,6 @@
 #+end_src
 
 ** Restore file-name-handler-alist after startup
-
 #+begin_src emacs-lisp
   ;; -*- lexical-binding: t; -*-
   (unless (or (daemonp) noninteractive init-file-debug)
@@ -228,6 +225,9 @@
         ;; mouse
         mouse-wheel-scroll-amount-horizontal 1
         mouse-wheel-progressive-speed nil)
+
+  (add-to-list 'default-frame-alist '(width . 110))
+  (add-to-list 'default-frame-alist '(height . 30))
 
   (setq-default fringes-outside-margins t)
 
@@ -620,15 +620,13 @@ Most of it was from prot's config
 #+end_src
 *** Hide modeline
 #+begin_src emacs-lisp
-  ;; (leaf hide-mode-line :ensure t
-  ;;   :commands turn-off-hide-mode-line-mode
-  ;;   :hook
-  ;;   (eat-mode-hook ghostel-mode-hook magit-mode-hook
-  ;;                  eshell-mode-hook shell-mode-hook
-  ;;                  term-mode-hook vterm-mode-hook
-  ;;                  embark-collect-mode-hook lsp-ui-imenu-mode-hook
-  ;;                  pdf-annot-list-mode-hook)
-  ;;   . turn-on-hide-mode-line-mode)
+  (leaf hide-mode-line :ensure t
+    :commands turn-off-hide-mode-line-mode
+    :hook ((eat-mode-hook ghostel-mode-hook magit-mode-hook
+                          eshell-mode-hook shell-mode-hook
+                          term-mode-hook vterm-mode-hook
+                          embark-collect-mode-hook lsp-ui-imenu-mode-hook
+                          pdf-annot-list-mode-hook) . turn-on-hide-mode-line-mode))
 #+end_src
 ** Spacious padding
 #+begin_src emacs-lisp
@@ -1154,7 +1152,6 @@ Most of it was from prot's config
     (advice-add 'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
     (advice-add 'lsp-completion-at-point :around #'cape-wrap-nonexclusive)
     (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
-
 #+end_src
 * Edit
 ** Truncate line
@@ -2314,7 +2311,7 @@ Pop window
     :hook prog-mode-hook LaTeX-mode-hook)
   (leaf editorconfig :ensure t)
 #+end_src
-*** Treesit
+** Treesit
 #+begin_src emacs-lisp
   (leaf treesit-auto :ensure t
     :global-minor-mode global-treesit-auto-mode
@@ -2504,7 +2501,7 @@ Pop window
   (leaf org
     :defer-config
     (setq org-modules '(org-habit)
-          org-agenda-files "~/org")
+          org-agenda-files '("~/org/todo.org"))
     (setq org-agenda-prefix-format
           '((agenda . " %i %-12:c%?-12t% s")
             (todo . " %i")
@@ -2651,7 +2648,7 @@ Pop window
       (setq org-modern-block-name t
             org-modern-block-fringe nil
             org-modern-table nil
-            org-modern-hide-stars nil
+            org-modern-hide-stars t
   	      org-modern-todo-faces
             '(("TODO" :inverse-video t :inherit org-todo)
               ("PROJ" :inverse-video t :inherit +org-todo-project)

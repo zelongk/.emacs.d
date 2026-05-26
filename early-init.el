@@ -19,8 +19,6 @@
 (setq load-suffixes '(".elc" ".el")
       load-file-rep-suffixes '(""))
 
-(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
-
 (prefer-coding-system 'utf-8)
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize t)

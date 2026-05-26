@@ -136,6 +136,9 @@ Cancel the previous one if present."
       mouse-wheel-scroll-amount-horizontal 1
       mouse-wheel-progressive-speed nil)
 
+(add-to-list 'default-frame-alist '(width . 110))
+(add-to-list 'default-frame-alist '(height . 30))
+
 (setq-default fringes-outside-margins t)
 
 (with-no-warnings
@@ -495,15 +498,13 @@ Specific to the current window's mode line.")
                 my-modeline-vc-branch
                 mode-line-end-spaces))
 
-;; (leaf hide-mode-line :ensure t
-;;   :commands turn-off-hide-mode-line-mode
-;;   :hook
-;;   (eat-mode-hook ghostel-mode-hook magit-mode-hook
-;;                  eshell-mode-hook shell-mode-hook
-;;                  term-mode-hook vterm-mode-hook
-;;                  embark-collect-mode-hook lsp-ui-imenu-mode-hook
-;;                  pdf-annot-list-mode-hook)
-;;   . turn-on-hide-mode-line-mode)
+(leaf hide-mode-line :ensure t
+  :commands turn-off-hide-mode-line-mode
+  :hook ((eat-mode-hook ghostel-mode-hook magit-mode-hook
+                        eshell-mode-hook shell-mode-hook
+                        term-mode-hook vterm-mode-hook
+                        embark-collect-mode-hook lsp-ui-imenu-mode-hook
+                        pdf-annot-list-mode-hook) . turn-on-hide-mode-line-mode))
 
 (leaf spacious-padding :ensure t
   :global-minor-mode spacious-padding-mode
@@ -2231,7 +2232,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (leaf org
   :defer-config
   (setq org-modules '(org-habit)
-        org-agenda-files "~/org")
+        org-agenda-files '("~/org/todo.org"))
   (setq org-agenda-prefix-format
         '((agenda . " %i %-12:c%?-12t% s")
           (todo . " %i")
@@ -2368,7 +2369,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
     (setq org-modern-block-name t
           org-modern-block-fringe nil
           org-modern-table nil
-          org-modern-hide-stars nil
+          org-modern-hide-stars t
 	      org-modern-todo-faces
           '(("TODO" :inverse-video t :inherit org-todo)
             ("PROJ" :inverse-video t :inherit +org-todo-project)
