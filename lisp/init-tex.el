@@ -64,8 +64,8 @@
 (leaf texpresso :require t
   :after latex
   :blackout texpresso-mode texpresso-sync-mode
-  :vc (:url "https://github.com/let-def/texpresso"
-            :lisp-dir "emacs")
+  :vc (texpresso :url "https://github.com/let-def/texpresso"
+                 :lisp-dir "emacs")
   :hook (texpresso-mode-hook . texpresso-sync-mode)
   :custom
   (texpresso-follow-cursor . t)
@@ -118,7 +118,7 @@ expansion, then cdlatex expansion."
   (cdlatex-reset-mode))
 
 (leaf lazytab :require t
-  :vc (:url "https://github.com/karthink/lazytab")
+  :vc (lazytab :url "https://github.com/karthink/lazytab")
   :after latex
   :bind
   (:LaTeX-mode-map

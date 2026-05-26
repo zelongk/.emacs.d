@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(leaf typst-ts-mode
-  :vc (:url "https://codeberg.org/meow_king/typst-ts-mode")
+(leaf typst-ts-mode :ensure t
   :bind
   (:typst-ts-mode-map
    ("C-c C-c" . typst-ts-tmenu))
@@ -14,8 +13,7 @@
   (setq typst-ts-mode-enable-raw-blocks-highlight t
         typst-ts-preview-function 'find-file-other-window))
 
-(leaf typst-preview
-  :vc (:url "https://github.com/havarddj/typst-preview.el")
+(leaf typst-preview :ensure t
   :bind
   (:typst-ts-mode-map
    ("C-c C-j" . typst-preview-send-position)

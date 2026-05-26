@@ -63,7 +63,7 @@
   :bind ("M-g y" . consult-yasnippet))
 
 (leaf doom-snippets
-  :vc (:url "https://github.com/doomemacs/snippets")
+  :vc (doom-snippets :url "https://github.com/doomemacs/snippets")
   :config
   ;; Disable snippets for certain modes
   (defun my/yas-write-skip-file (dir)

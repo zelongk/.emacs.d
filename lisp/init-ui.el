@@ -16,7 +16,7 @@
 
 ;;; FONTS
 (leaf show-font
-  :vc (:url "https://github.com/protesilaos/show-font"))
+  :vc (show-font :url "https://github.com/protesilaos/show-font"))
 
 (leaf fontaine :ensure t
   :when (display-graphic-p)

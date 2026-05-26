@@ -6,7 +6,7 @@
 ;;; Code:
 
 (leaf nerd-icons
-  :vc (:url "https://github.com/rainstormstudio/nerd-icons.el"))
+  :vc (nerd-icons :url "https://github.com/rainstormstudio/nerd-icons.el"))
 
 (leaf nerd-icons-dired :ensure t
   :blackout t

@@ -73,7 +73,7 @@
     :config (leaf-keywords-init)))
 
 (leaf org
-  :vc (org-mode :url "https://code.200568.top/mirrors/org-mode/" :branch "dev"))
+  :vc (org :url "https://code.200568.top/mirrors/org-mode/" :branch "dev"))
 
 ;; (require 'init-elpaca)
 ;; (require 'init-straight)

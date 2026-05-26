@@ -211,7 +211,7 @@
         '(("" . ""))))
 
 (leaf org-modern-indent
-  :vc (:url "https://github.com/jdtsmith/org-modern-indent")
+  :vc (org-modern-indent :url "https://github.com/jdtsmith/org-modern-indent")
   :require t
   :after org-modern org
   :hook org-indent-mode-hook)
@@ -310,6 +310,9 @@
 (leaf valign :ensure t
   :blackout t
   :hook org-mode-hook)
+
+(leaf org-auto-tangle :ensure t
+  :hook org-src-mode-hook)
 
 ;;; Miscs
 ;; Org latex preview center

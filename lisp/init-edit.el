@@ -87,7 +87,7 @@
 
 (leaf combobulate
   :disabled t
-  :vc (:url "https://github.com/mickeynp/combobulate")
+  :vc (combobulate :url "https://github.com/mickeynp/combobulate")
   :config
   ;; You can customize Combobulate's key prefix here.
   ;; Note that you may have to restart Emacs for this to take effect!
@@ -110,7 +110,8 @@
 (define-prefix-command 'macrursors-mark-map)
 (leaf macrursors
   :blackout t
-  :vc (:url "https://github.com/karthink/macrursors" :branch "expand-region")
+  :vc (macrursors :url "https://github.com/karthink/macrursors"
+                  :branch "expand-region")
   :global-minor-mode macrursors-mode
   :bind-keymap ("C-;" . macrursors-mark-map)
   :bind

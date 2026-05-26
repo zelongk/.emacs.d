@@ -23,6 +23,8 @@
   :custom
   (eldoc-documentation-strategy . 'eldoc-documentation-compose-eagerly))
 
+(leaf citre :ensure t)
+
 (leaf apheleia :ensure t
   :blackout t
   :hook prog-mode-hook LaTeX-mode-hook)

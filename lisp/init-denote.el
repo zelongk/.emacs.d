@@ -45,10 +45,12 @@
    ("C-c n J" . denote-journal-new-entry)))
 (leaf denote-sequence :ensure t)
 (leaf denote-merge
-  :vc (:url "https://github.com/protesilaos/denote-merge")
+  :disabled t
+  :vc (denote-merge :url "https://github.com/protesilaos/denote-merge")
   :bind
   ("C-c n m f" . denote-merge-file)
   ("C-c n m r" . denote-merge-region))
+
 (leaf denote-explore :ensure t
   :bind
   (;; Statistics
