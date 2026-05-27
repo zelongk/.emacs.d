@@ -994,7 +994,6 @@ Most of it was from prot's config
       ("C->" . embark-become)
       ("M-*" . embark-act-all)))
     :hook (embark-collect-mode-hook . consult-preview-at-point-mode))
-
 #+end_src
 ** Consult
 #+begin_src emacs-lisp
@@ -1229,7 +1228,6 @@ Most of it was from prot's config
      '("E" . forward-sexp)
      '("f" . meow-find)
      '("g" . meow-join)
-     '("G" . meow-grab)
      '("h" . meow-left)
      '("H" . meow-left-expand)
      '("i" . meow-insert)
@@ -1249,7 +1247,7 @@ Most of it was from prot's config
      '("Q" . meow-goto-line)
      '("r" . meow-replace)
      '("R" . meow-swap-grab)
-     '("s" . puni-expand-region)
+     '("s" . meow-grab)
      '("t" . meow-till)
      '("u" . meow-undo)
      '("U" . meow-undo-in-selection)
@@ -1264,12 +1262,15 @@ Most of it was from prot's config
      '("Z" . avy-zap-to-char)
      '("'" . repeat)
      '("<escape>" . meow-cancel-selection)
-     '("/" . consult-line)))
+     '("/" . consult-line)
+     '("=" . puni-expand-region)))
 #+end_src
 **** Installation
 #+begin_src elisp
   (leaf meow :ensure t
     :global-minor-mode meow-global-mode
+    :custom
+    (meow-keypad-leader-dispatch . "C-c")
     :config
     (meow-setup))
 #+end_src

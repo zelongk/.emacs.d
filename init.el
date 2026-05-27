@@ -1077,7 +1077,6 @@ Specific to the current window's mode line.")
    '("E" . forward-sexp)
    '("f" . meow-find)
    '("g" . meow-join)
-   '("G" . meow-grab)
    '("h" . meow-left)
    '("H" . meow-left-expand)
    '("i" . meow-insert)
@@ -1097,7 +1096,7 @@ Specific to the current window's mode line.")
    '("Q" . meow-goto-line)
    '("r" . meow-replace)
    '("R" . meow-swap-grab)
-   '("s" . puni-expand-region)
+   '("s" . meow-grab)
    '("t" . meow-till)
    '("u" . meow-undo)
    '("U" . meow-undo-in-selection)
@@ -1112,10 +1111,13 @@ Specific to the current window's mode line.")
    '("Z" . avy-zap-to-char)
    '("'" . repeat)
    '("<escape>" . meow-cancel-selection)
-   '("/" . consult-line)))
+   '("/" . consult-line)
+   '("=" . puni-expand-region)))
 
 (leaf meow :ensure t
   :global-minor-mode meow-global-mode
+  :custom
+  (meow-keypad-leader-dispatch . "C-c")
   :config
   (meow-setup))
 
