@@ -107,6 +107,9 @@ Cancel the previous one if present."
   :require t
   :hook (after-init-hook . benchmark-init/deactivate))
 
+(leaf org-auto-tangle :ensure t
+  :hook org-mode-hook)
+
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
 

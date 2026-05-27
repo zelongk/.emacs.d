@@ -1,5 +1,6 @@
 #+title: My emacs config
 #+property: header-args :tangle init.el
+#+auto_tangle: t
 
 * Early-init
 #+begin_src emacs-lisp :tangle early-init.el
@@ -193,7 +194,12 @@
     :require t
     :hook (after-init-hook . benchmark-init/deactivate))
 #+end_src
-
+** org auto tangle
+Too lazy to tangle everytime
+#+begin_src elisp
+  (leaf org-auto-tangle :ensure t
+    :hook org-mode-hook)
+#+end_src
 * UI settings
 ** Tweak defaults
 #+begin_src emacs-lisp
