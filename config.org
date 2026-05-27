@@ -1,7 +1,7 @@
 #+title: My emacs config
 #+property: header-args :tangle init.el
 
-* early-init
+* Early-init
 #+begin_src emacs-lisp :tangle early-init.el
   ;; -*- lexical-binding: t; -*-
   (setq-default gc-cons-threshold most-positive-fixnum
@@ -1225,8 +1225,7 @@ Most of it was from prot's config
   (define-prefix-command 'macrursors-mark-map)
   (leaf macrursors
     :blackout t
-    :ensure (macrursors :host github :repo "karthink/macrursors"
-                        :branch "expand-region")
+    :ensure (macrursors :host github :repo "corytertel/macrursors")
     :global-minor-mode macrursors-mode
     :bind-keymap ("C-;" . macrursors-mark-map)
     :bind

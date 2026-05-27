@@ -69,6 +69,8 @@ history
 /..emacs.d-tabspaces-session.el
 /easysession
 /tramp-rpc
-/straight/
 /eaf/
 /package-quickstart.el
+
+/straight/*
+!/straight/versions/

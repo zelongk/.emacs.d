@@ -1067,8 +1067,7 @@ Specific to the current window's mode line.")
 (define-prefix-command 'macrursors-mark-map)
 (leaf macrursors
   :blackout t
-  :ensure (macrursors :host github :repo "karthink/macrursors"
-                      :branch "expand-region")
+  :ensure (macrursors :host github :repo "corytertel/macrursors")
   :global-minor-mode macrursors-mode
   :bind-keymap ("C-;" . macrursors-mark-map)
   :bind
