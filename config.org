@@ -808,43 +808,43 @@ Most of it was from prot's config
 ** Bindings
 #+begin_src emacs-lisp
   (defun delete-this-file ()
-  "Delete the current file, and kill the buffer."
-  (interactive)
-  (unless (buffer-file-name)
-    (error "No file is currently being edited"))
-  (when (yes-or-no-p (format "Really delete '%s'?"
-                             (file-name-nondirectory buffer-file-name)))
-    (delete-file (buffer-file-name))
-    (kill-this-buffer)))
+    "Delete the current file, and kill the buffer."
+    (interactive)
+    (unless (buffer-file-name)
+      (error "No file is currently being edited"))
+    (when (yes-or-no-p (format "Really delete '%s'?"
+                               (file-name-nondirectory buffer-file-name)))
+      (delete-file (buffer-file-name))
+      (kill-this-buffer)))
 
-(defun reload-init-file ()
-  "Reload Emacs configurations."
-  (interactive)
-  (load user-init-file))
+  (defun reload-init-file ()
+    "Reload Emacs configurations."
+    (interactive)
+    (load user-init-file))
 
-(define-key input-decode-map (kbd "C-i") (kbd "H-i"))
-(leaf emacs :ensure nil
-  :bind
-  ("H-i" . join-line)
-  ("s-r"     . revert-buffer-quick)
-  ("C-x K"   . delete-this-file)
-  ("C-c C-l" . reload-init-file)
-  ("C-c C-w 0" . desktop-clear)
-  ("C-<wheel-up>" . nil)
-  ("C-<wheel-down>" . nil)
-  ("s-a" . mark-whole-buffer)
-  ("s-c" . kill-ring-save)
-  ("s-v" . yank)
-  ("s-n" . make-frame-command)
-  ("s-s" . save-buffer)
-  ("s-x" . execute-extended-command)
-  ("s-z" . undo)
-  ("M-p" . duplicate-dwim)
-  ("C-c y" . copy-from-above-command)
-  ("s-k" . kill-current-buffer)
-  ("C-x k" . kill-current-buffer)
-  (:prog-mode-map
-   ("C-c k" . compile)))
+  (define-key input-decode-map (kbd "C-i") (kbd "H-i"))
+  (leaf emacs :ensure nil
+    :bind
+    ("H-i" . join-line)
+    ("s-r"     . revert-buffer-quick)
+    ("C-x K"   . delete-this-file)
+    ("C-c C-l" . reload-init-file)
+    ("C-c C-w 0" . desktop-clear)
+    ("C-<wheel-up>" . nil)
+    ("C-<wheel-down>" . nil)
+    ("s-a" . mark-whole-buffer)
+    ("s-c" . kill-ring-save)
+    ("s-v" . yank)
+    ("s-n" . make-frame-command)
+    ("s-s" . save-buffer)
+    ("s-x" . execute-extended-command)
+    ("s-z" . undo)
+    ("M-p" . duplicate-dwim)
+    ("C-c y" . copy-from-above-command)
+    ("s-k" . kill-current-buffer)
+    ("C-x k" . kill-current-buffer)
+    (:prog-mode-map
+     ("C-c k" . compile)))
 #+end_src
 * Completion
 ** Orderless
@@ -1455,6 +1455,19 @@ Most of it was from prot's config
   (leaf pass :ensure t)
 #+end_src
 ** Mailing
+*** Send mail
+#+begin_src elisp
+  (setq message-send-mail-function 'smtpmail-send-it)
+  (setq user-mail-address "zelongkuang@mailbox.org")
+  (setq user-full-name "Zelong Kuang")
+
+  (setq smtpmail-smtp-user "zelongkuang@mailbox.org"
+        smtpmail-smtp-server "smtp.mailbox.org"
+        smtpmail-smtp-service 465
+        smtpmail-stream-type 'ssl)
+  (setq smtpmail-debug-info t)
+  (setq smtpmail-debug-verb t)
+#+end_src
 *** Notmuch
 #+begin_src emacs-lisp
   (leaf notmuch :ensure t
@@ -1473,6 +1486,7 @@ Most of it was from prot's config
                   (notmuch-show-tag (list "-deleted"))
                 (notmuch-show-tag (list "+deleted"))))))
     (:notmuch-search-mode-map
+     ("A" . notmuch-search-archive-thread)
      ("D" . (lambda (&optional beg end)
               "toggle deleted tag for message"
               (interactive)
@@ -1506,7 +1520,6 @@ Most of it was from prot's config
     (notmuch-show-empty-saved-searches . t)
     :config
     (setq send-mail-function 'sendmail-send-it
-          sendmail-program "/opt/homebrew/bin/msmtp"
           mail-specify-envelope-from t
           message-sendmail-envelope-from 'header
           mail-envelope-from 'header))
@@ -1919,30 +1932,30 @@ Pop window
 * Shell
 #+begin_src emacs-lisp
   (leaf comint
-  :init
-  (setq ansi-color-for-comint-mode t
-        ansi-color-for-compilation-mode t))
+    :init
+    (setq ansi-color-for-comint-mode t
+          ansi-color-for-compilation-mode t))
 
-(leaf ansi-color
-  :hook (compilation-filter-hook . ansi-color-compilation-filter))
+  (leaf ansi-color
+    :hook (compilation-filter-hook . ansi-color-compilation-filter))
 
-(leaf xterm-color
-  :ensure t
-  :defvar (compilation-environment)
-  :init
-  (setenv "TERM" "xterm-256color")
-  (setq comint-output-filter-functions
-        (remove 'ansi-color-process-output comint-output-filter-functions))
-  (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
+  (leaf xterm-color
+    :ensure t
+    :defvar (compilation-environment)
+    :init
+    (setenv "TERM" "xterm-256color")
+    (setq comint-output-filter-functions
+          (remove 'ansi-color-process-output comint-output-filter-functions))
+    (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
 
-  (setq compilation-environment '("TERM=xterm-256color"))
-  (defun my/advice-compilation-filter (fn proc string)
-    (funcall fn proc
-             (if (eq major-mode 'rg-mode) ; compatible with `rg'
-                 string
-               (xterm-color-filter string))))
-  (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
-  (advice-add 'gud-filter :around #'my/advice-compilation-filter))
+    (setq compilation-environment '("TERM=xterm-256color"))
+    (defun my/advice-compilation-filter (fn proc string)
+      (funcall fn proc
+               (if (eq major-mode 'rg-mode) ; compatible with `rg'
+                   string
+                 (xterm-color-filter string))))
+    (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
+    (advice-add 'gud-filter :around #'my/advice-compilation-filter))
 #+end_src
 ** Ghostel
 #+begin_src emacs-lisp
@@ -2454,7 +2467,7 @@ Pop window
                    "(provide 'org-version)\n")))
                 :pin nil))
 #+end_src
-*** Config
+*** Customise
 #+begin_src emacs-lisp
   (defvar org-directory "~/org")
 
@@ -2492,11 +2505,13 @@ Pop window
           org-tags-column 5
           
           org-startup-indented t
-          org-indent-indentation-per-level 1))
+          org-indent-indentation-per-level 1
+
+          org-imenu-depth 5))
 
   (leaf org-contrib :ensure t)
 #+end_src
-**** Agenda-related
+*** Agenda-related
 #+begin_src emacs-lisp
   (leaf org
     :defer-config
@@ -2514,7 +2529,7 @@ Pop window
           org-agenda-span 3
           org-agenda-remove-tags t))
 #+end_src
-***** Org super agenda
+**** Org super agenda
 #+begin_src emacs-lisp
   (leaf org-super-agenda :ensure t
     :hook org-agenda-mode-hook
@@ -2567,7 +2582,7 @@ Pop window
             )))
 
 #+end_src
-***** Caldav
+**** Caldav
 #+begin_src emacs-lisp
   (leaf org-caldav :ensure t
     :custom
@@ -2587,7 +2602,7 @@ Pop window
          (0 "WAIT")
          (100 "DONE"))))
 #+end_src
-***** Org capture
+**** Org capture
 #+begin_src emacs-lisp
   (leaf org
       :config
@@ -2713,8 +2728,8 @@ Pop window
     \\usepackage{xcolor}
     \\usephysicsmodule{ab,ab.braket,diagmat,xmat}%
     "))
- #+end_src
-**** Config
+ #+end_srcot
+**** Customise
  #+begin_src emacs-lisp
     (leaf org-latex-preview
       :hook org-mode-hook

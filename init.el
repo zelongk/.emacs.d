@@ -1276,6 +1276,17 @@ Specific to the current window's mode line.")
 
 (leaf pass :ensure t)
 
+(setq message-send-mail-function 'smtpmail-send-it)
+(setq user-mail-address "zelongkuang@mailbox.org")
+(setq user-full-name "Zelong Kuang")
+
+(setq smtpmail-smtp-user "zelongkuang@mailbox.org"
+      smtpmail-smtp-server "smtp.mailbox.org"
+      smtpmail-smtp-service 465
+      smtpmail-stream-type 'ssl)
+(setq smtpmail-debug-info t)
+(setq smtpmail-debug-verb t)
+
 (leaf notmuch :ensure t
   :bind
   ("C-c m" . notmuch)
@@ -1292,6 +1303,7 @@ Specific to the current window's mode line.")
                 (notmuch-show-tag (list "-deleted"))
               (notmuch-show-tag (list "+deleted"))))))
   (:notmuch-search-mode-map
+   ("A" . notmuch-search-archive-thread)
    ("D" . (lambda (&optional beg end)
             "toggle deleted tag for message"
             (interactive)
@@ -1325,7 +1337,6 @@ Specific to the current window's mode line.")
   (notmuch-show-empty-saved-searches . t)
   :config
   (setq send-mail-function 'sendmail-send-it
-        sendmail-program "/opt/homebrew/bin/msmtp"
         mail-specify-envelope-from t
         message-sendmail-envelope-from 'header
         mail-envelope-from 'header))
@@ -2225,7 +2236,9 @@ With optional argument FRAME, return the list of buffers of FRAME."
         org-tags-column 5
         
         org-startup-indented t
-        org-indent-indentation-per-level 1))
+        org-indent-indentation-per-level 1
+
+        org-imenu-depth 5))
 
 (leaf org-contrib :ensure t)
 
@@ -2404,29 +2417,6 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (leaf valign :ensure t
   :blackout t
   :hook org-mode-hook)
-
-(leaf org
-  :config
-  (setq org-latex-packages-alist
-        '(("T1" "fontenc" t)
-          ("" "amsmath" t)
-          ("" "bm" t) ; Bold math required
-          ("" "mathtools" t)
-          ("" "siunitx" t)
-          ("" "physics2" t)
-          ("" "algpseudocode" t)
-          ("" "algorithm" t)
-          ("" "mlmodern" t)
-          ("" "tikz" t)
-          ("" "tikz-cd" t)))
-
-  (setq org-latex-preview-preamble
-        "\\documentclass{article}
-[DEFAULT-PACKAGES]
-[PACKAGES]
-\\usepackage{xcolor}
-\\usephysicsmodule{ab,ab.braket,diagmat,xmat}%
-"))
 
 (leaf org-latex-preview
   :hook org-mode-hook
