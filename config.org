@@ -1282,8 +1282,7 @@ Most of it was from prot's config
      '("<escape>" . meow-cancel-selection)
      '("/" . consult-line)
      '("=" . puni-expand-region))
-    (define-key input-decode-map (kbd "C-[") [control-bracketleft])
-    (define-key meow-insert-state-keymap [control-bracketleft] 'meow-insert-exit))
+    (define-key input-decode-map (kbd "C-[") [escape]))
 #+end_src
 **** Installation
 #+begin_src elisp
@@ -1294,7 +1293,10 @@ Most of it was from prot's config
     (meow-keypad-leader-dispatch . "C-c")
     :config
     (meow-setup)
-    (add-to-list 'meow-mode-state-list '(ghostel-mode . insert)))
+    (dolist (mode '((ghostel-mode . insert)
+                    (notmuch-hello-mode . motion)
+                    (notmuch-search-mode . motion)))
+      (add-to-list 'meow-mode-state-list mode)))
 #+end_src
 
 ** Truncate line
@@ -1628,14 +1630,13 @@ Most of it was from prot's config
                   (notmuch-show-tag (list "-deleted"))
                 (notmuch-show-tag (list "+deleted"))))))
     (:notmuch-search-mode-map
-     ("A" . notmuch-search-archive-thread)
-     ("D" . (lambda (&optional beg end)
+     ("d" . (lambda (&optional beg end)
               "toggle deleted tag for message"
               (interactive)
               (if (member "deleted" (notmuch-search-get-tags))
                   (notmuch-search-tag (list "-deleted") beg end)
                 (notmuch-search-tag (list "+deleted") beg end))))
-     ("S" . (lambda (&optional beg end)
+     ("s" . (lambda (&optional beg end)
               (interactive (notmuch-interactive-region))
               (notmuch-search-tag (list "+spam" "-inbox") beg end))))
     :custom
@@ -1674,6 +1675,13 @@ Most of it was from prot's config
 Discord rich precense
 #+begin_src emacs-lisp
   (leaf elcord :ensure t)
+#+end_src
+** Chezmoi
+Manage chezmoi repo everywhere
+#+begin_src elisp
+  (defun open-chezmoi-git ()
+    (interactive)
+    (magit-status "~/.local/share/chezmoi/"))
 #+end_src
 * Windows Management
 ** Helpers
@@ -2390,7 +2398,7 @@ Pop window
   (leaf liberime :ensure t
     :if IS-MAC
     :custom
-    ;; Point to liberime module built by oneself
+    ;; Point this to liberime module built by oneself
     (liberime-module-file . "~/.local/lib/liberime-core.dylib")
     (liberime-user-data-dir . "~/Library/Rime/"))
 
@@ -2407,6 +2415,7 @@ Pop window
          rimel-predicate-org-latex-mode-p
          rimel-predicate-org-in-src-block-p)))
 #+end_src
+
 ** Spell-check
 #+begin_src emacs-lisp
   (leaf flyspell
@@ -2632,6 +2641,7 @@ Pop window
     (:org-mode-map
      ("M-<return>" . org-insert-subheading)
      ("C-'" . nil)
+     ("C-," . nil)
      ("C-c C-M-l" . org-toggle-link-display)
      ("C-c C-M-s" . org-store-link))
     :config
@@ -2851,7 +2861,7 @@ Pop window
 **** Preamble
 #+begin_src emacs-lisp
     (leaf org
-      :config
+      :defer-config
       (setq org-latex-packages-alist
             '(("T1" "fontenc" t)
               ("" "amsmath" t)
@@ -2872,7 +2882,7 @@ Pop window
     \\usepackage{xcolor}
     \\usephysicsmodule{ab,ab.braket,diagmat,xmat}%
     "))
- #+end_srcot
+ #+end_src
 **** Customise
  #+begin_src emacs-lisp
     (leaf org-latex-preview

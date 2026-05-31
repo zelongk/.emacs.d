@@ -1129,8 +1129,7 @@ Specific to the current window's mode line.")
    '("<escape>" . meow-cancel-selection)
    '("/" . consult-line)
    '("=" . puni-expand-region))
-  (define-key input-decode-map (kbd "C-[") [control-bracketleft])
-  (define-key meow-insert-state-keymap [control-bracketleft] 'meow-insert-exit))
+  (define-key input-decode-map (kbd "C-[") [escape]))
 
 (leaf meow :ensure t
   :require t
@@ -1139,7 +1138,10 @@ Specific to the current window's mode line.")
   (meow-keypad-leader-dispatch . "C-c")
   :config
   (meow-setup)
-  (add-to-list 'meow-mode-state-list '(ghostel-mode . insert)))
+  (dolist (mode '((ghostel-mode . insert)
+                  (notmuch-hello-mode . motion)
+                  (notmuch-search-mode . motion)))
+    (add-to-list 'meow-mode-state-list mode)))
 
 (leaf emacs
   :custom
@@ -1435,14 +1437,13 @@ Specific to the current window's mode line.")
                 (notmuch-show-tag (list "-deleted"))
               (notmuch-show-tag (list "+deleted"))))))
   (:notmuch-search-mode-map
-   ("A" . notmuch-search-archive-thread)
-   ("D" . (lambda (&optional beg end)
+   ("d" . (lambda (&optional beg end)
             "toggle deleted tag for message"
             (interactive)
             (if (member "deleted" (notmuch-search-get-tags))
                 (notmuch-search-tag (list "-deleted") beg end)
               (notmuch-search-tag (list "+deleted") beg end))))
-   ("S" . (lambda (&optional beg end)
+   ("s" . (lambda (&optional beg end)
             (interactive (notmuch-interactive-region))
             (notmuch-search-tag (list "+spam" "-inbox") beg end))))
   :custom
@@ -1478,6 +1479,10 @@ Specific to the current window's mode line.")
   ("M-s m" . consult-notmuch))
 
 (leaf elcord :ensure t)
+
+(defun open-chezmoi-git ()
+  (interactive)
+  (magit-status "~/.local/share/chezmoi/"))
 
 (defun split-window-horizontally-instead ()
   "Kill other windows and split the current window horizontally."
@@ -2141,7 +2146,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (leaf liberime :ensure t
   :if IS-MAC
   :custom
-  ;; Point to liberime module built by oneself
+  ;; Point this to liberime module built by oneself
   (liberime-module-file . "~/.local/lib/liberime-core.dylib")
   (liberime-user-data-dir . "~/Library/Rime/"))
 
@@ -2353,6 +2358,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (:org-mode-map
    ("M-<return>" . org-insert-subheading)
    ("C-'" . nil)
+   ("C-," . nil)
    ("C-c C-M-l" . org-toggle-link-display)
    ("C-c C-M-s" . org-store-link))
   :config
@@ -2551,6 +2557,29 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (leaf valign :ensure t
   :blackout t
   :hook org-mode-hook)
+
+(leaf org
+  :defer-config
+  (setq org-latex-packages-alist
+        '(("T1" "fontenc" t)
+          ("" "amsmath" t)
+          ("" "bm" t) ; Bold math required
+          ("" "mathtools" t)
+          ("" "siunitx" t)
+          ("" "physics2" t)
+          ("" "algpseudocode" t)
+          ("" "algorithm" t)
+          ("" "mlmodern" t)
+          ("" "tikz" t)
+          ("" "tikz-cd" t)))
+
+  (setq org-latex-preview-preamble
+        "\\documentclass{article}
+[DEFAULT-PACKAGES]
+[PACKAGES]
+\\usepackage{xcolor}
+\\usephysicsmodule{ab,ab.braket,diagmat,xmat}%
+"))
 
 (leaf org-latex-preview
   :hook org-mode-hook
