@@ -2315,7 +2315,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (leaf org
   :straight `(org
               :fork (:host nil
-                     :repo "https://code.200568.top/zelongk/org-mode.git"
+                     :repo "https://code.200568.top/mirrors/org-mode.git"
                      :branch "dev")
               :files (:defaults "etc")
               :build (:not native-compile)
