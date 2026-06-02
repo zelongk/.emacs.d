@@ -1295,7 +1295,8 @@ Most of it was from prot's config
     (meow-setup)
     (dolist (mode '((ghostel-mode . insert)
                     (notmuch-hello-mode . motion)
-                    (notmuch-search-mode . motion)))
+                    (notmuch-search-mode . motion)
+                    (notmuch-show-mode . motion)))
       (add-to-list 'meow-mode-state-list mode)))
 #+end_src
 
@@ -1613,7 +1614,7 @@ Most of it was from prot's config
   (setq smtpmail-debug-verb t)
 #+end_src
 *** Notmuch
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (leaf notmuch :ensure t
     :bind
     ("C-c m" . notmuch)
@@ -1647,6 +1648,7 @@ Most of it was from prot's config
     (notmuch-hello-thousands-separator . "")
     (notmuch-hello-sections . '(notmuch-hello-insert-saved-searches))
     (notmuch-show-all-tags-list . t)
+    (notmuch-draft-folder . "Drafts")
     (notmuch-search-result-format
      . '(("date" . "%12s  ")
          ("count" . "%-7s  ")
@@ -2696,7 +2698,7 @@ Pop window
             (:name " Today"  ; Optionally specify section name
                    :time-grid t  ; Items that appear on the time grid
                    :todo "TODAY")  ; Items that have this TODO keyword
-            (:name "Important"
+            (:name " Important"
                    ;; Single arguments given alone
                    :tag ("bills" "important")
                    :priority "A")

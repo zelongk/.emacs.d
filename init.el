@@ -1140,7 +1140,8 @@ Specific to the current window's mode line.")
   (meow-setup)
   (dolist (mode '((ghostel-mode . insert)
                   (notmuch-hello-mode . motion)
-                  (notmuch-search-mode . motion)))
+                  (notmuch-search-mode . motion)
+                  (notmuch-show-mode . motion)))
     (add-to-list 'meow-mode-state-list mode)))
 
 (leaf emacs
@@ -1420,63 +1421,6 @@ Specific to the current window's mode line.")
       smtpmail-stream-type 'ssl)
 (setq smtpmail-debug-info t)
 (setq smtpmail-debug-verb t)
-
-(leaf notmuch :ensure t
-  :bind
-  ("C-c m" . notmuch)
-  ([remap compose-mail] . notmuch-mua-new-mail)
-  (:notmuch-show-mode-map
-   ("S" . (lambda ()
-            "mark message as spam"
-            (interactive)
-            (notmuch-show-tag (list "+spam" "-inbox"))))
-   ("D" . (lambda ()
-            "toggle deleted tag for message"
-            (interactive)
-            (if (member "deleted" (notmuch-show-get-tags))
-                (notmuch-show-tag (list "-deleted"))
-              (notmuch-show-tag (list "+deleted"))))))
-  (:notmuch-search-mode-map
-   ("d" . (lambda (&optional beg end)
-            "toggle deleted tag for message"
-            (interactive)
-            (if (member "deleted" (notmuch-search-get-tags))
-                (notmuch-search-tag (list "-deleted") beg end)
-              (notmuch-search-tag (list "+deleted") beg end))))
-   ("s" . (lambda (&optional beg end)
-            (interactive (notmuch-interactive-region))
-            (notmuch-search-tag (list "+spam" "-inbox") beg end))))
-  :custom
-  (notmuch-search-oldest-first . nil)
-  (notmuch-show-logo . nil)
-  (notmuch-hello-auto-refresh . t)
-  (notmuch-hello-recent-searches-max . 20)
-  (notmuch-hello-thousands-separator . "")
-  (notmuch-hello-sections . '(notmuch-hello-insert-saved-searches))
-  (notmuch-show-all-tags-list . t)
-  (notmuch-search-result-format
-   . '(("date" . "%12s  ")
-       ("count" . "%-7s  ")
-       ("authors" . "%-20s  ")
-       ("subject" . "%-80s  ")
-       ("tags" . "(%s)")))
-  (notmuch-tree-result-format
-   . '(("date" . "%12s  ")
-       ("authors" . "%-20s  ")
-       ((("tree" . "%s")
-         ("subject" . "%s"))
-        . " %-80s  ")
-       ("tags" . "(%s)")))
-  (notmuch-show-empty-saved-searches . t)
-  :config
-  (setq send-mail-function 'sendmail-send-it
-        mail-specify-envelope-from t
-        message-sendmail-envelope-from 'header
-        mail-envelope-from 'header))
-
-(leaf consult-notmuch :ensure t
-  :bind
-  ("M-s m" . consult-notmuch))
 
 (leaf elcord :ensure t)
 
@@ -2409,7 +2353,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
           (:name " Today"  ; Optionally specify section name
                  :time-grid t  ; Items that appear on the time grid
                  :todo "TODAY")  ; Items that have this TODO keyword
-          (:name "Important"
+          (:name " Important"
                  ;; Single arguments given alone
                  :tag ("bills" "important")
                  :priority "A")
