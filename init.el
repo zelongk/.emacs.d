@@ -44,8 +44,7 @@
         (native-compile-async dir t))))
 
 (eval-and-compile
-  (setq custom-file (make-temp-file "emacs-custom-"))
-  (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory)))
+    (setq custom-file (make-temp-file "emacs-custom-")))
 
 (eval-and-compile
   (with-no-warnings
@@ -111,6 +110,14 @@ Cancel the previous one if present."
   :blackout t
   :hook org-mode-hook)
 
+(leaf no-littering :ensure t
+  :require t
+  :init
+  (setq no-littering-etc-directory
+        (expand-file-name "config/" user-emacs-directory))
+  (setq no-littering-var-directory
+        (expand-file-name "data/" user-emacs-directory)))
+
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
 
@@ -164,7 +171,6 @@ Cancel the previous one if present."
   :when (display-graphic-p)
   :global-minor-mode fontaine-mode
   :setq
-  `(fontaine-latest-state-file . ,(expand-file-name "fontaine-latest.eld" user-cache-directory))
   (fontaine-presets
    . '((small
         :default-height 180)
@@ -261,6 +267,8 @@ Cancel the previous one if present."
   (pulsar-delay . 0.05)
   (pulsar-iterations . 5))
 
+(setq custom-safe-themes t)
+
 (leaf modus-themes :ensure t
   :custom
   (modus-themes-italic-constructs . t)
@@ -284,37 +292,24 @@ Cancel the previous one if present."
   (setq modus-themes-common-palette-overrides
         '((bg-tab-bar bg-main)
           (bg-tab-current bg-hover)
-          (bg-tab-other bg-main))))
-(leaf doric-themes :ensure t
-  :commands doric-themes-load-random)
-
-(leaf ef-themes :ensure t
-  :global-minor-mode
-  ef-themes-take-over-modus-themes-mode
-  :bind
-  ("<f5>" . ef-themes-load-random)
-  ("C-<f5>" . ef-themes-load-random-light)
-  ("M-<f5>" . ef-themes-load-random-dark)
+          (bg-tab-other bg-main)))
+  ;; (modus-themes-load-theme 'modus-operandi)
+  )
+  
+(leaf doric-themes :ensure t :require t
   :config
-  (ef-themes-load-theme 'ef-dream))
-
-(leaf auto-dark :ensure t
-  :disabled t
-  :when (and (eq system-type 'darwin) (display-graphic-p))
-  :custom
-  (auto-dark-allow-osascript . nil)
-  :hook
-  (auto-dark-dark-mode-hook
-   . (lambda ()
-       ;; something to execute when dark mode is detected
-       (ef-themes-load-random-dark)
-       ))
-  (auto-dark-light-mode-hook
-   . (lambda ()
-       ;; something to execute when light mode is detected
-       (ef-themes-load-random-light)
-       ))
-  :hook after-init-hook)
+  (load-theme 'doric-oak))
+  
+;; (leaf ef-themes :ensure t
+;;   :global-minor-mode
+;;   ef-themes-take-over-modus-themes-mode
+;;   :bind
+;;   ("<f5>" . ef-themes-load-random)
+;;   ("C-<f5>" . ef-themes-load-random-light)
+;;   ("M-<f5>" . ef-themes-load-random-dark)
+;;   :config
+;;   (ef-themes-load-theme 'ef-dream)
+;;   )
 
 (defvar my-modeline-vc-map
   (let ((map (make-sparse-keymap)))
@@ -436,8 +431,9 @@ Cancel the previous one if present."
   "Mode line construct displaying Eglot information.
 Specific to the current window's mode line.")
 
-(defvar-local modeline-meow-indicator
-  '(:eval (meow-indicator)))
+(with-eval-after-load 'meow
+  (defvar-local modeline-meow-indicator
+    '(:eval (meow-indicator))))
 
 (dolist (construct '(my-modeline-vc-branch
                      my-modeline-flymake
@@ -519,18 +515,9 @@ Specific to the current window's mode line.")
                         embark-collect-mode-hook lsp-ui-imenu-mode-hook
                         pdf-annot-list-mode-hook) . turn-on-hide-mode-line-mode))
 
-(leaf spacious-padding :ensure t
-  :global-minor-mode spacious-padding-mode
-  :config
-  (setq spacious-padding-subtle-frame-lines nil)
-  (plist-put spacious-padding-widths :mode-line-width 6)
-  (plist-put spacious-padding-widths :header-line-width 4))
-
 (leaf saveplace
   :require t
-  :global-minor-mode save-place-mode
-  :config
-  (setq save-place-file (expand-file-name "places" user-cache-directory)))
+  :global-minor-mode save-place-mode)
 
 (leaf display-line-numbers
   :hook
@@ -567,7 +554,6 @@ Specific to the current window's mode line.")
           "^/sshx:" "^/sudo:"
           (lambda (file) (file-in-directory-p file package-user-dir)))
         recentf-auto-cleanup 'never)
-  (setq recentf-save-file (expand-file-name "recentf" user-cache-directory))
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude)
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
@@ -577,7 +563,6 @@ Specific to the current window's mode line.")
   :init
   (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
         history-length 1000
-        savehist-file (expand-file-name "history" user-cache-directory)
         savehist-additional-variables '(mark-ring
                                         global-mark-ring
                                         search-ring
@@ -678,14 +663,11 @@ Specific to the current window's mode line.")
 
 (leaf bookmark
   :config
-  (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)
-        bookmark-fringe-mark nil))
+  (setq bookmark-fringe-mark nil))
 
 ;; file related
 (leaf emacs
   :init
-  (setq auto-save-list-file-prefix (expand-file-name ".saves-" user-cache-directory)
-        auto-save-list-file-name (expand-file-name ".saves-mac" user-cache-directory))
   (setq-default auto-save-default nil)
   (setq delete-by-moving-to-trash t
         inhibit-compacting-font-caches t
@@ -1021,129 +1003,6 @@ Specific to the current window's mode line.")
   (advice-add 'lsp-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 
-(defun meow-setup ()
-  (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
-        meow-replace-state-name-list
-        '((normal . "<N>")
-          (motion . "<M>")
-          (keypad . "<K>")
-          (insert . "<I>")
-          (beacon . "<B>")))
-  (meow-motion-define-key
-   '("j" . meow-next)
-   '("k" . meow-prev)
-   '("<escape>" . ignore)
-   '("/" . consult-line))
-  (setq meow-selection-command-fallback
-        '((meow-change . meow-change-char)
-          ;; (meow-kill . meow-C-k)
-          (meow-kill . meow-delete)
-          (meow-save . kill-ring-save)
-          ;; (meow-cancel-selection . keyboard-quit)
-          (meow-cancel-selection . ignore)
-          (meow-pop-selection . meow-pop-grab)
-          (meow-beacon-change . meow-beacon-change-char)
-          (meow-expand . meow-digit-argument)))
-
-  (meow-leader-define-key
-   ;; Use SPC (0-9) for digit arguments.
-   '("1" . meow-digit-argument)
-   '("2" . meow-digit-argument)
-   '("3" . meow-digit-argument)
-   '("4" . meow-digit-argument)
-   '("5" . meow-digit-argument)
-   '("6" . meow-digit-argument)
-   '("7" . meow-digit-argument)
-   '("8" . meow-digit-argument)
-   '("9" . meow-digit-argument)
-   '("0" . meow-digit-argument)
-   '("/" . meow-keypad-describe-key)
-   '("?" . meow-cheatsheet)
-   '("SPC" . execute-extended-command))
-  (meow-normal-define-key
-   '("0" . meow-expand-0)
-   '("9" . meow-expand-9)
-   '("8" . meow-expand-8)
-   '("7" . meow-expand-7)
-   '("6" . meow-expand-6)
-   '("5" . meow-expand-5)
-   '("4" . meow-expand-4)
-   '("3" . meow-expand-3)
-   '("2" . meow-expand-2)
-   '("1" . meow-expand-1)
-   '(")" . puni-slurp-forward)
-   '("(" . puni-barf-forward)
-   '("{" . puni-slurp-backward)
-   '("}" . puni-barf-backward)
-   '("-" . negative-argument)
-   '(";" . meow-reverse)
-   '("," . meow-inner-of-thing)
-   '("." . meow-bounds-of-thing)
-   '("[" . meow-beginning-of-thing)
-   '("]" . meow-end-of-thing)
-   '("a" . meow-append)
-   ;; '("A" . meow-open-below)
-   '("b" . meow-back-word)
-   '("B" . meow-back-symbol)
-   '("c" . meow-change)
-   '("d" . meow-kill)
-   ;; '("D" . meow-backward-delete)
-   '("e" . meow-next-word)
-   '("E" . meow-next-symbol)
-   '("E" . forward-sexp)
-   '("f" . meow-find)
-   '("g" . meow-join)
-   '("h" . meow-left)
-   '("H" . meow-left-expand)
-   '("i" . meow-insert)
-   ;; '("I" . meow-open-above)
-   '("j" . meow-next)
-   '("J" . meow-next-expand)
-   '("k" . meow-prev)
-   '("K" . meow-prev-expand)
-   '("l" . meow-right)
-   '("L" . meow-right-expand)
-   '("m" . avy-goto-char-timer)
-   '("n" . meow-search)
-   '("o" . meow-open-below)
-   '("O" . meow-open-above)
-   '("p" . meow-yank)
-   '("q" . meow-quit)
-   '("Q" . meow-goto-line)
-   '("r" . meow-replace)
-   '("R" . meow-swap-grab)
-   '("s" . meow-grab)
-   '("t" . meow-till)
-   '("u" . meow-undo)
-   '("U" . meow-undo-in-selection)
-   '("v" . meow-visit)
-   '("w" . meow-mark-word)
-   '("W" . meow-mark-symbol)
-   '("x" . meow-line)
-   '("X" . meow-line-expand)
-   '("y" . meow-save)
-   '("Y" . meow-sync-grab)
-   '("z" . meow-pop-selection)
-   '("Z" . avy-zap-to-char)
-   '("'" . repeat)
-   '("<escape>" . meow-cancel-selection)
-   '("/" . consult-line)
-   '("=" . puni-expand-region))
-  (define-key input-decode-map (kbd "C-[") [escape]))
-
-(leaf meow :ensure t
-  :require t
-  :global-minor-mode meow-global-mode
-  :custom
-  (meow-keypad-leader-dispatch . "C-c")
-  :config
-  (meow-setup)
-  (dolist (mode '((ghostel-mode . insert)
-                  (notmuch-hello-mode . motion)
-                  (notmuch-search-mode . motion)
-                  (notmuch-show-mode . motion)))
-    (add-to-list 'meow-mode-state-list mode)))
-
 (leaf emacs
   :custom
   (duplicate-line-final-position . 1)
@@ -1247,9 +1106,7 @@ Specific to the current window's mode line.")
 ;; Remember undo history
 (leaf undo-fu-session :ensure t
   :hook
-  (emacs-startup-hook . undo-fu-session-global-mode)
-  :custom
-  `(undo-fu-session-directory . ,(expand-file-name "undo-fu-session" user-cache-directory)))
+  (emacs-startup-hook . undo-fu-session-global-mode))
 
 (leaf mwim :ensure t
   :bind
@@ -1354,79 +1211,12 @@ Specific to the current window's mode line.")
       (my/yas-write-skip-file dir)))
   :after yasnippet)
 
-(leaf which-key :ensure t
-  :commands childframe-completion-workable-p
-  :bind ("C-h M-m" . which-key-show-major-mode)
-  :global-minor-mode which-key-mode
-  :hook (god-mode-hook . which-key--god-mode-support-enabled)
-  :init (setq which-key-max-description-length 30
-	          which-key-idle-delay 0.5
-              which-key-lighter nil
-              which-key-show-remaining-keys t)
-  :config
-  (which-key-add-key-based-replacements "C-c a" "LSP")
-  (which-key-add-key-based-replacements "C-c b" "beframe")
-  (which-key-add-key-based-replacements "C-c c" "code")
-  (which-key-add-key-based-replacements "C-c n" "org")
-  (which-key-add-key-based-replacements "C-c l" "llm")
-  (which-key-add-key-based-replacements "C-c f" "find")
-  (which-key-add-key-based-replacements "C-x p" "project")
-  (which-key-add-key-based-replacements "C-c !" "flycheck")
-  (which-key-add-key-based-replacements "C-c &" "yasnippet")
-  (which-key-add-key-based-replacements "C-c q" "quit")
-  (which-key-add-key-based-replacements "C-c C-w" "workspace")
-  (which-key-add-key-based-replacements "C-c w" "windows")
-  (which-key-add-key-based-replacements "C-x a" "abbrevs")
-  (which-key-add-key-based-replacements "C-x b" "abbrevs")
-  (which-key-add-key-based-replacements "C-x r" "rectangle/bookmarks")
-  (which-key-add-key-based-replacements "C-x t" "tabs")
-  (which-key-add-key-based-replacements "C-x v" "version control"))
-
-(leaf transient :require t
-  :config
-  (setq transient-history-file (expand-file-name "transient/history.el" user-cache-directory)
-        transient-levels-file (expand-file-name "transient/levels.el" user-cache-directory)
-        transient-values-file (expand-file-name "transient/values.el" user-cache-directory)
-        transient-show-popup t))
-
-(leaf tramp :require t
-  :setq (tramp-default-method . "ssh")
-  (tramp-verbose . 1)
-  `(tramp-persistency-file-name . ,(expand-file-name "tramp" user-cache-directory))
-  (tramp-allow-unsafe-temporary-files . t)
-  (remote-file-name-inhibit-locks . t)
-  (remote-file-name-inhibit-auto-save-visited . t)
-  `(tramp-copy-size-limit . ,(* 1024 1024)))
-
-(leaf epa :require t
-  :custom
-  (epa-pinentry-mode . 'loopback)
-  (epa-keys-select-method . 'minibuffer)
-  :config
-  (epa-file-enable))
-
-(leaf auth-source-pass
-  :config
-  (auth-source-pass-enable))
-
-(leaf pass :ensure t)
-
-(setq message-send-mail-function 'smtpmail-send-it)
-(setq user-mail-address "zelongkuang@mailbox.org")
-(setq user-full-name "Zelong Kuang")
-
-(setq smtpmail-smtp-user "zelongkuang@mailbox.org"
-      smtpmail-smtp-server "smtp.mailbox.org"
-      smtpmail-smtp-service 465
-      smtpmail-stream-type 'ssl)
-(setq smtpmail-debug-info t)
-(setq smtpmail-debug-verb t)
-
-(leaf elcord :ensure t)
-
-(defun open-chezmoi-git ()
-  (interactive)
-  (magit-status "~/.local/share/chezmoi/"))
+(leaf windmove :ensure t
+  :bind
+  ("C-x w l" . windmove-right)
+  ("C-x w h" . windmove-left)
+  ("C-x w k" . windmove-up)
+  ("C-x w j" . windmove-down))
 
 (defun split-window-horizontally-instead ()
   "Kill other windows and split the current window horizontally."
@@ -1449,10 +1239,11 @@ Specific to the current window's mode line.")
       (set-window-buffer (next-window) other-buffer))))
 
 (leaf ace-window :ensure t
-  :bind (([remap other-window] . ace-window)
-         ("M-o" . ace-window)
-         ("C-c 2" . split-window-vertically-instead)
-         ("C-c 3" . split-window-horizontally-instead))
+  :bind
+  ([remap other-window] . ace-window)
+  ("M-o" . ace-window)
+  ("C-c 2" . split-window-vertically-instead)
+  ("C-c 3" . split-window-horizontally-instead)
   :custom
   (aw-scope . 'frame)
   (aw-background . nil)
@@ -1502,11 +1293,17 @@ Delete current window in the process."
      ("m" "maximize" maximize-window :transient transient--do-exit)
      ("u" "fullscreen" toggle-frame-fullscreen :transient transient--do-exit)]
 
+    ["Focus"
+     ("h" "window left" windmove-left)
+     ("l" "window right" windmove-right)
+     ("k" "window up" windmove-up)
+     ("j" "window down" windmove-down)]
+    
     ["Resize"
-     ("h" "shrink H" shrink-window-horizontally)
-     ("j" "enlarge" enlarge-window)
-     ("k" "shrink" shrink-window)
-     ("l" "enlarge H" enlarge-window-horizontally)
+     ("H" "shrink H" shrink-window-horizontally)
+     ("J" "enlarge" enlarge-window)
+     ("K" "shrink" shrink-window)
+     ("L" "enlarge H" enlarge-window-horizontally)
      ("n" "balance" balance-windows)]
 
     ["Split"
@@ -1524,9 +1321,7 @@ Delete current window in the process."
     ["Misc"
      ("o" "frame font" set-frame-font)
      ("f" "new frame" make-frame-command)
-     ("d" "del frame" delete-frame)
-     ("<left>" "undo" winner-undo)
-     ("<right>" "redo" winner-redo)]]))
+     ("d" "del frame" delete-frame)]]))
 
 (leaf popper :ensure t
   :custom
@@ -1639,8 +1434,7 @@ Delete current window in the process."
   ;;                               (if pname
   ;;                                   (format "[%s] %s" pname (buffer-name))
   ;;                                 (buffer-name)))))) ;; Otherwise buffer name only
-  :config
-  (setq project-list-file (expand-file-name "projects" user-cache-directory)))
+  )
 
 (leaf ibuffer
   
@@ -1718,8 +1512,6 @@ Delete current window in the process."
   (tabspaces-include-buffers . '("*scratch*" "*Messages*"))
   (tabspaces-exclude-buffers . '("*eat*" "*ghostel*" "*vterm*" "*shell*" "*eshell*"))
   
-  `(tabspaces-session-file . ,(expand-file-name "tabspaces/tabsession.el" user-cache-directory))
-  `(tabspaces-session-project-session-store . ,(expand-file-name "tabspaces/" user-cache-directory))
   (tabspaces-initialize-project-with-todo . t)
   (tabspaces-todo-file-name . "project-todo.org")
   ;; sessions
@@ -1811,23 +1603,23 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (leaf ansi-color
   :hook (compilation-filter-hook . ansi-color-compilation-filter))
 
-(leaf xterm-color
-  :ensure t
-  :defvar (compilation-environment)
-  :init
-  (setenv "TERM" "xterm-256color")
-  (setq comint-output-filter-functions
-        (remove 'ansi-color-process-output comint-output-filter-functions))
-  (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
+;; (leaf xterm-color
+;;   :ensure t
+;;   :defvar (compilation-environment)
+;;   :init
+;;   (setenv "TERM" "xterm-256color")
+;;   (setq comint-output-filter-functions
+;;         (remove 'ansi-color-process-output comint-output-filter-functions))
+;;   (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
 
-  (setq compilation-environment '("TERM=xterm-256color"))
-  (defun my/advice-compilation-filter (fn proc string)
-    (funcall fn proc
-             (if (eq major-mode 'rg-mode) ; compatible with `rg'
-                 string
-               (xterm-color-filter string))))
-  (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
-  (advice-add 'gud-filter :around #'my/advice-compilation-filter))
+;;   (setq compilation-environment '("TERM=xterm-256color"))
+;;   (defun my/advice-compilation-filter (fn proc string)
+;;     (funcall fn proc
+;;              (if (eq major-mode 'rg-mode) ; compatible with `rg'
+;;                  string
+;;                (xterm-color-filter string))))
+;;   (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
+;;   (advice-add 'gud-filter :around #'my/advice-compilation-filter))
 
 (leaf ghostel :ensure t
   :bind (("C-`" . ghostel-toggle))
@@ -1928,7 +1720,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (diff-hl-flydiff-delay . 0.5)
   (diff-hl-global-modes . '(not olivetti-mode image-mode))
   :hook
-  (diff-hl-mode-hook . diff-hl-flydiff-mode)
+  ;; (diff-hl-mode-hook . diff-hl-flydiff-mode)
   (magit-post-refresh-hook . diff-hl-magit-post-refresh)
   (dired-mode-hook . diff-hl-dired-mode)
   (olivetti-mode-hook . (lambda () (diff-hl-mode -1)))
@@ -2136,16 +1928,10 @@ With optional argument FRAME, return the list of buffers of FRAME."
   :custom
   (eldoc-documentation-strategy . 'eldoc-documentation-compose-eagerly))
 
-(leaf eldoc-box :ensure t
-  :blackout eldoc-box-hover-mode
+(leaf eldoc-mouse :ensure t
   :hook
-  ((eglot-managed-mode-hook prog-mode-hook)
-   . eldoc-box-hover-mode))
-
-;; (leaf eldoc-mouse :ensure t
-;;   :hook
-;;   eglot-managed-mode-hook
-;;   prog-mode-hook)
+  eglot-managed-mode-hook
+  prog-mode-hook)
 
 (leaf citre :ensure t)
 (leaf apheleia :ensure t
@@ -2291,10 +2077,10 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (org-mode-hook . org-cdlatex-mode)
   (org-mode-hook . prettify-symbols-mode)
   (org-mode-hook . turn-on-reftex)
-  :custom-face
-  (org-block . '((t (:background unspecified))))
-  (org-block-begin-line . '((t (:background unspecified))))
-  (org-block-end-line . '((t (:background unspecified))))
+  ;; :custom-face
+  ;; (org-block . '((t (:background unspecified))))
+  ;; (org-block-begin-line . '((t (:background unspecified))))
+  ;; (org-block-end-line . '((t (:background unspecified))))
   :bind
   ("C-c n t" . org-todo-list)
   ("C-c n a" . org-agenda)
@@ -2320,6 +2106,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
         org-tags-column 5
         
         org-startup-indented t
+        org-startup-with-inline-images t
         org-indent-indentation-per-level 1
 
         org-imenu-depth 5))
@@ -2398,7 +2185,6 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (org-caldav-calendar-id . "c435d207-e889-72f5-2dcc-821653766a08")
   `(org-caldav-inbox . ,(expand-file-name "radicale.org" org-directory))
   (org-caldav-files . `(,(expand-file-name "todo.org" org-directory)))
-  `(org-caldav-save-directory . user-cache-directory)
   (org-icalendar-timezone . "Australia/Melbourne")
   (org-caldav-show-sync-results . nil)
   (org-caldav-sync-todo . t)
@@ -2483,11 +2269,11 @@ With optional argument FRAME, return the list of buffers of FRAME."
           org-modern-fold-stars
           '(("" . ""))))
 
-  (leaf org-modern-indent
-    :ensure (org-modern-indent :host github :repo "jdtsmith/org-modern-indent")
-    :require t
-    :after org-modern org
-    :hook org-indent-mode-hook)
+  ;; (leaf org-modern-indent
+  ;;   :ensure (org-modern-indent :host github :repo "jdtsmith/org-modern-indent")
+  ;;   :require t
+  ;;   :after org-modern org
+  ;;   :hook org-indent-mode-hook)
 
 (leaf org-appear :ensure t
   :hook org-mode-hook
@@ -2624,6 +2410,37 @@ With optional argument FRAME, return the list of buffers of FRAME."
            (plist-put
             (cdr (overlay-get ov 'display))
             :scale (+ 1.0 (* 0.25 text-scale-mode-amount)))))))
+
+(leaf org
+  :config
+  ;; Do not confirm before evaluation
+  (setq org-confirm-babel-evaluate nil)
+  ;; Do not evaluate code blocks when exporting.
+  (setq org-export-babel-evaluate nil)
+  
+  (setq org-babel-load-languages
+        '((emacs-lisp . t)
+          (python . t)
+          (haskell . t)
+          (ocaml . t)
+          (R . t)))
+  (setq org-babel-default-header-args:sage '((:session . t)
+                                             (:results . "output"))))
+
+;; dependency
+(leaf sage-shell-mode :ensure t
+  :config
+  (setq sage-shell:use-prompt-toolkit nil
+        sage-shell:use-simple-prompt t
+        sage-shell:check-ipython-version-on-startup nil
+        sage-shell:set-ipython-version-on-startup nil))
+
+(leaf ob-sagemath :ensure t
+  :bind
+  (:org-mode-map
+   ("C-c c" . ob-sagemath-execute-async))
+  :hook
+  (org-babel-after-execute-hook . org-display-inline-images))
 
 (leaf org-download :ensure t
   :commands org-download-clipboard
@@ -2994,6 +2811,76 @@ expansion, then cdlatex expansion."
   :hook
   (tuareg-mode-hook . ocaml-eglot)
   (ocaml-eglot-mode-hook . eglot-ensure))
+
+(leaf which-key :ensure t
+  :commands childframe-completion-workable-p
+  :bind ("C-h M-m" . which-key-show-major-mode)
+  :global-minor-mode which-key-mode
+  :hook (god-mode-hook . which-key--god-mode-support-enabled)
+  :init (setq which-key-max-description-length 30
+	          which-key-idle-delay 0.5
+              which-key-lighter nil
+              which-key-show-remaining-keys t)
+  :config
+  (which-key-add-key-based-replacements "C-c a" "LSP")
+  (which-key-add-key-based-replacements "C-c b" "beframe")
+  (which-key-add-key-based-replacements "C-c c" "code")
+  (which-key-add-key-based-replacements "C-c n" "org")
+  (which-key-add-key-based-replacements "C-c l" "llm")
+  (which-key-add-key-based-replacements "C-c f" "find")
+  (which-key-add-key-based-replacements "C-x p" "project")
+  (which-key-add-key-based-replacements "C-c !" "flycheck")
+  (which-key-add-key-based-replacements "C-c &" "yasnippet")
+  (which-key-add-key-based-replacements "C-c q" "quit")
+  (which-key-add-key-based-replacements "C-c C-w" "workspace")
+  (which-key-add-key-based-replacements "C-c w" "windows")
+  (which-key-add-key-based-replacements "C-x a" "abbrevs")
+  (which-key-add-key-based-replacements "C-x b" "abbrevs")
+  (which-key-add-key-based-replacements "C-x r" "rectangle/bookmarks")
+  (which-key-add-key-based-replacements "C-x t" "tabs")
+  (which-key-add-key-based-replacements "C-x v" "version control"))
+
+(leaf transient :require t
+  :config
+  (setq transient-show-popup t))
+
+(leaf tramp :require t
+  :setq (tramp-default-method . "ssh")
+  (tramp-verbose . 1)
+  (tramp-allow-unsafe-temporary-files . t)
+  (remote-file-name-inhibit-locks . t)
+  (remote-file-name-inhibit-auto-save-visited . t)
+  `(tramp-copy-size-limit . ,(* 1024 1024)))
+
+(leaf epa :require t
+  :custom
+  (epa-pinentry-mode . 'loopback)
+  (epa-keys-select-method . 'minibuffer)
+  :config
+  (epa-file-enable))
+
+(leaf auth-source-pass
+  :config
+  (auth-source-pass-enable))
+
+(leaf pass :ensure t)
+
+(setq message-send-mail-function 'smtpmail-send-it)
+(setq user-mail-address "zelongkuang@mailbox.org")
+(setq user-full-name "Zelong Kuang")
+
+(setq smtpmail-smtp-user "zelongkuang@mailbox.org"
+      smtpmail-smtp-server "smtp.mailbox.org"
+      smtpmail-smtp-service 465
+      smtpmail-stream-type 'ssl)
+(setq smtpmail-debug-info t)
+(setq smtpmail-debug-verb t)
+
+(leaf elcord :ensure t)
+
+(defun open-chezmoi-git ()
+  (interactive)
+  (magit-status "~/.local/share/chezmoi/"))
 
 (leaf nerd-icons
   :ensure (nerd-icons :host github :repo "rainstormstudio/nerd-icons.el"))

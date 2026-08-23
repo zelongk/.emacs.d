@@ -127,8 +127,7 @@
 *** Straight.el
 #+begin_src emacs-lisp
     (eval-and-compile
-    (setq custom-file (make-temp-file "emacs-custom-"))
-    (defvar user-cache-directory (expand-file-name ".cache/" user-emacs-directory)))
+      (setq custom-file (make-temp-file "emacs-custom-")))
 
   (eval-and-compile
     (with-no-warnings
@@ -201,6 +200,17 @@ Too lazy to tangle everytime
     :blackout t
     :hook org-mode-hook)
 #+end_src
+** No-littering
+Move temp files into cache directory
+#+begin_src emacs-lisp
+  (leaf no-littering :ensure t
+    :require t
+    :init
+    (setq no-littering-etc-directory
+          (expand-file-name "config/" user-emacs-directory))
+    (setq no-littering-var-directory
+          (expand-file-name "data/" user-emacs-directory)))
+#+end_src
 * UI settings
 ** Tweak defaults
 #+begin_src emacs-lisp
@@ -260,7 +270,6 @@ Too lazy to tangle everytime
     :when (display-graphic-p)
     :global-minor-mode fontaine-mode
     :setq
-    `(fontaine-latest-state-file . ,(expand-file-name "fontaine-latest.eld" user-cache-directory))
     (fontaine-presets
      . '((small
           :default-height 180)
@@ -367,6 +376,13 @@ Too lazy to tangle everytime
 #+end_src
 
 ** Themes
+
+*** Trust themes
+#+begin_src elisp
+  (setq custom-safe-themes t)
+#+end_src
+
+*** Modus themes
 #+begin_src emacs-lisp
   (leaf modus-themes :ensure t
     :custom
@@ -391,25 +407,29 @@ Too lazy to tangle everytime
     (setq modus-themes-common-palette-overrides
           '((bg-tab-bar bg-main)
             (bg-tab-current bg-hover)
-            (bg-tab-other bg-main))))
-  (leaf doric-themes :ensure t
-    :commands doric-themes-load-random)
-
-  (leaf ef-themes :ensure t
-    :global-minor-mode
-    ef-themes-take-over-modus-themes-mode
-    :bind
-    ("<f5>" . ef-themes-load-random)
-    ("C-<f5>" . ef-themes-load-random-light)
-    ("M-<f5>" . ef-themes-load-random-dark)
+            (bg-tab-other bg-main)))
+    ;; (modus-themes-load-theme 'modus-operandi)
+    )
+    
+  (leaf doric-themes :ensure t :require t
     :config
-    (ef-themes-load-theme 'ef-dream))
+    (load-theme 'doric-oak))
+    
+  ;; (leaf ef-themes :ensure t
+  ;;   :global-minor-mode
+  ;;   ef-themes-take-over-modus-themes-mode
+  ;;   :bind
+  ;;   ("<f5>" . ef-themes-load-random)
+  ;;   ("C-<f5>" . ef-themes-load-random-light)
+  ;;   ("M-<f5>" . ef-themes-load-random-dark)
+  ;;   :config
+  ;;   (ef-themes-load-theme 'ef-dream)
+  ;;   )
 #+end_src
 
-*** Auto Dark (disabled)
-#+begin_src emacs-lisp
+** NO Auto Dark
+#+begin_src emacs-lisp :tangle no
   (leaf auto-dark :ensure t
-    :disabled t
     :when (and (eq system-type 'darwin) (display-graphic-p))
     :custom
     (auto-dark-allow-osascript . nil)
@@ -557,8 +577,9 @@ Too lazy to tangle everytime
 #+end_src
 **** Meow indicator
 #+begin_src elisp
-  (defvar-local modeline-meow-indicator
-    '(:eval (meow-indicator)))
+  (with-eval-after-load 'meow
+    (defvar-local modeline-meow-indicator
+      '(:eval (meow-indicator))))
 #+end_src
 *** Construct modeline
 Most of it was from prot's config
@@ -645,8 +666,8 @@ Most of it was from prot's config
                           embark-collect-mode-hook lsp-ui-imenu-mode-hook
                           pdf-annot-list-mode-hook) . turn-on-hide-mode-line-mode))
 #+end_src
-** Spacious padding
-#+begin_src emacs-lisp
+** NO Spacious padding (disabled)
+#+begin_src emacs-lisp :tangle no
   (leaf spacious-padding :ensure t
     :global-minor-mode spacious-padding-mode
     :config
@@ -658,9 +679,7 @@ Most of it was from prot's config
 #+begin_src emacs-lisp
   (leaf saveplace
     :require t
-    :global-minor-mode save-place-mode
-    :config
-    (setq save-place-file (expand-file-name "places" user-cache-directory)))
+    :global-minor-mode save-place-mode)
 
   (leaf display-line-numbers
     :hook
@@ -697,7 +716,6 @@ Most of it was from prot's config
             "^/sshx:" "^/sudo:"
             (lambda (file) (file-in-directory-p file package-user-dir)))
           recentf-auto-cleanup 'never)
-    (setq recentf-save-file (expand-file-name "recentf" user-cache-directory))
     :config
     (push (expand-file-name recentf-save-file) recentf-exclude)
     (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
@@ -707,7 +725,6 @@ Most of it was from prot's config
     :init
     (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
           history-length 1000
-          savehist-file (expand-file-name "history" user-cache-directory)
           savehist-additional-variables '(mark-ring
                                           global-mark-ring
                                           search-ring
@@ -808,14 +825,11 @@ Most of it was from prot's config
 
   (leaf bookmark
     :config
-    (setq bookmark-default-file (expand-file-name "bookmarks" user-cache-directory)
-          bookmark-fringe-mark nil))
+    (setq bookmark-fringe-mark nil))
 
   ;; file related
   (leaf emacs
     :init
-    (setq auto-save-list-file-prefix (expand-file-name ".saves-" user-cache-directory)
-          auto-save-list-file-name (expand-file-name ".saves-mac" user-cache-directory))
     (setq-default auto-save-default nil)
     (setq delete-by-moving-to-trash t
           inhibit-compacting-font-caches t
@@ -1170,10 +1184,10 @@ Most of it was from prot's config
     (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 #+end_src
 * Edit
-** Modal editing
+** NO Modal editing
 *** Meow
 **** Setup function
-#+begin_src elisp
+#+begin_src elisp :tangle no
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
           meow-replace-state-name-list
@@ -1285,7 +1299,7 @@ Most of it was from prot's config
     (define-key input-decode-map (kbd "C-[") [escape]))
 #+end_src
 **** Installation
-#+begin_src elisp
+#+begin_src elisp :tangle no
   (leaf meow :ensure t
     :require t
     :global-minor-mode meow-global-mode
@@ -1418,9 +1432,7 @@ Most of it was from prot's config
   ;; Remember undo history
   (leaf undo-fu-session :ensure t
     :hook
-    (emacs-startup-hook . undo-fu-session-global-mode)
-    :custom
-    `(undo-fu-session-directory . ,(expand-file-name "undo-fu-session" user-cache-directory)))
+    (emacs-startup-hook . undo-fu-session-global-mode))
 #+end_src
 ** Make-life-easier utils
 #+begin_src emacs-lisp
@@ -1532,160 +1544,16 @@ Most of it was from prot's config
         (my/yas-write-skip-file dir)))
     :after yasnippet)
 #+end_src
-* Utilities
-** Which-key
-#+begin_src emacs-lisp
-  (leaf which-key :ensure t
-    :commands childframe-completion-workable-p
-    :bind ("C-h M-m" . which-key-show-major-mode)
-    :global-minor-mode which-key-mode
-    :hook (god-mode-hook . which-key--god-mode-support-enabled)
-    :init (setq which-key-max-description-length 30
-  	          which-key-idle-delay 0.5
-                which-key-lighter nil
-                which-key-show-remaining-keys t)
-    :config
-    (which-key-add-key-based-replacements "C-c a" "LSP")
-    (which-key-add-key-based-replacements "C-c b" "beframe")
-    (which-key-add-key-based-replacements "C-c c" "code")
-    (which-key-add-key-based-replacements "C-c n" "org")
-    (which-key-add-key-based-replacements "C-c l" "llm")
-    (which-key-add-key-based-replacements "C-c f" "find")
-    (which-key-add-key-based-replacements "C-x p" "project")
-    (which-key-add-key-based-replacements "C-c !" "flycheck")
-    (which-key-add-key-based-replacements "C-c &" "yasnippet")
-    (which-key-add-key-based-replacements "C-c q" "quit")
-    (which-key-add-key-based-replacements "C-c C-w" "workspace")
-    (which-key-add-key-based-replacements "C-c w" "windows")
-    (which-key-add-key-based-replacements "C-x a" "abbrevs")
-    (which-key-add-key-based-replacements "C-x b" "abbrevs")
-    (which-key-add-key-based-replacements "C-x r" "rectangle/bookmarks")
-    (which-key-add-key-based-replacements "C-x t" "tabs")
-    (which-key-add-key-based-replacements "C-x v" "version control"))
-#+end_src
-** Transient
-#+begin_src emacs-lisp
-  (leaf transient :require t
-    :config
-    (setq transient-history-file (expand-file-name "transient/history.el" user-cache-directory)
-          transient-levels-file (expand-file-name "transient/levels.el" user-cache-directory)
-          transient-values-file (expand-file-name "transient/values.el" user-cache-directory)
-          transient-show-popup t))
-#+end_src
-** Remote-working
-*** Tramp
-#+begin_src emacs-lisp
-  (leaf tramp :require t
-    :setq (tramp-default-method . "ssh")
-    (tramp-verbose . 1)
-    `(tramp-persistency-file-name . ,(expand-file-name "tramp" user-cache-directory))
-    (tramp-allow-unsafe-temporary-files . t)
-    (remote-file-name-inhibit-locks . t)
-    (remote-file-name-inhibit-auto-save-visited . t)
-    `(tramp-copy-size-limit . ,(* 1024 1024)))
-#+end_src
-** GPG
-#+begin_src emacs-lisp
-  (leaf epa :require t
-    :custom
-    (epa-pinentry-mode . 'loopback)
-    (epa-keys-select-method . 'minibuffer)
-    :config
-    (epa-file-enable))
-
-  (leaf auth-source-pass
-    :config
-    (auth-source-pass-enable))
-
-  (leaf pass :ensure t)
-#+end_src
-** Mailing
-*** Send mail
-#+begin_src elisp
-  (setq message-send-mail-function 'smtpmail-send-it)
-  (setq user-mail-address "zelongkuang@mailbox.org")
-  (setq user-full-name "Zelong Kuang")
-
-  (setq smtpmail-smtp-user "zelongkuang@mailbox.org"
-        smtpmail-smtp-server "smtp.mailbox.org"
-        smtpmail-smtp-service 465
-        smtpmail-stream-type 'ssl)
-  (setq smtpmail-debug-info t)
-  (setq smtpmail-debug-verb t)
-#+end_src
-*** Notmuch
-#+begin_src emacs-lisp :tangle no
-  (leaf notmuch :ensure t
-    :bind
-    ("C-c m" . notmuch)
-    ([remap compose-mail] . notmuch-mua-new-mail)
-    (:notmuch-show-mode-map
-     ("S" . (lambda ()
-              "mark message as spam"
-              (interactive)
-              (notmuch-show-tag (list "+spam" "-inbox"))))
-     ("D" . (lambda ()
-              "toggle deleted tag for message"
-              (interactive)
-              (if (member "deleted" (notmuch-show-get-tags))
-                  (notmuch-show-tag (list "-deleted"))
-                (notmuch-show-tag (list "+deleted"))))))
-    (:notmuch-search-mode-map
-     ("d" . (lambda (&optional beg end)
-              "toggle deleted tag for message"
-              (interactive)
-              (if (member "deleted" (notmuch-search-get-tags))
-                  (notmuch-search-tag (list "-deleted") beg end)
-                (notmuch-search-tag (list "+deleted") beg end))))
-     ("s" . (lambda (&optional beg end)
-              (interactive (notmuch-interactive-region))
-              (notmuch-search-tag (list "+spam" "-inbox") beg end))))
-    :custom
-    (notmuch-search-oldest-first . nil)
-    (notmuch-show-logo . nil)
-    (notmuch-hello-auto-refresh . t)
-    (notmuch-hello-recent-searches-max . 20)
-    (notmuch-hello-thousands-separator . "")
-    (notmuch-hello-sections . '(notmuch-hello-insert-saved-searches))
-    (notmuch-show-all-tags-list . t)
-    (notmuch-draft-folder . "Drafts")
-    (notmuch-search-result-format
-     . '(("date" . "%12s  ")
-         ("count" . "%-7s  ")
-         ("authors" . "%-20s  ")
-         ("subject" . "%-80s  ")
-         ("tags" . "(%s)")))
-    (notmuch-tree-result-format
-     . '(("date" . "%12s  ")
-         ("authors" . "%-20s  ")
-         ((("tree" . "%s")
-           ("subject" . "%s"))
-          . " %-80s  ")
-         ("tags" . "(%s)")))
-    (notmuch-show-empty-saved-searches . t)
-    :config
-    (setq send-mail-function 'sendmail-send-it
-          mail-specify-envelope-from t
-          message-sendmail-envelope-from 'header
-          mail-envelope-from 'header))
-
-  (leaf consult-notmuch :ensure t
-    :bind
-    ("M-s m" . consult-notmuch))
-#+end_src
-** Elcord
-Discord rich precense
-#+begin_src emacs-lisp
-  (leaf elcord :ensure t)
-#+end_src
-** Chezmoi
-Manage chezmoi repo everywhere
-#+begin_src elisp
-  (defun open-chezmoi-git ()
-    (interactive)
-    (magit-status "~/.local/share/chezmoi/"))
-#+end_src
 * Windows Management
+** Wind move
+#+begin_src elisp
+  (leaf windmove :ensure t
+    :bind
+    ("C-x w l" . windmove-right)
+    ("C-x w h" . windmove-left)
+    ("C-x w k" . windmove-up)
+    ("C-x w j" . windmove-down))
+#+end_src
 ** Helpers
 #+begin_src emacs-lisp
   (defun split-window-horizontally-instead ()
@@ -1711,10 +1579,11 @@ Manage chezmoi repo everywhere
 ** ace-window
 #+begin_src emacs-lisp
   (leaf ace-window :ensure t
-    :bind (([remap other-window] . ace-window)
-           ("M-o" . ace-window)
-           ("C-c 2" . split-window-vertically-instead)
-           ("C-c 3" . split-window-horizontally-instead))
+    :bind
+    ([remap other-window] . ace-window)
+    ("M-o" . ace-window)
+    ("C-c 2" . split-window-vertically-instead)
+    ("C-c 3" . split-window-horizontally-instead)
     :custom
     (aw-scope . 'frame)
     (aw-background . nil)
@@ -1764,11 +1633,17 @@ Manage chezmoi repo everywhere
        ("m" "maximize" maximize-window :transient transient--do-exit)
        ("u" "fullscreen" toggle-frame-fullscreen :transient transient--do-exit)]
 
+      ["Focus"
+       ("h" "window left" windmove-left)
+       ("l" "window right" windmove-right)
+       ("k" "window up" windmove-up)
+       ("j" "window down" windmove-down)]
+      
       ["Resize"
-       ("h" "shrink H" shrink-window-horizontally)
-       ("j" "enlarge" enlarge-window)
-       ("k" "shrink" shrink-window)
-       ("l" "enlarge H" enlarge-window-horizontally)
+       ("H" "shrink H" shrink-window-horizontally)
+       ("J" "enlarge" enlarge-window)
+       ("K" "shrink" shrink-window)
+       ("L" "enlarge H" enlarge-window-horizontally)
        ("n" "balance" balance-windows)]
 
       ["Split"
@@ -1786,9 +1661,7 @@ Manage chezmoi repo everywhere
       ["Misc"
        ("o" "frame font" set-frame-font)
        ("f" "new frame" make-frame-command)
-       ("d" "del frame" delete-frame)
-       ("<left>" "undo" winner-undo)
-       ("<right>" "redo" winner-redo)]]))
+       ("d" "del frame" delete-frame)]]))
 #+end_src
 ** popper
 Pop window
@@ -1907,8 +1780,7 @@ Pop window
     ;;                               (if pname
     ;;                                   (format "[%s] %s" pname (buffer-name))
     ;;                                 (buffer-name)))))) ;; Otherwise buffer name only
-    :config
-    (setq project-list-file (expand-file-name "projects" user-cache-directory)))
+    )
 #+end_src
 ** Ibuffer
 #+begin_src emacs-lisp
@@ -1990,8 +1862,6 @@ Pop window
     (tabspaces-include-buffers . '("*scratch*" "*Messages*"))
     (tabspaces-exclude-buffers . '("*eat*" "*ghostel*" "*vterm*" "*shell*" "*eshell*"))
     
-    `(tabspaces-session-file . ,(expand-file-name "tabspaces/tabsession.el" user-cache-directory))
-    `(tabspaces-session-project-session-store . ,(expand-file-name "tabspaces/" user-cache-directory))
     (tabspaces-initialize-project-with-todo . t)
     (tabspaces-todo-file-name . "project-todo.org")
     ;; sessions
@@ -2018,7 +1888,7 @@ Pop window
         "Set workspace buffer list for consult-buffer.")
       (add-to-list 'consult-buffer-sources 'consult--source-workspace)))
 #+end_src
-** Beframe
+** NO Beframe
 #+begin_src emacs-lisp
   (leaf beframe
     :disabled t
@@ -2091,23 +1961,23 @@ Pop window
   (leaf ansi-color
     :hook (compilation-filter-hook . ansi-color-compilation-filter))
 
-  (leaf xterm-color
-    :ensure t
-    :defvar (compilation-environment)
-    :init
-    (setenv "TERM" "xterm-256color")
-    (setq comint-output-filter-functions
-          (remove 'ansi-color-process-output comint-output-filter-functions))
-    (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
+  ;; (leaf xterm-color
+  ;;   :ensure t
+  ;;   :defvar (compilation-environment)
+  ;;   :init
+  ;;   (setenv "TERM" "xterm-256color")
+  ;;   (setq comint-output-filter-functions
+  ;;         (remove 'ansi-color-process-output comint-output-filter-functions))
+  ;;   (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
 
-    (setq compilation-environment '("TERM=xterm-256color"))
-    (defun my/advice-compilation-filter (fn proc string)
-      (funcall fn proc
-               (if (eq major-mode 'rg-mode) ; compatible with `rg'
-                   string
-                 (xterm-color-filter string))))
-    (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
-    (advice-add 'gud-filter :around #'my/advice-compilation-filter))
+  ;;   (setq compilation-environment '("TERM=xterm-256color"))
+  ;;   (defun my/advice-compilation-filter (fn proc string)
+  ;;     (funcall fn proc
+  ;;              (if (eq major-mode 'rg-mode) ; compatible with `rg'
+  ;;                  string
+  ;;                (xterm-color-filter string))))
+  ;;   (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
+  ;;   (advice-add 'gud-filter :around #'my/advice-compilation-filter))
 #+end_src
 ** Ghostel
 #+begin_src emacs-lisp
@@ -2221,7 +2091,7 @@ Pop window
     (diff-hl-flydiff-delay . 0.5)
     (diff-hl-global-modes . '(not olivetti-mode image-mode))
     :hook
-    (diff-hl-mode-hook . diff-hl-flydiff-mode)
+    ;; (diff-hl-mode-hook . diff-hl-flydiff-mode)
     (magit-post-refresh-hook . diff-hl-magit-post-refresh)
     (dired-mode-hook . diff-hl-dired-mode)
     (olivetti-mode-hook . (lambda () (diff-hl-mode -1)))
@@ -2456,18 +2326,21 @@ Pop window
     :custom
     (eldoc-documentation-strategy . 'eldoc-documentation-compose-eagerly))
 #+end_src
-*** Eldoc popup
-#+begin_src emacs-lisp
-  (leaf eldoc-box :ensure t
+*** Eldoc box (disabled)
+#+begin_src emacs-lisp :tangle no
+  (leaf eldoc-box :ensure t 
     :blackout eldoc-box-hover-mode
     :hook
     ((eglot-managed-mode-hook prog-mode-hook)
      . eldoc-box-hover-mode))
+#+end_src
 
-  ;; (leaf eldoc-mouse :ensure t
-  ;;   :hook
-  ;;   eglot-managed-mode-hook
-  ;;   prog-mode-hook)
+*** Eldoc mouse
+#+begin_src emacs-lisp
+  (leaf eldoc-mouse :ensure t
+    :hook
+    eglot-managed-mode-hook
+    prog-mode-hook)
 #+end_src
 ** Utils
 #+begin_src emacs-lisp
@@ -2543,8 +2416,8 @@ Pop window
           flyover-background-lightness 60
           flyover-icon-background-tint-percent 50))
 #+end_src
-* LLM
-** Gptel
+* WAIT LLM
+** WAIT Gptel
 #+begin_src emacs-lisp
   (leaf gptel
     :ensure t
@@ -2632,10 +2505,10 @@ Pop window
     (org-mode-hook . org-cdlatex-mode)
     (org-mode-hook . prettify-symbols-mode)
     (org-mode-hook . turn-on-reftex)
-    :custom-face
-    (org-block . '((t (:background unspecified))))
-    (org-block-begin-line . '((t (:background unspecified))))
-    (org-block-end-line . '((t (:background unspecified))))
+    ;; :custom-face
+    ;; (org-block . '((t (:background unspecified))))
+    ;; (org-block-begin-line . '((t (:background unspecified))))
+    ;; (org-block-end-line . '((t (:background unspecified))))
     :bind
     ("C-c n t" . org-todo-list)
     ("C-c n a" . org-agenda)
@@ -2661,6 +2534,7 @@ Pop window
           org-tags-column 5
           
           org-startup-indented t
+          org-startup-with-inline-images t
           org-indent-indentation-per-level 1
 
           org-imenu-depth 5))
@@ -2746,7 +2620,6 @@ Pop window
     (org-caldav-calendar-id . "c435d207-e889-72f5-2dcc-821653766a08")
     `(org-caldav-inbox . ,(expand-file-name "radicale.org" org-directory))
     (org-caldav-files . `(,(expand-file-name "todo.org" org-directory)))
-    `(org-caldav-save-directory . user-cache-directory)
     (org-icalendar-timezone . "Australia/Melbourne")
     (org-caldav-show-sync-results . nil)
     (org-caldav-sync-todo . t)
@@ -2836,11 +2709,11 @@ Pop window
             org-modern-fold-stars
             '(("" . ""))))
 
-    (leaf org-modern-indent
-      :ensure (org-modern-indent :host github :repo "jdtsmith/org-modern-indent")
-      :require t
-      :after org-modern org
-      :hook org-indent-mode-hook)
+    ;; (leaf org-modern-indent
+    ;;   :ensure (org-modern-indent :host github :repo "jdtsmith/org-modern-indent")
+    ;;   :require t
+    ;;   :after org-modern org
+    ;;   :hook org-indent-mode-hook)
 #+end_src
 **** Org appear
 #+begin_src emacs-lisp
@@ -2990,6 +2863,45 @@ Pop window
               :scale (+ 1.0 (* 0.25 text-scale-mode-amount)))))))
 #+end_src
 *** Utils
+**** Org-babel
+#+begin_src elisp
+  (leaf org
+    :config
+    ;; Do not confirm before evaluation
+    (setq org-confirm-babel-evaluate nil)
+    ;; Do not evaluate code blocks when exporting.
+    (setq org-export-babel-evaluate nil)
+    
+    (setq org-babel-load-languages
+          '((emacs-lisp . t)
+            (python . t)
+            (haskell . t)
+            (ocaml . t)
+            (R . t)))
+    (setq org-babel-default-header-args:sage '((:session . t)
+                                               (:results . "output"))))
+#+end_src
+***** sage-math
+#+begin_src elisp
+  ;; dependency
+  (leaf sage-shell-mode :ensure t
+    :config
+    (setq sage-shell:use-prompt-toolkit nil
+          sage-shell:use-simple-prompt t
+          sage-shell:check-ipython-version-on-startup nil
+          sage-shell:set-ipython-version-on-startup nil))
+
+  (leaf ob-sagemath :ensure t
+    :bind
+    (:org-mode-map
+     ("C-c c" . ob-sagemath-execute-async))
+    :hook
+    (org-babel-after-execute-hook . org-display-inline-images))
+#+end_src
+
+#+RESULTS:
+: ob-sagemath
+
 **** Org download
 #+begin_src emacs-lisp
   (leaf org-download :ensure t
@@ -3002,6 +2914,7 @@ Pop window
     (defconst org-download-image-dir "./attachments/")
     (setq-default org-download-method 'directory))
 #+end_src
+
 **** Org draw-io
 #+begin_src emacs-lisp
   (leaf org-drawio :ensure t
@@ -3355,8 +3268,7 @@ LaTeX live preview (incremental)
 #+begin_src emacs-lisp
   (leaf zig-ts-mode :ensure t)
 #+end_src
-* LSP
-** Eglot
+* Eglot
 #+begin_src emacs-lisp
   (leaf eglot
     :commands (eglot eglot-ensure)
@@ -3398,7 +3310,7 @@ LaTeX live preview (incremental)
       :after eglot consult
       :global-minor-mode consult-eglot-embark-mode))
 #+end_src
-*** eglot-ocaml
+** eglot-ocaml
 #+begin_src emacs-lisp
   (leaf ocaml-eglot :ensure t
     :blackout t
@@ -3406,7 +3318,156 @@ LaTeX live preview (incremental)
     (tuareg-mode-hook . ocaml-eglot)
     (ocaml-eglot-mode-hook . eglot-ensure))
 #+end_src
-* libs
+* Utilities
+** Which-key
+#+begin_src emacs-lisp
+  (leaf which-key :ensure t
+    :commands childframe-completion-workable-p
+    :bind ("C-h M-m" . which-key-show-major-mode)
+    :global-minor-mode which-key-mode
+    :hook (god-mode-hook . which-key--god-mode-support-enabled)
+    :init (setq which-key-max-description-length 30
+  	          which-key-idle-delay 0.5
+                which-key-lighter nil
+                which-key-show-remaining-keys t)
+    :config
+    (which-key-add-key-based-replacements "C-c a" "LSP")
+    (which-key-add-key-based-replacements "C-c b" "beframe")
+    (which-key-add-key-based-replacements "C-c c" "code")
+    (which-key-add-key-based-replacements "C-c n" "org")
+    (which-key-add-key-based-replacements "C-c l" "llm")
+    (which-key-add-key-based-replacements "C-c f" "find")
+    (which-key-add-key-based-replacements "C-x p" "project")
+    (which-key-add-key-based-replacements "C-c !" "flycheck")
+    (which-key-add-key-based-replacements "C-c &" "yasnippet")
+    (which-key-add-key-based-replacements "C-c q" "quit")
+    (which-key-add-key-based-replacements "C-c C-w" "workspace")
+    (which-key-add-key-based-replacements "C-c w" "windows")
+    (which-key-add-key-based-replacements "C-x a" "abbrevs")
+    (which-key-add-key-based-replacements "C-x b" "abbrevs")
+    (which-key-add-key-based-replacements "C-x r" "rectangle/bookmarks")
+    (which-key-add-key-based-replacements "C-x t" "tabs")
+    (which-key-add-key-based-replacements "C-x v" "version control"))
+#+end_src
+** Transient
+#+begin_src emacs-lisp
+  (leaf transient :require t
+    :config
+    (setq transient-show-popup t))
+#+end_src
+** Remote-working
+*** Tramp
+#+begin_src emacs-lisp
+  (leaf tramp :require t
+    :setq (tramp-default-method . "ssh")
+    (tramp-verbose . 1)
+    (tramp-allow-unsafe-temporary-files . t)
+    (remote-file-name-inhibit-locks . t)
+    (remote-file-name-inhibit-auto-save-visited . t)
+    `(tramp-copy-size-limit . ,(* 1024 1024)))
+#+end_src
+** GPG
+#+begin_src emacs-lisp
+  (leaf epa :require t
+    :custom
+    (epa-pinentry-mode . 'loopback)
+    (epa-keys-select-method . 'minibuffer)
+    :config
+    (epa-file-enable))
+
+  (leaf auth-source-pass
+    :config
+    (auth-source-pass-enable))
+
+  (leaf pass :ensure t)
+#+end_src
+** Mailing
+*** Send mail
+#+begin_src elisp
+  (setq message-send-mail-function 'smtpmail-send-it)
+  (setq user-mail-address "zelongkuang@mailbox.org")
+  (setq user-full-name "Zelong Kuang")
+
+  (setq smtpmail-smtp-user "zelongkuang@mailbox.org"
+        smtpmail-smtp-server "smtp.mailbox.org"
+        smtpmail-smtp-service 465
+        smtpmail-stream-type 'ssl)
+  (setq smtpmail-debug-info t)
+  (setq smtpmail-debug-verb t)
+#+end_src
+*** Notmuch
+#+begin_src emacs-lisp :tangle no
+  (leaf notmuch :ensure t
+    :bind
+    ("C-c m" . notmuch)
+    ([remap compose-mail] . notmuch-mua-new-mail)
+    (:notmuch-show-mode-map
+     ("S" . (lambda ()
+              "mark message as spam"
+              (interactive)
+              (notmuch-show-tag (list "+spam" "-inbox"))))
+     ("D" . (lambda ()
+              "toggle deleted tag for message"
+              (interactive)
+              (if (member "deleted" (notmuch-show-get-tags))
+                  (notmuch-show-tag (list "-deleted"))
+                (notmuch-show-tag (list "+deleted"))))))
+    (:notmuch-search-mode-map
+     ("d" . (lambda (&optional beg end)
+              "toggle deleted tag for message"
+              (interactive)
+              (if (member "deleted" (notmuch-search-get-tags))
+                  (notmuch-search-tag (list "-deleted") beg end)
+                (notmuch-search-tag (list "+deleted") beg end))))
+     ("s" . (lambda (&optional beg end)
+              (interactive (notmuch-interactive-region))
+              (notmuch-search-tag (list "+spam" "-inbox") beg end))))
+    :custom
+    (notmuch-search-oldest-first . nil)
+    (notmuch-show-logo . nil)
+    (notmuch-hello-auto-refresh . t)
+    (notmuch-hello-recent-searches-max . 20)
+    (notmuch-hello-thousands-separator . "")
+    (notmuch-hello-sections . '(notmuch-hello-insert-saved-searches))
+    (notmuch-show-all-tags-list . t)
+    (notmuch-draft-folder . "Drafts")
+    (notmuch-search-result-format
+     . '(("date" . "%12s  ")
+         ("count" . "%-7s  ")
+         ("authors" . "%-20s  ")
+         ("subject" . "%-80s  ")
+         ("tags" . "(%s)")))
+    (notmuch-tree-result-format
+     . '(("date" . "%12s  ")
+         ("authors" . "%-20s  ")
+         ((("tree" . "%s")
+           ("subject" . "%s"))
+          . " %-80s  ")
+         ("tags" . "(%s)")))
+    (notmuch-show-empty-saved-searches . t)
+    :config
+    (setq send-mail-function 'sendmail-send-it
+          mail-specify-envelope-from t
+          message-sendmail-envelope-from 'header
+          mail-envelope-from 'header))
+
+  (leaf consult-notmuch :ensure t
+    :bind
+    ("M-s m" . consult-notmuch))
+#+end_src
+** Elcord
+Discord rich precense
+#+begin_src emacs-lisp
+  (leaf elcord :ensure t)
+#+end_src
+** Chezmoi
+Manage chezmoi repo everywhere
+#+begin_src elisp
+  (defun open-chezmoi-git ()
+    (interactive)
+    (magit-status "~/.local/share/chezmoi/"))
+#+end_src
+* Libs
 ** nerd-icons
 #+begin_src emacs-lisp
   (leaf nerd-icons
