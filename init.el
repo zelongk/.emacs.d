@@ -43,6 +43,44 @@
     (if (fboundp 'native-compile-async)
         (native-compile-async dir t))))
 
+;; (defun gen-env-file (path)
+;;   "Save envvars to a file at PATH"
+;;   (let ((dirname (file-name-directory path)))
+;;     (make-directory dirname t))
+;;   (with-temp-file path
+;;     (setq-local coding-system-for-write 'utf-8-unix)
+;;     (insert
+;;      ";; -*- mode: emacs-lisp -*-\n"
+;;      ";; This file was automatically generated and will be overwritten.\n")
+;;     (insert (pp-to-string process-environment))))
+
+;; (gen-env-file "~/.emacs.d/local/env.el")
+(defun load-env-file (file)
+  "Read and set envvars from FILE."
+  (if (null (file-exists-p file))
+      (signal 'file-error
+              (list "No envvar file exists." file
+                    "Run `emacs --script ~/.emacs.d/scripts/gen-env-file.el`."))
+    (with-temp-buffer
+      (insert-file-contents file)
+      (when-let (env (read (current-buffer)))
+        (let ((tz (getenv-internal "TZ")))
+          (setq-default
+           process-environment
+           (append env (default-value 'process-environment))
+           exec-path
+           (append (split-string (getenv "PATH") path-separator t)
+                   (list exec-directory))
+           shell-file-name
+           (or (getenv "SHELL")
+               (default-value 'shell-file-name)))
+          (when-let (newtz (getenv-internal "TZ"))
+            (unless (equal tz newtz)
+              (set-time-zone-rule newtz))))
+        env))))
+
+(load-env-file "~/.emacs.d/local/env.el")
+
 (eval-and-compile
     (setq custom-file (make-temp-file "emacs-custom-")))
 
@@ -507,13 +545,12 @@ Specific to the current window's mode line.")
 (leaf minions :ensure t
   :global-minor-mode minions-mode)
 
-(leaf hide-mode-line :ensure t
-  :commands turn-off-hide-mode-line-mode
+(leaf modeline
   :hook ((eat-mode-hook ghostel-mode-hook magit-mode-hook
                         eshell-mode-hook shell-mode-hook
                         term-mode-hook vterm-mode-hook
                         embark-collect-mode-hook lsp-ui-imenu-mode-hook
-                        pdf-annot-list-mode-hook) . turn-on-hide-mode-line-mode))
+                        pdf-annot-list-mode-hook) . mode-line-invisible-mode))
 
 (leaf saveplace
   :require t
@@ -1216,7 +1253,8 @@ Specific to the current window's mode line.")
   ("C-x w l" . windmove-right)
   ("C-x w h" . windmove-left)
   ("C-x w k" . windmove-up)
-  ("C-x w j" . windmove-down))
+  ("C-x w j" . windmove-down)
+  ("C-x m" . maximize-window))
 
 (defun split-window-horizontally-instead ()
   "Kill other windows and split the current window horizontally."
@@ -1943,10 +1981,9 @@ With optional argument FRAME, return the list of buffers of FRAME."
   :global-minor-mode global-treesit-auto-mode
   :custom
   (treesit-auto-install . t)
+  (treesit-enabled-modes . t)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all))
-
-(add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode))
 
 (leaf elvish-mode :ensure t)
 

@@ -88,6 +88,7 @@
               101)))
 #+end_src
 
+
 * Core setup
 #+begin_src emacs-lisp
   (defconst IS-MAC     (eq system-type 'darwin))
@@ -123,6 +124,55 @@
       (if (fboundp 'native-compile-async)
           (native-compile-async dir t))))
 #+end_src
+
+
+
+** PATH inject
+Run this to generate env file
+#+begin_src bash :tangle no
+emacs --quick --script ~/.emacs.d/gen-env-file.el
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; (defun gen-env-file (path)
+  ;;   "Save envvars to a file at PATH"
+  ;;   (let ((dirname (file-name-directory path)))
+  ;;     (make-directory dirname t))
+  ;;   (with-temp-file path
+  ;;     (setq-local coding-system-for-write 'utf-8-unix)
+  ;;     (insert
+  ;;      ";; -*- mode: emacs-lisp -*-\n"
+  ;;      ";; This file was automatically generated and will be overwritten.\n")
+  ;;     (insert (pp-to-string process-environment))))
+
+  ;; (gen-env-file "~/.emacs.d/local/env.el")
+  (defun load-env-file (file)
+    "Read and set envvars from FILE."
+    (if (null (file-exists-p file))
+        (signal 'file-error
+                (list "No envvar file exists." file
+                      "Run `emacs --script ~/.emacs.d/scripts/gen-env-file.el`."))
+      (with-temp-buffer
+        (insert-file-contents file)
+        (when-let (env (read (current-buffer)))
+          (let ((tz (getenv-internal "TZ")))
+            (setq-default
+             process-environment
+             (append env (default-value 'process-environment))
+             exec-path
+             (append (split-string (getenv "PATH") path-separator t)
+                     (list exec-directory))
+             shell-file-name
+             (or (getenv "SHELL")
+                 (default-value 'shell-file-name)))
+            (when-let (newtz (getenv-internal "TZ"))
+              (unless (equal tz newtz)
+                (set-time-zone-rule newtz))))
+          env))))
+
+  (load-env-file "~/.emacs.d/local/env.el")
+#+end_src
+
 ** Package manager
 *** Straight.el
 #+begin_src emacs-lisp
@@ -211,6 +261,8 @@ Move temp files into cache directory
     (setq no-littering-var-directory
           (expand-file-name "data/" user-emacs-directory)))
 #+end_src
+
+
 * UI settings
 ** Tweak defaults
 #+begin_src emacs-lisp
@@ -658,13 +710,12 @@ Most of it was from prot's config
   (leaf minions :ensure t
     :global-minor-mode minions-mode)
 
-  (leaf hide-mode-line :ensure t
-    :commands turn-off-hide-mode-line-mode
+  (leaf modeline
     :hook ((eat-mode-hook ghostel-mode-hook magit-mode-hook
                           eshell-mode-hook shell-mode-hook
                           term-mode-hook vterm-mode-hook
                           embark-collect-mode-hook lsp-ui-imenu-mode-hook
-                          pdf-annot-list-mode-hook) . turn-on-hide-mode-line-mode))
+                          pdf-annot-list-mode-hook) . mode-line-invisible-mode))
 #+end_src
 ** NO Spacious padding (disabled)
 #+begin_src emacs-lisp :tangle no
@@ -675,6 +726,7 @@ Most of it was from prot's config
     (plist-put spacious-padding-widths :mode-line-width 6)
     (plist-put spacious-padding-widths :header-line-width 4))
 #+end_src
+
 * Better defaults
 #+begin_src emacs-lisp
   (leaf saveplace
@@ -877,6 +929,7 @@ Most of it was from prot's config
     (:prog-mode-map
      ("C-c k" . compile)))
 #+end_src
+
 * Completion
 ** Orderless
 #+begin_src emacs-lisp
@@ -1183,6 +1236,7 @@ Most of it was from prot's config
     (advice-add 'lsp-completion-at-point :around #'cape-wrap-nonexclusive)
     (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 #+end_src
+
 * Edit
 ** NO Modal editing
 *** Meow
@@ -1544,6 +1598,7 @@ Most of it was from prot's config
         (my/yas-write-skip-file dir)))
     :after yasnippet)
 #+end_src
+
 * Windows Management
 ** Wind move
 #+begin_src elisp
@@ -1552,7 +1607,8 @@ Most of it was from prot's config
     ("C-x w l" . windmove-right)
     ("C-x w h" . windmove-left)
     ("C-x w k" . windmove-up)
-    ("C-x w j" . windmove-down))
+    ("C-x w j" . windmove-down)
+    ("C-x m" . maximize-window))
 #+end_src
 ** Helpers
 #+begin_src emacs-lisp
@@ -1768,6 +1824,7 @@ Pop window
               (delete-window window)))))
       (advice-add #'keyboard-quit :before #'popper-close-window-hack)))
 #+end_src
+
 * Workspace
 ** Project.el
 #+begin_src emacs-lisp
@@ -1921,6 +1978,7 @@ Pop window
         (beframe-buffer-list frame :sort #'beframe-buffer-sort-visibility))
       (setq consult-buffer-list-function #'consult-beframe-buffer-list)))
 #+end_src
+
 * Dired
 #+begin_src emacs-lisp
   (leaf dired
@@ -1951,6 +2009,7 @@ Pop window
     (setq wgrep-auto-save-buffer t
           wgrep-change-readonly-file t))
 #+end_src
+
 * Shell
 #+begin_src emacs-lisp
   (leaf comint
@@ -2012,6 +2071,7 @@ Pop window
     :after eshell
     :global-minor-mode eshell-syntax-highlighting-global-mode)
 #+end_src
+
 * Version control
 ** Built-in vc
 #+begin_src emacs-lisp
@@ -2163,6 +2223,7 @@ Pop window
                               (when (bound-and-true-p git-timemachine-mode)
                                 (user-error "Cannot revert the timemachine buffer"))))))
 #+end_src
+
 * Writing
 ** Olivetti
 #+begin_src emacs-lisp
@@ -2301,6 +2362,7 @@ Pop window
     :commands jinx-mode
     :bind ([remap ispell-word] . jinx-correct))
 #+end_src
+
 * Coding
 ** xref
 #+begin_src emacs-lisp
@@ -2356,10 +2418,9 @@ Pop window
     :global-minor-mode global-treesit-auto-mode
     :custom
     (treesit-auto-install . t)
+    (treesit-enabled-modes . t)
     :config
     (treesit-auto-add-to-auto-mode-alist 'all))
-
-  (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode))
 #+end_src
 ** Trivial modes
 #+begin_src emacs-lisp
@@ -2416,6 +2477,7 @@ Pop window
           flyover-background-lightness 60
           flyover-icon-background-tint-percent 50))
 #+end_src
+
 * WAIT LLM
 ** WAIT Gptel
 #+begin_src emacs-lisp
@@ -2464,6 +2526,7 @@ Pop window
     :config (gptel-agent-update))
 
 #+end_src
+
 * Lang
 ** Org
 *** Install org-mode -- org-latex-preview
@@ -3268,6 +3331,7 @@ LaTeX live preview (incremental)
 #+begin_src emacs-lisp
   (leaf zig-ts-mode :ensure t)
 #+end_src
+
 * Eglot
 #+begin_src emacs-lisp
   (leaf eglot
@@ -3318,6 +3382,7 @@ LaTeX live preview (incremental)
     (tuareg-mode-hook . ocaml-eglot)
     (ocaml-eglot-mode-hook . eglot-ensure))
 #+end_src
+
 * Utilities
 ** Which-key
 #+begin_src emacs-lisp
@@ -3467,6 +3532,7 @@ Manage chezmoi repo everywhere
     (interactive)
     (magit-status "~/.local/share/chezmoi/"))
 #+end_src
+
 * Libs
 ** nerd-icons
 #+begin_src emacs-lisp
