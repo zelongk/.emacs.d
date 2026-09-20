@@ -60,7 +60,7 @@
   (if (null (file-exists-p file))
       (signal 'file-error
               (list "No envvar file exists." file
-                    "Run `emacs --script ~/.emacs.d/scripts/gen-env-file.el`."))
+                    "Run `emacs --script ~/.emacs.d/gen-env-file.el`."))
     (with-temp-buffer
       (insert-file-contents file)
       (when-let (env (read (current-buffer)))
@@ -70,16 +70,13 @@
            (append env (default-value 'process-environment))
            exec-path
            (append (split-string (getenv "PATH") path-separator t)
-                   (list exec-directory))
-           shell-file-name
-           (or (getenv "SHELL")
-               (default-value 'shell-file-name)))
+                   (list exec-directory)))
           (when-let (newtz (getenv-internal "TZ"))
             (unless (equal tz newtz)
               (set-time-zone-rule newtz))))
         env))))
 
-(load-env-file "~/.emacs.d/local/env.el")
+(load-env-file "~/.emacs.d/data/env.el")
 
 (eval-and-compile
     (setq custom-file (make-temp-file "emacs-custom-")))
@@ -88,10 +85,12 @@
   (with-no-warnings
     (with-no-warnings
       (setq straight-vc-git-default-clone-depth     1
-	    straight-repository-branch              "develop"
-	    straight-enable-use-package-integration nil
-	    straight-check-for-modifications        nil
-	    straight-disable-native-compile         t)))
+            straight-repository-branch              "develop"
+            straight-enable-use-package-integration nil
+            straight-check-for-modifications        nil
+            straight-disable-native-compile         t
+            straight-check-dependency-versions      nil
+            straight-fix-flycheck                   nil)))
   (defvar bootstrap-version)
   (let ((bootstrap-file
          (expand-file-name
@@ -1023,14 +1022,13 @@ Specific to the current window's mode line.")
   (read-extended-command-predicate . #'command-completion-default-include-p))
 
 (leaf cape :ensure t
-  :commands (cape-file cape-elisp-block cape-keyword)
+  :commands (cape-file cape-keyword)
   :commands (cape-wrap-noninterruptible cape-wrap-nonexclusive cape-wrap-buster)
   :commands (cape-wrap-silent)
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   ;; Make these capfs composable.
   (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
@@ -1780,7 +1778,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
   :bind (("C-c g" . magit-dispatch))
   :custom
   (magit-diff-refine-hunk . t)
-  (git-commit-major-mode . 'git-commit-elisp-text-mode)
+  (git-commit-major-mode . 'git-commit-emacs-lisp-text-mode)
   (magit-tramp-pipe-stty-settings . 'pty)
   :config
   (leaf magit-section
@@ -1811,7 +1809,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
    ("t" . git-timemachine-toggle))
   :hook ((git-timemachine-mode-hook . (lambda ()
                                         "Improve `git-timemachine' buffers."
-                                        ;; Highlight symbols in elisp
+                                        ;; Highlight symbols in emacs-lisp
                                         (when (derived-mode-p 'emacs-lisp-mode)
                                           (and (fboundp 'highlight-defined-mode)
                                                (highlight-defined-mode t)))
@@ -2011,20 +2009,20 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (leaf flymake
   :blackout t
   :bind ("C-c f" . flymake-show-buffer-diagnostics)
-  :defun my/elisp-flymake-byte-compile
+  :defun my/emacs-lisp-flymake-byte-compile
   :hook prog-mode-hook
   :custom
   (flymake-no-changes-timeout . nil)
   (flymake-fringe-indicator-position . 'right-fringe)
   (flymake-margin-indicator-position . 'right-margin)
   :init
-  ;; Check elisp with `load-path'
-  (defun my/elisp-flymake-byte-compile (fn &rest args)
-    "Wrapper for `elisp-flymake-byte-compile'."
-    (let ((elisp-flymake-byte-compile-load-path
-           (append elisp-flymake-byte-compile-load-path load-path)))
+  ;; Check emacs-lisp with `load-path'
+  (defun my/emacs-lisp-flymake-byte-compile (fn &rest args)
+    "Wrapper for `emacs-lisp-flymake-byte-compile'."
+    (let ((emacs-lisp-flymake-byte-compile-load-path
+           (append emacs-lisp-flymake-byte-compile-load-path load-path)))
       (apply fn args)))
-  (advice-add 'elisp-flymake-byte-compile :around #'my/elisp-flymake-byte-compile))
+  (advice-add 'emacs-lisp-flymake-byte-compile :around #'my/emacs-lisp-flymake-byte-compile))
 
 (leaf flyover :ensure t
   :blackout t
@@ -2802,6 +2800,8 @@ expansion, then cdlatex expansion."
 (leaf racket-mode :ensure t)
 
 (leaf zig-ts-mode :ensure t)
+
+(leaf ess :ensure t)
 
 (leaf eglot
   :commands (eglot eglot-ensure)

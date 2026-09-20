@@ -14,7 +14,7 @@
         package-quickstart nil
         load-prefer-newer t)
 
-  ;; PERF: Many elisp file API calls consult `file-name-handler-alist'.
+  ;; PERF: Many emacs-lisp file API calls consult `file-name-handler-alist'.
   ;; Setting it to nil speeds up startup significantly.
   ;; We restore it in init.el after startup.
   (setq file-name-handler-alist nil)
@@ -125,8 +125,6 @@
           (native-compile-async dir t))))
 #+end_src
 
-
-
 ** PATH inject
 Run this to generate env file
 #+begin_src bash :tangle no
@@ -151,7 +149,7 @@ emacs --quick --script ~/.emacs.d/gen-env-file.el
     (if (null (file-exists-p file))
         (signal 'file-error
                 (list "No envvar file exists." file
-                      "Run `emacs --script ~/.emacs.d/scripts/gen-env-file.el`."))
+                      "Run `emacs --script ~/.emacs.d/gen-env-file.el`."))
       (with-temp-buffer
         (insert-file-contents file)
         (when-let (env (read (current-buffer)))
@@ -161,16 +159,13 @@ emacs --quick --script ~/.emacs.d/gen-env-file.el
              (append env (default-value 'process-environment))
              exec-path
              (append (split-string (getenv "PATH") path-separator t)
-                     (list exec-directory))
-             shell-file-name
-             (or (getenv "SHELL")
-                 (default-value 'shell-file-name)))
+                     (list exec-directory)))
             (when-let (newtz (getenv-internal "TZ"))
               (unless (equal tz newtz)
                 (set-time-zone-rule newtz))))
           env))))
 
-  (load-env-file "~/.emacs.d/local/env.el")
+  (load-env-file "~/.emacs.d/data/env.el")
 #+end_src
 
 ** Package manager
@@ -183,10 +178,12 @@ emacs --quick --script ~/.emacs.d/gen-env-file.el
     (with-no-warnings
       (with-no-warnings
         (setq straight-vc-git-default-clone-depth     1
-  	    straight-repository-branch              "develop"
-  	    straight-enable-use-package-integration nil
-  	    straight-check-for-modifications        nil
-  	    straight-disable-native-compile         t)))
+              straight-repository-branch              "develop"
+              straight-enable-use-package-integration nil
+              straight-check-for-modifications        nil
+              straight-disable-native-compile         t
+              straight-check-dependency-versions      nil
+              straight-fix-flycheck                   nil)))
     (defvar bootstrap-version)
     (let ((bootstrap-file
            (expand-file-name
@@ -245,7 +242,7 @@ emacs --quick --script ~/.emacs.d/gen-env-file.el
 #+end_src
 ** org auto tangle
 Too lazy to tangle everytime
-#+begin_src elisp
+#+begin_src emacs-lisp
   (leaf org-auto-tangle :ensure t
     :blackout t
     :hook org-mode-hook)
@@ -430,7 +427,7 @@ Move temp files into cache directory
 ** Themes
 
 *** Trust themes
-#+begin_src elisp
+#+begin_src emacs-lisp
   (setq custom-safe-themes t)
 #+end_src
 
@@ -628,7 +625,7 @@ Move temp files into cache directory
   Specific to the current window's mode line.")
 #+end_src
 **** Meow indicator
-#+begin_src elisp
+#+begin_src emacs-lisp
   (with-eval-after-load 'meow
     (defvar-local modeline-meow-indicator
       '(:eval (meow-indicator))))
@@ -726,6 +723,7 @@ Most of it was from prot's config
     (plist-put spacious-padding-widths :mode-line-width 6)
     (plist-put spacious-padding-widths :header-line-width 4))
 #+end_src
+
 
 * Better defaults
 #+begin_src emacs-lisp
@@ -929,6 +927,7 @@ Most of it was from prot's config
     (:prog-mode-map
      ("C-c k" . compile)))
 #+end_src
+
 
 * Completion
 ** Orderless
@@ -1219,14 +1218,13 @@ Most of it was from prot's config
     (read-extended-command-predicate . #'command-completion-default-include-p))
 
   (leaf cape :ensure t
-    :commands (cape-file cape-elisp-block cape-keyword)
+    :commands (cape-file cape-keyword)
     :commands (cape-wrap-noninterruptible cape-wrap-nonexclusive cape-wrap-buster)
     :commands (cape-wrap-silent)
     :init
     ;; Add `completion-at-point-functions', used by `completion-at-point'.
     (add-to-list 'completion-at-point-functions #'cape-dabbrev)
     (add-to-list 'completion-at-point-functions #'cape-file)
-    (add-to-list 'completion-at-point-functions #'cape-elisp-block)
     (add-to-list 'completion-at-point-functions #'cape-keyword)
     ;; Make these capfs composable.
     (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
@@ -1237,11 +1235,12 @@ Most of it was from prot's config
     (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 #+end_src
 
+
 * Edit
 ** NO Modal editing
 *** Meow
 **** Setup function
-#+begin_src elisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
           meow-replace-state-name-list
@@ -1353,7 +1352,7 @@ Most of it was from prot's config
     (define-key input-decode-map (kbd "C-[") [escape]))
 #+end_src
 **** Installation
-#+begin_src elisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (leaf meow :ensure t
     :require t
     :global-minor-mode meow-global-mode
@@ -1599,9 +1598,10 @@ Most of it was from prot's config
     :after yasnippet)
 #+end_src
 
+
 * Windows Management
 ** Wind move
-#+begin_src elisp
+#+begin_src emacs-lisp
   (leaf windmove :ensure t
     :bind
     ("C-x w l" . windmove-right)
@@ -1825,6 +1825,7 @@ Pop window
       (advice-add #'keyboard-quit :before #'popper-close-window-hack)))
 #+end_src
 
+
 * Workspace
 ** Project.el
 #+begin_src emacs-lisp
@@ -1979,6 +1980,7 @@ Pop window
       (setq consult-buffer-list-function #'consult-beframe-buffer-list)))
 #+end_src
 
+
 * Dired
 #+begin_src emacs-lisp
   (leaf dired
@@ -2009,6 +2011,7 @@ Pop window
     (setq wgrep-auto-save-buffer t
           wgrep-change-readonly-file t))
 #+end_src
+
 
 * Shell
 #+begin_src emacs-lisp
@@ -2071,6 +2074,7 @@ Pop window
     :after eshell
     :global-minor-mode eshell-syntax-highlighting-global-mode)
 #+end_src
+
 
 * Version control
 ** Built-in vc
@@ -2176,7 +2180,7 @@ Pop window
     :bind (("C-c g" . magit-dispatch))
     :custom
     (magit-diff-refine-hunk . t)
-    (git-commit-major-mode . 'git-commit-elisp-text-mode)
+    (git-commit-major-mode . 'git-commit-emacs-lisp-text-mode)
     (magit-tramp-pipe-stty-settings . 'pty)
     :config
     (leaf magit-section
@@ -2210,7 +2214,7 @@ Pop window
      ("t" . git-timemachine-toggle))
     :hook ((git-timemachine-mode-hook . (lambda ()
                                           "Improve `git-timemachine' buffers."
-                                          ;; Highlight symbols in elisp
+                                          ;; Highlight symbols in emacs-lisp
                                           (when (derived-mode-p 'emacs-lisp-mode)
                                             (and (fboundp 'highlight-defined-mode)
                                                  (highlight-defined-mode t)))
@@ -2223,6 +2227,7 @@ Pop window
                               (when (bound-and-true-p git-timemachine-mode)
                                 (user-error "Cannot revert the timemachine buffer"))))))
 #+end_src
+
 
 * Writing
 ** Olivetti
@@ -2363,6 +2368,7 @@ Pop window
     :bind ([remap ispell-word] . jinx-correct))
 #+end_src
 
+
 * Coding
 ** xref
 #+begin_src emacs-lisp
@@ -2453,20 +2459,20 @@ Pop window
   (leaf flymake
     :blackout t
     :bind ("C-c f" . flymake-show-buffer-diagnostics)
-    :defun my/elisp-flymake-byte-compile
+    :defun my/emacs-lisp-flymake-byte-compile
     :hook prog-mode-hook
     :custom
     (flymake-no-changes-timeout . nil)
     (flymake-fringe-indicator-position . 'right-fringe)
     (flymake-margin-indicator-position . 'right-margin)
     :init
-    ;; Check elisp with `load-path'
-    (defun my/elisp-flymake-byte-compile (fn &rest args)
-      "Wrapper for `elisp-flymake-byte-compile'."
-      (let ((elisp-flymake-byte-compile-load-path
-             (append elisp-flymake-byte-compile-load-path load-path)))
+    ;; Check emacs-lisp with `load-path'
+    (defun my/emacs-lisp-flymake-byte-compile (fn &rest args)
+      "Wrapper for `emacs-lisp-flymake-byte-compile'."
+      (let ((emacs-lisp-flymake-byte-compile-load-path
+             (append emacs-lisp-flymake-byte-compile-load-path load-path)))
         (apply fn args)))
-    (advice-add 'elisp-flymake-byte-compile :around #'my/elisp-flymake-byte-compile))
+    (advice-add 'emacs-lisp-flymake-byte-compile :around #'my/emacs-lisp-flymake-byte-compile))
 
   (leaf flyover :ensure t
     :blackout t
@@ -2477,6 +2483,7 @@ Pop window
           flyover-background-lightness 60
           flyover-icon-background-tint-percent 50))
 #+end_src
+
 
 * WAIT LLM
 ** WAIT Gptel
@@ -2526,6 +2533,7 @@ Pop window
     :config (gptel-agent-update))
 
 #+end_src
+
 
 * Lang
 ** Org
@@ -2927,7 +2935,7 @@ Pop window
 #+end_src
 *** Utils
 **** Org-babel
-#+begin_src elisp
+#+begin_src emacs-lisp
   (leaf org
     :config
     ;; Do not confirm before evaluation
@@ -2945,7 +2953,7 @@ Pop window
                                                (:results . "output"))))
 #+end_src
 ***** sage-math
-#+begin_src elisp
+#+begin_src emacs-lisp
   ;; dependency
   (leaf sage-shell-mode :ensure t
     :config
@@ -3332,6 +3340,11 @@ LaTeX live preview (incremental)
   (leaf zig-ts-mode :ensure t)
 #+end_src
 
+** ESS
+#+begin_src emacs-lisp
+  (leaf ess :ensure t)
+#+end_src
+
 * Eglot
 #+begin_src emacs-lisp
   (leaf eglot
@@ -3382,6 +3395,7 @@ LaTeX live preview (incremental)
     (tuareg-mode-hook . ocaml-eglot)
     (ocaml-eglot-mode-hook . eglot-ensure))
 #+end_src
+
 
 * Utilities
 ** Which-key
@@ -3448,7 +3462,7 @@ LaTeX live preview (incremental)
 #+end_src
 ** Mailing
 *** Send mail
-#+begin_src elisp
+#+begin_src emacs-lisp
   (setq message-send-mail-function 'smtpmail-send-it)
   (setq user-mail-address "zelongkuang@mailbox.org")
   (setq user-full-name "Zelong Kuang")
@@ -3527,11 +3541,12 @@ Discord rich precense
 #+end_src
 ** Chezmoi
 Manage chezmoi repo everywhere
-#+begin_src elisp
+#+begin_src emacs-lisp
   (defun open-chezmoi-git ()
     (interactive)
     (magit-status "~/.local/share/chezmoi/"))
 #+end_src
+
 
 * Libs
 ** nerd-icons

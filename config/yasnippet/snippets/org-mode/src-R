@@ -1,0 +1,6 @@
+# key: <r
+# name: src-R
+# --
+#+begin_src R
+  $0
+#+end_src

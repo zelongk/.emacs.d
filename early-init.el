@@ -8,7 +8,7 @@
       package-quickstart nil
       load-prefer-newer t)
 
-;; PERF: Many elisp file API calls consult `file-name-handler-alist'.
+;; PERF: Many emacs-lisp file API calls consult `file-name-handler-alist'.
 ;; Setting it to nil speeds up startup significantly.
 ;; We restore it in init.el after startup.
 (setq file-name-handler-alist nil)
