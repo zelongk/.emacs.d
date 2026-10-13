@@ -2970,9 +2970,6 @@ Pop window
     (org-babel-after-execute-hook . org-display-inline-images))
 #+end_src
 
-#+RESULTS:
-: ob-sagemath
-
 **** Org download
 #+begin_src emacs-lisp
   (leaf org-download :ensure t

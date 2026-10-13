@@ -1,22 +1,7 @@
-* Installation
-It is normal to have several error/warning on the fresh install. It will disappear on the next time.
+Has only been tested on Mac and probably only works on my mac
 
-** Native compilation
-
-If you have enabled =native-comp= feature, I disabled native-comp JIT. Use =M-x native-comp-elpa= to native compile packages asynchronously.
+My config is managed via org babel. If org-auto-tangle is not working, use C-c C-v t to update any modification.
 
 
-* Dependencies
-
-** Mailing
-#+begin_src bash
-brew install isync notmuch
-#+end_src
-
-
-
-* Package.el
-
-#+begin_src elisp
-
-#+end_src
+* Acknowledgement
+Much of this configuration is adapted from Centaur Emacs and Prot’s Emacs configuration. Many thanks to their authors for sharing their work.
