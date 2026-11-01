@@ -2330,33 +2330,8 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (org-latex-preview-numbered . nil)
   :defer-config
   (plist-put org-latex-preview-appearance-options :page-width 0.4)
-  ;; Add margin and rescale display math
-  (defvar my/org-latex-display-math-scale 1)
-  (defvar my/org-latex-display-math-margin 5)
-  (defun my/org-latex-preview-add-margin-advice (ov _path-info)
-    (save-excursion
-      (goto-char (overlay-start ov))
-      (when-let* ((elem (org-element-context))
-                  ((or (eq (org-element-type elem) 'latex-environment)
-                       (string-match-p "^\\\\\\[" (org-element-property :value elem))))
-                  (img (overlay-get ov 'preview-image))
-                  ((and (consp img) (eq (car img) 'image))))
-        (let* ((plist (copy-sequence (cdr img)))
-               (height (plist-get plist :height)))
-          (when (and (consp height) (numberp (car height)))
-            (setq plist
-                  (plist-put plist :height
-                             (cons (* my/org-latex-display-math-scale (car height))
-                                   (cdr height)))))
-          (setq plist (plist-put plist :margin my/org-latex-display-math-margin))
-          (let ((new-img (cons 'image plist)))
-            (overlay-put ov 'preview-image new-img)
-            (when (overlay-get ov 'display)
-              (overlay-put ov 'display new-img)))))))
-  (advice-add 'org-latex-preview--update-overlay :after
-              #'my/org-latex-preview-add-margin-advice)
   
-  ;; (setq org-latex-preview-numbered t)
+  (setq org-latex-preview-numbered t)
   (setq org-latex-preview-mode-display-live t)
   (setq org-latex-preview-process-default 'dvisvgm)
   (setq org-latex-preview-mode-update-delay 0.25))
