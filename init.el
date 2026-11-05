@@ -231,7 +231,7 @@ Cancel the previous one if present."
   (fontaine-set-preset 'regular))
 
 ;; Use Symbols Nerd Font as fallback for private-use icons
-(set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size 22 nil 'prepend))
+(set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size 22) nil 'prepend)
 
 (leaf mixed-pitch :ensure t
   :blackout t
@@ -550,6 +550,13 @@ Specific to the current window's mode line.")
                         term-mode-hook vterm-mode-hook
                         embark-collect-mode-hook lsp-ui-imenu-mode-hook
                         pdf-annot-list-mode-hook) . mode-line-invisible-mode))
+
+(leaf spacious-padding :ensure t
+  :global-minor-mode spacious-padding-mode
+  :config
+  (setq spacious-padding-subtle-frame-lines nil)
+  (plist-put spacious-padding-widths :mode-line-width 6)
+  (plist-put spacious-padding-widths :header-line-width 4))
 
 (leaf saveplace
   :require t
@@ -2374,6 +2381,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
                    #'my/org-latex-preview-center)
       (remove-hook 'org-latex-preview-overlay-open-functions
                    #'my/org-latex-preview-uncenter)))
+  
   (defun my/text-scale-adjust-latex-previews ()
     "Adjust the size of latex preview fragments when changing the buffer's text scale."
     (pcase major-mode

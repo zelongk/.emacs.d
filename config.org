@@ -344,7 +344,7 @@ Move temp files into cache directory
     (fontaine-set-preset 'regular))
 
   ;; Use Symbols Nerd Font as fallback for private-use icons
-  (set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size 22 nil 'prepend))
+  (set-fontset-font t 'unicode (font-spec :family "Symbols Nerd Font Mono" :size 22) nil 'prepend)
 
   (leaf mixed-pitch :ensure t
     :blackout t
@@ -716,8 +716,8 @@ Most of it was from prot's config
                           embark-collect-mode-hook lsp-ui-imenu-mode-hook
                           pdf-annot-list-mode-hook) . mode-line-invisible-mode))
 #+end_src
-** NO Spacious padding (disabled)
-#+begin_src emacs-lisp :tangle no
+** Spacious padding
+#+begin_src emacs-lisp
   (leaf spacious-padding :ensure t
     :global-minor-mode spacious-padding-mode
     :config
@@ -2861,6 +2861,7 @@ Pop window
                      #'my/org-latex-preview-center)
         (remove-hook 'org-latex-preview-overlay-open-functions
                      #'my/org-latex-preview-uncenter)))
+    
     (defun my/text-scale-adjust-latex-previews ()
       "Adjust the size of latex preview fragments when changing the buffer's text scale."
       (pcase major-mode
