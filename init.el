@@ -330,23 +330,23 @@ Cancel the previous one if present."
         '((bg-tab-bar bg-main)
           (bg-tab-current bg-hover)
           (bg-tab-other bg-main)))
-  ;; (modus-themes-load-theme 'modus-operandi)
+  (modus-themes-load-theme 'modus-operandi-tinted)
   )
   
-(leaf doric-themes :ensure t :require t
-  :config
-  (load-theme 'doric-oak))
-  
-;; (leaf ef-themes :ensure t
-;;   :global-minor-mode
-;;   ef-themes-take-over-modus-themes-mode
-;;   :bind
-;;   ("<f5>" . ef-themes-load-random)
-;;   ("C-<f5>" . ef-themes-load-random-light)
-;;   ("M-<f5>" . ef-themes-load-random-dark)
+;; (leaf doric-themes :ensure t :require t
 ;;   :config
-;;   (ef-themes-load-theme 'ef-dream)
-;;   )
+;;   (load-theme 'doric-oak))
+  
+(leaf ef-themes :ensure t
+  :global-minor-mode
+  ef-themes-take-over-modus-themes-mode
+  :bind
+  ("<f5>" . ef-themes-load-random)
+  ("C-<f5>" . ef-themes-load-random-light)
+  ("M-<f5>" . ef-themes-load-random-dark)
+  :config
+  (ef-themes-load-theme 'ef-reverie)
+  )
 
 (defvar my-modeline-vc-map
   (let ((map (make-sparse-keymap)))
@@ -1502,6 +1502,8 @@ Delete current window in the process."
   :init (setq ibuffer-project-use-cache t))
 
 (leaf tab-bar
+  :custom-face
+  (tab-bar . '((t (:background unspecified))))
   :hook (window-setup-hook . tab-bar-mode)
   :bind (:tab-bar-mode-map
          ("s-t" . tab-new)

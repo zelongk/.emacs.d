@@ -459,23 +459,23 @@ Move temp files into cache directory
           '((bg-tab-bar bg-main)
             (bg-tab-current bg-hover)
             (bg-tab-other bg-main)))
-    ;; (modus-themes-load-theme 'modus-operandi)
+    (modus-themes-load-theme 'modus-operandi-tinted)
     )
     
-  (leaf doric-themes :ensure t :require t
-    :config
-    (load-theme 'doric-oak))
-    
-  ;; (leaf ef-themes :ensure t
-  ;;   :global-minor-mode
-  ;;   ef-themes-take-over-modus-themes-mode
-  ;;   :bind
-  ;;   ("<f5>" . ef-themes-load-random)
-  ;;   ("C-<f5>" . ef-themes-load-random-light)
-  ;;   ("M-<f5>" . ef-themes-load-random-dark)
+  ;; (leaf doric-themes :ensure t :require t
   ;;   :config
-  ;;   (ef-themes-load-theme 'ef-dream)
-  ;;   )
+  ;;   (load-theme 'doric-oak))
+    
+  (leaf ef-themes :ensure t
+    :global-minor-mode
+    ef-themes-take-over-modus-themes-mode
+    :bind
+    ("<f5>" . ef-themes-load-random)
+    ("C-<f5>" . ef-themes-load-random-light)
+    ("M-<f5>" . ef-themes-load-random-dark)
+    :config
+    (ef-themes-load-theme 'ef-reverie)
+    )
 #+end_src
 
 ** NO Auto Dark
@@ -725,7 +725,6 @@ Most of it was from prot's config
     (plist-put spacious-padding-widths :mode-line-width 6)
     (plist-put spacious-padding-widths :header-line-width 4))
 #+end_src
-
 
 * Better defaults
 #+begin_src emacs-lisp
@@ -1869,6 +1868,8 @@ Pop window
 ** Tabspace
 #+begin_src emacs-lisp
   (leaf tab-bar
+    :custom-face
+    (tab-bar . '((t (:background unspecified))))
     :hook (window-setup-hook . tab-bar-mode)
     :bind (:tab-bar-mode-map
            ("s-t" . tab-new)
