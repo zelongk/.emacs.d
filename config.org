@@ -475,7 +475,7 @@ Move temp files into cache directory
     ("C-<f5>" . ef-themes-load-random-light)
     ("M-<f5>" . ef-themes-load-random-dark)
     :config
-    (ef-themes-load-theme 'ef-reverie)
+    ;; (ef-themes-load-theme 'ef-reverie)
     )
 #+end_src
 

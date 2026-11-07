@@ -346,7 +346,7 @@ Cancel the previous one if present."
   ("C-<f5>" . ef-themes-load-random-light)
   ("M-<f5>" . ef-themes-load-random-dark)
   :config
-  (ef-themes-load-theme 'ef-reverie)
+  ;; (ef-themes-load-theme 'ef-reverie)
   )
 
 (leaf flexoki-themes :ensure t
