@@ -333,9 +333,10 @@ Cancel the previous one if present."
   (modus-themes-load-theme 'modus-operandi-tinted)
   )
   
-;; (leaf doric-themes :ensure t :require t
-;;   :config
-;;   (load-theme 'doric-oak))
+(leaf doric-themes :ensure t :require t
+  :config
+  ;; (load-theme 'doric-oak)
+  )
   
 (leaf ef-themes :ensure t
   :global-minor-mode
@@ -347,6 +348,10 @@ Cancel the previous one if present."
   :config
   (ef-themes-load-theme 'ef-reverie)
   )
+
+(leaf flexoki-themes :ensure t
+  :config
+  (load-theme 'flexoki-themes-light))
 
 (defvar my-modeline-vc-map
   (let ((map (make-sparse-keymap)))
@@ -2282,11 +2287,11 @@ With optional argument FRAME, return the list of buffers of FRAME."
             ("[?]"  :inverse-video t :inherit +org-todo-onhold)
             ("KILL" :inverse-video t :inherit +org-todo-cancel)
             ("NO"   :inverse-video t :inherit +org-todo-cancel))
-	      org-modern-list '((43 . "➤")
+          org-modern-list '((43 . "➤")
                             (45 . "–")
                             (42 . "•"))
-          org-modern-fold-stars
-          '(("" . ""))))
+          ;; org-modern-fold-stars '(("" . ""))
+          ))
 
   ;; (leaf org-modern-indent
   ;;   :ensure (org-modern-indent :host github :repo "jdtsmith/org-modern-indent")
@@ -2478,7 +2483,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (TeX-display-help . t)
   (TeX-show-compilation . nil)
   (TeX-command-extra-options . "-shell-escape")
-  (TeX-view-program-selection . '((output-pdf "displayline")))
+  ;; (TeX-view-program-selection . '((output-pdf "displayline")))
   ;; :setq-default
   ;; (LaTeX-indent-environment-list . nil)
   ;; (LaTeX-indent-environment-check . nil)

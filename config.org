@@ -462,9 +462,10 @@ Move temp files into cache directory
     (modus-themes-load-theme 'modus-operandi-tinted)
     )
     
-  ;; (leaf doric-themes :ensure t :require t
-  ;;   :config
-  ;;   (load-theme 'doric-oak))
+  (leaf doric-themes :ensure t :require t
+    :config
+    ;; (load-theme 'doric-oak)
+    )
     
   (leaf ef-themes :ensure t
     :global-minor-mode
@@ -478,6 +479,12 @@ Move temp files into cache directory
     )
 #+end_src
 
+*** Flexoki themes
+#+begin_src emacs-lisp
+  (leaf flexoki-themes :ensure t
+    :config
+    (load-theme 'flexoki-themes-light))
+#+end_src
 ** NO Auto Dark
 #+begin_src emacs-lisp :tangle no
   (leaf auto-dark :ensure t
@@ -2750,11 +2757,11 @@ Pop window
               ("[?]"  :inverse-video t :inherit +org-todo-onhold)
               ("KILL" :inverse-video t :inherit +org-todo-cancel)
               ("NO"   :inverse-video t :inherit +org-todo-cancel))
-  	      org-modern-list '((43 . "➤")
+            org-modern-list '((43 . "➤")
                               (45 . "–")
                               (42 . "•"))
-            org-modern-fold-stars
-            '(("" . ""))))
+            ;; org-modern-fold-stars '(("" . ""))
+            ))
 
     ;; (leaf org-modern-indent
     ;;   :ensure (org-modern-indent :host github :repo "jdtsmith/org-modern-indent")
@@ -2973,7 +2980,7 @@ Pop window
     (TeX-display-help . t)
     (TeX-show-compilation . nil)
     (TeX-command-extra-options . "-shell-escape")
-    (TeX-view-program-selection . '((output-pdf "displayline")))
+    ;; (TeX-view-program-selection . '((output-pdf "displayline")))
     ;; :setq-default
     ;; (LaTeX-indent-environment-list . nil)
     ;; (LaTeX-indent-environment-check . nil)
