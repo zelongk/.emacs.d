@@ -546,8 +546,8 @@ Specific to the current window's mode line.")
                 mode-line-end-spaces))
 (blackout 'visual-line-mode)
 
-(leaf minions :ensure t
-  :global-minor-mode minions-mode)
+;; (leaf minions :ensure t
+;;   :global-minor-mode minions-mode)
 
 (leaf modeline
   :hook ((eat-mode-hook ghostel-mode-hook magit-mode-hook
@@ -1624,8 +1624,6 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (:dired-mode-map
    ("C-c C-p" . wdired-change-to-wdired-mode)
    ("b" . dired-up-directory))
-  :hook
-  (dired-mode-hook . toggle-truncate-lines)
   :config
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always
@@ -1637,8 +1635,11 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (setq dired-listing-switches "-alh --group-directories-first"
         dired-use-ls-dired t)
   (leaf dired-aux)
-  (leaf dired-filter :ensure t
-    :blackout t))
+  (leaf dired-filter :ensure t :blackout t)
+  (leaf diredfl :ensure t
+    :hook
+    (dired-mode-hook . diredfl-mode))
+  )
 
 (leaf wgrep :ensure t
   :init
@@ -1673,7 +1674,14 @@ With optional argument FRAME, return the list of buffers of FRAME."
 
 (leaf ghostel :ensure t
   :bind (("C-`" . ghostel-toggle))
-  :hook (eshell-load-hook . ghostel-eshell-visual-command-mode)
+  :hook
+  (eshell-load-hook . ghostel-eshell-visual-command-mode)
+  (ghostel-mode . ghostel-ime-mode)
+  :global-minor-mode
+  ghostel-eshell-visual-command-mode
+  ghostel-compile-global-mode
+  ghostel-shell-command-global-mode
+  ghostel-comint-global-mode
   :custom
   (ghostel-tramp-default-method . 'tramp-default-method)
   (ghostel-tramp-shell-integration . t)
@@ -1848,7 +1856,6 @@ With optional argument FRAME, return the list of buffers of FRAME."
 
 (leaf denote :ensure t
   :hook
-  (dired-mode-hook . denote-dired-mode)
   (text-mode . denote-fontify-links-mode)
   :bind
   (("C-c n n" . denote)
@@ -1919,15 +1926,6 @@ With optional argument FRAME, return the list of buffers of FRAME."
    ("C-c n e r" . denote-explore-network-regenerate)
    ("C-c n e d" . denote-explore-barchart-degree)
    ("C-c n e b" . denote-explore-barchart-backlinks)))
-
-;; (leaf rime
-;;   :ensure t
-;;   :custom
-;;   (default-input-method . "rime")
-;;   (rime-librime-root . "/opt/homebrew")
-;;   ;; (rime-emacs-module-header-root "~/build-emacs-for-macos/builds/Emacs.app/Contents/Resources/include/")
-;;   (rime-show-candidate . 'popup)
-;;   (rime-popup-properties . nil))
 
 (leaf liberime :ensure t
   :if IS-MAC
@@ -2202,23 +2200,6 @@ With optional argument FRAME, return the list of buffers of FRAME."
           ;; After the last group, the agenda will display items that didn't
           ;; match any of these groups, with the default order position of 99
           )))
-
-(leaf org-caldav :ensure t
-  :custom
-  (org-caldav-url . "https://radicale.200568.top/zelongk/")
-  (org-caldav-calendar-id . "c435d207-e889-72f5-2dcc-821653766a08")
-  `(org-caldav-inbox . ,(expand-file-name "radicale.org" org-directory))
-  (org-caldav-files . `(,(expand-file-name "todo.org" org-directory)))
-  (org-icalendar-timezone . "Australia/Melbourne")
-  (org-caldav-show-sync-results . nil)
-  (org-caldav-sync-todo . t)
-  (org-icalendar-include-todo . 'all)
-  (org-caldav-todo-percent-states
-   . '((0 "TODO")
-       (0 "IDEA")
-       (0 "TODAY")
-       (0 "WAIT")
-       (100 "DONE"))))
 
 (leaf org
     :config
