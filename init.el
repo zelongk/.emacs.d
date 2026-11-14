@@ -530,8 +530,7 @@ Specific to the current window's mode line.")
                 mode-line-end-spaces))
 (blackout 'visual-line-mode)
 
-;; (leaf minions :ensure t
-;;   :global-minor-mode minions-mode)
+(setopt mode-line-collapse-minor-modes t)
 
 (leaf modeline
   :hook ((eat-mode-hook ghostel-mode-hook magit-mode-hook

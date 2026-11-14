@@ -697,8 +697,7 @@ Most of it was from prot's config
 #+end_src
 *** Hide modeline
 #+begin_src emacs-lisp
-  ;; (leaf minions :ensure t
-  ;;   :global-minor-mode minions-mode)
+  (setopt mode-line-collapse-minor-modes t)
 
   (leaf modeline
     :hook ((eat-mode-hook ghostel-mode-hook magit-mode-hook
