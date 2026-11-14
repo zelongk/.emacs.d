@@ -236,7 +236,8 @@ emacs --quick --script ~/.emacs.d/gen-env-file.el
           gc-cons-percentage 0.2))
 #+end_src
 ** Benchmark
-#+begin_src emacs-lisp
+Enable tangle when needed
+#+begin_src emacs-lisp :tangle no
   (leaf benchmark-init :ensure t :require t
     :hook (after-init-hook . benchmark-init/deactivate))
 #+end_src
@@ -2043,7 +2044,6 @@ Pop window
     (eshell-load-hook . ghostel-eshell-visual-command-mode)
     (ghostel-mode . ghostel-ime-mode)
     :global-minor-mode
-    ghostel-eshell-visual-command-mode
     ghostel-compile-global-mode
     ghostel-shell-command-global-mode
     ghostel-comint-global-mode
@@ -2410,6 +2410,7 @@ Pop window
 ** Treesit
 #+begin_src emacs-lisp
   (leaf treesit-auto :ensure t
+    :when (version< "31.1" emacs-version)
     :global-minor-mode global-treesit-auto-mode
     :custom
     (treesit-auto-install . t)

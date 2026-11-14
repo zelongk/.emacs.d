@@ -138,9 +138,6 @@ Cancel the previous one if present."
         gcmh-verbose nil
         gc-cons-percentage 0.2))
 
-(leaf benchmark-init :ensure t :require t
-  :hook (after-init-hook . benchmark-init/deactivate))
-
 (leaf org-auto-tangle :ensure t
   :blackout t
   :hook org-mode-hook)
@@ -1662,7 +1659,6 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (eshell-load-hook . ghostel-eshell-visual-command-mode)
   (ghostel-mode . ghostel-ime-mode)
   :global-minor-mode
-  ghostel-eshell-visual-command-mode
   ghostel-compile-global-mode
   ghostel-shell-command-global-mode
   ghostel-comint-global-mode
@@ -1972,6 +1968,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
 (leaf editorconfig :ensure t)
 
 (leaf treesit-auto :ensure t
+  :when (version< "31.1" emacs-version)
   :global-minor-mode global-treesit-auto-mode
   :custom
   (treesit-auto-install . t)
