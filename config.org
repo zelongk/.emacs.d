@@ -237,9 +237,7 @@ emacs --quick --script ~/.emacs.d/gen-env-file.el
 #+end_src
 ** Benchmark
 #+begin_src emacs-lisp
-  (leaf benchmark-init :ensure t
-    :disabled t
-    :require t
+  (leaf benchmark-init :ensure t :require t
     :hook (after-init-hook . benchmark-init/deactivate))
 #+end_src
 ** org auto tangle
@@ -366,16 +364,6 @@ Move temp files into cache directory
     :blackout t
     :global-minor-mode solaire-global-mode)
 
-  ;; Eval result overlay
-  (leaf eros :ensure t
-    :hook emacs-lisp-mode-hook lisp-interaction-mode-hook
-    :bind (([remap eval-defun] . eros-eval-defun)
-           ([remap eval-last-sexp] . eros-eval-last-sexp)))
-
-  (leaf goggles :ensure t
-    :blackout t
-    :hook (prog-mode-hook text-mode-hook conf-mode-hook))
-
   (leaf hl-todo :ensure t
     :global-minor-mode global-hl-todo-mode
     :config
@@ -408,10 +396,6 @@ Move temp files into cache directory
     :hook
     package-menu-mode-hook
     dired-mode-hook)
-
-  (leaf beacon :ensure t
-    :disabled t
-    :global-minor-mode beacon-mode)
 
   (leaf pulsar :ensure t
     :bind
@@ -466,7 +450,7 @@ Move temp files into cache directory
     :config
     ;; (load-theme 'doric-oak)
     )
-    
+  
   (leaf ef-themes :ensure t
     :global-minor-mode
     ef-themes-take-over-modus-themes-mode
@@ -2018,11 +2002,11 @@ Pop window
 ** wgrep
 #+begin_src emacs-lisp
   (leaf wgrep :ensure t
+    :when (version< "31.1" emacs-version)
     :init
     (setq wgrep-auto-save-buffer t
           wgrep-change-readonly-file t))
 #+end_src
-
 
 * Shell
 #+begin_src emacs-lisp
@@ -2093,7 +2077,6 @@ Pop window
     :after eshell
     :global-minor-mode eshell-syntax-highlighting-global-mode)
 #+end_src
-
 
 * Version control
 ** Built-in vc
@@ -2253,7 +2236,6 @@ Pop window
 #+begin_src emacs-lisp
   (leaf olivetti :ensure t
     :blackout t
-    :hook org-mode-hook
     :bind (("<f7>" . olivetti-mode))
     :custom
     (olivetti-style . 'fancy)
@@ -2413,6 +2395,7 @@ Pop window
 *** Eldoc mouse
 #+begin_src emacs-lisp
   (leaf eldoc-mouse :ensure t
+    :blackout t
     :hook
     eglot-managed-mode-hook
     prog-mode-hook)
@@ -2807,7 +2790,7 @@ Pop window
      (setq org-latex-preview-process-default 'dvisvgm)
      (setq org-latex-preview-mode-update-delay 0.25))
 #+end_src
-**** org latex preview centre
+**** org latex centre previews
 #+begin_src emacs-lisp
   (leaf org-latex-preview
     :hook
@@ -3372,7 +3355,8 @@ LaTeX live preview (incremental)
 *** Tramp
 #+begin_src emacs-lisp
   (leaf tramp :require t
-    :setq (tramp-default-method . "ssh")
+    :setq
+    (tramp-default-method . "ssh")
     (tramp-verbose . 1)
     (tramp-allow-unsafe-temporary-files . t)
     (remote-file-name-inhibit-locks . t)

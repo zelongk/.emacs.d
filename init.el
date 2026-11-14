@@ -138,9 +138,7 @@ Cancel the previous one if present."
         gcmh-verbose nil
         gc-cons-percentage 0.2))
 
-(leaf benchmark-init :ensure t
-  :disabled t
-  :require t
+(leaf benchmark-init :ensure t :require t
   :hook (after-init-hook . benchmark-init/deactivate))
 
 (leaf org-auto-tangle :ensure t
@@ -251,16 +249,6 @@ Cancel the previous one if present."
   :blackout t
   :global-minor-mode solaire-global-mode)
 
-;; Eval result overlay
-(leaf eros :ensure t
-  :hook emacs-lisp-mode-hook lisp-interaction-mode-hook
-  :bind (([remap eval-defun] . eros-eval-defun)
-         ([remap eval-last-sexp] . eros-eval-last-sexp)))
-
-(leaf goggles :ensure t
-  :blackout t
-  :hook (prog-mode-hook text-mode-hook conf-mode-hook))
-
 (leaf hl-todo :ensure t
   :global-minor-mode global-hl-todo-mode
   :config
@@ -287,10 +275,6 @@ Cancel the previous one if present."
   :hook
   package-menu-mode-hook
   dired-mode-hook)
-
-(leaf beacon :ensure t
-  :disabled t
-  :global-minor-mode beacon-mode)
 
 (leaf pulsar :ensure t
   :bind
@@ -337,7 +321,7 @@ Cancel the previous one if present."
   :config
   ;; (load-theme 'doric-oak)
   )
-  
+
 (leaf ef-themes :ensure t
   :global-minor-mode
   ef-themes-take-over-modus-themes-mode
@@ -1642,6 +1626,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
   )
 
 (leaf wgrep :ensure t
+  :when (version< "31.1" emacs-version)
   :init
   (setq wgrep-auto-save-buffer t
         wgrep-change-readonly-file t))
@@ -1846,7 +1831,6 @@ With optional argument FRAME, return the list of buffers of FRAME."
 
 (leaf olivetti :ensure t
   :blackout t
-  :hook org-mode-hook
   :bind (("<f7>" . olivetti-mode))
   :custom
   (olivetti-style . 'fancy)
@@ -1977,6 +1961,7 @@ With optional argument FRAME, return the list of buffers of FRAME."
   (eldoc-documentation-strategy . 'eldoc-documentation-compose-eagerly))
 
 (leaf eldoc-mouse :ensure t
+  :blackout t
   :hook
   eglot-managed-mode-hook
   prog-mode-hook)
@@ -2828,7 +2813,8 @@ expansion, then cdlatex expansion."
   (setq transient-show-popup t))
 
 (leaf tramp :require t
-  :setq (tramp-default-method . "ssh")
+  :setq
+  (tramp-default-method . "ssh")
   (tramp-verbose . 1)
   (tramp-allow-unsafe-temporary-files . t)
   (remote-file-name-inhibit-locks . t)
