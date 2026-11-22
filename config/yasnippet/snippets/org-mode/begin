@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# key: beg
+# group: math
+# name: begin
+# --
+\begin{$1} $0 \end{$1}

@@ -3262,6 +3262,11 @@ LaTeX live preview (incremental)
   (leaf ess :ensure t)
 #+end_src
 
+** Lean
+#+begin_src emacs-lisp
+  (leaf nael :ensure t)
+#+end_src
+
 * Eglot
 #+begin_src emacs-lisp
   (leaf eglot
@@ -3452,11 +3457,7 @@ LaTeX live preview (incremental)
     :bind
     ("M-s m" . consult-notmuch))
 #+end_src
-** Elcord
-Discord rich precense
-#+begin_src emacs-lisp
-  (leaf elcord :ensure t)
-#+end_src
+
 ** Chezmoi
 Manage chezmoi repo everywhere
 #+begin_src emacs-lisp
@@ -3464,7 +3465,6 @@ Manage chezmoi repo everywhere
     (interactive)
     (magit-status "~/.local/share/chezmoi/"))
 #+end_src
-
 
 * Libs
 ** nerd-icons

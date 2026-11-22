@@ -2730,6 +2730,8 @@ expansion, then cdlatex expansion."
 
 (leaf ess :ensure t)
 
+(leaf nael :ensure t)
+
 (leaf eglot
   :commands (eglot eglot-ensure)
   :hook
@@ -2840,8 +2842,6 @@ expansion, then cdlatex expansion."
       smtpmail-stream-type 'ssl)
 (setq smtpmail-debug-info t)
 (setq smtpmail-debug-verb t)
-
-(leaf elcord :ensure t)
 
 (defun open-chezmoi-git ()
   (interactive)
